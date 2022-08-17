@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from "../styles/Home.module.css";
-import Header from './components/Header/navbar';
+
 import {
     AppBar,
     Box,
@@ -8,6 +8,7 @@ import {
     Toolbar,
     useMediaQuery,
   } from "@mui/material";
+import Header from './components/Home/Header';
 
 const images = () => {
     return (

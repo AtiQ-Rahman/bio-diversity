@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-
+import Link from 'next/link';
 // material-ui
 import { useTheme } from "@mui/material/styles";
 import { Avatar, Box, ButtonBase, Grid } from "@mui/material";
@@ -21,6 +21,7 @@ const Header = ({ handleLeftDrawerToggle }) => {
   return (
     <>
       {/* logo & toggler button */}
+      <Link href="/">
       <Box
         sx={{
           width: 228,
@@ -30,14 +31,14 @@ const Header = ({ handleLeftDrawerToggle }) => {
           },
         }}
       >
-        <Box
+       <Box
           component="span"
           sx={{ display: { xs: "none", md: "block" }, flexGrow: 1 }}
         >
           {/* <LogoSection /> */}
           <h1>Bio Diversity</h1>
         </Box>
-      </Box>
+      </Box></Link>
 
       {/* header search */}
       <SearchSection />
@@ -49,14 +50,15 @@ const Header = ({ handleLeftDrawerToggle }) => {
           <h3> Genus</h3>
 
           </Grid>
+          <Link href="/species">
           <Grid item xs={3}>
           <h3> Species</h3>
+          </Grid></Link>
 
-          </Grid>
+          <Link href="/images">
           <Grid item xs={3}>
-        <h3> Images</h3>
-
-          </Grid>
+          <h3> Images</h3>
+          </Grid></Link>
         </Grid>
 
       </Box>

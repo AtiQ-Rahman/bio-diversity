@@ -1,8 +1,8 @@
 import React from 'react';
 import styles from "../styles/Home.module.css";
 import { styled } from '@mui/material/styles';
-import { makeStyles } from '@material-ui/styles';
-import Header from './components/Header';
+// import { makeStyles } from '@material-ui/styles';
+// import Header from './components/Header';
 import Paper from '@mui/material/Paper';
 import {
     AppBar,
@@ -13,18 +13,19 @@ import {
     Toolbar,
     useMediaQuery,
   } from "@mui/material";
-  const useStyles = makeStyles((theme) => ({
-    root: {
-      flexGrow: 1,
-    },
-    paper: {
-      padding: theme.spacing(2),
-      textAlign: 'center',
-      color: theme.palette.text.secondary,
-    },
-  }));
+import Header from './components/Home/Header';
+  // const useStyles = makeStyles((theme) => ({
+  //   root: {
+  //     flexGrow: 1,
+  //   },
+  //   paper: {
+  //     padding: theme.spacing(2),
+  //     textAlign: 'center',
+  //     color: theme.palette.text.secondary,
+  //   },
+  // }));
 const Species = () => {
-    const classes = useStyles();
+    // const classes = useStyles();
     return (
       <div>
           <AppBar enableColorOnDark position="fixed" color="inherit" elevation={0}>
@@ -32,7 +33,7 @@ const Species = () => {
           <Header  />
         </Toolbar>
       </AppBar>
-      <div className={classes.root}>
+      {/* <div className={classes.root}>
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Paper className={classes.paper}>xs=12</Paper>
@@ -56,7 +57,7 @@ const Species = () => {
           <Paper className={classes.paper}>xs=3</Paper>
         </Grid>
       </Grid>
-    </div>
+    </div> */}
      
       </div>
 
