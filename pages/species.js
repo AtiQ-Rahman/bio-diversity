@@ -1,64 +1,145 @@
 import React from 'react';
 import styles from "../styles/Home.module.css";
 import { styled } from '@mui/material/styles';
-// import { makeStyles } from '@material-ui/styles';
-// import Header from './components/Header';
-import Paper from '@mui/material/Paper';
+
+
 import {
-    AppBar,
-    Box,
-    CssBaseline,
-    Grid,
-   
-    Toolbar,
-    useMediaQuery,
-  } from "@mui/material";
+  AppBar,
+  Box,
+  CssBaseline,
+  Toolbar,
+  Container,
+  useMediaQuery,
+  Grid,
+  Typography,
+  TextField,
+  TableCell,
+  TableRow,
+  TableBody,
+  TableHead,
+  Table,
+  TableContainer,
+  Button,
+} from "@mui/material";
 import Header from './components/Home/Header';
-  // const useStyles = makeStyles((theme) => ({
-  //   root: {
-  //     flexGrow: 1,
-  //   },
-  //   paper: {
-  //     padding: theme.spacing(2),
-  //     textAlign: 'center',
-  //     color: theme.palette.text.secondary,
-  //   },
-  // }));
+import CollapseCard from "./components/Home/collapseCard";
+import SearchSection from './components/Home/Header/SearchSection';
+import Paper from '@mui/material/Paper';
+function createData(number, Species, Family,Locality, Habitat, Size,GIS,Additional) {
+  return { number, Species, Family,Locality, Habitat, Size,GIS,Additional };
+}
+
+const rows = [
+  createData(1, "Bryopsis indica Gepp & Gepp", "Bryopsidaceae", "St Martin’s Island (SMI)", "rocks, corals","2-3","20.622990,92.320325",),
+  createData(2, "Bryopsis indica Gepp & Gepp", "Bryopsidaceae", "St Martin’s Island (SMI)", "rocks, corals","2-3","20.622990,92.320325",),
+
+  createData(3, "Bryopsis indica Gepp & Gepp", "Bryopsidaceae", "St Martin’s Island (SMI)", "rocks, corals","2-3","20.622990,92.320325",),
+
+  createData(4, "Bryopsis indica Gepp & Gepp", "Bryopsidaceae", "St Martin’s Island (SMI)", "rocks, corals","2-3","20.622990,92.320325",),
+
+  createData(5, "Bryopsis indica Gepp & Gepp", "Bryopsidaceae", "St Martin’s Island (SMI)", "rocks, corals","2-3","20.622990,92.320325",),
+
+];
 const Species = () => {
     // const classes = useStyles();
     return (
-      <div>
+      <div className={styles.container}>
           <AppBar enableColorOnDark position="fixed" color="inherit" elevation={0}>
         <Toolbar>
           <Header  />
         </Toolbar>
       </AppBar>
-      {/* <div className={classes.root}>
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <Paper className={classes.paper}>xs=12</Paper>
-        </Grid>
-        <Grid item xs={6}>
-          <Paper className={classes.paper}>xs=6</Paper>
-        </Grid>
-        <Grid item xs={6}>
-          <Paper className={classes.paper}>xs=6</Paper>
-        </Grid>
-        <Grid item xs={3}>
-          <Paper className={classes.paper}>xs=3</Paper>
-        </Grid>
-        <Grid item xs={3}>
-          <Paper className={classes.paper}>xs=3</Paper>
-        </Grid>
-        <Grid item xs={3}>
-          <Paper className={classes.paper}>xs=3</Paper>
-        </Grid>
-        <Grid item xs={3}>
-          <Paper className={classes.paper}>xs=3</Paper>
-        </Grid>
-      </Grid>
-    </div> */}
-     
+ 
+   <div className={styles.main}>
+        <Box
+          component="section"
+          style={{
+            border: "1px solid #e7e7e7",
+            borderRadius: 20,
+            padding: 30,
+            width: "80%",
+            
+          }}
+        >
+          <Grid container item xs={12} sx={{ mx: "auto" }}>
+            <Grid item xs={8}>
+              <h1>Species Search</h1>
+              <Grid item xs={12}>
+                
+             
+              <Box
+      component="form"
+      sx={{
+        '& > :not(style)': { m: 1, width: '25ch' },
+      }}
+      noValidate
+      autoComplete="off"
+    >
+      <TextField label="Species Search" color="secondary" focused />
+      <TextField label="Species Search" color="secondary" focused />
+      <TextField label="Species Search" color="secondary" focused />
+      <TextField label="Species Search" color="secondary" focused />
+    </Box>
+              </Grid>
+              <h1>Table</h1>
+              <Grid item xs={12} padding="30"><TableContainer component={Paper}>
+      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell>SI</TableCell>
+            <TableCell align="right">Species</TableCell>
+            <TableCell align="right">Family</TableCell>
+            <TableCell align="right">Locality</TableCell>
+            <TableCell align="right">Habitat</TableCell>
+            <TableCell align="right">Size &nbsp;(cm)</TableCell>
+            <TableCell align="right">GIS</TableCell>
+            <TableCell align="right">Additional button</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows.map((row) => (
+            <TableRow
+              key={row.name}
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+              <TableCell component="th" scope="row">
+                {row.number}
+              </TableCell>
+              <TableCell align="right">{row.Species}</TableCell>
+              <TableCell align="right">{row.Family}</TableCell>
+              <TableCell align="right">{row.Locality}</TableCell>
+              <TableCell align="right">{row.Habitat}</TableCell>
+              <TableCell align="right">{row.Size}</TableCell>
+              <TableCell align="right">{row.GIS}</TableCell>
+              <TableCell align="right"><Button variant="outlined">details</Button>
+              <Button variant="outlined">view&nbsp;map</Button></TableCell>
+             
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer></Grid>
+            </Grid>
+            <Grid item xs={4}>
+            <Typography gutterBottom variant="h2" component='div'>
+              Latest Additions
+              </Typography>
+              <CollapseCard />
+              {/* <h1 className={styles.title}>Getting started BIO-DIVERSITY!</h1> */}
+            </Grid>
+          </Grid>
+        </Box>
+      </div>
+
+      <footer className={styles.footer}>
+        <a
+          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Powered by <span className={styles.logo}>H-Tech</span>
+        </a>
+      </footer>
       </div>
 
     );
