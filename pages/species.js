@@ -2,6 +2,7 @@ import React from 'react';
 import styles from "../styles/Home.module.css";
 import { styled } from '@mui/material/styles';
 import { useRouter } from 'next/router';
+const imageSrc = require('../pages/assets/images/species1.jpg')
 
 import {
   AppBar,
@@ -27,6 +28,7 @@ import CollapseCard from "./components/Home/collapseCard";
 import SearchSection from './components/Home/Header/SearchSection';
 import Paper from '@mui/material/Paper';
 import { Link, Router } from 'react-router-dom';
+import Image from 'next/image';
 function createData(number, Species, Family,Locality, Habitat, Size,GIS,Additional) {
   return { number, Species, Family,Locality, Habitat, Size,GIS,Additional };
 }
@@ -142,10 +144,11 @@ const Species = () => {
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
+        
       >
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
+        <Box sx={style} className='modal-size'  >
+          <Typography id="modal-modal-title" justifyContent="center" variant="h6" component="h2">
+          <Image src={imageSrc}  width= {500} height={300} ></Image>
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             Duis mollis, est non commodo luctus,
