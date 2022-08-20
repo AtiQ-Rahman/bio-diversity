@@ -1,77 +1,206 @@
-import PropTypes from "prop-types";
-import Link from 'next/link';
-// material-ui
-import { useTheme } from "@mui/material/styles";
-import { Avatar, Box, ButtonBase, Grid } from "@mui/material";
-
-// project imports
-import LogoSection from "../LogoSection";
+import * as React from "react";
+import { styled, alpha } from "@mui/material/styles";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import InputBase from "@mui/material/InputBase";
+import MenuItem from "@mui/material/MenuItem";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import SearchIcon from "@mui/icons-material/Search";
+import MoreIcon from "@mui/icons-material/MoreVert";
 import SearchSection from "./SearchSection";
-import ProfileSection from "./ProfileSection";
-// import NotificationSection from './NotificationSection';
+import Link from "next/link";
 
-// assets
-import { IconMenu2 } from "@tabler/icons";
+const Search = styled("div")(({ theme }) => ({
+  position: "relative",
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  "&:hover": {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
+  marginRight: theme.spacing(2),
+  marginLeft: 0,
+  width: "100%",
+  [theme.breakpoints.up("sm")]: {
+    marginLeft: theme.spacing(3),
+    width: "auto",
+  },
+}));
 
-// ==============================|| MAIN NAVBAR / HEADER ||============================== //
+const SearchIconWrapper = styled("div")(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: "100%",
+  position: "absolute",
+  pointerEvents: "none",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+}));
 
-const Header = ({ handleLeftDrawerToggle }) => {
-  const theme = useTheme();
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: "inherit",
+  "& .MuiInputBase-input": {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.up("md")]: {
+      width: "20ch",
+    },
+  },
+}));
+
+export default function PrimarySearchAppBar() {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
+  };
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+  const isMenuOpen = Boolean(anchorEl);
+  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const pages = [
+    {
+      name: "Home",
+      path: "/",
+    },
+    {
+      name: "Genus",
+      path: "/genus",
+    },
+    {
+      name: "Species",
+      path: "/species",
+    },
+    {
+      name: "Images",
+      path: "/images",
+    },
+    {
+      name: "About Us",
+      path: "/about us",
+    },
+  ];
+  const handleProfileMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMobileMenuClose = () => {
+    setMobileMoreAnchorEl(null);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    handleMobileMenuClose();
+  };
+
+  const handleMobileMenuOpen = (event) => {
+    setMobileMoreAnchorEl(event.currentTarget);
+  };
+
+  const menuId = "primary-search-account-menu";
+  const renderMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+    </Menu>
+  );
+
+  const mobileMenuId = "primary-search-account-menu-mobile";
+  const renderMobileMenu = (
+    <Menu
+      anchorEl={mobileMoreAnchorEl}
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      id={mobileMenuId}
+      keepMounted
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      open={isMobileMenuOpen}
+      onClose={handleMobileMenuClose}
+    >
+      {pages.map((page, index) => (
+        <MenuItem key={page} onClick={handleCloseNavMenu}>
+          <Typography textAlign="center">{page.name}</Typography>
+        </MenuItem>
+      ))}
+    </Menu>
+  );
 
   return (
-    <>
-      {/* logo & toggler button */}
-      <Link href="/">
-      <Box
-        sx={{
-          width: 228,
-          display: "flex",
-          [theme.breakpoints.down("md")]: {
-            width: "auto",
-          },
-        }}
-      >
-       <Box
-          component="span"
-          sx={{ display: { xs: "none", md: "block" }, flexGrow: 1 }}
-        >
-          {/* <LogoSection /> */}
-          <h1>Bio Diversity</h1>
-        </Box>
-      </Box></Link>
-
-      {/* header search */}
-      <SearchSection />
-      <Box sx={{ flexGrow: 1 }} />
-      <Box sx={{ flexGrow: 1 }} />
-      <Box sx={{ flexGrow: 1, flexDirection: "row" }}>
-        <Grid container direction="row" spacing={2}>
-          <Grid item xs={3}>
-          <h3> Genus</h3>
-
-          </Grid>
-          <Link href="/species">
-          <Grid item xs={3}>
-          <h3> Species</h3>
-          </Grid></Link>
-
-          <Link href="/images">
-          <Grid item xs={3}>
-          <h3> Images</h3>
-          </Grid></Link>
-        </Grid>
-
-      </Box>
-
-      {/* notification & profile */}
-      {/* <NotificationSection /> */}
-      {/* <ProfileSection /> */}
-    </>
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static" style={{ background: "white", color: "black" }}>
+        <Toolbar>
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{ display: { xs: "none", sm: "block" } }}
+          >
+            Bio diversity
+          </Typography>
+          <SearchSection />
+          <Box sx={{ flexGrow: 1 }} />
+          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+            {pages.map((page, index) => (
+              <Link href={page.path}>
+                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">{page.name}</Typography>
+                </MenuItem>
+              </Link>
+            ))}
+          </Box>
+          <Box sx={{ display: { xs: "flex", md: "none" } }}>
+            <IconButton
+              size="large"
+              aria-label="show more"
+              aria-controls={mobileMenuId}
+              aria-haspopup="true"
+              onClick={handleMobileMenuOpen}
+              color="inherit"
+            >
+              <MoreIcon />
+            </IconButton>
+          </Box>
+        </Toolbar>
+      </AppBar>
+      {renderMobileMenu}
+      {renderMenu}
+    </Box>
   );
-};
-
-Header.propTypes = {
-  handleLeftDrawerToggle: PropTypes.func,
-};
-
-export default Header;
+}

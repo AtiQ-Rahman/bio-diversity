@@ -10,8 +10,22 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background:"white";
 }
-
+.main_box{
+  border: 1px solid #e7e7e7;
+  border-radius: 20px;
+  padding: 30px;
+  width: "80%";
+  background: 'white'
+}
+.side_bar{
+  padding-left: 20px;
+    background: #ededed;
+    /* color: white; */
+    padding-top: 20px;
+    border-radius: 20px;
+}
 .footer {
   display: flex;
   flex: 1;
