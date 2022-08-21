@@ -10,7 +10,7 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <Provider store={store}>
-      <ThemeProvider theme={themes(null)}>
+      <ThemeProvider theme={themes({ fontFamily: 'Raleway, Arial'})}>
       <CssBaseline/>
         <Component {...pageProps} />
       </ThemeProvider>

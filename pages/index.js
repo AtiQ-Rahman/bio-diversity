@@ -31,26 +31,28 @@ export default function Home() {
         <Box
           component="section"
           style={{
-            border: "1px solid #e7e7e7",
+            // border: "1px solid #e7e7e7",
             borderRadius: 20,
             padding: 30,
-            width: "80%",
+            width: "90%",
             background: "white",
           }}
         >
-          <Grid container item xs={12} sx={{ mx: "auto" }}>
+          <Grid container item xs={12} lg={9} sx={{ mx: "auto" }}>
             <Grid
               item
-              xs={8}
+              xs={12}
+              md={9}
               style={{ borderRadius: "20px", paddingRight: "10px" }}
             >
-              <Typography gutterBottom variant="h1" component="div">
+              {/* <Typography gutterBottom variant="h1" component="div">
                 Listing the World’s BIO Diversity
               </Typography>
               <Typography gutterBottom variant="h5" component="div">
                 BIO-D is a global algal database of taxonomic, nomenclatural and
                 distributional information.
-              </Typography>
+              </Typography> */}
+              
 
               <CuroselCard />
               <Counters />
@@ -59,8 +61,9 @@ export default function Home() {
             </Grid>
             <Grid
               item
-              xs={4}
-              rm={0}
+              xs={3}
+              md={3}
+              // lg={12}
               style={{ paddingLeft: "20px" }}
               className={styles.side_bar}
             >
