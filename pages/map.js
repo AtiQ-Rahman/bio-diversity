@@ -8,7 +8,7 @@ const map = require("../pages/assets/images/map.png");
 const Map = () => {
   return (
     <div className={styles.body}>
-      <Header />
+      <Header index={2}/>
 
       <div className={styles.main}>
         <Box

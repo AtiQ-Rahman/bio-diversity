@@ -3,20 +3,20 @@
 }
 
 .main {
-  min-height: 100vh;
+  /* min-height: 100vh; */
   padding: 4rem 0;
   flex: 1;
-  display: flex;
+  /* display: flex; */
   flex-direction: column;
-  justify-content: center;
+  /* justify-content: center; */
   align-items: center;
   background:"white";
 }
 .main_box{
-  border: 1px solid #e7e7e7;
+  /* border: 1px solid #e7e7e7; */
   border-radius: 20px;
   padding: 30px;
-  width: "80%";
+  width: "100%";
   background: 'white'
 }
 .side_bar{
@@ -24,6 +24,8 @@
     background: #ededed;
     /* color: white; */
     padding-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
     border-radius: 20px;
 }
 .footer {

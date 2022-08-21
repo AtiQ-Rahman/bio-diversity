@@ -1,147 +1,176 @@
 import * as React from "react";
+import { styled } from "@mui/material/styles";
+import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
+import MuiAccordion from "@mui/material/Accordion";
+import MuiAccordionSummary from "@mui/material/AccordionSummary";
+import MuiAccordionDetails from "@mui/material/AccordionDetails";
+import Typography from "@mui/material/Typography";
+import Link from "next/link";
+const Accordion = styled((props) => (
+  <MuiAccordion disableGutters elevation={0} square {...props} />
+))(({ theme }) => ({
+  border: `1px solid ${theme.palette.divider}`,
+  "&:not(:last-child)": {
+    borderBottom: 0,
+  },
+  "&:before": {
+    display: "none",
+  },
+}));
 
-import {
-  List,
-  ListItem,
-  listItemButtonClasses,
-  listItemClasses,
-  ListItemButton,
-  Box,
-  Typography,
-  Button,
-  IconButton,
-  Grid,
-} from "@mui/material";
-import ReceiptLong from "@mui/icons-material/ReceiptLong";
-import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-export default function ExampleCollapsibleList() {
-  const [open, setOpen] = React.useState(false);
-  const [open2, setOpen2] = React.useState(false);
+const AccordionSummary = styled((props) => (
+  <MuiAccordionSummary
+    expandIcon={<ArrowForwardIosSharpIcon sx={{ fontSize: "0.9rem" }} />}
+    {...props}
+  />
+))(({ theme }) => ({
+  backgroundColor:
+    theme.palette.mode === "dark"
+      ? "rgba(255, 255, 255, .05)"
+      : "rgba(0, 0, 0, .03)",
+  flexDirection: "row-reverse",
+  "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
+    transform: "rotate(90deg)",
+  },
+  "& .MuiAccordionSummary-content": {
+    marginLeft: theme.spacing(1),
+  },
+}));
+
+const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
+  padding: theme.spacing(2),
+  borderTop: "1px solid rgba(0, 0, 0, .125)",
+}));
+
+export default function CustomizedAccordions() {
+  const [expanded, setExpanded] = React.useState("");
+
+  const handleChange = (panel) => (event, newExpanded) => {
+    setExpanded(newExpanded ? panel : false);
+  };
+
   return (
-    <Box
-      sx={{
-        width: 320,
-        pl: "24px",
-      }}
-    >
-      <List
-        size="sm"
-        sx={(theme) => ({
-          // Gatsby colors
-          "--joy-palette-primary-plainColor": "#8a4baf",
-          "--joy-palette-neutral-plainHoverBg": "transparent",
-          "--joy-palette-neutral-plainActiveBg": "transparent",
-          "--joy-palette-primary-plainHoverBg": "transparent",
-          "--joy-palette-primary-plainActiveBg": "transparent",
-
-          "--List-insetStart": "32px",
-          "--List-item-paddingY": "0px",
-          "--List-item-paddingRight": "16px",
-          "--List-item-paddingLeft": "21px",
-          "--List-item-startActionWidth": "0px",
-          "--List-item-startActionTranslateX": "-50%",
-
-          [`& .${listItemButtonClasses.root}`]: {
-            borderLeft: "1px solid",
-            borderColor: "divider",
-          },
-          [`& .${listItemButtonClasses.root}.${listItemButtonClasses.selected}`]:
-            {
-              borderColor: "currentColor",
-            },
-          [`& .${listItemClasses.nested} > .${listItemButtonClasses.root}`]: {
-            border: "none",
-          },
-          '& [class*="startAction"]': {
-            color: "var(--joy-palette-text-tertiary)",
-          },
-        })}
+    <div>
+      <Accordion
+        expanded={expanded === "panel1"}
+        onChange={handleChange("panel1")}
       >
-        <Grid item xs={12}>
-          <ListItemButton
-            onClick={() => setOpen(!open)}
-            endIcon={
-              <KeyboardArrowDown
-                sx={{ transform: open ? "initial" : "rotate(-90deg)" }}
-              />
-            }
-          >
-            <Typography
-              level="inherit"
-              sx={{
-                fontWeight: open ? "bold" : undefined,
-                color: open ? "text.primary" : "inherit",
-              }}
-            >
-              Species
-            </Typography>
-            <Typography component="span" level="body3" sx={{ ml: 1 }}>
-              9
-            </Typography>
-          </ListItemButton>
-          {open && (
-            <List sx={{ "--List-item-paddingY": "8px" }}>
-              <ListItem>
-                <ListItemButton>Overview</ListItemButton>
-              </ListItem>
-              <ListItem>
-                <ListItemButton>
-                  0. Set Up Your Development Environment
-                </ListItemButton>
-              </ListItem>
-              <ListItem>
-                <ListItemButton>
-                  1. Create and Deploy Your First Gatsby Site
-                </ListItemButton>
-              </ListItem>
-              <ListItem>
-                <ListItemButton>
-                  2. Use and Style React components
-                </ListItemButton>
-              </ListItem>
-            </List>
-          )}
-        </Grid>
-
-        <ListItemButton
-          onClick={() => setOpen2(!open2)}
-          endIcon={
-            <KeyboardArrowDown
-              sx={{ transform: open2 ? "initial" : "rotate(-90deg)" }}
-            />
-          }
-        >
-          <Typography
-            level="inherit"
-            sx={{
-              fontWeight: open ? "bold" : undefined,
-              color: open ? "text.primary" : "inherit",
-            }}
-          >
-            Genera
+        <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
+          <Typography>Species</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+        <a href="/">
+          <Typography>
+            1. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
           </Typography>
-          <Typography component="span" level="body3" sx={{ ml: 1 }}>
-            32
+        </a>
+        <a href="/">
+          <Typography>
+            2. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
           </Typography>
-        </ListItemButton>
-        {open2 && (
-          <List sx={{ "--List-item-paddingY": "8px" }}>
-            <ListItem>
-              <ListItemButton>Overview</ListItemButton>
-            </ListItem>
-            <ListItem>
-              <ListItemButton>Local Development</ListItemButton>
-            </ListItem>
-            <ListItem>
-              <ListItemButton>Routing</ListItemButton>
-            </ListItem>
-            <ListItem>
-              <ListItemButton>Styling</ListItemButton>
-            </ListItem>
-          </List>
-        )}
-      </List>
-    </Box>
+        </a>
+        <a href="/">
+          <Typography>
+            3. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+          </Typography>
+        </a>
+        <a href="/">
+          <Typography>
+            4. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+          </Typography>
+        </a>
+        </AccordionDetails>
+      </Accordion>
+      <Accordion
+        expanded={expanded === "panel2"}
+        onChange={handleChange("panel2")}
+      >
+        <AccordionSummary aria-controls="panel2d-content" id="panel2d-header">
+          <Typography>Genera</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+        <a href="/">
+          <Typography>
+            1. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+          </Typography>
+        </a>
+        <a href="/">
+          <Typography>
+            2. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+          </Typography>
+        </a>
+        <a href="/">
+          <Typography>
+            3. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+          </Typography>
+        </a>
+        <a href="/">
+          <Typography>
+            4. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+          </Typography>
+        </a>
+        </AccordionDetails>
+      </Accordion>
+      <Accordion
+        expanded={expanded === "panel3"}
+        onChange={handleChange("panel3")}
+      >
+        <AccordionSummary aria-controls="panel3d-content" id="panel3d-header">
+          <Typography>Higher Taxa</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+        <a href="/">
+          <Typography>
+            1. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+          </Typography>
+        </a>
+        <a href="/">
+          <Typography>
+            2. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+          </Typography>
+        </a>
+        <a href="/">
+          <Typography>
+            3. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+          </Typography>
+        </a>
+        <a href="/">
+          <Typography>
+            4. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+          </Typography>
+        </a>
+        </AccordionDetails>
+      </Accordion>
+      <Accordion
+        expanded={expanded === "panel4"}
+        onChange={handleChange("panel4")}
+      >
+        <AccordionSummary aria-controls="panel3d-content" id="panel3d-header">
+          <Typography>Bibliography</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+        <a href="/">
+          <Typography>
+            1. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+          </Typography>
+        </a>
+        <a href="/">
+          <Typography>
+            2. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+          </Typography>
+        </a>
+        <a href="/">
+          <Typography>
+            3. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+          </Typography>
+        </a>
+        <a href="/">
+          <Typography>
+            4. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+          </Typography>
+        </a>
+        </AccordionDetails>
+      </Accordion>
+    </div>
   );
 }

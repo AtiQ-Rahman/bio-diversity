@@ -22,6 +22,8 @@ import {
   TableContainer,
   Button,
   Modal,
+  Divider,
+  Card,
 } from "@mui/material";
 import Header from "./components/Home/Header";
 import CollapseCard from "./components/Home/collapseCard";
@@ -109,18 +111,29 @@ const Species = () => {
   const handleClose = () => setOpen(false);
   const router = useRouter();
   return (
-    <div className={styles.body}>
-      <Header />
+    <div className={styles.container}>
+      <Header index={2} />
 
       <div className={styles.main}>
-        <Box
-          component="section"
-          className={styles.main_box}
-        >
+        <Box component="section" className={styles.main_box}>
           {/* Species Search */}
-          <Grid container item xs={12} sx={{ mx: "auto" }}>
-            <Grid item xs={8}>
-              <h1>Species Search</h1>
+          <Grid container item xs={12} md={12} sx={{ mx: "auto" }}>
+            <Grid item xs={12} md={8}>
+              <Card sx={{marginBottom:"10px"}}>
+                <Typography gutterBottom component="h2" variant="h2">
+                  Species Search
+                </Typography>
+                <Typography gutterBottom component="description" variant="div">
+                  The full name of the genus or species can be inserted, or you
+                  can type the first four letters of the generic name and/or the
+                  first four letters of the species (or other) epithet in upper
+                  or lower case (e.g. Mere micr or mere micr for Meredithia
+                  microphylla). A full list of the species and subspecific
+                  entities in each genus can be obtained in the genus database.
+                </Typography>
+              </Card>
+
+              <Divider></Divider>
               <Grid item xs={12}>
                 <Box
                   component="form"
@@ -130,14 +143,22 @@ const Species = () => {
                   noValidate
                   autoComplete="off"
                 >
-                  <TextField label="Species Search" color="secondary" focused />
-                  <TextField label="Species Search" color="secondary" focused />
-                  <TextField label="Species Search" color="secondary" focused />
-                  <TextField label="Species Search" color="secondary" focused />
+                  <TextField label="Search By Name" color="secondary" />
+                  <TextField label="Search By  Family" color="secondary" />
+                  <TextField label="Select Country" color="secondary" />
+                  <TextField label="Select Area" color="secondary" />
+                  <Button
+                    type="button"
+                    // onClick={}
+                    style={{color: "white" , background:"purple" }}
+                  >
+                    Search
+                  </Button>
                 </Box>
               </Grid>
 
               {/* TABLE */}
+              <Divider></Divider>
 
               <h1>Table</h1>
               <Grid item xs={12} padding="30">
@@ -235,7 +256,12 @@ const Species = () => {
                 </TableContainer>
               </Grid>
             </Grid>
-            <Grid item xs={4} style={{paddingLeft: "20px"}} className={styles.side_bar}>
+            <Grid
+              item
+              xs={12}
+              md={4}
+              className={styles.side_bar}
+            >
               <Typography gutterBottom variant="h2" component="div">
                 Latest Additions
               </Typography>

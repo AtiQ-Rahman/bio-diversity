@@ -15,7 +15,7 @@ import SearchSection from "./SearchSection";
 import Link from "next/link";
 
 
-export default function PrimarySearchAppBar() {
+export default function PrimarySearchAppBar(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -37,28 +37,44 @@ export default function PrimarySearchAppBar() {
   };
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-  const pages = [
+  let pages = [
     {
       name: "Home",
       path: "/",
+      background:'white',
+      color:'black'
     },
     {
       name: "Genus",
       path: "/genus",
+      color:'black',
+      background:'white'
+
     },
     {
       name: "Species",
       path: "/species",
+      color:'black',
+      background:'white'
+
     },
     {
       name: "Images",
       path: "/images",
+      color:'black',
+      background:'white'
+
     },
     {
       name: "About Us",
-      path: "/about us",
+      path: "/aboutus",
+      color:'black',
+      background:'white'
+
     },
   ];
+  pages[props.index].background = "#5e35b1"
+  pages[props.index].color = "white"
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -140,7 +156,7 @@ export default function PrimarySearchAppBar() {
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             {pages.map((page, index) => (
               <Link href={page.path}>
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                <MenuItem key={page} style={{background:page.background , color: page.color}} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">{page.name}</Typography>
                 </MenuItem>
               </Link>
