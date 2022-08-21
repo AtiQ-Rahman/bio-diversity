@@ -133,9 +133,10 @@ export default function PrimarySearchAppBar(props) {
       onClose={handleMobileMenuClose}
     >
       {pages.map((page, index) => (
+        <Link href={page.path}>
         <MenuItem key={page} onClick={handleCloseNavMenu}>
           <Typography textAlign="center">{page.name}</Typography>
-        </MenuItem>
+        </MenuItem></Link>
       ))}
     </Menu>
   );
