@@ -17,6 +17,7 @@ import Header from "./components/Home/Header";
 import Counters from "./components/Home/counters";
 import CuroselCard from "./components/Home/curoselCard";
 import CollapseCard from "./components/Home/collapseCard";
+import Footer from "./components/Home/Footer/Footer";
 
 export default function Home() {
   return (
@@ -45,13 +46,13 @@ export default function Home() {
               md={9}
               style={{ borderRadius: "20px", paddingRight: "10px" }}
             >
-              {/* <Typography gutterBottom variant="h1" component="div">
+              <Typography gutterBottom variant="h1" component="div">
                 Listing the World’s BIO Diversity
               </Typography>
               <Typography gutterBottom variant="h5" component="div">
                 BIO-D is a global algal database of taxonomic, nomenclatural and
                 distributional information.
-              </Typography> */}
+              </Typography>
               
 
               <CuroselCard />
@@ -78,13 +79,8 @@ export default function Home() {
       </div>
 
       <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by <span className={styles.logo}>H-Tech</span>
-        </a>
+    
+        <Footer/>
       </footer>
     </div>
   );

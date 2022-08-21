@@ -26,13 +26,18 @@ const Map = () => {
 
               {/* <h1 className={styles.title}>Getting started BIO-DIVERSITY!</h1> */}
             </Grid>
-            <Grid item xs={4}>
+            <Grid     item
+              xs={3}
+              md={3}
+              // lg={12}
+              style={{ paddingLeft: "20px" }}
+              >
               <Typography gutterBottom variant="h2" component="div">
                 <Image src={imageSrc} width={300} height={200}></Image>
               </Typography>
-              <Typography gutterBottom variant="h2" component="div">
-                <h6>
-                  {" "}
+              <Typography >
+                <p>
+                  
                   Duis mollis, est non commodo luctus, nisi erat porttitor
                   ligula. Duis mollis, est non commodo luctus, nisi erat
                   porttitor ligula. Duis mollis, est non commodo luctus, nisi
@@ -43,7 +48,7 @@ const Map = () => {
                   non commodo luctus, nisi erat porttitor ligul a. Duis mollis,
                   est non c ommodo luctus, nisi era t porttitor ligula. Duis
                   mollis, est non commodo luctus, nisi erat porttitor ligula.
-                </h6>
+                </p>
               </Typography>
 
               {/* <h1 className={styles.title}>Getting started BIO-DIVERSITY!</h1> */}

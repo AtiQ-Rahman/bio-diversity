@@ -29,6 +29,7 @@ import SearchSection from "./components/Home/Header/SearchSection";
 import Paper from "@mui/material/Paper";
 import { Link, Router } from "react-router-dom";
 import Image from "next/image";
+import Footer from "./components/Home/Footer/Footer";
 function createData(
   number,
   Species,
@@ -115,11 +116,20 @@ const Species = () => {
       <div className={styles.main}>
         <Box
           component="section"
-          className={styles.main_box}
+          style={{
+            // border: "1px solid #e7e7e7",
+            borderRadius: 20,
+            padding: 30,
+            width: "90%",
+            background: "white",
+          }}
         >
           {/* Species Search */}
           <Grid container item xs={12} sx={{ mx: "auto" }}>
-            <Grid item xs={8}>
+            <Grid    item
+              xs={12}
+              md={9}
+              style={{ borderRadius: "20px", paddingRight: "10px" }}>
               <h1>Species Search</h1>
               <Grid item xs={12}>
                 <Box
@@ -235,7 +245,12 @@ const Species = () => {
                 </TableContainer>
               </Grid>
             </Grid>
-            <Grid item xs={4} style={{paddingLeft: "20px"}} className={styles.side_bar}>
+            <Grid  item
+              xs={3}
+              md={3}
+              // lg={12}
+              style={{ paddingLeft: "20px" }}
+              className={styles.side_bar}>
               <Typography gutterBottom variant="h2" component="div">
                 Latest Additions
               </Typography>
@@ -246,13 +261,7 @@ const Species = () => {
       </div>
 
       <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by <span className={styles.logo}>H-Tech</span>
-        </a>
+     <Footer/>
       </footer>
     </div>
   );
