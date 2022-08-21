@@ -1,5 +1,5 @@
 import { Grid } from '@mui/material';
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@mui/styles";
 import React from 'react';
 import styles from "../../../../styles/Home.module.css";
 import GitHubIcon from '@mui/icons-material/GitHub';
