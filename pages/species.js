@@ -31,6 +31,7 @@ import SearchSection from "./components/Home/Header/SearchSection";
 import Paper from "@mui/material/Paper";
 import { Link, Router } from "react-router-dom";
 import Image from "next/image";
+import Footer from "./components/Home/Footer/Footer";
 function createData(
   number,
   Species,
@@ -272,13 +273,7 @@ const Species = () => {
       </div>
 
       <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by <span className={styles.logo}>H-Tech</span>
-        </a>
+     <Footer/>
       </footer>
     </div>
   );
