@@ -29,6 +29,7 @@ import {
   Button,Paper,
   Modal,
 } from "@mui/material";
+import Footer from "./components/Home/Footer/Footer";
 function createData(
   number,
   Species,
@@ -290,6 +291,9 @@ export default function Images() {
           </ImageList>
         </Box>
       </div>
+      <footer className={styles.footer}>
+     <Footer/>
+      </footer>
     </div>
   );
 }

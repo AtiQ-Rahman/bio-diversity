@@ -12,13 +12,8 @@ const Map = () => {
 
       <div className={styles.main}>
         <Box
-          component="section"
-          style={{
-            border: "1px solid #e7e7e7",
-            borderRadius: 20,
-            padding: 30,
-            width: "70%",
-          }}
+           component="section"
+           className={styles.main_box}
         >
           <Grid container item xs={12} sx={{ mx: "auto" }}>
             <Grid item xs={8}>
