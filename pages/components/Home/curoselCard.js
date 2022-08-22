@@ -29,12 +29,15 @@ export default function MediaCard() {
   function Item(props) {
     return (
       <Card
+      sx={{boxShadow: 5 }} 
       style={{
         display: "flex",
         justifyContent: "center",
         border: "1px  solid #d9d7d7",
+        // boxShadow:"1px 1px 1px 1px",
         borderRadius: "20px",
       }}
+      
     >
       <Grid container item xs={12} lg={9} sx={{ mx: "auto" }}>
         <Grid
