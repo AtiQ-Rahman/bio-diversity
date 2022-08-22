@@ -116,10 +116,10 @@ const Species = () => {
       <Header index={2} />
 
       <div className={styles.main}>
-        <Box component="section" className={styles.main_box}>
+        <Box component="section" className={styles.main_box}  sx={{ mt: 10 }} >
           {/* Species Search */}
-          <Grid container item xs={12} md={12} sx={{ mx: "auto" }}>
-            <Grid item xs={12} md={8}>
+          <Grid container item xs={10.5}  sx={{ mx: "auto" }}>
+            <Grid item xs={10} md={8}>
               <Card sx={{marginBottom:"10px"}}>
                 <Typography gutterBottom component="h2" variant="h2">
                   Species Search
@@ -135,7 +135,7 @@ const Species = () => {
               </Card>
 
               <Divider></Divider>
-              <Grid item xs={12}>
+              <Grid item xs={11}>
                 <Box
                   component="form"
                   sx={{
@@ -151,7 +151,11 @@ const Species = () => {
                   <Button
                     type="button"
                     // onClick={}
-                    style={{color: "white" , background:"purple" }}
+                    style={{color: "white" , background:"purple" ,          maxWidth: "80px",
+                    maxHeight: "80px",
+                    minWidth: "40px",
+                    minHeight: "40px"
+           }}
                   >
                     Search
                   </Button>
@@ -162,7 +166,7 @@ const Species = () => {
               <Divider></Divider>
 
               <h1>Table</h1>
-              <Grid item xs={12} padding="30">
+              <Grid item xs={12}  >
                 <TableContainer component={Paper}>
                   <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
@@ -195,7 +199,7 @@ const Species = () => {
                           <TableCell align="right">{row.Size}</TableCell>
                           <TableCell align="right">{row.GIS}</TableCell>
                           <TableCell align="right">
-                            <Button onClick={handleOpen} variant="outlined">
+                            <Button onClick={handleOpen} sx={{ m: 1 }} variant="outlined">
                               Details
                             </Button>
 
@@ -210,19 +214,22 @@ const Species = () => {
                               <Box sx={style} className="modal-size">
                                 <Typography
                                   id="modal-modal-title"
-                                  justifyContent="center"
+                                 
                                   variant="h6"
                                   component="h2"
+                                 
                                 >
-                                  <Image
+                              <Grid>    <Image
                                     src={imageSrc}
                                     width={500}
                                     height={300}
-                                  ></Image>
+                                    justifyContent="center"
+                                  ></Image></Grid>
                                 </Typography>
                                 <Typography
                                   id="modal-modal-description"
                                   sx={{ mt: 2 }}
+                                  boxShadow={5}
                                 >
                                   Duis mollis, est non commodo luctus, nisi erat
                                   porttitor ligula. Duis mollis, est non commodo
@@ -260,8 +267,9 @@ const Species = () => {
             <Grid
               item
               xs={12}
-              md={4}
+              md={3}
               className={styles.side_bar}
+              m={2}
             >
               <Typography gutterBottom variant="h2" component="div">
                 Latest Additions

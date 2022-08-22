@@ -1,8 +1,10 @@
-import { AppBar, Box, Grid, Toolbar, Typography } from "@mui/material";
+import { AppBar, Box, Button, Card, CardActions, CardContent, CardMedia, Container, Grid, Toolbar, Typography } from "@mui/material";
 import React from "react";
 import Header from "./components/Home/Header";
 import styles from "../styles/Home.module.css";
 import Image from "next/image";
+import Footer from "./components/Home/Footer/Footer";
+import { margin } from "@mui/system";
 const imageSrc = require("../pages/assets/images/species1.jpg");
 const map = require("../pages/assets/images/map.png");
 const Map = () => {
@@ -10,56 +12,80 @@ const Map = () => {
     <div className={styles.body}>
       <Header index={2}/>
 
-      <div className={styles.main}>
-        <Box
-           component="section"
-           className={styles.main_box}
+      <Box
+      
+      component="main"
+     
+      sx={{
+        flexGrow: 1,
+        py: 8,
+        mt:10,
+       
+      }}
+    >
+      <Container  >
+        <Grid
+          container
+          spacing={3}
+          sx={{ m:4  }}
+          style={{marginRight:"5px" }}
         >
-          <Grid container item xs={12} sx={{ mx: "auto" }}>
-            <Grid item xs={8}>
-              <Image src={map} width={650} height={400}></Image>
-
-              {/* <h1 className={styles.title}>Getting started BIO-DIVERSITY!</h1> */}
-            </Grid>
-            <Grid     item
-              xs={3}
-              md={3}
-              // lg={12}
-              style={{ paddingLeft: "20px" }}
-              >
-              <Typography gutterBottom variant="h2" component="div">
-                <Image src={imageSrc} width={300} height={200}></Image>
-              </Typography>
-              <Typography >
-                <p>
-                  
-                  Duis mollis, est non commodo luctus, nisi erat porttitor
-                  ligula. Duis mollis, est non commodo luctus, nisi erat
-                  porttitor ligula. Duis mollis, est non commodo luctus, nisi
-                  erat porttitor ligula. Duis mollis, est non commodo luctus,
-                  nisi erat porttitor ligula. Duis mollis, est non commodo
-                  luctus, nisi erat porttitor ligula. Duis mollis, est non
-                  commodo luctus, nisi erat porttitor ligula. Duis mollis, est
-                  non commodo luctus, nisi erat porttitor ligul a. Duis mollis,
-                  est non c ommodo luctus, nisi era t porttitor ligula. Duis
-                  mollis, est non commodo luctus, nisi erat porttitor ligula.
-                </p>
-              </Typography>
-
-              {/* <h1 className={styles.title}>Getting started BIO-DIVERSITY!</h1> */}
-            </Grid>
+       
+        
+        
+       
+          <Grid
+            item
+            
+            md={10}
+            xl={8}
+            xs={12}
+           
+            sx={{boxShadow: 4,p:4}}
+            style={{ borderRadius: "10px",paddingTop:"10%", }}
+            // style={{  paddingRight: "20px" }}
+          >
+          <Image  width={800}   
+           height={500} src={map}    ></Image>
           </Grid>
-        </Box>
-      </div>
-
+          <Grid
+           sx={{ boxShadow: 4, m:6  }}
+          style={{ borderRadius: "10px",padding:"10px" }}
+            item
+            lg={4}
+            md={6}
+            xl={3}
+            xs={12}
+          >
+           <Card sx={{ maxWidth: 345 }} >
+           <Image src={imageSrc}></Image>
+      <CardContent>
+        <Typography gutterBottom variant="h5" component="div">
+          Species
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+                  The full name of the genus or species can be inserted, or you
+                  can type the first four letters of the generic name and/or the
+                  first four letters of the species (or other) epithet in upper
+                  or lower case (e.g. Mere micr or mere micr for Meredithia
+                  microphylla). A full list of the species and subspecific
+                  entities in each genus can be obtained in the genus database.
+        </Typography>
+      </CardContent>
+      <CardActions>
+        <Button size="small">Share</Button>
+        <Button size="small">Learn More</Button>
+      </CardActions>
+      
+    </Card>
+          </Grid>
+        
+        
+        </Grid>
+      </Container>
+    </Box>
       <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by <span className={styles.logo}>H-Tech</span>
-        </a>
+      <Footer/>
       </footer>
     </div>
   );

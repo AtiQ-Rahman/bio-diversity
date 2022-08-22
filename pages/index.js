@@ -32,8 +32,9 @@ export default function Home() {
         <Box
           component="section"
           className={styles.main_box}
+          sx={{ mt: 10 }}
         >
-          <Grid container item xs={12}  sx={{ mx: "auto" }}>
+          <Grid container item xs={9}   sx={{ mx: "auto"}}>
             <Grid
               item
               xs={12}
