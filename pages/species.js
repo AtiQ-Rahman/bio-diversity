@@ -24,6 +24,8 @@ import {
   Modal,
   Divider,
   Card,
+  CardActions,
+  CardContent,
 } from "@mui/material";
 import Header from "./components/Home/Header";
 import CollapseCard from "./components/Home/collapseCard";
@@ -115,11 +117,11 @@ const Species = () => {
     <div className={styles.container}>
       <Header index={2} />
 
-      <div className={styles.main}>
-        <Box component="section" className={styles.main_box}  sx={{ mt: 10 }} >
+      <div className={styles.main} sx={{ height: '100%' }}>
+        <Box component="section" className={styles.main_box}  sx={{ mt: 10,}}  >
           {/* Species Search */}
           <Grid container item xs={10.5}  sx={{ mx: "auto" }}>
-            <Grid item xs={10} md={8}>
+            <Grid item xs={15} md={8}>
               <Card sx={{marginBottom:"10px"}}>
                 <Typography gutterBottom component="h2" variant="h2">
                   Species Search
@@ -135,7 +137,7 @@ const Species = () => {
               </Card>
 
               <Divider></Divider>
-              <Grid item xs={11}>
+              <Grid item xs={11}      style={{ borderRadius: "5px", }}>
                 <Box
                   component="form"
                   sx={{
@@ -143,6 +145,8 @@ const Species = () => {
                   }}
                   noValidate
                   autoComplete="off"
+                  
+                  
                 >
                   <TextField label="Search By Name" color="secondary" />
                   <TextField label="Search By  Family" color="secondary" />
@@ -166,7 +170,7 @@ const Species = () => {
               <Divider></Divider>
 
               <h1>Table</h1>
-              <Grid item xs={12}  >
+              <Grid item xs={12}  sx={{boxShadow: 4,p:4}}    style={{ borderRadius: "10px", }} >
                 <TableContainer component={Paper}>
                   <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
@@ -212,40 +216,26 @@ const Species = () => {
                               aria-describedby="modal-modal-description"
                             >
                               <Box sx={style} className="modal-size">
-                                <Typography
-                                  id="modal-modal-title"
-                                 
-                                  variant="h6"
-                                  component="h2"
-                                 
-                                >
-                              <Grid>    <Image
-                                    src={imageSrc}
-                                    width={500}
-                                    height={300}
-                                    justifyContent="center"
+                            
+                              <Grid sx={{ maxWidth: 345 }}    >    <Image src={imageSrc} 
+                                    // width={500}
+                                    // height={300}
+                                  
                                   ></Image></Grid>
-                                </Typography>
-                                <Typography
-                                  id="modal-modal-description"
-                                  sx={{ mt: 2 }}
-                                  boxShadow={5}
-                                >
-                                  Duis mollis, est non commodo luctus, nisi erat
-                                  porttitor ligula. Duis mollis, est non commodo
-                                  luctus, nisi erat porttitor ligula. Duis
-                                  mollis, est non commodo luctus, nisi erat
-                                  porttitor ligula. Duis mollis, est non commodo
-                                  luctus, nisi erat porttitor ligula. Duis
-                                  mollis, est non commodo luctus, nisi erat
-                                  porttitor ligula. Duis mollis, est non commodo
-                                  luctus, nisi erat porttitor ligula. Duis
-                                  mollis, est non commodo luctus, nisi erat
-                                  porttitor ligul a. Duis mollis, est non c
-                                  ommodo luctus, nisi era t porttitor ligula.
-                                  Duis mollis, est non commodo luctus, nisi erat
-                                  porttitor ligula.
-                                </Typography>
+                              
+                                <CardContent>
+        <Typography gutterBottom variant = "h5" component = "div">
+          Lizard
+        </Typography>
+        <Typography variant   = "body2" color  = "text.secondary">
+          Lizards are a widespread group of squamate reptiles, with over 6,000
+          species, ranging across all continents except Antarctica
+        </Typography>
+      </CardContent>
+                                {/* <CardActions>
+                                <Button size="small">Share</Button>
+                                <Button size="small">Learn More</Button>
+                               </CardActions> */}
                               </Box>
                             </Modal>
                             <br />
@@ -270,6 +260,8 @@ const Species = () => {
               md={3}
               className={styles.side_bar}
               m={2}
+              sx={{boxShadow: 4,p:4}} 
+              
             >
               <Typography gutterBottom variant="h2" component="div">
                 Latest Additions
