@@ -10,6 +10,7 @@ import Image from "next/image";
 const imageSrc = require("../pages/assets/images/species1.jpg");
 import { useRouter } from "next/router";
 import Header from "./components/Home/Header";
+import { styled } from "@mui/material/styles";
 import {
   AppBar,
   Box,
@@ -28,8 +29,11 @@ import {
   TableContainer,
   Button,Paper,
   Modal,
+  CardContent,
+  tableCellClasses,
 } from "@mui/material";
 import Footer from "./components/Home/Footer/Footer";
+import Counters from "./components/Home/counters";
 function createData(
   number,
   Species,
@@ -42,6 +46,24 @@ function createData(
 ) {
   return { number, Species, Family, Locality, Habitat, Size, GIS, Additional };
 }
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14
+  }
+}));
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover
+  },
+  // hide last border
+  "&:last-child td, &:last-child th": {
+    border: 0
+  }
+}));
 const style = {
   position: "absolute",
   top: "50%",
@@ -120,11 +142,17 @@ export default function Images() {
   return (
     <div className={styles.container}>
       <Header index={3}></Header>
-      <div className={styles.main}>
-        <Box component="section">
+      <div className={styles.main_box}  >
+        <Box component="section" sx={{ mt: 10,}}>
         <Grid container item xs={12} md={12} sx={{ mx: "auto" }}>
             <Grid item xs={12} md={8}>
-              <h1>Species Search</h1>
+            <Typography gutterBottom component="h2" variant="h2">
+                  Species Search
+                </Typography>
+                <Typography gutterBottom component="description" variant="div">
+                The images remain the property of the copyright owners who give permission for non-commercial use for teaching purposes in lectures and on meetings' presentations and posters, provided their 
+                copyright and the source is acknowledged, but are NOT free for publication in any format or manner.
+                </Typography>
               <Grid item xs={12}>
                 <Box
                   component="form"
@@ -140,44 +168,46 @@ export default function Images() {
                   <TextField label="Select Area" color="secondary"  />
                 </Box>
               </Grid>
-
-              {/* TABLE */}
-
+                    
               <h1>Table</h1>
-              <Grid item xs={12} padding="30">
-                <TableContainer component={Paper}>
-                  <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <Grid item xs={12}  sx={{boxShadow: 4,p:4}}    style={{ borderRadius: "10px", }} >
+                <TableContainer component={Paper}    >
+                  <Table sx={{ minWidth: 650 }} aria-label="customized table" >
                     <TableHead>
                       <TableRow>
-                        <TableCell>SI</TableCell>
-                        <TableCell align="right">Species</TableCell>
-                        <TableCell align="right">Family</TableCell>
-                        <TableCell align="right">Locality</TableCell>
-                        <TableCell align="right">Habitat</TableCell>
-                        <TableCell align="right">Size &nbsp;(cm)</TableCell>
-                        <TableCell align="right">GIS</TableCell>
-                        <TableCell align="right">Additional button</TableCell>
+                        <StyledTableCell>SI</StyledTableCell>
+                        <StyledTableCell align="center">Species</StyledTableCell>
+                        <StyledTableCell align="center">Family</StyledTableCell>
+                        <StyledTableCell align="center">Locality</StyledTableCell>
+                        <StyledTableCell align="center">Habitat</StyledTableCell>
+                        <StyledTableCell align="center">Size &nbsp;(cm)</StyledTableCell>
+                        <StyledTableCell align="center">GIS</StyledTableCell>
+                        <StyledTableCell align="center">Additional button</StyledTableCell>
                       </TableRow>
                     </TableHead>
-                    <TableBody>
+                    <TableBody   >
                       {rows.map((row) => (
-                        <TableRow
+                        <StyledTableRow
                           key={row.name}
                           sx={{
                             "&:last-child td, &:last-child th": { border: 0 },
                           }}
+                        
                         >
-                          <TableCell component="th" scope="row">
+                          <StyledTableCell component="th" scope="row">
                             {row.number}
-                          </TableCell>
-                          <TableCell align="right">{row.Species}</TableCell>
-                          <TableCell align="right">{row.Family}</TableCell>
-                          <TableCell align="right">{row.Locality}</TableCell>
-                          <TableCell align="right">{row.Habitat}</TableCell>
-                          <TableCell align="right">{row.Size}</TableCell>
-                          <TableCell align="right">{row.GIS}</TableCell>
-                          <TableCell align="right">
-                            <Button onClick={handleOpen} variant="outlined">
+                          </StyledTableCell>
+                          <StyledTableCell align="center">{row.Species}</StyledTableCell>
+                          <StyledTableCell align="center">{row.Family}</StyledTableCell>
+                          <StyledTableCell align="center">{row.Locality}</StyledTableCell>
+                          <StyledTableCell align="center">{row.Habitat}</StyledTableCell>
+                          <StyledTableCell align="center">{row.Size}</StyledTableCell>
+                          <StyledTableCell align="center">{row.GIS}</StyledTableCell>
+                          <StyledTableCell align="center">
+                            <Button style={{    maxWidth: "80px",
+                             maxHeight: "80px",
+                             minWidth: "40px",
+                             minHeight: "40px"}} onClick={handleOpen} sx={{ mb: 1, mr:0.5 }} variant="outlined"  >
                               Details
                             </Button>
 
@@ -190,63 +220,118 @@ export default function Images() {
                               aria-describedby="modal-modal-description"
                             >
                               <Box sx={style} className="modal-size">
-                                <Typography
-                                  id="modal-modal-title"
-                                  justifyContent="center"
-                                  variant="h6"
-                                  component="h2"
-                                >
-                                  <Image
-                                    src={imageSrc}
-                                    width={500}
-                                    height={300}
-                                  ></Image>
-                                </Typography>
-                                <Typography
-                                  id="modal-modal-description"
-                                  sx={{ mt: 2 }}
-                                >
-                                  Duis mollis, est non commodo luctus, nisi erat
-                                  porttitor ligula. Duis mollis, est non commodo
-                                  luctus, nisi erat porttitor ligula. Duis
-                                  mollis, est non commodo luctus, nisi erat
-                                  porttitor ligula. Duis mollis, est non commodo
-                                  luctus, nisi erat porttitor ligula. Duis
-                                  mollis, est non commodo luctus, nisi erat
-                                  porttitor ligula. Duis mollis, est non commodo
-                                  luctus, nisi erat porttitor ligula. Duis
-                                  mollis, est non commodo luctus, nisi erat
-                                  porttitor ligul a. Duis mollis, est non c
-                                  ommodo luctus, nisi era t porttitor ligula.
-                                  Duis mollis, est non commodo luctus, nisi erat
-                                  porttitor ligula.
-                                </Typography>
+                            
+                              <Grid sx={{ maxWidth: 345 }}    >    <Image src={imageSrc} 
+                                    // width={500}
+                                    // height={300}
+                                  
+                                  ></Image></Grid>
+                              
+                                <CardContent>
+        <Typography gutterBottom variant = "h5" component = "div">
+          Lizard
+        </Typography>
+        <Typography variant   = "body2" color  = "text.secondary">
+          Lizards are a widespread group of squamate reptiles, with over 6,000
+          species, ranging across all continents except Antarctica
+        </Typography>
+      </CardContent>
+                                {/* <CardActions>
+                                <Button size="small">Share</Button>
+                                <Button size="small">Learn More</Button>
+                               </CardActions> */}
                               </Box>
                             </Modal>
                             <br />
                             <Button
+                             style={{ maxWidth: "80px",
+                             maxHeight: "80px",
+                             minWidth: "40px",
+                             minHeight: "40px"
+                    }}
                               type="button"
                               onClick={() => router.push("/map")}
                               variant="outlined"
                             >
                               View&nbsp;map
                             </Button>
-                          </TableCell>
-                        </TableRow>
+                          </StyledTableCell>
+                        </StyledTableRow>
                       ))}
                     </TableBody>
                   </Table>
                 </TableContainer>
+                {/* <TablePagination
+        rowsPerPageOptions={[10, 25, 100]}
+        component="div"
+        count={rows.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      /> */}
               </Grid>
+
+              <Grid item xs={12} padding="30">
+              <ImageList
+            sx={{
+              width:"50%",
+              mx:"auto",
+              // Promote the list into its own layer in Chrome. This costs memory, but helps keeping high FPS.
+              transform: "translateZ(0)",
+            }}
+            rowHeight={200}
+            gap={1}
+          >
+            {itemData.map((item) => {
+              const cols = 1;
+              const rows = 1;
+
+              return (
+                <ImageListItem key={item.img} cols={cols} rows={rows}>
+                  <img
+                    {...srcset(item.img, 250, 200, rows, cols)}
+                    alt={item.title}
+                    loading="lazy"
+                  />
+                  <ImageListItemBar
+                    sx={{
+                      background:
+                        "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, " +
+                        "rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)",
+                    }}
+                    title={item.title}
+                    position="top"
+                    actionIcon={
+                      <IconButton
+                        sx={{ color: "white" }}
+                        aria-label={`star ${item.title}`}
+                      >
+                        <StarBorderIcon />
+                      </IconButton>
+                    }
+                    actionPosition="left"
+                  />
+                </ImageListItem>
+              );
+            })}
+          </ImageList>
+              </Grid>
+              <Counters ></Counters>
             </Grid>
-            <Grid item xs={12} md={4}style={{paddingLeft: "20px"}} className={styles.side_bar}>
+            <Grid  item
+              xs={12}
+              md={3}
+              className={styles.side_bar}
+              m={2}
+              sx={{boxShadow: 4,p:4}} >
               <Typography gutterBottom variant="h2" component="div">
                 Latest Additions
               </Typography>
               <CollapseCard />
             </Grid>
           </Grid>
-          <ImageList
+          {/* <ImageList
             sx={{
               width:"80%",
               mx:"auto",
@@ -288,7 +373,8 @@ export default function Images() {
                 </ImageListItem>
               );
             })}
-          </ImageList>
+          </ImageList> */}
+          
         </Box>
       </div>
       <footer className={styles.footer}>
@@ -331,34 +417,34 @@ const itemData = [
     author: "@arwinneil",
     featured: true,
   },
-  {
-    img: "https://images.unsplash.com/photo-1516802273409-68526ee1bdd6",
-    title: "Basketball",
-    author: "@tjdragotta",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1518756131217-31eb79b20e8f",
-    title: "Fern",
-    author: "@katie_wasserman",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1597645587822-e99fa5d45d25",
-    title: "Mushrooms",
-    author: "@silverdalex",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1567306301408-9b74779a11af",
-    title: "Tomato basil",
-    author: "@shelleypauls",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1471357674240-e1a485acb3e1",
-    title: "Sea star",
-    author: "@peterlaster",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1589118949245-7d38baf380d6",
-    title: "Bike",
-    author: "@southside_customs",
-  },
+  // {
+  //   img: "https://images.unsplash.com/photo-1516802273409-68526ee1bdd6",
+  //   title: "Basketball",
+  //   author: "@tjdragotta",
+  // },
+  // {
+  //   img: "https://images.unsplash.com/photo-1518756131217-31eb79b20e8f",
+  //   title: "Fern",
+  //   author: "@katie_wasserman",
+  // },
+  // {
+  //   img: "https://images.unsplash.com/photo-1597645587822-e99fa5d45d25",
+  //   title: "Mushrooms",
+  //   author: "@silverdalex",
+  // },
+  // {
+  //   img: "https://images.unsplash.com/photo-1567306301408-9b74779a11af",
+  //   title: "Tomato basil",
+  //   author: "@shelleypauls",
+  // },
+  // {
+  //   img: "https://images.unsplash.com/photo-1471357674240-e1a485acb3e1",
+  //   title: "Sea star",
+  //   author: "@peterlaster",
+  // },
+  // {
+  //   img: "https://images.unsplash.com/photo-1589118949245-7d38baf380d6",
+  //   title: "Bike",
+  //   author: "@southside_customs",
+  // },
 ];
