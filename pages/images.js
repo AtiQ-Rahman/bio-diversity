@@ -142,7 +142,7 @@ export default function Images() {
   return (
     <div className={styles.container}>
 
-      <Header index={3}></Header>
+      <Header index={2}></Header>
       <div className={styles.main_box}  >
         <Box component="section" sx={{ mt: 10,}}>
 
