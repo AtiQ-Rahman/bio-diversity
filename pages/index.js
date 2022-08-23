@@ -37,6 +37,7 @@ export default function Home() {
               xs={12}
               md={9}
               style={{ borderRadius: "20px", paddingRight: "10px" }}
+             
             >
               <CuroselCard />
               <Box component="div" sx={{ mt: 5, mb: 5 }}>

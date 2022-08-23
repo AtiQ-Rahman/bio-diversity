@@ -26,6 +26,8 @@ import {
   Card,
   CardActions,
   CardContent,
+  tableCellClasses,
+  TablePagination,
 } from "@mui/material";
 import Header from "./components/Home/Header";
 import CollapseCard from "./components/Home/collapseCard";
@@ -34,6 +36,7 @@ import Paper from "@mui/material/Paper";
 import { Link, Router } from "react-router-dom";
 import Image from "next/image";
 import Footer from "./components/Home/Footer/Footer";
+import Counters from "./components/Home/counters";
 function createData(
   number,
   Species,
@@ -57,6 +60,24 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14
+  }
+}));
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover
+  },
+  // hide last border
+  "&:last-child td, &:last-child th": {
+    border: 0
+  }
+}));
 const rows = [
   createData(
     1,
@@ -120,8 +141,8 @@ const Species = () => {
       <div className={styles.main} sx={{ height: '100%' }}>
         <Box component="section" className={styles.main_box}  sx={{ mt: 10,}}  >
           {/* Species Search */}
-          <Grid container item xs={10.5}  sx={{ mx: "auto" }}>
-            <Grid item xs={15} md={8}>
+          <Grid container item xs={12} md={12} sx={{ mx: "auto" }}>
+            <Grid item xs={12} md={8}>
               <Card sx={{marginBottom:"10px"}}>
                 <Typography gutterBottom component="h2" variant="h2">
                   Species Search
@@ -171,39 +192,43 @@ const Species = () => {
 
               <h1>Table</h1>
               <Grid item xs={12}  sx={{boxShadow: 4,p:4}}    style={{ borderRadius: "10px", }} >
-                <TableContainer component={Paper}>
-                  <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <TableContainer component={Paper}    >
+                  <Table sx={{ minWidth: 650 }} aria-label="customized table" >
                     <TableHead>
                       <TableRow>
-                        <TableCell>SI</TableCell>
-                        <TableCell align="right">Species</TableCell>
-                        <TableCell align="right">Family</TableCell>
-                        <TableCell align="right">Locality</TableCell>
-                        <TableCell align="right">Habitat</TableCell>
-                        <TableCell align="right">Size &nbsp;(cm)</TableCell>
-                        <TableCell align="right">GIS</TableCell>
-                        <TableCell align="right">Additional button</TableCell>
+                        <StyledTableCell>SI</StyledTableCell>
+                        <StyledTableCell align="center">Species</StyledTableCell>
+                        <StyledTableCell align="center">Family</StyledTableCell>
+                        <StyledTableCell align="center">Locality</StyledTableCell>
+                        <StyledTableCell align="center">Habitat</StyledTableCell>
+                        <StyledTableCell align="center">Size &nbsp;(cm)</StyledTableCell>
+                        <StyledTableCell align="center">GIS</StyledTableCell>
+                        <StyledTableCell align="center">Additional button</StyledTableCell>
                       </TableRow>
                     </TableHead>
-                    <TableBody>
+                    <TableBody   >
                       {rows.map((row) => (
-                        <TableRow
+                        <StyledTableRow
                           key={row.name}
                           sx={{
                             "&:last-child td, &:last-child th": { border: 0 },
                           }}
+                        
                         >
-                          <TableCell component="th" scope="row">
+                          <StyledTableCell component="th" scope="row">
                             {row.number}
-                          </TableCell>
-                          <TableCell align="right">{row.Species}</TableCell>
-                          <TableCell align="right">{row.Family}</TableCell>
-                          <TableCell align="right">{row.Locality}</TableCell>
-                          <TableCell align="right">{row.Habitat}</TableCell>
-                          <TableCell align="right">{row.Size}</TableCell>
-                          <TableCell align="right">{row.GIS}</TableCell>
-                          <TableCell align="right">
-                            <Button onClick={handleOpen} sx={{ m: 1 }} variant="outlined">
+                          </StyledTableCell>
+                          <StyledTableCell align="center">{row.Species}</StyledTableCell>
+                          <StyledTableCell align="center">{row.Family}</StyledTableCell>
+                          <StyledTableCell align="center">{row.Locality}</StyledTableCell>
+                          <StyledTableCell align="center">{row.Habitat}</StyledTableCell>
+                          <StyledTableCell align="center">{row.Size}</StyledTableCell>
+                          <StyledTableCell align="center">{row.GIS}</StyledTableCell>
+                          <StyledTableCell align="center">
+                            <Button style={{    maxWidth: "80px",
+                             maxHeight: "80px",
+                             minWidth: "40px",
+                             minHeight: "40px"}} onClick={handleOpen} sx={{ mb: 1, mr:0.5 }} variant="outlined"  >
                               Details
                             </Button>
 
@@ -240,19 +265,34 @@ const Species = () => {
                             </Modal>
                             <br />
                             <Button
+                             style={{ maxWidth: "80px",
+                             maxHeight: "80px",
+                             minWidth: "40px",
+                             minHeight: "40px"
+                    }}
                               type="button"
                               onClick={() => router.push("/map")}
                               variant="outlined"
                             >
                               View&nbsp;map
                             </Button>
-                          </TableCell>
-                        </TableRow>
+                          </StyledTableCell>
+                        </StyledTableRow>
                       ))}
                     </TableBody>
                   </Table>
                 </TableContainer>
+                {/* <TablePagination
+        rowsPerPageOptions={[10, 25, 100]}
+        component="div"
+        count={rows.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      /> */}
               </Grid>
+              <Counters ></Counters>
             </Grid>
             <Grid
               item
