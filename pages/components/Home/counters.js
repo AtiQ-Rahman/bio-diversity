@@ -30,7 +30,9 @@ import DefaultCounterCard from "./DefaultCounterCard";
 
 function Counters() {
   return (
-    <Box component="section" py={3}>
+    <Box component="section" py={3} sx ={{    background: "#5e35b1",
+      color: "white",
+      borderRadius: "0px 20px"}}>
       
         <Grid container item xs={12} lg={9} sx={{ mx: "auto" }}>
           <Grid item xs={12} md={4}>

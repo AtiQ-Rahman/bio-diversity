@@ -25,19 +25,18 @@ import { Box, Typography } from "@mui/material";
 function DefaultCounterCard({ color, count, title, description, ...rest }) {
   return (
     <Box p={2} textAlign="center" lineHeight={1}>
-      <Typography variant="h1" component="h2">
+      <Typography variant="h1" component="h2" color="white">
         <CountUp end={count} duration={1} {...rest} />
       </Typography>
       {title && (
-              <Typography variant="h5" component="h3">
-                       {title}
-            </Typography>
+        <Typography variant="h5" component="h3" color="white">
+          {title}
+        </Typography>
       )}
       {description && (
-                      <Typography variant="body2" component="h3">
-                                {description}
-
-           </Typography>
+        <Typography variant="body2" component="h3" color="yellow">
+          {description}
+        </Typography>
       )}
     </Box>
   );

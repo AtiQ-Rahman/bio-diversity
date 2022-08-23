@@ -35,14 +35,15 @@ export default function MediaCard() {
         // boxShadow:"1px 1px 1px 1px",
         borderRadius: "20px",
       }}>
-      <Box sx={{ display: 'flex', flexDirection: 'column' , borderRight:"10px solid #9b5ebb" }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column' , borderLeft:"10px solid #5e35b1" }}>
         <CardContent sx={{ flex: '1 0 auto' }}>
-          <Typography component="div" variant="h5">
+          <Typography component="div" variant="h3" sx={{mt : 10}}>
             {title}
           </Typography>
-          <Typography variant="subtitle1" color="text.secondary" component="div">
+          <Typography gutterBottom variant="subtitle1" color="text.secondary" component="div">
             {description}
           </Typography>
+          <Button sx={{color:'white' ,  background:"#5e35b1"}}> Go to Details</Button>
         </CardContent>
       </Box>
       <Image
@@ -58,6 +59,7 @@ export default function MediaCard() {
   return (
       <Carousel
         autoPlay={false}
+        indicators ={false}
         next={(e) => {
           setTitle(items[e].title);
           setDescription(items[e].description);
