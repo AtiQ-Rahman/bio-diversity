@@ -28,48 +28,30 @@ export default function MediaCard() {
   const [description, setDescription] = React.useState(items[0].description);
   function Item(props) {
     return (
-      <Card
-      sx={{boxShadow: 5 }} 
+      <Card sx={{ display: 'flex' }}
       style={{
-        display: "flex",
         justifyContent: "center",
         border: "1px  solid #d9d7d7",
         // boxShadow:"1px 1px 1px 1px",
         borderRadius: "20px",
-      }}
-      
-    >
-      <Grid container item xs={12} lg={9} sx={{ mx: "auto" }}>
-        <Grid
-          item
-          xs={12}
-          md={6}
-          
-        >
-            <CardContent style={{ marginTop: "10%" }}>
-              <Typography gutterBottom variant="h3" component="div">
-                {title}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {description}
-              </Typography>
-            </CardContent>
-
-          
-        </Grid>
-        <Grid
-          item
-          xs={12}
-          md={6}
-          
-        >
-
-            <Card style={{ boxShadow: "-10px 0px #5e35b1" }}>
-              <Image src={props.item.imageSrc}></Image>
-            </Card>
-        </Grid>
-      </Grid>
-      </Card>
+      }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column' , borderRight:"10px solid #9b5ebb" }}>
+        <CardContent sx={{ flex: '1 0 auto' }}>
+          <Typography component="div" variant="h5">
+            {title}
+          </Typography>
+          <Typography variant="subtitle1" color="text.secondary" component="div">
+            {description}
+          </Typography>
+        </CardContent>
+      </Box>
+      <Image
+        component="img"
+        sx={{ width: 151 }}
+        src={imageSrc}
+        alt="Live from space album cover"
+      />
+    </Card>
     );
   }
 

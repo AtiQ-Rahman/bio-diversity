@@ -32,9 +32,9 @@ export default function Home() {
         <Box
           component="section"
           className={styles.main_box}
-          sx={{ mt: 10 }}
+          sx={{ mt: 5 }}
         >
-          <Grid container item xs={9}   sx={{ mx: "auto"}}>
+          <Grid container item xs={12} md={12}  sx={{ mx: "auto" }}>
             <Grid
               item
               xs={12}
@@ -42,7 +42,7 @@ export default function Home() {
               style={{ borderRadius: "20px", paddingRight: "10px" }}
             >
               <Typography gutterBottom variant="h1" component="div">
-                Listing the World’s BIO Diversity
+                What is BIO Diversity
               </Typography>
               <Typography gutterBottom variant="h5" component="div">
                 BIO-D is a global algal database of taxonomic, nomenclatural and

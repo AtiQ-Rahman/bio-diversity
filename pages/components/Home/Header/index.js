@@ -46,13 +46,6 @@ export default function PrimarySearchAppBar(props) {
       color:'black'
     },
     {
-      name: "Genus",
-      path: "/genus",
-      color:'black',
-      background:'white'
-
-    },
-    {
       name: "Species",
       path: "/species",
       color:'black',

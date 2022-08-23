@@ -110,7 +110,7 @@ const Species = () => {
   const router = useRouter();
   return (
     <div className={styles.body}>
-      <Header index={4}/>
+      <Header index={3}/>
 
       <div className={styles.main}>
         <Box

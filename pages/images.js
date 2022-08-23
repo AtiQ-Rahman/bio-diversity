@@ -119,7 +119,7 @@ export default function Images() {
   const router = useRouter();
   return (
     <div className={styles.container}>
-      <Header index={3}></Header>
+      <Header index={2}></Header>
       <div className={styles.main}>
         <Box component="section">
         <Grid container item xs={12} md={12} sx={{ mx: "auto" }}>

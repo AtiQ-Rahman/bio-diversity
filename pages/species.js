@@ -115,7 +115,7 @@ const Species = () => {
   const router = useRouter();
   return (
     <div className={styles.container}>
-      <Header index={2} />
+      <Header index={1} />
 
       <div className={styles.main} sx={{ height: '100%' }}>
         <Box component="section" className={styles.main_box}  sx={{ mt: 10,}}  >
