@@ -60,8 +60,8 @@ export default function PrimarySearchAppBar(props) {
 
     },
     {
-      name: "About Us",
-      path: "/aboutus",
+      name: "Contact",
+      path: "/contact",
       color:'black',
       background:'white'
 

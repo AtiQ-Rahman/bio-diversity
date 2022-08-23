@@ -152,7 +152,7 @@ export default function Images() {
                   Species Search
                 </Typography>
                 <Typography gutterBottom component="description" variant="div">
-                The images remain the property of the copyright owners who give permission for non-commercial use for teaching purposes in lectures and on meetings' presentations and posters, provided their 
+                The images remain the property of the copyright owners who give permission for non-commercial use for teaching purposes in lectures and on meetings presentations and posters, provided their 
                 copyright and the source is acknowledged, but are NOT free for publication in any format or manner.
                 </Typography>
               <Grid item xs={12}>
@@ -168,6 +168,17 @@ export default function Images() {
                   <TextField label="Search By  Family" color="secondary"  />
                   <TextField label="Select Country" color="secondary"  />
                   <TextField label="Select Area" color="secondary"  />
+                  <Button
+                    type="button"
+                    // onClick={}
+                    style={{color: "white" , background:"purple" ,          maxWidth: "80px",
+                    maxHeight: "80px",
+                    minWidth: "40px",
+                    minHeight: "40px"
+           }}
+                  >
+                    Search
+                  </Button>
                 </Box>
               </Grid>
                     
