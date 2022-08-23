@@ -28,11 +28,13 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head> */}
       <Header index={0}/>
-      <div className={styles.main}>
+      <div className={styles.main} >
         <Box
           component="section"
           className={styles.main_box}
+
           sx={{ mt: 5 }}
+
         >
           <Grid container item xs={12} md={12}  sx={{ mx: "auto" }}>
             <Grid
@@ -40,6 +42,7 @@ export default function Home() {
               xs={12}
               md={9}
               style={{ borderRadius: "20px", paddingRight: "10px" }}
+             
             >
               <Typography gutterBottom variant="h1" component="div">
                 What is BIO Diversity
@@ -51,7 +54,8 @@ export default function Home() {
               
 
               <CuroselCard />
-              <Counters />
+              <Counters></Counters>
+              
 
               {/* <h1 className={styles.title}>Getting started BIO-DIVERSITY!</h1> */}
             </Grid>
@@ -60,6 +64,7 @@ export default function Home() {
               xs={12}
               md={3}
               // lg={12}
+              sx={{boxShadow: 5 }}  
               style={{ paddingLeft: "20px" , paddingRight: "20px"  }}
               className={styles.side_bar}
             >
