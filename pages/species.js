@@ -191,7 +191,8 @@ const Species = () => {
               <Divider></Divider>
 
               <h1>Table</h1>
-              <Grid item xs={12}  sx={{boxShadow: 4,p:4}}    style={{ borderRadius: "10px", }} >
+              <br/>
+              <Grid item xs={12}  sx={{boxShadow: 4,p:4 ,mb:3}}    style={{ borderRadius: "10px", }} >
                 <TableContainer component={Paper}    >
                   <Table sx={{ minWidth: 650 }} aria-label="customized table" >
                     <TableHead>
@@ -292,7 +293,7 @@ const Species = () => {
         onRowsPerPageChange={handleChangeRowsPerPage}
       /> */}
               </Grid>
-              <Counters ></Counters>
+              <Counters  ></Counters>
             </Grid>
             <Grid
               item
