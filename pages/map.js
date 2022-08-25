@@ -5,6 +5,7 @@ import styles from "../styles/Home.module.css";
 import Image from "next/image";
 import Footer from "./components/Home/Footer/Footer";
 import { margin } from "@mui/system";
+import Counters from "./components/Home/counters";
 const imageSrc = require("../pages/assets/images/species1.jpg");
 const map = require("../pages/assets/images/map.png");
 const Map = () => {
@@ -13,7 +14,8 @@ const Map = () => {
       <Header index={2}/>
 
       <Box
-      
+     
+     className={styles.main}
       component="main"
      
       sx={{
@@ -23,7 +25,7 @@ const Map = () => {
        
       }}
     >
-      <Container  >
+      <Container  component="section" className={styles.main_box}   >
         <Grid
           container
           spacing={3}
@@ -59,7 +61,7 @@ const Map = () => {
           >
            <Card sx={{ maxWidth: 345 }} >
            <Image src={imageSrc}></Image>
-      <CardContent>
+      <CardContent >
         <Typography gutterBottom variant="h5" component="div">
           Species
         </Typography>
@@ -82,8 +84,12 @@ const Map = () => {
         
         
         </Grid>
+        <Counters></Counters>
       </Container>
+      {/*  */}
     </Box>
+   
+    
       <footer className={styles.footer}>
       <Footer/>
       </footer>
