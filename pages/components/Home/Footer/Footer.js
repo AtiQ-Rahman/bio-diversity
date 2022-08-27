@@ -1,76 +1,74 @@
-import { Grid } from '@mui/material';
-import { makeStyles } from "@mui/styles";
+import Image from 'next/image';
 import React from 'react';
-import styles from "../../../../styles/Home.module.css";
-import GitHubIcon from '@mui/icons-material/GitHub';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import InstagramIcon from '@mui/icons-material/Instagram';
-const useStyles = makeStyles((theme) => ({
-  snsIcon: {
-    width: "30px",
-    height: "30px",
+import styles from "../../../../styles/Footer.module.css";
 
-    // [theme.breakpoints.down("xs")]: {
-    //   width: "25px",
-    //   height: "25px",
-    // },
-    // "&:hover": {
-    //   color: theme.palette.info.main,
-    // },
-  },
-}));
-const Footer = ({ color }) => {
-  const classes = useStyles();
+import FacebookIcon from '@mui/icons-material/Facebook';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import RoomIcon from '@mui/icons-material/Room';
+import CallIcon from '@mui/icons-material/Call';
+import EmailIcon from '@mui/icons-material/Email';
+const Footer = () => {
     return (
-        <div>
-          <Grid item container spacing={2} justify="center">
-      <Grid
-        item
-   
-      >
-        {/* <HomeIcon
-          className={classes.snsIcon}
-         
-        /> */}
-      </Grid>
-      <Grid
-        item
-      
-       
-      >
-        <FacebookIcon
-           className={classes.snsIcon}
-        
-        />
-      </Grid>
-      <Grid
-        item
-      
-      >
-        <InstagramIcon
-         className={classes.snsIcon}
-        
-        />
-      </Grid>
-      <Grid
-        item
-       
-      >
-        <GitHubIcon
-         className={classes.snsIcon}
-        
-        />
-      </Grid>
-      {/* add social media*/}
-    </Grid>
-                <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by <span className={styles.logo}>H-Tech</span>
-        </a>
-        </div>
+<footer className={styles.footerDistributed}>
+
+<div className={styles.footerLeft}>
+
+  <h3>Bio <span>Diversity</span></h3>
+
+  <p className={styles.footerLinks}>
+    
+
+    <a href="#"  className={styles.link}>Blog</a>
+
+    <a href="#">About</a>
+
+    <a href="#">Contact</a>
+  </p>
+
+  <p className={styles.footerCompanyName}>Company Name © H.Tech</p>
+</div>
+
+<div className={styles.footerCenter}>
+
+  <div>
+    <i><RoomIcon></RoomIcon>
+</i>
+    <p><span>444 S. Cedros Ave</span> Solana Beach, California</p>
+  </div>
+
+  <div>
+    <i><CallIcon></CallIcon></i>
+    <p>+1.555.555.5555</p>
+  </div>
+
+  <div>
+   <i> <EmailIcon></EmailIcon></i>
+    <p><a href="mailto:support@company.com">support@company.com</a></p>
+  </div>
+
+</div>
+
+<div className={styles.footerRight}>
+
+  <p className={styles.footerCompanyAbout}>
+    <span>About the company</span>
+    Lorem ipsum dolor sit amet, consectateur adispicing elit. Fusce euismod convallis velit, eu auctor lacus vehicula sit amet.
+  </p>
+
+  <div className={styles.footerIcons}>
+
+    <a href="#"><i><FacebookIcon></FacebookIcon></i></a>
+    <a href="#"><i ><GitHubIcon></GitHubIcon></i></a>
+    <a href="#"><i ><InstagramIcon></InstagramIcon></i></a>
+    {/* <a href="#"><i ></i></a>
+    <a href="#"><i></i></a> */}
+
+  </div>
+
+</div>
+
+</footer>
     );
 };
 

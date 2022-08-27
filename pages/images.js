@@ -222,9 +222,9 @@ export default function Images() {
           </ImageList> */}
         </Box>
       </div>
-      <footer className={styles.footer}>
+      
         <Footer />
-      </footer>
+     
     </div>
   );
 }

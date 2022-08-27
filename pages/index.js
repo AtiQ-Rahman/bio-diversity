@@ -71,9 +71,9 @@ export default function Home() {
         </Box>
       </div>
 
-      <footer className={styles.footer}>
+     
         <Footer />
-      </footer>
+      
     </div>
   );
 }
