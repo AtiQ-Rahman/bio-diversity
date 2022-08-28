@@ -143,33 +143,35 @@ export default function Images() {
               <Divider></Divider>
               <Grid container xs={12} sx={{ mt: 5, mb: 0 }}>
                 {speciesList?.map((item) => {
-                  return (<Grid item xs={6} md={3} sx={{mb: 3}}>
-                    <Card
-                      sx={{
-                        maxWidth: 345,
-                        border: "1px solid #e9e9e9",
-                        boxShadow: "1px 1px 5px #efefef",
-                      }}
-                    >
-                      <Image
-                        component="img"
-                        height="400"
-                        src={imageSrc}
-                        alt="green iguana"
-                      />
-                      <CardContent>
-                        <Typography gutterBottom variant="h4" component="div">
-                          {item.title}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                         {item.description}
-                        </Typography>
-                      </CardContent>
-                      <CardActions>
-                        <Button size="small">See Details</Button>
-                      </CardActions>
-                    </Card>
-                  </Grid>)
+                  return (
+                    <Grid item xs={6} md={3} sx={{ mb: 3 }}>
+                      <Card
+                        sx={{
+                          maxWidth: 345,
+                          border: "1px solid #e9e9e9",
+                          boxShadow: "1px 1px 5px #efefef",
+                        }}
+                      >
+                        <Image
+                          component="img"
+                          height="400"
+                          src={imageSrc}
+                          alt="green iguana"
+                        />
+                        <CardContent>
+                          <Typography gutterBottom variant="h4" component="div">
+                            {item.title}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            {item.description}
+                          </Typography>
+                        </CardContent>
+                        <CardActions>
+                          <Button size="small">See Details</Button>
+                        </CardActions>
+                      </Card>
+                    </Grid>
+                  );
                 })}
               </Grid>
 

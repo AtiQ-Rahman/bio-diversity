@@ -63,20 +63,20 @@ const style = {
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white
+    color: theme.palette.common.white,
   },
   [`&.${tableCellClasses.body}`]: {
-    fontSize: 14
-  }
+    fontSize: 14,
+  },
 }));
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover
+    backgroundColor: theme.palette.action.hover,
   },
   // hide last border
   "&:last-child td, &:last-child th": {
-    border: 0
-  }
+    border: 0,
+  },
 }));
 const rows = [
   createData(
@@ -135,15 +135,15 @@ const Species = () => {
   const handleClose = () => setOpen(false);
   const router = useRouter();
   return (
-    <div className={styles.container}>
+    <div className={styles.body}>
       <Header index={1} />
 
-      <div className={styles.main} sx={{ height: '100%' }}>
-        <Box component="section" className={styles.main_box}  sx={{ mt: 10,}}  >
+      <div className={styles.main} sx={{ height: "100%" }}>
+        <Box component="section" className={styles.main_box} sx={{ mt: 10 }}>
           {/* Species Search */}
           <Grid container item xs={12} md={12} sx={{ mx: "auto" }}>
-            <Grid item xs={12} md={8}>
-              <Card sx={{marginBottom:"10px"}}>
+            <Grid item xs={12} md={9}>
+              <Card sx={{ marginBottom: "10px" }}>
                 <Typography gutterBottom component="h2" variant="h2">
                   Species Search
                 </Typography>
@@ -158,7 +158,7 @@ const Species = () => {
               </Card>
 
               <Divider></Divider>
-              <Grid item xs={11}      style={{ borderRadius: "5px", }}>
+              <Grid item xs={11} style={{ borderRadius: "5px" }}>
                 <Box
                   component="form"
                   sx={{
@@ -166,8 +166,6 @@ const Species = () => {
                   }}
                   noValidate
                   autoComplete="off"
-                  
-                  
                 >
                   <TextField label="Search By Name" color="secondary" />
                   <TextField label="Search By  Family" color="secondary" />
@@ -176,11 +174,14 @@ const Species = () => {
                   <Button
                     type="button"
                     // onClick={}
-                    style={{color: "white" , background:"purple" ,          maxWidth: "80px",
-                    maxHeight: "80px",
-                    minWidth: "40px",
-                    minHeight: "40px"
-           }}
+                    style={{
+                      color: "white",
+                      background: "purple",
+                      maxWidth: "80px",
+                      maxHeight: "80px",
+                      minWidth: "40px",
+                      minHeight: "40px",
+                    }}
                   >
                     Search
                   </Button>
@@ -191,45 +192,80 @@ const Species = () => {
               <Divider></Divider>
 
               <h1>Table</h1>
-              <br/>
-              <Grid item xs={12}  sx={{boxShadow: 4,p:4 ,mb:3}}    style={{ borderRadius: "10px", }} >
-                <TableContainer component={Paper}    >
-                  <Table sx={{ minWidth: 650 }} aria-label="customized table" >
+              <br />
+              <Grid
+                item
+                xs={12}
+                sx={{ b:1, p: 4, mb: 3 }}
+                style={{ borderRadius: "10px" }}
+              >
+                <TableContainer component={Paper}>
+                  <Table sx={{ minWidth: 650 }} aria-label="customized table">
                     <TableHead>
                       <TableRow>
                         <StyledTableCell>SI</StyledTableCell>
-                        <StyledTableCell align="center">Species</StyledTableCell>
+                        <StyledTableCell align="center">
+                          Species
+                        </StyledTableCell>
                         <StyledTableCell align="center">Family</StyledTableCell>
-                        <StyledTableCell align="center">Locality</StyledTableCell>
-                        <StyledTableCell align="center">Habitat</StyledTableCell>
-                        <StyledTableCell align="center">Size &nbsp;(cm)</StyledTableCell>
+                        <StyledTableCell align="center">
+                          Locality
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          Habitat
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          Size &nbsp;(cm)
+                        </StyledTableCell>
                         <StyledTableCell align="center">GIS</StyledTableCell>
-                        <StyledTableCell align="center">Additional button</StyledTableCell>
+                        <StyledTableCell align="center">
+                          Additional button
+                        </StyledTableCell>
                       </TableRow>
                     </TableHead>
-                    <TableBody   >
+                    <TableBody>
                       {rows.map((row) => (
                         <StyledTableRow
                           key={row.name}
                           sx={{
                             "&:last-child td, &:last-child th": { border: 0 },
                           }}
-                        
                         >
                           <StyledTableCell component="th" scope="row">
                             {row.number}
                           </StyledTableCell>
-                          <StyledTableCell align="center">{row.Species}</StyledTableCell>
-                          <StyledTableCell align="center">{row.Family}</StyledTableCell>
-                          <StyledTableCell align="center">{row.Locality}</StyledTableCell>
-                          <StyledTableCell align="center">{row.Habitat}</StyledTableCell>
-                          <StyledTableCell align="center">{row.Size}</StyledTableCell>
-                          <StyledTableCell align="center">{row.GIS}</StyledTableCell>
                           <StyledTableCell align="center">
-                            <Button style={{    maxWidth: "80px",
-                             maxHeight: "80px",
-                             minWidth: "40px",
-                             minHeight: "40px"}} onClick={handleOpen} sx={{ mb: 1, mr:0.5 }} variant="outlined"  >
+                            {row.Species}
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                            {row.Family}
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                            {row.Locality}
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                            {row.Habitat}
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                            {row.Size}
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                            {row.GIS}
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                            <Button
+                              style={{
+                                maxWidth: "80px",
+                                maxHeight: "80px",
+                                minWidth: "40px",
+                                minHeight: "40px",
+                                background:'purple',
+                                color:'white'
+                              }}
+                              onClick={handleOpen}
+                              sx={{ mb: 1, mr: 0.5 }}
+                              // variant="outlined"
+                            >
                               Details
                             </Button>
 
@@ -242,22 +278,32 @@ const Species = () => {
                               aria-describedby="modal-modal-description"
                             >
                               <Box sx={style} className="modal-size">
-                            
-                              <Grid sx={{ maxWidth: 345 }}    >    <Image src={imageSrc} 
+                                <Grid sx={{ maxWidth: 345 }}>
+                                  {" "}
+                                  <Image
+                                    src={imageSrc}
                                     // width={500}
                                     // height={300}
-                                  
-                                  ></Image></Grid>
-                              
+                                  ></Image>
+                                </Grid>
+
                                 <CardContent>
-        <Typography gutterBottom variant = "h5" component = "div">
-          Lizard
-        </Typography>
-        <Typography variant   = "body2" color  = "text.secondary">
-          Lizards are a widespread group of squamate reptiles, with over 6,000
-          species, ranging across all continents except Antarctica
-        </Typography>
-      </CardContent>
+                                  <Typography
+                                    gutterBottom
+                                    variant="h5"
+                                    component="div"
+                                  >
+                                    Lizard
+                                  </Typography>
+                                  <Typography
+                                    variant="body2"
+                                    color="text.secondary"
+                                  >
+                                    Lizards are a widespread group of squamate
+                                    reptiles, with over 6,000 species, ranging
+                                    across all continents except Antarctica
+                                  </Typography>
+                                </CardContent>
                                 {/* <CardActions>
                                 <Button size="small">Share</Button>
                                 <Button size="small">Learn More</Button>
@@ -266,11 +312,12 @@ const Species = () => {
                             </Modal>
                             <br />
                             <Button
-                             style={{ maxWidth: "80px",
-                             maxHeight: "80px",
-                             minWidth: "40px",
-                             minHeight: "40px"
-                    }}
+                              style={{
+                                maxWidth: "80px",
+                                maxHeight: "80px",
+                                minWidth: "40px",
+                                minHeight: "40px",
+                              }}
                               type="button"
                               onClick={() => router.push("/map")}
                               variant="outlined"
@@ -293,16 +340,15 @@ const Species = () => {
         onRowsPerPageChange={handleChangeRowsPerPage}
       /> */}
               </Grid>
-              <Counters  ></Counters>
+              <Counters></Counters>
             </Grid>
             <Grid
               item
               xs={12}
               md={3}
               className={styles.side_bar}
-              m={2}
-              sx={{boxShadow: 4,p:4}} 
               
+              sx={{ boxShadow: 4, p: 4 }}
             >
               <Typography gutterBottom variant="h2" component="div">
                 Latest Additions
@@ -314,7 +360,7 @@ const Species = () => {
       </div>
 
       <footer className={styles.footer}>
-     <Footer/>
+        <Footer />
       </footer>
     </div>
   );
