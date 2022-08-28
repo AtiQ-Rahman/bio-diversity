@@ -121,14 +121,14 @@ const SearchSection = () => {
 
     return (
         <>
-            <Box sx={{ display: { xs: 'block', md: 'none' } }}>
-                <PopupState variant="popper" popupId="demo-popup-popper">
+            <Box sx={{ display: { xs: 'block', md: 'none' }, height:8  }}>
+                <PopupState variant="popper" popupId="demo-popup-popper" sx={{height:8}}>
                     {(popupState) => (
                         <>
                             <Box sx={{ ml: 2 }}>
                                 <ButtonBase sx={{ borderRadius: '12px' }}>
-                                    <HeaderAvatarStyle variant="rounded" {...bindToggle(popupState)}>
-                                        <IconSearch stroke={1.5} size="1.2rem" />
+                                    <HeaderAvatarStyle variant="rounded" {...bindToggle(popupState)} sx={{ height:30 , top:-10 }}>
+                                        <IconSearch stroke={1.5} size="1rem" />
                                     </HeaderAvatarStyle>
                                 </ButtonBase>
                             </Box>
@@ -161,26 +161,27 @@ const SearchSection = () => {
                     )}
                 </PopupState>
             </Box>
-            <Box sx={{ display: { xs: 'none', md: 'block' } }}>
+            <Box sx={{ display: { xs: 'none', md: 'block' }  }} height={10}>
                 <OutlineInputStyle
                     id="input-search-header"
                     value={value}
                     onChange={(e) => setValue(e.target.value)}
                     placeholder="Search"
+                    sx={{height:30 , top:-10 , width:200 , mr:5}}
                     startAdornment={
                         <InputAdornment position="start">
                             <IconSearch stroke={1.5} size="1rem" color={theme.palette.grey[500]} />
                         </InputAdornment>
                     }
-                    endAdornment={
-                        <InputAdornment position="end">
-                            <ButtonBase sx={{ borderRadius: '12px' }}>
-                                <HeaderAvatarStyle variant="rounded">
-                                    <IconAdjustmentsHorizontal stroke={1.5} size="1.3rem" />
-                                </HeaderAvatarStyle>
-                            </ButtonBase>
-                        </InputAdornment>
-                    }
+                    // endAdornment={
+                    //     <InputAdornment position="end">
+                    //         <ButtonBase sx={{ borderRadius: '12px' , height:5  }}>
+                    //             <HeaderAvatarStyle variant="rounded">
+                    //                 <IconAdjustmentsHorizontal stroke={1.5} size="1.3rem" />
+                    //             </HeaderAvatarStyle>
+                    //         </ButtonBase>
+                    //     </InputAdornment>
+                    // }
                     aria-describedby="search-helper-text"
                     inputProps={{ 'aria-label': 'weight' }}
                 />

@@ -154,16 +154,16 @@ export default function Images() {
                       >
                         <Image
                           component="img"
-                          height="400"
+                          height="700"
                           src={imageSrc}
                           alt="green iguana"
                         />
-                        <CardContent>
+                        <CardContent  sx={{height:100}}>
                           <Typography gutterBottom variant="h4" component="div">
                             {item.title}
                           </Typography>
                           <Typography variant="body2" color="text.secondary">
-                            {item.description}
+                            {item.description.slice(0,50)}......
                           </Typography>
                         </CardContent>
                         <CardActions>

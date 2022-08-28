@@ -69,6 +69,8 @@ export default function PrimarySearchAppBar(props) {
   ];
   pages[props.index].background = "#5e35b1"
   pages[props.index].color = "white"
+  pages[props.index].border = "10px solid rgb(94, 53, 177)"
+
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -135,8 +137,8 @@ export default function PrimarySearchAppBar(props) {
   );
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar enableColorOnDark position="fixed" color="inherit" style={{boxShadow:"5px" , borderBottom:"1px solid #e5e5e5"}}>
+    <Box sx={{ flexGrow: 1 , height:10}}>
+      <AppBar enableColorOnDark position="fixed" color="" style={{ borderBottom:"1px solid #e5e5e5" ,boxShadow:"none", height:50} }>
         <Toolbar>
           <Typography
             variant="h3"
@@ -146,12 +148,14 @@ export default function PrimarySearchAppBar(props) {
           >
             Bio diversity
           </Typography>
-          <SearchSection />
           <Box sx={{ flexGrow: 1 }} />
+          <SearchSection />
+
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
+            
             {pages.map((page, index) => (
               <Link href={page.path}>
-                <MenuItem key={page} style={{background:page.background , color: page.color}} onClick={handleCloseNavMenu}>
+                <MenuItem key={page} style={{background:page.background , color: page.color ,border: page.border}} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">{page.name}</Typography>
                 </MenuItem>
               </Link>
