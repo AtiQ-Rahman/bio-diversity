@@ -4,7 +4,7 @@
 
 .main {
   /* min-height: 100vh; */
-  padding: 4rem 0;
+  /* padding: 4rem 0; */
   flex: 1;
   background: #f6f6ff;
   /* display: flex; */
@@ -21,6 +21,16 @@
   margin: 0 auto;
   margin-top: 2%;
   height: 100%;
+}
+.custom_input{
+  height: 10px;
+}
+.card_button{
+  display: flex;
+    /* align-items: center; */
+    justify-content: center;
+    border-radius: 15px 0px 15px 0px;
+    background: #5e35b1;
 }
 .side_bar{
   padding-left: 20px;

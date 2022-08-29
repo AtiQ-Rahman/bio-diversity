@@ -37,8 +37,10 @@ import { Link, Router } from "react-router-dom";
 import Image from "next/image";
 import Footer from "./components/Home/Footer/Footer";
 import Counters from "./components/Home/counters";
+
 function createData(
   number,
+  imageSrc,
   Species,
   Family,
   Locality,
@@ -47,7 +49,7 @@ function createData(
   GIS,
   Additional
 ) {
-  return { number, Species, Family, Locality, Habitat, Size, GIS, Additional };
+  return { number,imageSrc, Species, Family, Locality, Habitat, Size, GIS, Additional };
 }
 const style = {
   position: "absolute",
@@ -81,6 +83,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 const rows = [
   createData(
     1,
+    imageSrc,
     "Bryopsis indica Gepp & Gepp",
     "Bryopsidaceae",
     "St Martin’s Island (SMI)",
@@ -90,6 +93,7 @@ const rows = [
   ),
   createData(
     2,
+    imageSrc,
     "Bryopsis indica Gepp & Gepp",
     "Bryopsidaceae",
     "St Martin’s Island (SMI)",
@@ -100,6 +104,7 @@ const rows = [
 
   createData(
     3,
+    imageSrc,
     "Bryopsis indica Gepp & Gepp",
     "Bryopsidaceae",
     "St Martin’s Island (SMI)",
@@ -110,6 +115,7 @@ const rows = [
 
   createData(
     4,
+    imageSrc,
     "Bryopsis indica Gepp & Gepp",
     "Bryopsidaceae",
     "St Martin’s Island (SMI)",
@@ -120,6 +126,7 @@ const rows = [
 
   createData(
     5,
+    imageSrc,
     "Bryopsis indica Gepp & Gepp",
     "Bryopsidaceae",
     "St Martin’s Island (SMI)",
@@ -142,7 +149,7 @@ const Species = () => {
         <Box component="section" className={styles.main_box} sx={{ mt: 10 }}>
           {/* Species Search */}
           <Grid container item xs={12} md={12} sx={{ mx: "auto" }}>
-            <Grid item xs={12} md={9}>
+            <Grid item xs={12} md={12}>
               <Card sx={{ marginBottom: "10px" }}>
                 <Typography gutterBottom component="h2" variant="h2">
                   Species Search
@@ -167,7 +174,7 @@ const Species = () => {
                   noValidate
                   autoComplete="off"
                 >
-                  <TextField label="Search By Name" color="secondary" />
+                  <TextField label="Search By Name" color="secondary" className={styles.custom_input}/>
                   <TextField label="Search By  Family" color="secondary" />
                   <TextField label="Select Country" color="secondary" />
                   <TextField label="Select Area" color="secondary" />
@@ -176,7 +183,7 @@ const Species = () => {
                     // onClick={}
                     style={{
                       color: "white",
-                      background: "purple",
+                      background: "#5e35b1",
                       maxWidth: "80px",
                       maxHeight: "80px",
                       minWidth: "40px",
@@ -191,19 +198,21 @@ const Species = () => {
               {/* TABLE */}
               <Divider></Divider>
 
-              <h1>Table</h1>
+              <h1>Total Species Found (5)</h1>
               <br />
               <Grid
                 item
                 xs={12}
-                sx={{ b:1, p: 4, mb: 3 }}
+                sx={{ b: 1, mb: 3 }}
                 style={{ borderRadius: "10px" }}
               >
                 <TableContainer component={Paper}>
                   <Table sx={{ minWidth: 650 }} aria-label="customized table">
-                    <TableHead>
+                    {/* <TableHead>
                       <TableRow>
                         <StyledTableCell>SI</StyledTableCell>
+                        <StyledTableCell>Image</StyledTableCell>
+
                         <StyledTableCell align="center">
                           Species
                         </StyledTableCell>
@@ -222,7 +231,7 @@ const Species = () => {
                           Additional button
                         </StyledTableCell>
                       </TableRow>
-                    </TableHead>
+                    </TableHead> */}
                     <TableBody>
                       {rows.map((row) => (
                         <StyledTableRow
@@ -234,8 +243,11 @@ const Species = () => {
                           <StyledTableCell component="th" scope="row">
                             {row.number}
                           </StyledTableCell>
+                          <StyledTableCell component="th">
+                            <Image src = {row.imageSrc} height={100} width={150} sx={{borderRadius : 10}}></Image>
+                          </StyledTableCell>
                           <StyledTableCell align="center">
-                            {row.Species}
+                            <Typography component="h3" variant="h3">{row.Species}</Typography>
                           </StyledTableCell>
                           <StyledTableCell align="center">
                             {row.Family}
@@ -253,77 +265,44 @@ const Species = () => {
                             {row.GIS}
                           </StyledTableCell>
                           <StyledTableCell align="center">
+                            <Box sx={{flexGrow : 1 , flexDirection:'row'}}>
                             <Button
                               style={{
-                                maxWidth: "80px",
+                                width: "80px",
                                 maxHeight: "80px",
                                 minWidth: "40px",
                                 minHeight: "40px",
-                                background:'purple',
-                                color:'white'
+                                background: '#5e35b1',
+                                color: 'white',
+                                boxShadow:'1px 1px 4px grey'
                               }}
                               onClick={handleOpen}
                               sx={{ mb: 1, mr: 0.5 }}
-                              // variant="outlined"
+                            // variant="outlined"
                             >
                               Details
                             </Button>
 
                             {/* =======MODAL===== */}
 
-                            <Modal
-                              open={open}
-                              onClose={handleClose}
-                              aria-labelledby="modal-modal-title"
-                              aria-describedby="modal-modal-description"
-                            >
-                              <Box sx={style} className="modal-size">
-                                <Grid sx={{ maxWidth: 345 }}>
-                                  {" "}
-                                  <Image
-                                    src={imageSrc}
-                                    // width={500}
-                                    // height={300}
-                                  ></Image>
-                                </Grid>
-
-                                <CardContent>
-                                  <Typography
-                                    gutterBottom
-                                    variant="h5"
-                                    component="div"
-                                  >
-                                    Lizard
-                                  </Typography>
-                                  <Typography
-                                    variant="body2"
-                                    color="text.secondary"
-                                  >
-                                    Lizards are a widespread group of squamate
-                                    reptiles, with over 6,000 species, ranging
-                                    across all continents except Antarctica
-                                  </Typography>
-                                </CardContent>
-                                {/* <CardActions>
-                                <Button size="small">Share</Button>
-                                <Button size="small">Learn More</Button>
-                               </CardActions> */}
-                              </Box>
-                            </Modal>
                             <br />
                             <Button
                               style={{
-                                maxWidth: "80px",
+                                boxShadow:'1px 1px 4px grey',
                                 maxHeight: "80px",
-                                minWidth: "40px",
+                                width: "80px",
+                                background: 'white',
                                 minHeight: "40px",
+                                color:'#5e35b1'
                               }}
                               type="button"
                               onClick={() => router.push("/map")}
-                              variant="outlined"
+
                             >
                               View&nbsp;map
                             </Button>
+                            </Box>
+
                           </StyledTableCell>
                         </StyledTableRow>
                       ))}
@@ -340,28 +319,55 @@ const Species = () => {
         onRowsPerPageChange={handleChangeRowsPerPage}
       /> */}
               </Grid>
-              <Counters></Counters>
+
             </Grid>
-            <Grid
-              item
-              xs={12}
-              md={3}
-              className={styles.side_bar}
-              
-              sx={{ boxShadow: 4, p: 4 }}
-            >
-              <Typography gutterBottom variant="h2" component="div">
-                Latest Additions
-              </Typography>
-              <CollapseCard />
-            </Grid>
+
           </Grid>
         </Box>
       </div>
 
-      <footer className={styles.footer}>
-        <Footer />
-      </footer>
+
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style} className="modal-size">
+          <Grid sx={{ maxWidth: 345 }}>
+            {" "}
+            <Image
+              src={imageSrc}
+            // width={500}
+            // height={300}
+            ></Image>
+          </Grid>
+
+          <CardContent>
+            <Typography
+              gutterBottom
+              variant="h5"
+              component="div"
+            >
+              Lizard
+            </Typography>
+            <Typography
+              variant="body2"
+              color="text.secondary"
+            >
+              Lizards are a widespread group of squamate
+              reptiles, with over 6,000 species, ranging
+              across all continents except Antarctica
+            </Typography>
+          </CardContent>
+          {/* <CardActions>
+                                <Button size="small">Share</Button>
+                                <Button size="small">Learn More</Button>
+                               </CardActions> */}
+        </Box>
+      </Modal>
+      <Footer />
+
     </div>
   );
 };
