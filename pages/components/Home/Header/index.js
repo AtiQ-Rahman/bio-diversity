@@ -43,33 +43,37 @@ export default function PrimarySearchAppBar(props) {
       name: "Home",
       path: "/",
       background:'white',
-      color:'black'
+      color:'black',
+      border:"none"
     },
     {
       name: "Species",
       path: "/species",
       color:'black',
-      background:'white'
+      background:'white',
+      border:"none"
 
     },
     {
       name: "Images",
       path: "/images",
       color:'black',
-      background:'white'
+      background:'white',
+      border:"none"
 
     },
     {
       name: "Contact",
       path: "/contact",
       color:'black',
-      background:'white'
+      background:'white',
+      border:"none"
 
     },
   ];
   pages[props.index].background = "#5e35b1"
   pages[props.index].color = "white"
-  pages[props.index].border = "10px solid rgb(94, 53, 177)"
+  pages[props.index].border = "9px solid rgb(94, 53, 177)"
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);

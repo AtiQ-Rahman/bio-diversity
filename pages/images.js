@@ -98,7 +98,7 @@ export default function Images() {
     <div className={styles.main}>
       <Header index={2}></Header>
       <div className={styles.main_box}>
-        <Box component="section" sx={{ mt: 10 }}>
+        <Box component="section">
           <Grid container item xs={12} md={12} sx={{ mx: "auto" }}>
             <Grid item xs={12} md={12}>
               <Typography gutterBottom component="h2" variant="h2">
