@@ -19,7 +19,7 @@ const Footer = () => {
   <p className={styles.footerLinks}>
     
 
-    <a href="#"  className={styles.link}>Blog</a>
+    <a href="#"  className={styles.link}>Blog </a>
 
     <a href="#">About</a>
 
