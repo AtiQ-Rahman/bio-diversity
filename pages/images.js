@@ -95,10 +95,10 @@ export default function Images() {
   const handleClose = () => setOpen(false);
   const router = useRouter();
   return (
-    <div className={styles.container}>
+    <div className={styles.main}>
       <Header index={2}></Header>
       <div className={styles.main_box}>
-        <Box component="section" sx={{ mt: 10 }}>
+        <Box component="section">
           <Grid container item xs={12} md={12} sx={{ mx: "auto" }}>
             <Grid item xs={12} md={12}>
               <Typography gutterBottom component="h2" variant="h2">
@@ -129,7 +129,7 @@ export default function Images() {
                     // onClick={}
                     style={{
                       color: "white",
-                      background: "purple",
+                      background: "#5e35b1",
                       maxWidth: "80px",
                       maxHeight: "80px",
                       minWidth: "40px",
@@ -141,7 +141,7 @@ export default function Images() {
                 </Box>
               </Grid>
               <Divider></Divider>
-              <Grid container xs={12} sx={{ mt: 5, mb: 0 }}>
+              <Grid container xs={12} md={12} sx={{ mt: 5, mb: 0 }}>
                 {speciesList?.map((item) => {
                   return (
                     <Grid item xs={6} md={3} sx={{ mb: 3 }}>
@@ -150,6 +150,7 @@ export default function Images() {
                           maxWidth: 345,
                           border: "1px solid #e9e9e9",
                           boxShadow: "1px 1px 5px #efefef",
+                          borderRadius:3
                         }}
                       >
                         <Image
@@ -166,9 +167,14 @@ export default function Images() {
                             {item.description.slice(0,50)}......
                           </Typography>
                         </CardContent>
-                        <CardActions>
-                          <Button size="small">See Details</Button>
-                        </CardActions>
+                        <Grid container xs={12}>
+                          <Grid xs={4}></Grid>
+                          <Grid xs={4}></Grid>
+                          <Grid xs={4} className={styles.card_button}>
+                          <Button size="small" sx={{color:"white"}}>See Details</Button>
+
+                          </Grid>
+                        </Grid>
                       </Card>
                     </Grid>
                   );

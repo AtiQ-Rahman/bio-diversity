@@ -16,7 +16,7 @@
 } */
 
 .footerDistributed{
-	background: #666;
+	background: rgb(21, 21, 21);
 	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
 	box-sizing: border-box;
 	width: 100%;
@@ -47,7 +47,7 @@
 }
 
 .footerDistributed h3 span{
-	color:  lightseagreen;
+	color:  #5e35b1;
 }
 
 /* Footer links */
@@ -113,7 +113,7 @@
 }
 
 .footerDistributed .footerCenter p a{
-	color:  lightseagreen;
+	color:  #5e35b1;
 	text-decoration: none;;
 }
 
