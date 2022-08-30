@@ -2,6 +2,8 @@ import React from "react";
 import styles from "../styles/Home.module.css";
 import { styled } from "@mui/material/styles";
 import { useRouter } from "next/router";
+import CloseIcon from '@mui/icons-material/Close';
+import PropTypes from 'prop-types';
 const imageSrc = require("../pages/assets/images/species1.jpg");
 
 import {
@@ -28,6 +30,11 @@ import {
   CardContent,
   tableCellClasses,
   TablePagination,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  Dialog,
 } from "@mui/material";
 import Header from "./components/Home/Header";
 import CollapseCard from "./components/Home/collapseCard";
@@ -37,6 +44,43 @@ import { Link, Router } from "react-router-dom";
 import Image from "next/image";
 import Footer from "./components/Home/Footer/Footer";
 import Counters from "./components/Home/counters";
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+  '& .MuiDialogContent-root': {
+    padding: theme.spacing(2),
+  },
+  '& .MuiDialogActions-root': {
+    padding: theme.spacing(1),
+  },
+}));
+
+const BootstrapDialogTitle = (props) => {
+  const { children, onClose, ...other } = props;
+
+  return (
+    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
+      {children}
+      {onClose ? (
+        <IconButton
+          aria-label="close"
+          onClick={onClose}
+          sx={{
+            position: 'absolute',
+            right: 8,
+            top: 8,
+            color: (theme) => theme.palette.grey[500],
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+      ) : null}
+    </DialogTitle>
+  );
+};
+
+BootstrapDialogTitle.propTypes = {
+  children: PropTypes.node,
+  onClose: PropTypes.func.isRequired,
+};
 
 function createData(
   number,
@@ -136,11 +180,20 @@ const rows = [
   ),
 ];
 const Species = () => {
+  
+
+
   // const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  // const handleOpen = () => setOpen(true);
+  // const handleClose = () => setOpen(false);
   const router = useRouter();
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
   return (
     <div className={styles.body}>
       <Header index={1} />
@@ -276,7 +329,7 @@ const Species = () => {
                                 color: 'white',
                                 boxShadow:'1px 1px 4px grey'
                               }}
-                              onClick={handleOpen}
+                              onClick={handleClickOpen}
                               sx={{ mb: 1, mr: 0.5 }}
                             // variant="outlined"
                             >
@@ -327,45 +380,44 @@ const Species = () => {
       </div>
 
 
-      <Modal
-        open={open}
+      <BootstrapDialog
         onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
+        aria-labelledby="customized-dialog-title"
+        open={open}
+        
       >
-        <Box sx={style} className="modal-size">
-          <Grid sx={{ maxWidth: 345 }}>
-            {" "}
-            <Image
+        <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose} style={{ fontWeight: 600, fontSize: 20,  fontFamily: 'Raleway', color:'#5e35b1' }}>
+          Details
+        </BootstrapDialogTitle>
+        <DialogContent dividers>
+        <Image
               src={imageSrc}
             // width={500}
-            // height={300}
+            height={500}
             ></Image>
-          </Grid>
-
-          <CardContent>
-            <Typography
-              gutterBottom
-              variant="h5"
-              component="div"
-            >
-              Lizard
-            </Typography>
-            <Typography
-              variant="body2"
-              color="text.secondary"
-            >
-              Lizards are a widespread group of squamate
-              reptiles, with over 6,000 species, ranging
-              across all continents except Antarctica
-            </Typography>
-          </CardContent>
-          {/* <CardActions>
-                                <Button size="small">Share</Button>
-                                <Button size="small">Learn More</Button>
-                               </CardActions> */}
-        </Box>
-      </Modal>
+          <Typography gutterBottom style={{ fontWeight: 600, fontSize: 30,  fontFamily: 'Raleway',paddingBottom:20,paddingTop:20, color:'#5e35b1' }}>
+            Praesent commodo cursus magna
+          </Typography>
+          <Typography gutterBottom  style={{ fontWeight: 600,  fontFamily: 'Roboto', }}>
+            Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
+            Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
+          </Typography>
+          <Typography gutterBottom style={{ fontWeight: 300,  fontFamily: 'Roboto', }}>
+            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus
+            magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec
+            ullamcorper nulla non metus auctor fringilla. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
+            Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
+            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus
+            magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec
+            ullamcorper nulla non metus auctor fringilla. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
+            Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+        <Button size="small">Share</Button>
+        <Button size="small">Learn More</Button>
+        </DialogActions>
+        </BootstrapDialog>
       <Footer />
 
     </div>

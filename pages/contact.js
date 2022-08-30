@@ -12,8 +12,8 @@ const contact = () => {
     <div className={styles.container}> 
        <Header index={3} />
 
-   <div className={styles.main} sx={{ height: '100%' }}>
-   <Grid component="section" className={styles.main_box}  sx={{ mt: 10,}}> <Typography gutterBottom variant="h3" align="center">
+   <div  >
+   <Grid  sx={{ m: 11,}}> <Typography gutterBottom variant="h3" align="center">
       Contact Us
      </Typography>
     <Grid>
@@ -49,11 +49,12 @@ const contact = () => {
         </CardContent>
       </Card>
     </Grid></Grid>
+   
   
    </div>
-   <footer className={styles.footer}>
-     <Footer/>
-      </footer>
+  
+    <Footer/>
+     
   </div>
   );
 };

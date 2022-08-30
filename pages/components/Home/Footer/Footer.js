@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import React from 'react';
 import styles from "../../../../styles/Footer.module.css";
+import { useRouter } from "next/router";
 
 import FacebookIcon from '@mui/icons-material/Facebook';
 import GitHubIcon from '@mui/icons-material/GitHub';
@@ -9,6 +10,7 @@ import RoomIcon from '@mui/icons-material/Room';
 import CallIcon from '@mui/icons-material/Call';
 import EmailIcon from '@mui/icons-material/Email';
 const Footer = () => {
+  const router = useRouter()
   return (
     <footer className={styles.footerDistributed}>
 
@@ -18,12 +20,12 @@ const Footer = () => {
 
         <p className={styles.footerLinks}>
 
-<<<<<<< HEAD
-    <a href="#"  className={styles.link}>Blog </a>
-=======
->>>>>>> 79b0eda45ab54ec1cf4ebcbc962a32f59b1212b6
 
-          <a href="#" className={styles.link}>Blog</a>
+    {/* <a href="#"  className={styles.link}>Blog </a> */}
+   
+
+          <a  href="#" className={styles.link} type="button"
+                              onClick={() => router.push("/form")}> Form </a>
 
           <a href="#">About</a>
 

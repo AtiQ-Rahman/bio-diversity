@@ -23,7 +23,7 @@ const map = require("../pages/assets/images/map.png");
 const Map = () => {
   return (
     <div className={styles.body}>
-      <Header index={2} />
+      <Header index={1} />
       <div className={styles.main}>
       <Box
         className={styles.main_box}
