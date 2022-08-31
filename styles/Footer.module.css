@@ -47,7 +47,7 @@
 }
 
 .footerDistributed h3 span{
-	color:  #5e35b1;
+	color:  var(--app-primary-color);
 }
 
 /* Footer links */
@@ -113,7 +113,7 @@
 }
 
 .footerDistributed .footerCenter p a{
-	color:  #5e35b1;
+	color:  var(--app-primary-color);
 	text-decoration: none;;
 }
 

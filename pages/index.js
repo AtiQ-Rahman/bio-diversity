@@ -30,16 +30,15 @@ export default function Home() {
       </Head> */}
       <Header index={0} />
       <div className={styles.main}>
-        <Box component="section" className={styles.main_box} sx={{ mt: 5 }}>
+        <Box component="section" className={styles.main_page} sx={{ mt: 5 }}>
           <Grid container item xs={12} md={12} sx={{ mx: "auto" }}>
             <Grid
               item
               xs={12}
               md={9}
               style={{ borderRadius: "20px", paddingRight: "10px" }}
-             
+
             >
-              <CuroselCard />
               <Box component="div" sx={{ mt: 5, mb: 5 }}>
                 <Typography gutterBottom variant="h1" component="div">
                   What is BIO Diversity
@@ -49,6 +48,8 @@ export default function Home() {
                   and distributional information.
                 </Typography>
               </Box>
+              <CuroselCard />
+
               <Counters />
 
               {/* <h1 className={styles.title}>Getting started BIO-DIVERSITY!</h1> */}
@@ -71,9 +72,9 @@ export default function Home() {
         </Box>
       </div>
 
-     
-        <Footer />
-      
+
+      <Footer />
+
     </div>
   );
 }

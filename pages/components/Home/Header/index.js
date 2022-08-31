@@ -12,6 +12,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import SearchSection from "./SearchSection";
+import styles from "../../../../styles/Home.module.css";
 
 import Link from "next/link";
 
@@ -71,7 +72,7 @@ export default function PrimarySearchAppBar(props) {
 
     },
   ];
-  pages[props.index].background = "#5e35b1"
+  pages[props.index].background = styles.bg_primary
   pages[props.index].color = "white"
   pages[props.index].border = "9px solid rgb(94, 53, 177)"
 
@@ -159,7 +160,7 @@ export default function PrimarySearchAppBar(props) {
             
             {pages.map((page, index) => (
               <Link href={page.path}>
-                <MenuItem key={page} style={{background:page.background , color: page.color ,border: page.border}} onClick={handleCloseNavMenu}>
+                <MenuItem key={page} style={{ color: page.color ,border: page.border}} className={page.background} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">{page.name}</Typography>
                 </MenuItem>
               </Link>

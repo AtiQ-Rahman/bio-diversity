@@ -234,9 +234,9 @@ const Species = () => {
                   <Button
                     type="button"
                     // onClick={}
+                    className={styles.bg_primary}
                     style={{
                       color: "white",
-                      background: "#5e35b1",
                       maxWidth: "80px",
                       maxHeight: "80px",
                       minWidth: "40px",
@@ -320,12 +320,12 @@ const Species = () => {
                           <StyledTableCell align="center">
                             <Box sx={{flexGrow : 1 , flexDirection:'row'}}>
                             <Button
+                              className={styles.bg_primary}
                               style={{
                                 width: "80px",
                                 maxHeight: "80px",
                                 minWidth: "40px",
                                 minHeight: "40px",
-                                background: '#5e35b1',
                                 color: 'white',
                                 boxShadow:'1px 1px 4px grey'
                               }}

@@ -6,6 +6,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import Image from "next/image";
 import Carousel from "react-material-ui-carousel";
+import styles from "../../../styles/Home.module.css";
 import { Paper, Button, Box, Grid } from "@mui/material";
 const imageSrc = require("../../assets/images/species1.jpg");
 
@@ -28,38 +29,40 @@ export default function MediaCard() {
   const [description, setDescription] = React.useState(items[0].description);
   function Item(props) {
     return (
-      <Card sx={{ display: 'flex' }}
-      style={{
-        justifyContent: "center",
-        border: "1px  solid #d9d7d7",
-        // boxShadow:"1px 1px 1px 1px",
-        borderRadius: "20px",
-      }}>
-      <Box sx={{ display: 'flex', flexDirection: 'column' , borderLeft:"10px solid #5e35b1" }}>
-        <CardContent sx={{ flex: '1 0 auto' }}>
-          <Typography component="div" variant="h3" sx={{mt : 10}}>
-            {title}
-          </Typography>
-          <Typography gutterBottom variant="subtitle1" color="text.secondary" component="div">
-            {description}
-          </Typography>
-          <Button sx={{color:'white' ,  background:"#5e35b1"}}> Go to Details</Button>
-        </CardContent>
+      <Box
+        style={{
+          justifyContent: "center",
+          // border: "1px  solid #d9d7d7",
+          // boxShadow:"1px 1px 1px 1px",
+          // borderRadius: "20px",
+        }}>
+        <Grid container xs={12} md={12}>
+          <Grid item xs={12} md={12}>
+            <Image
+              component="img"
+              sx={{ width: 151 }}
+              src={imageSrc}
+              alt="Live from space album cover"
+            />
+          </Grid>
+          <Grid item xs={12} md={12}>
+
+          </Grid>
+        </Grid>
+
+
       </Box>
-      <Image
-        component="img"
-        sx={{ width: 151 }}
-        src={imageSrc}
-        alt="Live from space album cover"
-      />
-    </Card>
     );
   }
 
   return (
+    <Box
+      width={800}
+    >
       <Carousel
+        height={500}
         autoPlay={false}
-        indicators ={false}
+        indicators={false}
         next={(e) => {
           setTitle(items[e].title);
           setDescription(items[e].description);
@@ -74,6 +77,18 @@ export default function MediaCard() {
           <Item key={i} item={item} />
         ))}
       </Carousel>
+      <Box>
+        <CardContent sx={{}}>
+          <Typography component="div" variant="h3" sx={{ color: '#5e35b1', fontFamily: 'Old Standard TT', fontStyle: 'italic' }} >
+            {title}
+          </Typography>
+          <Typography gutterBottom variant="subtitle1" color="text.secondary" component="div">
+            {description}
+          </Typography>
+          <Button className={styles.bg_primary} sx={{ color: 'white' }}> Go to Details</Button>
+        </CardContent>
+      </Box>
+    </Box>
 
   );
 }

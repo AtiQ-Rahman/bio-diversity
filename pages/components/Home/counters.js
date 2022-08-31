@@ -17,6 +17,8 @@ Coded by www.creative-tim.com
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Divider from "@mui/material/Divider";
+import styles from "../../../styles/Home.module.css";
+
 import {
     AppBar,
     Box,
@@ -30,7 +32,7 @@ import DefaultCounterCard from "./DefaultCounterCard";
 
 function Counters() {
   return (
-    <Box component="section" py={3} sx ={{    background: "#5e35b1",
+    <Box component="section" py={3} className={styles.bg_primary} sx ={{ 
       color: "white",
       borderRadius: "0px 20px"}}>
       

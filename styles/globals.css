@@ -1,3 +1,9 @@
+
+:root {
+  --app-primary-color: #5e35b1;
+  --app-secondary-color: #fff;
+  --app-border: #e7e7e7;
+}
 html,
 body {
   padding: 0;
