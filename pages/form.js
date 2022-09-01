@@ -28,9 +28,10 @@ const form = () => {
         margin: 'auto',
         maxWidth: 800,
         flexGrow: 1,
-        border: 0
-      }}  >
-        <Grid sx={{ m: 15, }}>
+        border: 0,
+        
+      }} style={{backgroundColor:"AliceBlue", }}  >
+        <Grid sx={{ m: 15, }} >
           <Typography gutterBottom variant="h3" align="center"  >
             Enter Your Form
           </Typography>

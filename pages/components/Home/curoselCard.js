@@ -37,7 +37,7 @@ export default function MediaCard() {
           // borderRadius: "20px",
         }}>
         <Grid container xs={12} md={12}>
-          <Grid item xs={12} md={12}>
+          <Grid item xs={12} md={11}>
             <Image
               component="img"
               sx={{ width: 151 }}

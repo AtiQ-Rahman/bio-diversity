@@ -13,11 +13,12 @@ const contact = () => {
        <Header index={3} />
 
    <div  >
-   <Grid  sx={{ m: 11,}}> <Typography gutterBottom variant="h3" align="center">
+   <Grid  sx={{ m: 11,}}  > 
+    <Grid >
+      <Card style={{ maxWidth: 450, padding: "20px 5px", margin: "0 auto" ,backgroundColor:"AliceBlue" }} >
+      <Typography gutterBottom variant="h3" align="center" pt={2} >
       Contact Us
      </Typography>
-    <Grid>
-      <Card style={{ maxWidth: 450, padding: "20px 5px", margin: "0 auto" }}>
         <CardContent>
 
           <Typography variant="body2" color="textSecondary" component="p" gutterBottom>
