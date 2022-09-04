@@ -67,10 +67,10 @@ const NavCollapse = ({ menu, level }) => {
                     py: level > 1 ? 1 : 1.25,
                     pl: `${level * 24}px`
                 }}
-                selected={selected === menu.id}
+                // selected={selected === menu.id}
                 onClick={handleClick}
             >
-                <ListItemIcon sx={{ my: 'auto', minWidth: !menu.icon ? 18 : 36 }}>{menuIcon}</ListItemIcon>
+                {/* <ListItemIcon sx={{ my: 'auto', minWidth: !menu.icon ? 18 : 36 }}>{menuIcon}</ListItemIcon> */}
                 <ListItemText
                     primary={
                         <Typography variant={selected === menu.id ? 'h5' : 'body1'} color="inherit" sx={{ my: 'auto' }}>
@@ -85,11 +85,11 @@ const NavCollapse = ({ menu, level }) => {
                         )
                     }
                 />
-                {open ? (
+                {/* {open ? (
                     <IconChevronUp stroke={1.5} size="1rem" style={{ marginTop: 'auto', marginBottom: 'auto' }} />
                 ) : (
                     <IconChevronDown stroke={1.5} size="1rem" style={{ marginTop: 'auto', marginBottom: 'auto' }} />
-                )}
+                )} */}
             </ListItemButton>
             <Collapse in={open} timeout="auto" unmountOnExit>
                 <List

@@ -11,31 +11,22 @@ const icons = {
 const pages = {
     id: 'pages',
     title: 'Pages',
-    caption: 'Pages Caption',
+    // caption: 'Pages Caption',
     type: 'group',
     children: [
         {
-            id: 'authentication',
-            title: 'Authentication',
+            id: 'species',
+            title: 'Manage Species',
             type: 'collapse',
-            icon: icons.IconKey,
-
-            children: [
-                {
-                    id: 'login3',
-                    title: 'Login',
-                    type: 'item',
-                    url: '/pages/login/login3',
-                    target: true
-                },
-                {
-                    id: 'register3',
-                    title: 'Register',
-                    type: 'item',
-                    url: '/pages/register/register3',
-                    target: true
-                }
-            ]
+            url: '/manage-species',
+            target: true
+        },
+        {
+            id: 'register3',
+            title: 'Requested Species List',
+            type: 'collapse',
+            url: '/manage-requested-species',
+            target: true
         }
     ]
 };

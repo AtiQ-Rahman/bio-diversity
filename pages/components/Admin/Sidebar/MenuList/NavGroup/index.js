@@ -7,6 +7,7 @@ import { Divider, List, Typography } from '@mui/material';
 // project imports
 import NavItem from '../NavItem';
 import NavCollapse from '../NavCollapse';
+import Link from 'next/link';
 
 // ==============================|| SIDEBAR MENU LIST GROUP ||============================== //
 
@@ -17,7 +18,7 @@ const NavGroup = ({ item }) => {
     const items = item.children?.map((menu) => {
         switch (menu.type) {
             case 'collapse':
-                return <NavCollapse key={menu.id} menu={menu} level={1} />;
+                return <Link href={menu.url}><NavCollapse key={menu.id} menu={menu} level={1} /></Link>;
             case 'item':
                 return <NavItem key={menu.id} item={menu} level={1} />;
             default:

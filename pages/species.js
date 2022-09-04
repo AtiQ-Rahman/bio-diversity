@@ -93,7 +93,7 @@ function createData(
   GIS,
   Additional
 ) {
-  return { number,imageSrc, Species, Family, Locality, Habitat, Size, GIS, Additional };
+  return { number, imageSrc, Species, Family, Locality, Habitat, Size, GIS, Additional };
 }
 const style = {
   position: "absolute",
@@ -180,7 +180,7 @@ const rows = [
   ),
 ];
 const Species = () => {
-  
+
 
 
   // const classes = useStyles();
@@ -227,7 +227,7 @@ const Species = () => {
                   noValidate
                   autoComplete="off"
                 >
-                  <TextField label="Search By Name" color="secondary" className={styles.custom_input}/>
+                  <TextField label="Search By Name" color="secondary" className={styles.custom_input} />
                   <TextField label="Search By  Family" color="secondary" />
                   <TextField label="Select Country" color="secondary" />
                   <TextField label="Select Area" color="secondary" />
@@ -297,7 +297,7 @@ const Species = () => {
                             {row.number}
                           </StyledTableCell>
                           <StyledTableCell component="th">
-                            <Image src = {row.imageSrc} height={100} width={150} sx={{borderRadius : 10}}></Image>
+                            <Image src={row.imageSrc} height={100} width={150} sx={{ borderRadius: 10 }}></Image>
                           </StyledTableCell>
                           <StyledTableCell align="center">
                             <Typography component="h3" variant="h3">{row.Species}</Typography>
@@ -318,42 +318,42 @@ const Species = () => {
                             {row.GIS}
                           </StyledTableCell>
                           <StyledTableCell align="center">
-                            <Box sx={{flexGrow : 1 , flexDirection:'row'}}>
-                            <Button
-                              className={styles.bg_primary}
-                              style={{
-                                width: "80px",
-                                maxHeight: "80px",
-                                minWidth: "40px",
-                                minHeight: "40px",
-                                color: 'white',
-                                boxShadow:'1px 1px 4px grey'
-                              }}
-                              onClick={handleClickOpen}
-                              sx={{ mb: 1, mr: 0.5 }}
-                            // variant="outlined"
-                            >
-                              Details
-                            </Button>
+                            <Box sx={{ flexGrow: 1, flexDirection: 'row' }}>
+                              <Button
+                                className={styles.bg_primary}
+                                style={{
+                                  width: "80px",
+                                  maxHeight: "80px",
+                                  minWidth: "40px",
+                                  minHeight: "40px",
+                                  color: 'white',
+                                  boxShadow: '1px 1px 4px grey'
+                                }}
+                                onClick={handleClickOpen}
+                                sx={{ mb: 1, mr: 0.5 }}
+                              // variant="outlined"
+                              >
+                                Details
+                              </Button>
 
-                            {/* =======MODAL===== */}
+                              {/* =======MODAL===== */}
 
-                            <br />
-                            <Button
-                              style={{
-                                boxShadow:'1px 1px 4px grey',
-                                maxHeight: "80px",
-                                width: "80px",
-                                background: 'white',
-                                minHeight: "40px",
-                                color:'#5e35b1'
-                              }}
-                              type="button"
-                              onClick={() => router.push("/map")}
+                              <br />
+                              <Button
+                                style={{
+                                  boxShadow: '1px 1px 4px grey',
+                                  maxHeight: "80px",
+                                  width: "80px",
+                                  background: 'white',
+                                  minHeight: "40px",
+                                  color: '#5e35b1'
+                                }}
+                                type="button"
+                                onClick={() => router.push("/map")}
 
-                            >
-                              View&nbsp;map
-                            </Button>
+                              >
+                                View&nbsp;map
+                              </Button>
                             </Box>
 
                           </StyledTableCell>
@@ -384,25 +384,25 @@ const Species = () => {
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
-        
+
       >
-        <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose} style={{ fontWeight: 600, fontSize: 20,  fontFamily: 'Raleway', color:'#5e35b1' }}>
+        <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose} style={{ fontWeight: 600, fontSize: 20, fontFamily: 'Raleway', color: '#5e35b1' }}>
           Details
         </BootstrapDialogTitle>
         <DialogContent dividers>
-        <Image
-              src={imageSrc}
+          <Image
+            src={imageSrc}
             // width={500}
             height={500}
-            ></Image>
-          <Typography gutterBottom style={{ fontWeight: 600, fontSize: 30,  fontFamily: 'Raleway',paddingBottom:20,paddingTop:20, color:'#5e35b1' }}>
+          ></Image>
+          <Typography gutterBottom style={{ fontWeight: 600, fontSize: 30, fontFamily: 'Raleway', paddingBottom: 20, paddingTop: 20, color: '#5e35b1' }}>
             Praesent commodo cursus magna
           </Typography>
-          <Typography gutterBottom  style={{ fontWeight: 600,  fontFamily: 'Roboto', }}>
+          <Typography gutterBottom style={{ fontWeight: 600, fontFamily: 'Roboto', }}>
             Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
             Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
           </Typography>
-          <Typography gutterBottom style={{ fontWeight: 300,  fontFamily: 'Roboto', }}>
+          <Typography gutterBottom style={{ fontWeight: 300, fontFamily: 'Roboto', }}>
             Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus
             magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec
             ullamcorper nulla non metus auctor fringilla. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
@@ -414,10 +414,10 @@ const Species = () => {
           </Typography>
         </DialogContent>
         <DialogActions>
-        <Button size="small">Share</Button>
-        <Button size="small">Learn More</Button>
+          <Button size="small">Share</Button>
+          <Button size="small">Learn More</Button>
         </DialogActions>
-        </BootstrapDialog>
+      </BootstrapDialog>
       <Footer />
 
     </div>
