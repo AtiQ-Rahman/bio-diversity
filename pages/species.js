@@ -346,7 +346,7 @@ const Species = () => {
                                   width: "80px",
                                   background: 'white',
                                   minHeight: "40px",
-                                  color: '#5e35b1'
+                                  color: '#0f4c39'
                                 }}
                                 type="button"
                                 onClick={() => router.push("/map")}
@@ -386,7 +386,7 @@ const Species = () => {
         open={open}
 
       >
-        <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose} style={{ fontWeight: 600, fontSize: 20, fontFamily: 'Raleway', color: '#5e35b1' }}>
+        <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose} style={{ fontWeight: 600, fontSize: 20, fontFamily: 'Raleway', color: '#0f4c39' }}>
           Details
         </BootstrapDialogTitle>
         <DialogContent dividers>
@@ -395,7 +395,7 @@ const Species = () => {
             // width={500}
             height={500}
           ></Image>
-          <Typography gutterBottom style={{ fontWeight: 600, fontSize: 30, fontFamily: 'Raleway', paddingBottom: 20, paddingTop: 20, color: '#5e35b1' }}>
+          <Typography gutterBottom style={{ fontWeight: 600, fontSize: 30, fontFamily: 'Raleway', paddingBottom: 20, paddingTop: 20, color: '#0f4c39' }}>
             Praesent commodo cursus magna
           </Typography>
           <Typography gutterBottom style={{ fontWeight: 600, fontFamily: 'Roboto', }}>

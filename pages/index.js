@@ -20,6 +20,7 @@ import CuroselCard from "./components/Home/curoselCard";
 import CollapseCard from "./components/Home/collapseCard";
 import Footer from "./components/Home/Footer/Footer";
 import { margin, textAlign } from "@mui/system";
+import { Icon } from '@iconify/react';
 
 export default function Home() {
   return (
@@ -32,48 +33,70 @@ export default function Home() {
       <Header index={0} />
       <div className={styles.main}         >
         <Box component="section" className={styles.main_page}    >
-          <Grid container item xs={12} md={10}  sx={{ mx: "auto", }}     >
+          <Grid container item xs={12} md={12} sx={{ mx: "auto", }}     >
             <Grid
-            
+
               item
               xs={12}
-              md={8}
+              md={12}
               // style={{ borderRadius: "20px", paddingRight: "10px" }}
               style={{
                 justifyContent: "center",
-                border: "1px   solid #d9d7d7",
-                // boxShadow:"1px 1px 1px 1px",
                 borderRadius: "10px",
-                 paddingLeft: "40px" ,
-                 alignItems:"center",
-                 backgroundColor:"AliceBlue",
-                 
-                
+                alignItems: "center",
               }}
 
             >
-              <Box component="div" sx={{ m: 3, mb: 5, }} >
-                <Typography gutterBottom variant="h1" component="div">
-                  What is BIO Diversity
-                </Typography>
-                <Typography gutterBottom variant="h5" component="div">
-                  BIO-D is a global algal database of taxonomic, nomenclatural
-                  and distributional information.
-                </Typography>
-              </Box>
-              <CuroselCard  />
+              <Grid Container xs={12} sx={{ mb: 5, p: 7, display: 'flex' }} className={styles.bg_primary}>
+                <Grid item xs={8}>
+                  <Typography gutterBottom variant="h1" component="div" sx={{ color: 'white', fontSize: "2.5rem" }}>
 
-           
+                    Listing the World’s <span className={styles.bg_secondary} style={{ fontSize: "2.5rem", color: 'white', padding: "10px", borderRadius: '10px', }}> BIO Diversity </span>
+                  </Typography>
+
+                  <Typography gutterBottom variant="h1" component="div" sx={{ color: 'white', fontFamily: "Airbnb Cereal App,sans-serif" }}>
+                    BIO-D is a global algal database of <span style={{ fontSize: "2.5rem", padding: "10px" }}> taxonomic, nomenclatural
+                      and distributional</span> information.
+                  </Typography>
+                </Grid>
+                <Grid item xs={4}>
+                <Icon icon="emojione-monotone:maple-leaf" color="white" width="200" height="200" hFlip={true} className={styles.rotate_icon_32} />
+
+                </Grid>
+              </Grid>
+
+
+
 
               {/* <h1 className={styles.title}>Getting started BIO-DIVERSITY!</h1> */}
             </Grid>
+
+
+          </Grid>
+          <Grid container item xs={12} md={12} sx={{ mx: "auto", }}    >
+            <Grid item xs={8} style={{
+              justifyContent: "center",
+              // border: "1px   solid #d9d7d7",
+              // boxShadow:"1px 1px 1px 1px",
+              borderRadius: "10px",
+              paddingLeft: "40px",
+              alignItems: "center",
+              //  backgroundColor:"AliceBlue",
+
+
+            }}>
+
+              <CuroselCard />
+
+            </Grid>
+
             <Grid
               item
               xs={12}
               md={3}
               ml={2}
               // lg={12}
-              style={{backgroundColor:"AliceBlue", }}
+              style={{ backgroundColor: "AliceBlue", }}
               className={styles.side_bar}
             >
               <Typography gutterBottom variant="h2" component="div" >
@@ -82,10 +105,11 @@ export default function Home() {
               <CollapseCard />
               {/* <h1 className={styles.title}>Getting started BIO-DIVERSITY!</h1> */}
             </Grid>
-            <Grid  item
-              xs={12}
-              md={8} sx={{ mt: 5 }} ><Counters /></Grid>
+
           </Grid>
+          <Grid item
+            xs={12}
+            md={12} sx={{ mt: 5 }} ><Counters /></Grid>
         </Box>
       </div>
 

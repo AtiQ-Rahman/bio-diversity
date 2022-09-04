@@ -14,7 +14,16 @@
   
   
 }
-
+.rotate_icon_32{
+  transform: rotate(-33deg);
+  -ms-transform: rotate(-33deg);
+  -webkit-transform: rotate(-33deg);
+  display: inline-block;
+  left: 50%;
+  position: relative;
+  opacity: 0.5;
+  top: 70px;
+}
 .main_box{
   /* border: 1px solid var(--app-border); */
   padding: 30px;
@@ -27,8 +36,8 @@
 .main_page {
   /* min-height: 100vh; */
   /* padding: 4rem 0; */
-  padding: 30px;
-  width: 80%;
+  /* padding: 30px; */
+  width: 100%;
   background: var(--app-secondary-color);
   margin: 0 auto;
   margin-top: 2%;
@@ -73,7 +82,12 @@
 .bg_primary{
   background: var(--app-primary-color);
 }
+.bg_secondary{
+  background: var(--app-secondary-color);
+  color: var(--app-primary-color)!important;
+}
 .bg_primary:hover{
+  color: var(--app-secondary-color) !important;
   background: var(--app-primary-color);
 }
 .title a {

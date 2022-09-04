@@ -18,27 +18,29 @@ import PropTypes from "prop-types";
 
 // react-countup component
 import CountUp from "react-countup";
+import styles from "../../../../styles/Home.module.css";
 
 // Material Kit 2 React components
-import { Box, Typography } from "@mui/material";
+import { Card, CardContent, CardActions, Typography } from "@mui/material";
 
-function DefaultCounterCard({ color, count, title, description, ...rest }) {
+function DefaultCounterCard({ color, count,backgroundColor, title, description, ...rest }) {
   return (
-    <Box p={2} textAlign="center" lineHeight={1}>
-      <Typography variant="h1" component="h2" color="white">
-        <CountUp end={count} duration={1} {...rest} />
-      </Typography>
-      {title && (
-        <Typography variant="h5" component="h3" color="white">
+    <Card sx={{ minWidth: 275 , boxShadow:"5px 5px 25px #16161670",borderRadius:'0px', background: backgroundColor}} >
+      <CardContent>
+
+        <Typography variant="h1" component="div" color="white">
+          <CountUp end={count} duration={1} {...rest} />
+        </Typography>
+        <Typography sx={{ mb: 1.5 }}  variant="h3" color="white">
           {title}
         </Typography>
-      )}
-      {description && (
-        <Typography variant="body2" component="h3" color="yellow">
+        <Typography variant="body2" color="white">
           {description}
+          <br />
+          {'"a benevolent smile"'}
         </Typography>
-      )}
-    </Box>
+      </CardContent>
+    </Card>
   );
 }
 

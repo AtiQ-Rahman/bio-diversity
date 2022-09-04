@@ -8,7 +8,12 @@ import Image from "next/image";
 import Carousel from "react-material-ui-carousel";
 import styles from "../../../styles/Home.module.css";
 import { Paper, Button, Box, Grid } from "@mui/material";
+import Slider from "react-slick";
+import { fontSize } from "@mui/system";
+
 const imageSrc = require("../../assets/images/species1.jpg");
+const imageSrc2 = require("../../assets/images/species2.jpg");
+const imageSrc3 = require("../../assets/images/species3.jpg");
 
 var items = [
   {
@@ -20,8 +25,14 @@ var items = [
   {
     title: "aaaa crispus Stackhouse",
     description:
-      "Lizards are a widespread group of squamate reptiles, with over 6,000species, ranging across all continents except Antarctica",
-    imageSrc,
+      "Lectotype locality: Weissenfels, Germany; (Silva & al. 1996: 46) Notes: This type locality was first cited by Drouet (1968: 17, 20) (Silva et al., 1996)",
+    imageSrc :imageSrc2,
+  },
+  {
+    title: "Spirulina major Kützing ex Gomont",
+    description:
+      "Lectotype locality: Weissenfels, Germany; (Silva & al. 1996: 46) Notes: This type locality was first cited by Drouet (1968: 17, 20) (Silva et al., 1996)",
+    imageSrc :imageSrc3,
   },
 ];
 export default function MediaCard() {
@@ -41,7 +52,7 @@ export default function MediaCard() {
             <Image
               component="img"
               sx={{ width: 151 }}
-              src={imageSrc}
+              src={props.item.imageSrc}
               alt="Live from space album cover"
             />
           </Grid>
@@ -56,11 +67,11 @@ export default function MediaCard() {
   }
 
   return (
+
     <Box
-      width={800}
     >
       <Carousel
-        height={500}
+        height={400}
         autoPlay={false}
         indicators={false}
         next={(e) => {
@@ -79,7 +90,7 @@ export default function MediaCard() {
       </Carousel>
       <Box>
         <CardContent sx={{}}>
-          <Typography component="div" variant="h3" sx={{ color: '#5e35b1', fontFamily: 'Old Standard TT', fontStyle: 'italic' }} >
+          <Typography component="div" variant="h3" sx={{ color: '#0f4c39', fontFamily: 'Old Standard TT', fontStyle: 'italic', fontSize:"2rem" }} >
             {title}
           </Typography>
           <Typography gutterBottom variant="subtitle1" color="text.secondary" component="div">

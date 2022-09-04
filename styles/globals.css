@@ -1,6 +1,6 @@
 
 :root {
-  --app-primary-color: #5e35b1;
+  --app-primary-color: #0f4c39;
   --app-secondary-color: #fff;
   --app-border: #e7e7e7;
 }
@@ -8,8 +8,8 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: 'Old Standard TT', serif;
+
 }
 
 a {

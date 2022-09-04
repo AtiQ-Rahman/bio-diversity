@@ -8,6 +8,7 @@ import { Collapse, List, ListItemButton, ListItemIcon, ListItemText, Typography 
 
 // project imports
 import NavItem from '../NavItem';
+import { useRouter } from "next/router";
 
 // assets
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
@@ -18,6 +19,7 @@ import { IconChevronDown, IconChevronUp } from '@tabler/icons';
 const NavCollapse = ({ menu, level }) => {
     const theme = useTheme();
     const customization = useSelector((state) => state.customization);
+    const router = useRouter();
 
     const [open, setOpen] = useState(false);
     const [selected, setSelected] = useState(null);
@@ -25,6 +27,7 @@ const NavCollapse = ({ menu, level }) => {
     const handleClick = () => {
         setOpen(!open);
         setSelected(!selected ? menu.id : null);
+        router.push(menu.url)
     };
 
     // menu collapse & item

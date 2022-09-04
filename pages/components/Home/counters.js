@@ -32,39 +32,42 @@ import DefaultCounterCard from "./DefaultCounterCard";
 
 function Counters() {
   return (
-    <Box component="section" py={3} className={styles.bg_primary} sx ={{ 
-      color: "white",
-      borderRadius: "0px 20px"}}>
+
       
-        <Grid container item xs={12} lg={9} sx={{ mx: "auto" }}>
-          <Grid item xs={12} md={4}>
+        <Grid container item xs={12} lg={12} md={12} sx={{ mx: "auto" }}>
+          <Grid item xs={12} md={4} >
             <DefaultCounterCard
               count={2000}
               suffix="+"
               title="Species"
               description="From teknaf to tetulia"
+              backgroundColor="#0f4c39"
+
             />
-          </Grid>
-          <Grid item xs={12} md={4}>
-            {/* <Divider orientation="vertical" sx={{ display: { xs: "none", md: "block" }, mx: 0 }} /> */}
-            <DefaultCounterCard
-              count={1500}
-              suffix="+"
-              title="genus"
-              description="We are still on it."
-            />
-            {/* <Divider orientation="vertical" sx={{ display: { xs: "none", md: "block" }, ml: 0 }} /> */}
           </Grid>
           <Grid item xs={12} md={4}>
             <DefaultCounterCard
               count={3000}
+              suffix="+"
+              backgroundColor="#2c8f7c"
+
               title="Images"
               description="Available for checking"
             />
           </Grid>
+          <Grid item xs={12} md={4} >
+            <DefaultCounterCard
+              count={1000}
+              suffix="+"
+              title="Request"
+              description="For adding on our server"
+              backgroundColor="#0f4c39"
+
+            />
+          </Grid>
         </Grid>
     
-    </Box>
+  
   );
 }
 

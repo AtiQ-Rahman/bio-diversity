@@ -74,7 +74,7 @@ export default function PrimarySearchAppBar(props) {
   ];
   pages[props.index].background = styles.bg_primary
   pages[props.index].color = "white"
-  pages[props.index].border = "9px solid rgb(94, 53, 177)"
+  pages[props.index].border = "10px solid #0f4c39"
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);

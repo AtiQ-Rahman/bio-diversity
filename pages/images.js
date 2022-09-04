@@ -129,7 +129,7 @@ export default function Images() {
                     // onClick={}
                     style={{
                       color: "white",
-                      background: "#5e35b1",
+                      background: "#0f4c39",
                       maxWidth: "80px",
                       maxHeight: "80px",
                       minWidth: "40px",

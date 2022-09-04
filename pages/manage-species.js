@@ -1,12 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
-import {
-    AppBar,
-    Box,
-    CssBaseline,
-    Toolbar,
-    useMediaQuery,
-} from "@mui/material";
+
 
 import { styled, useTheme } from "@mui/material/styles";
 import { useEffect, useState } from 'react';
@@ -20,12 +14,10 @@ import navigation from './components/Admin/menu-items';
 import { drawerWidth } from './store/constant';
 import { SET_MENU } from './store/actions';
 import React from "react";
-import styles from "../styles/Home.module.css";
-import { styled } from "@mui/material/styles";
 import { useRouter } from "next/router";
 import CloseIcon from '@mui/icons-material/Close';
 import PropTypes from 'prop-types';
-
+import { Icon } from '@iconify/react';
 import {
     AppBar,
     Box,
@@ -57,7 +49,6 @@ import {
     Dialog,
 } from "@mui/material";
 import Paper from "@mui/material/Paper";
-import Image from "next/image";
 const imageSrc = require("../pages/assets/images/species1.jpg");
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -100,7 +91,7 @@ BootstrapDialogTitle.propTypes = {
 
 function createData(
     number,
-    imageSrc,
+    
     Species,
     Family,
     Locality,
@@ -109,7 +100,7 @@ function createData(
     GIS,
     Additional
 ) {
-    return { number, imageSrc, Species, Family, Locality, Habitat, Size, GIS, Additional };
+    return { number,  Species, Family, Locality, Habitat, Size, GIS, Additional };
 }
 const style = {
     position: "absolute",
@@ -143,7 +134,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 const rows = [
     createData(
         1,
-        imageSrc,
+        
         "Bryopsis indica Gepp & Gepp",
         "Bryopsidaceae",
         "St Martin’s Island (SMI)",
@@ -153,7 +144,7 @@ const rows = [
     ),
     createData(
         2,
-        imageSrc,
+        
         "Bryopsis indica Gepp & Gepp",
         "Bryopsidaceae",
         "St Martin’s Island (SMI)",
@@ -164,7 +155,7 @@ const rows = [
 
     createData(
         3,
-        imageSrc,
+        
         "Bryopsis indica Gepp & Gepp",
         "Bryopsidaceae",
         "St Martin’s Island (SMI)",
@@ -175,7 +166,7 @@ const rows = [
 
     createData(
         4,
-        imageSrc,
+        
         "Bryopsis indica Gepp & Gepp",
         "Bryopsidaceae",
         "St Martin’s Island (SMI)",
@@ -186,7 +177,7 @@ const rows = [
 
     createData(
         5,
-        imageSrc,
+        
         "Bryopsis indica Gepp & Gepp",
         "Bryopsidaceae",
         "St Martin’s Island (SMI)",
@@ -240,7 +231,17 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({
 export default function Home() {
     const theme = useTheme();
     const matchDownMd = useMediaQuery(theme.breakpoints.down('lg'));
-
+    // const classes = useStyles();
+    const [open, setOpen] = React.useState(false);
+    // const handleOpen = () => setOpen(true);
+    // const handleClose = () => setOpen(false);
+    const router = useRouter();
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+    const handleClose = () => {
+        setOpen(false);
+    };
     // Handle left drawer
     const leftDrawerOpened = useSelector((state) => state.customization.opened);
     const dispatch = useDispatch();
@@ -253,97 +254,89 @@ export default function Home() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [matchDownMd]);
     return (
-        <Box sx={{ display: 'flex' }}>
-            <CssBaseline />
-            {/* header */}
-            <AppBar
-                enableColorOnDark
-                position="fixed"
-                color="inherit"
-                elevation={0}
-                sx={{
-                    bgcolor: theme.palette.background.default,
-                    transition: leftDrawerOpened ? theme.transitions.create('width') : 'none'
-                }}
-            >
-                <Toolbar>
-                    <Header handleLeftDrawerToggle={handleLeftDrawerToggle} />
-                </Toolbar>
-            </AppBar>
+        <div className={styles.body} >
+            <Box sx={{ display: 'flex' }}>
+                <CssBaseline />
+                {/* header */}
+                <AppBar
+                    enableColorOnDark
+                    position="fixed"
+                    color="inherit"
+                    elevation={0}
+                    sx={{
+                        bgcolor: theme.palette.background.default,
+                        transition: leftDrawerOpened ? theme.transitions.create('width') : 'none'
+                    }}
+                >
+                    <Toolbar>
+                        <Header handleLeftDrawerToggle={handleLeftDrawerToggle} />
+                    </Toolbar>
+                </AppBar>
 
-            {/* drawer */}
-            <Sidebar drawerOpen={leftDrawerOpened} drawerToggle={handleLeftDrawerToggle} />
+                {/* drawer */}
+                <Sidebar drawerOpen={leftDrawerOpened} drawerToggle={handleLeftDrawerToggle} />
 
-            {/* main content */}
-            <Main theme={theme} open={leftDrawerOpened}>
-                {/* breadcrumb */}
-                <Breadcrumbs separator={IconChevronRight} navigation={navigation} icon title rightAlign />
+                {/* main content */}
+                <Main theme={theme} open={leftDrawerOpened}>
 
-            </Main>
-            <div className={styles.main} sx={{ height: "100%" }}>
-                <Box component="section" className={styles.main_box} sx={{ mt: 10 }}>
-                    {/* Species Search */}
-                    <Grid container item xs={12} md={12} sx={{ mx: "auto" }}>
-                        <Grid item xs={12} md={12}>
-                            <Card sx={{ marginBottom: "10px" }}>
-                                <Typography gutterBottom component="h2" variant="h2">
-                                    Species Search
-                                </Typography>
-                                <Typography gutterBottom component="description" variant="div">
-                                    The full name of the genus or species can be inserted, or you
-                                    can type the first four letters of the generic name and/or the
-                                    first four letters of the species (or other) epithet in upper
-                                    or lower case (e.g. Mere micr or mere micr for Meredithia
-                                    microphylla). A full list of the species and subspecific
-                                    entities in each genus can be obtained in the genus database.
-                                </Typography>
-                            </Card>
+                    <Breadcrumbs separator={IconChevronRight} navigation={navigation} icon title rightAlign />
+                    <div className={styles.main} sx={{ height: "100%" }}>
+                        <Box component="section" className={styles.main_box} >
+                            {/* Species Search */}
+                            <Grid container item xs={12} md={12} sx={{ mx: "auto" }}>
+                                <Grid item xs={12} md={12}>
+                                    <Card sx={{ marginBottom: "10px" }}>
+                                        <Typography gutterBottom component="h2" variant="h2">
+                                            Species Search
+                                        </Typography>
+                                    </Card>
 
-                            <Divider></Divider>
-                            <Grid item xs={11} style={{ borderRadius: "5px" }}>
-                                <Box
-                                    component="form"
-                                    sx={{
-                                        "& > :not(style)": { m: 1, width: "25ch" },
-                                    }}
-                                    noValidate
-                                    autoComplete="off"
-                                >
-                                    <TextField label="Search By Name" color="secondary" className={styles.custom_input} />
-                                    <TextField label="Search By  Family" color="secondary" />
-                                    <TextField label="Select Country" color="secondary" />
-                                    <TextField label="Select Area" color="secondary" />
-                                    <Button
-                                        type="button"
-                                        // onClick={}
-                                        className={styles.bg_primary}
-                                        style={{
-                                            color: "white",
-                                            maxWidth: "80px",
-                                            maxHeight: "80px",
-                                            minWidth: "40px",
-                                            minHeight: "40px",
-                                        }}
+                                    <Divider></Divider>
+                                    <Grid item xs={11} style={{ borderRadius: "5px" }}>
+                                        <Box
+                                            component="form"
+                                            sx={{
+                                                "& > :not(style)": { m: 1, width: "25ch" },
+                                            }}
+                                            noValidate
+                                            autoComplete="off"
+                                        >
+                                            <TextField label="Search By Name" color="secondary" className={styles.custom_input} />
+                                            <TextField label="Search By  Family" color="secondary" />
+                                            <TextField label="Select Country" color="secondary" />
+                                            <TextField label="Select Area" color="secondary" />
+                                            <Button
+                                                type="button"
+                                                // onClick={}
+                                                className={styles.bg_primary}
+                                                style={{
+                                                    color: "white",
+                                                    height:"50px",
+                                                    maxWidth: "80px",
+                                                    maxHeight: "80px",
+                                                    minWidth: "40px",
+                                                    minHeight: "40px",
+                                                }}
+                                            >
+                                                Search
+                                            </Button>
+                                        </Box>
+                                    </Grid>
+
+                                    {/* TABLE */}
+                                    <Divider></Divider>
+
+                                    <h1>Total Species Found (5)</h1>
+                                    <br />
+                                    <Grid
+                                        item
+                                        xs={12}
+                                        sx={{ b: 1, mb: 3 }}
+                                        style={{ borderRadius: "10px" }}
                                     >
-                                        Search
-                                    </Button>
-                                </Box>
-                            </Grid>
-
-                            {/* TABLE */}
-                            <Divider></Divider>
-
-                            <h1>Total Species Found (5)</h1>
-                            <br />
-                            <Grid
-                                item
-                                xs={12}
-                                sx={{ b: 1, mb: 3 }}
-                                style={{ borderRadius: "10px" }}
-                            >
-                                <TableContainer component={Paper}>
-                                    <Table sx={{ minWidth: 650 }} aria-label="customized table">
-                                        {/* <TableHead>
+                                        <TableContainer component={Paper}>
+                                            <Table sx={{ minWidth: 650 }} aria-label="customized table">
+                                                {/* <TableHead>
                       <TableRow>
                         <StyledTableCell>SI</StyledTableCell>
                         <StyledTableCell>Image</StyledTableCell>
@@ -367,84 +360,81 @@ export default function Home() {
                         </StyledTableCell>
                       </TableRow>
                     </TableHead> */}
-                                        <TableBody>
-                                            {rows.map((row) => (
-                                                <StyledTableRow
-                                                    key={row.name}
-                                                    sx={{
-                                                        "&:last-child td, &:last-child th": { border: 0 },
-                                                    }}
-                                                >
-                                                    <StyledTableCell component="th" scope="row">
-                                                        {row.number}
-                                                    </StyledTableCell>
-                                                    <StyledTableCell component="th">
-                                                        <Image src={row.imageSrc} height={100} width={150} sx={{ borderRadius: 10 }}></Image>
-                                                    </StyledTableCell>
-                                                    <StyledTableCell align="center">
-                                                        <Typography component="h3" variant="h3">{row.Species}</Typography>
-                                                    </StyledTableCell>
-                                                    <StyledTableCell align="center">
-                                                        {row.Family}
-                                                    </StyledTableCell>
-                                                    <StyledTableCell align="center">
-                                                        {row.Locality}
-                                                    </StyledTableCell>
-                                                    <StyledTableCell align="center">
-                                                        {row.Habitat}
-                                                    </StyledTableCell>
-                                                    <StyledTableCell align="center">
-                                                        {row.Size}
-                                                    </StyledTableCell>
-                                                    <StyledTableCell align="center">
-                                                        {row.GIS}
-                                                    </StyledTableCell>
-                                                    <StyledTableCell align="center">
-                                                        <Box sx={{ flexGrow: 1, flexDirection: 'row' }}>
-                                                            <Button
-                                                                className={styles.bg_primary}
-                                                                style={{
-                                                                    width: "80px",
-                                                                    maxHeight: "80px",
-                                                                    minWidth: "40px",
-                                                                    minHeight: "40px",
-                                                                    color: 'white',
-                                                                    boxShadow: '1px 1px 4px grey'
-                                                                }}
-                                                                onClick={handleClickOpen}
-                                                                sx={{ mb: 1, mr: 0.5 }}
-                                                            // variant="outlined"
-                                                            >
-                                                                Details
-                                                            </Button>
+                                                <TableBody>
+                                                    {rows.map((row) => (
+                                                        <StyledTableRow
+                                                            key={row.name}
+                                                            sx={{
+                                                                "&:last-child td, &:last-child th": { border: 0 },
+                                                            }}
+                                                        >
+                                                            <StyledTableCell component="th" scope="row">
+                                                                {row.number}
+                                                            </StyledTableCell>
+                                                            <StyledTableCell align="center">
+                                                                <Typography component="div" variant="div">{row.Species}</Typography>
+                                                            </StyledTableCell>
+                                                            <StyledTableCell align="center">
+                                                                {row.Family}
+                                                            </StyledTableCell>
+                                                            <StyledTableCell align="center">
+                                                                {row.Locality}
+                                                            </StyledTableCell>
+                                                            <StyledTableCell align="center">
+                                                                {row.Habitat}
+                                                            </StyledTableCell>
+                                                            <StyledTableCell align="center">
+                                                                {row.Size}
+                                                            </StyledTableCell>
+                                                            <StyledTableCell align="center">
+                                                                {row.GIS}
+                                                            </StyledTableCell>
+                                                            <StyledTableCell align="center">
+                                                                <Box sx={{ flexGrow: 1, flexDirection: 'row' }}>
+                                                                    <Button
+                                                                        className={styles.bg_primary}
+                                                                        style={{
+                                                                            width: "80px",
+                                                                            maxHeight: "80px",
+                                                                            minWidth: "40px",
+                                                                            minHeight: "40px",
+                                                                            color: 'white',
+                                                                            boxShadow: '1px 1px 4px grey'
+                                                                        }}
+                                                                        onClick={handleClickOpen}
+                                                                        sx={{ mb: 1, mr: 0.5 }}
+                                                                    // variant="outlined"
+                                                                    >
+                                                                       <Icon icon="dashicons:edit-large" /> Edit
+                                                                    </Button>
 
-                                                            {/* =======MODAL===== */}
+                                                                    {/* =======MODAL===== */}
 
-                                                            <br />
-                                                            <Button
-                                                                style={{
-                                                                    boxShadow: '1px 1px 4px grey',
-                                                                    maxHeight: "80px",
-                                                                    width: "80px",
-                                                                    background: 'white',
-                                                                    minHeight: "40px",
-                                                                    color: '#5e35b1'
-                                                                }}
-                                                                type="button"
-                                                                onClick={() => router.push("/map")}
+                                                                    <br />
+                                                                    <Button
+                                                                        style={{
+                                                                            boxShadow: '1px 1px 4px grey',
+                                                                            maxHeight: "80px",
+                                                                            width: "80px",
+                                                                            background: 'white',
+                                                                            minHeight: "40px",
+                                                                            color: '#0f4c39'
+                                                                        }}
+                                                                        type="button"
+                                                                        onClick={() => router.push("/map")}
 
-                                                            >
-                                                                View&nbsp;map
-                                                            </Button>
-                                                        </Box>
+                                                                    >
+                                                                        View&nbsp;map
+                                                                    </Button>
+                                                                </Box>
 
-                                                    </StyledTableCell>
-                                                </StyledTableRow>
-                                            ))}
-                                        </TableBody>
-                                    </Table>
-                                </TableContainer>
-                                {/* <TablePagination
+                                                            </StyledTableCell>
+                                                        </StyledTableRow>
+                                                    ))}
+                                                </TableBody>
+                                            </Table>
+                                        </TableContainer>
+                                        {/* <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
         count={rows.length}
@@ -453,53 +443,58 @@ export default function Home() {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       /> */}
+                                    </Grid>
+
+                                </Grid>
+
                             </Grid>
+                        </Box>
+                    </div>
+                    <BootstrapDialog
+                        onClose={handleClose}
+                        aria-labelledby="customized-dialog-title"
+                        open={open}
 
-                        </Grid>
+                    >
+                        <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose} style={{ fontWeight: 600, fontSize: 20, fontFamily: 'Raleway', color: '#0f4c39' }}>
+                            Details
+                        </BootstrapDialogTitle>
+                        <DialogContent dividers>
+                            <Image
+                                src={imageSrc}
+                                // width={500}
+                                height={500}
+                            ></Image>
+                            <Typography gutterBottom style={{ fontWeight: 600, fontSize: 30, fontFamily: 'Raleway', paddingBottom: 20, paddingTop: 20, color: '#0f4c39' }}>
+                                Praesent commodo cursus magna
+                            </Typography>
+                            <Typography gutterBottom style={{ fontWeight: 600, fontFamily: 'Roboto', }}>
+                                Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
+                                Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
+                            </Typography>
+                            <Typography gutterBottom style={{ fontWeight: 300, fontFamily: 'Roboto', }}>
+                                Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus
+                                magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec
+                                ullamcorper nulla non metus auctor fringilla. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
+                                Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
+                                Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus
+                                magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec
+                                ullamcorper nulla non metus auctor fringilla. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
+                                Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
+                            </Typography>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button size="small">Share</Button>
+                            <Button size="small">Learn More</Button>
+                        </DialogActions>
+                    </BootstrapDialog>
+                </Main>
 
-                    </Grid>
-                </Box>
-            </div>
 
 
-            <BootstrapDialog
-                onClose={handleClose}
-                aria-labelledby="customized-dialog-title"
-                open={open}
+            </Box>
 
-            >
-                <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose} style={{ fontWeight: 600, fontSize: 20, fontFamily: 'Raleway', color: '#5e35b1' }}>
-                    Details
-                </BootstrapDialogTitle>
-                <DialogContent dividers>
-                    <Image
-                        src={imageSrc}
-                        // width={500}
-                        height={500}
-                    ></Image>
-                    <Typography gutterBottom style={{ fontWeight: 600, fontSize: 30, fontFamily: 'Raleway', paddingBottom: 20, paddingTop: 20, color: '#5e35b1' }}>
-                        Praesent commodo cursus magna
-                    </Typography>
-                    <Typography gutterBottom style={{ fontWeight: 600, fontFamily: 'Roboto', }}>
-                        Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-                        Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
-                    </Typography>
-                    <Typography gutterBottom style={{ fontWeight: 300, fontFamily: 'Roboto', }}>
-                        Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus
-                        magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec
-                        ullamcorper nulla non metus auctor fringilla. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-                        Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
-                        Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus
-                        magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec
-                        ullamcorper nulla non metus auctor fringilla. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-                        Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
-                    </Typography>
-                </DialogContent>
-                <DialogActions>
-                    <Button size="small">Share</Button>
-                    <Button size="small">Learn More</Button>
-                </DialogActions>
-            </BootstrapDialog>
-        </Box>
+        </div>
+
     );
 }
