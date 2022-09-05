@@ -12,6 +12,7 @@ import { useRouter } from "next/router";
 import Header from "./components/Home/Header";
 import { styled } from "@mui/material/styles";
 import { speciesList } from "./utils/speciesList";
+import PropTypes from "prop-types";
 import {
   AppBar,
   Box,
@@ -36,9 +37,52 @@ import {
   CardContent,
   tableCellClasses,
   Divider,
+  DialogTitle,
+  Dialog,
+  DialogContent,
+  DialogActions,
 } from "@mui/material";
 import Footer from "./components/Home/Footer/Footer";
 import Counters from "./components/Home/counters";
+import CloseIcon from "@mui/icons-material/Close";
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+  "& .MuiDialogContent-root": {
+    padding: theme.spacing(2),
+  },
+  "& .MuiDialogActions-root": {
+    padding: theme.spacing(1),
+  },
+}));
+
+const BootstrapDialogTitle = (props) => {
+  const { children, onClose, ...other } = props;
+
+  return (
+    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
+      {children}
+      {onClose ? (
+        <IconButton
+          aria-label="close"
+          onClick={onClose}
+          sx={{
+            position: "absolute",
+            right: 8,
+            top: 8,
+            color: (theme) => theme.palette.grey[500],
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+      ) : null}
+    </DialogTitle>
+  );
+};
+
+BootstrapDialogTitle.propTypes = {
+  children: PropTypes.node,
+  onClose: PropTypes.func.isRequired,
+};
+
 function createData(
   number,
   Species,
@@ -92,8 +136,15 @@ function srcset(image, width, height, rows = 1, cols = 1) {
 export default function Images() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  // const handleClose = () => setOpen(false);
   const router = useRouter();
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
   return (
     <div className={styles.main}>
       <Header index={2}></Header>
@@ -101,18 +152,25 @@ export default function Images() {
         <Box component="section">
           <Grid container item xs={12} md={12} sx={{ mx: "auto" }}>
             <Grid item xs={12} md={12}>
-              <Typography gutterBottom component="h2" variant="h2"   style={{ color: "#0f4c39", fontSize: 30 }}>
+              <Typography
+                gutterBottom
+                component="h2"
+                variant="h2"
+                style={{ color: "#0f4c39", fontSize: 30 }}
+              >
                 Images Search
               </Typography>
-              <Typography  gutterBottom
-                  component="description"
-                  variant="div"
-                  style={{ fontSize: 20 }}>
+              <Typography
+                gutterBottom
+                component="description"
+                variant="div"
+                style={{ fontSize: 20 }}
+              >
                 The images remain the property of the copyright owners who give
                 permission for non-commercial use for teaching purposes in
-                lectures <br/> and on meetings presentations and posters, provided
-                their copyright and the source is acknowledged, but are NOT free
-                for publication <br/>  in any format or manner.
+                lectures <br /> and on meetings presentations and posters,
+                provided their copyright and the source is acknowledged, but are
+                NOT free for publication <br /> in any format or manner.
               </Typography>
               <Divider></Divider>
               <Grid item xs={12} sx={{ mb: 2 }}>
@@ -139,7 +197,7 @@ export default function Images() {
                       minWidth: "90px",
                       minHeight: "40px",
                       marginTop: "13px",
-                      fontWeight:600
+                      fontWeight: 600,
                     }}
                   >
                     Search
@@ -156,7 +214,7 @@ export default function Images() {
                           maxWidth: 345,
                           border: "1px solid #e9e9e9",
                           boxShadow: "1px 1px 5px #efefef",
-                          borderRadius:3
+                          borderRadius: 3,
                         }}
                       >
                         <Image
@@ -165,23 +223,103 @@ export default function Images() {
                           src={imageSrc}
                           alt="green iguana"
                         />
-                        <CardContent  sx={{height:100}}>
+                        <CardContent sx={{ height: 100 }}>
                           <Typography gutterBottom variant="h4" component="div">
                             {item.title}
                           </Typography>
                           <Typography variant="body2" color="text.secondary">
-                            {item.description.slice(0,50)}......
+                            {item.description.slice(0, 50)}......
                           </Typography>
                         </CardContent>
                         <Grid container xs={12}>
                           <Grid xs={4}></Grid>
                           <Grid xs={4}></Grid>
                           <Grid xs={4} className={styles.card_button}>
-                          <Button size="small" sx={{color:"white"}}>See Details</Button>
-
+                            <Button
+                              size="small"
+                              sx={{ color: "white" }}
+                              onClick={handleClickOpen}
+                            >
+                              See Details
+                            </Button>
                           </Grid>
                         </Grid>
                       </Card>
+                      <BootstrapDialog
+                        onClose={handleClose}
+                        aria-labelledby="customized-dialog-title"
+                        open={open}
+                        fullWidth
+                        maxWidth="md"
+                        // style={{
+                        //   // width: "100%",
+                        //   minWidth: "500px"
+                        // }}
+                      >
+                        <BootstrapDialogTitle
+                          id="customized-dialog-title"
+                          onClose={handleClose}
+                          style={{
+                            fontWeight: 600,
+                            fontSize: 20,
+                            fontFamily: "Raleway",
+                            color: "#0f4c39",
+                          }}
+                        >
+                          <br />
+                        </BootstrapDialogTitle>
+                        <DialogContent dividers>
+                          <Image
+                            src={imageSrc}
+                            // width={500}
+                            height={400}
+                          ></Image>
+                          <Typography
+                            gutterBottom
+                            style={{
+                              fontWeight: 600,
+                              fontSize: 30,
+                              fontFamily: "Raleway",
+                              paddingBottom: 20,
+                              paddingTop: 20,
+                              color: "#0f4c39",
+                            }}
+                          >
+                            Praesent commodo cursus magna
+                          </Typography>
+                          <Typography
+                            gutterBottom
+                            style={{ fontWeight: 600, fontFamily: "Roboto" }}
+                          >
+                            Praesent commodo cursus magna, vel scelerisque nisl
+                            consectetur et. Vivamus sagittis lacus vel augue
+                            laoreet rutrum faucibus dolor auctor.
+                          </Typography>
+                          <Typography
+                            gutterBottom
+                            style={{ fontWeight: 300, fontFamily: "Roboto" }}
+                          >
+                            Aenean lacinia bibendum nulla sed consectetur.
+                            Praesent commodo cursus magna, vel scelerisque nisl
+                            consectetur et. Donec sed odio dui. Donec
+                            ullamcorper nulla non metus auctor fringilla.
+                            Praesent commodo cursus magna, vel scelerisque nisl
+                            consectetur et. Vivamus sagittis lacus vel augue
+                            laoreet rutrum faucibus dolor auctor. Aenean lacinia
+                            bibendum nulla sed consectetur. Praesent commodo
+                            cursus magna, vel scelerisque nisl consectetur et.
+                            Donec sed odio dui. Donec ullamcorper nulla non
+                            metus auctor fringilla. Praesent commodo cursus
+                            magna, vel scelerisque nisl consectetur et. Vivamus
+                            sagittis lacus vel augue laoreet rutrum faucibus
+                            dolor auctor.
+                          </Typography>
+                        </DialogContent>
+                        <DialogActions>
+                          <Button size="small">Share</Button>
+                          <Button size="small">Learn More</Button>
+                        </DialogActions>
+                      </BootstrapDialog>
                     </Grid>
                   );
                 })}
@@ -236,9 +374,8 @@ export default function Images() {
           </ImageList> */}
         </Box>
       </div>
-      
-        <Footer />
-     
+
+      <Footer />
     </div>
   );
 }
