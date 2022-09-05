@@ -32,6 +32,7 @@
   margin: 0 auto;
   margin-top: 2%;
   height: 100%;
+
 }
 .main_page {
   /* min-height: 100vh; */
@@ -42,6 +43,26 @@
   margin: 0 auto;
   margin-top: 2%;
   height: 100%;
+}
+/* .Typography{
+  font-family: 'Times New Roman', Times, serif;
+}
+.Box{
+  font-family: 'Times New Roman', Times, serif;
+}
+.Grid{
+  font-family: 'Times New Roman', Times, serif;
+} */
+
+/* dropdown */
+/* .dropdown{
+  color: #64cbb0;
+} */
+/* table */
+.textContainer {
+  white-space: normal;
+ word-wrap: break-word;
+ 
 }
 .custom_input{
   height: 10px;
@@ -56,13 +77,20 @@
 .side_bar{
   
   padding-left: 20px;
-  background: var(--app-secondary-color);
+  background: var( --app-sideBar-color);
   /* color: white; */
   border: 1px solid var(--app-border);
   padding-top: 20px;
   padding-right: 20px;
   border-radius: 10px;
   box-shadow: 2px 0px 5px #ebebeb;
+}
+.insideSidebar{
+  background: var(--app-insideSidebar-color);
+}
+.dropDown{
+ 
+  background: var(--app-dropDown-color);
 }
 .footer {
   display: flex;
@@ -90,6 +118,9 @@
   color: var(--app-secondary-color) !important;
   background: var(--app-primary-color);
 }
+/* .bg_sideBar{
+  background: var(rgb(225, 253, 249));
+} */
 .title a {
   color: #0070f3;
   text-decoration: none;

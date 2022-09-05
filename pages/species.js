@@ -2,8 +2,8 @@ import React from "react";
 import styles from "../styles/Home.module.css";
 import { styled } from "@mui/material/styles";
 import { useRouter } from "next/router";
-import CloseIcon from '@mui/icons-material/Close';
-import PropTypes from 'prop-types';
+import CloseIcon from "@mui/icons-material/Close";
+import PropTypes from "prop-types";
 const imageSrc = require("../pages/assets/images/species1.jpg");
 
 import {
@@ -44,11 +44,12 @@ import { Link, Router } from "react-router-dom";
 import Image from "next/image";
 import Footer from "./components/Home/Footer/Footer";
 import Counters from "./components/Home/counters";
+import { fontSize, fontWeight, height } from "@mui/system";
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-  '& .MuiDialogContent-root': {
+  "& .MuiDialogContent-root": {
     padding: theme.spacing(2),
   },
-  '& .MuiDialogActions-root': {
+  "& .MuiDialogActions-root": {
     padding: theme.spacing(1),
   },
 }));
@@ -64,7 +65,7 @@ const BootstrapDialogTitle = (props) => {
           aria-label="close"
           onClick={onClose}
           sx={{
-            position: 'absolute',
+            position: "absolute",
             right: 8,
             top: 8,
             color: (theme) => theme.palette.grey[500],
@@ -93,7 +94,17 @@ function createData(
   GIS,
   Additional
 ) {
-  return { number, imageSrc, Species, Family, Locality, Habitat, Size, GIS, Additional };
+  return {
+    number,
+    imageSrc,
+    Species,
+    Family,
+    Locality,
+    Habitat,
+    Size,
+    GIS,
+    Additional,
+  };
 }
 const style = {
   position: "absolute",
@@ -112,7 +123,8 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     color: theme.palette.common.white,
   },
   [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
+    fontSize: 20,
+    
   },
 }));
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
@@ -180,9 +192,6 @@ const rows = [
   ),
 ];
 const Species = () => {
-
-
-
   // const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   // const handleOpen = () => setOpen(true);
@@ -204,16 +213,27 @@ const Species = () => {
           <Grid container item xs={12} md={12} sx={{ mx: "auto" }}>
             <Grid item xs={12} md={12}>
               <Card sx={{ marginBottom: "10px" }}>
-                <Typography gutterBottom component="h2" variant="h2">
+                <Typography
+                  gutterBottom
+                  component="h2"
+                  variant="h2"
+                  style={{ color: "#0f4c39", fontSize: 30 }}
+                >
                   Species Search
                 </Typography>
-                <Typography gutterBottom component="description" variant="div">
+                <Typography
+                  gutterBottom
+                  component="description"
+                  variant="div"
+                  style={{ fontSize: 20,color:"black" ,}}
+                >
                   The full name of the genus or species can be inserted, or you
                   can type the first four letters of the generic name and/or the
-                  first four letters of the species (or other) epithet in upper
-                  or lower case (e.g. Mere micr or mere micr for Meredithia
-                  microphylla). A full list of the species and subspecific
-                  entities in each genus can be obtained in the genus database.
+                  first four letters <br /> of the species (or other) epithet in
+                  upper or lower case (e.g. Mere micr or mere micr for
+                  Meredithia microphylla). A full list of the species <br /> and
+                  subspecific entities in each genus can be obtained in the
+                  genus database.
                 </Typography>
               </Card>
 
@@ -227,7 +247,11 @@ const Species = () => {
                   noValidate
                   autoComplete="off"
                 >
-                  <TextField label="Search By Name" color="secondary" className={styles.custom_input} />
+                  <TextField
+                    label="Search By Name"
+                    color="secondary"
+                    className={styles.custom_input}
+                  />
                   <TextField label="Search By  Family" color="secondary" />
                   <TextField label="Select Country" color="secondary" />
                   <TextField label="Select Area" color="secondary" />
@@ -239,8 +263,10 @@ const Species = () => {
                       color: "white",
                       maxWidth: "80px",
                       maxHeight: "80px",
-                      minWidth: "40px",
+                      minWidth: "90px",
                       minHeight: "40px",
+                      marginTop: "13px",
+                      fontWeight:600
                     }}
                   >
                     Search
@@ -259,7 +285,7 @@ const Species = () => {
                 sx={{ b: 1, mb: 3 }}
                 style={{ borderRadius: "10px" }}
               >
-                <TableContainer component={Paper}>
+                <TableContainer component={Paper} >
                   <Table sx={{ minWidth: 650 }} aria-label="customized table">
                     {/* <TableHead>
                       <TableRow>
@@ -293,16 +319,23 @@ const Species = () => {
                             "&:last-child td, &:last-child th": { border: 0 },
                           }}
                         >
-                          <StyledTableCell component="th" scope="row">
+                          <StyledTableCell component="th" scope="row" className={styles.textContainer}>
                             {row.number}
                           </StyledTableCell>
                           <StyledTableCell component="th">
-                            <Image src={row.imageSrc} height={100} width={150} sx={{ borderRadius: 10 }}></Image>
+                            <Image
+                              src={row.imageSrc}
+                              height={100}
+                              width={150}
+                              sx={{ borderRadius: 10 }}
+                            ></Image>
                           </StyledTableCell>
                           <StyledTableCell align="center">
-                            <Typography component="h3" variant="h3">{row.Species}</Typography>
+                            <Typography component="h3" variant="h3" >
+                              {row.Species}
+                            </Typography>
                           </StyledTableCell>
-                          <StyledTableCell align="center">
+                          <StyledTableCell align="center" >
                             {row.Family}
                           </StyledTableCell>
                           <StyledTableCell align="center">
@@ -314,11 +347,11 @@ const Species = () => {
                           <StyledTableCell align="center">
                             {row.Size}
                           </StyledTableCell>
-                          <StyledTableCell align="center">
+                          <StyledTableCell align="center" className={styles.textContainer} >
                             {row.GIS}
                           </StyledTableCell>
                           <StyledTableCell align="center">
-                            <Box sx={{ flexGrow: 1, flexDirection: 'row' }}>
+                            <Box sx={{ flexGrow: 1, flexDirection: "row" }}>
                               <Button
                                 className={styles.bg_primary}
                                 style={{
@@ -326,12 +359,12 @@ const Species = () => {
                                   maxHeight: "80px",
                                   minWidth: "40px",
                                   minHeight: "40px",
-                                  color: 'white',
-                                  boxShadow: '1px 1px 4px grey'
+                                  color: "white",
+                                  boxShadow: "1px 1px 4px grey",
                                 }}
                                 onClick={handleClickOpen}
                                 sx={{ mb: 1, mr: 0.5 }}
-                              // variant="outlined"
+                                // variant="outlined"
                               >
                                 Details
                               </Button>
@@ -341,21 +374,19 @@ const Species = () => {
                               <br />
                               <Button
                                 style={{
-                                  boxShadow: '1px 1px 4px grey',
+                                  boxShadow: "1px 1px 4px grey",
                                   maxHeight: "80px",
                                   width: "80px",
-                                  background: 'white',
+                                  background: "white",
                                   minHeight: "40px",
-                                  color: '#0f4c39'
+                                  color: "#0f4c39",
                                 }}
                                 type="button"
                                 onClick={() => router.push("/map")}
-
                               >
                                 View&nbsp;map
                               </Button>
                             </Box>
-
                           </StyledTableCell>
                         </StyledTableRow>
                       ))}
@@ -372,22 +403,35 @@ const Species = () => {
         onRowsPerPageChange={handleChangeRowsPerPage}
       /> */}
               </Grid>
-
             </Grid>
-
           </Grid>
         </Box>
       </div>
-
 
       <BootstrapDialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
-
+        fullWidth
+        maxWidth="md"
+        // style={{
+        //   // width: "100%",
+        //   minWidth: "500px"
+        // }}
       >
-        <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose} style={{ fontWeight: 600, fontSize: 20, fontFamily: 'Raleway', color: '#0f4c39' }}>
-          Details
+        <BootstrapDialogTitle
+          id="customized-dialog-title"
+          onClose={handleClose}
+          style={{
+            fontWeight: 600,
+            fontSize: 20,
+            fontFamily: "Raleway",
+            color: "#0f4c39",
+          
+           
+          }}
+        >
+          <br/>
         </BootstrapDialogTitle>
         <DialogContent dividers>
           <Image
@@ -395,22 +439,41 @@ const Species = () => {
             // width={500}
             height={500}
           ></Image>
-          <Typography gutterBottom style={{ fontWeight: 600, fontSize: 30, fontFamily: 'Raleway', paddingBottom: 20, paddingTop: 20, color: '#0f4c39' }}>
+          <Typography
+            gutterBottom
+            style={{
+              fontWeight: 600,
+              fontSize: 30,
+              fontFamily: "Raleway",
+              paddingBottom: 20,
+              paddingTop: 20,
+              color: "#0f4c39",
+            }}
+          >
             Praesent commodo cursus magna
           </Typography>
-          <Typography gutterBottom style={{ fontWeight: 600, fontFamily: 'Roboto', }}>
+          <Typography
+            gutterBottom
+            style={{ fontWeight: 600, fontFamily: "Roboto" }}
+          >
             Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-            Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
+            Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor
+            auctor.
           </Typography>
-          <Typography gutterBottom style={{ fontWeight: 300, fontFamily: 'Roboto', }}>
-            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus
-            magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec
-            ullamcorper nulla non metus auctor fringilla. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-            Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
-            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus
-            magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec
-            ullamcorper nulla non metus auctor fringilla. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-            Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
+          <Typography
+            gutterBottom
+            style={{ fontWeight: 300, fontFamily: "Roboto" }}
+          >
+            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo
+            cursus magna, vel scelerisque nisl consectetur et. Donec sed odio
+            dui. Donec ullamcorper nulla non metus auctor fringilla. Praesent
+            commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus
+            sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
+            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo
+            cursus magna, vel scelerisque nisl consectetur et. Donec sed odio
+            dui. Donec ullamcorper nulla non metus auctor fringilla. Praesent
+            commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus
+            sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
           </Typography>
         </DialogContent>
         <DialogActions>
@@ -419,7 +482,6 @@ const Species = () => {
         </DialogActions>
       </BootstrapDialog>
       <Footer />
-
     </div>
   );
 };

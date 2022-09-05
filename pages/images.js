@@ -101,16 +101,20 @@ export default function Images() {
         <Box component="section">
           <Grid container item xs={12} md={12} sx={{ mx: "auto" }}>
             <Grid item xs={12} md={12}>
-              <Typography gutterBottom component="h2" variant="h2">
+              <Typography gutterBottom component="h2" variant="h2"   style={{ color: "#0f4c39", fontSize: 30 }}>
                 Images Search
               </Typography>
-              <Typography gutterBottom component="description" variant="div">
+              <Typography  gutterBottom
+                  component="description"
+                  variant="div"
+                  style={{ fontSize: 20 }}>
                 The images remain the property of the copyright owners who give
                 permission for non-commercial use for teaching purposes in
-                lectures and on meetings presentations and posters, provided
+                lectures <br/> and on meetings presentations and posters, provided
                 their copyright and the source is acknowledged, but are NOT free
-                for publication in any format or manner.
+                for publication <br/>  in any format or manner.
               </Typography>
+              <Divider></Divider>
               <Grid item xs={12} sx={{ mb: 2 }}>
                 <Box
                   component="form"
@@ -127,13 +131,15 @@ export default function Images() {
                   <Button
                     type="button"
                     // onClick={}
+                    className={styles.bg_primary}
                     style={{
                       color: "white",
-                      background: "#0f4c39",
                       maxWidth: "80px",
                       maxHeight: "80px",
-                      minWidth: "40px",
+                      minWidth: "90px",
                       minHeight: "40px",
+                      marginTop: "13px",
+                      fontWeight:600
                     }}
                   >
                     Search

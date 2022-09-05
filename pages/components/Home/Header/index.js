@@ -13,7 +13,10 @@ import SearchIcon from "@mui/icons-material/Search";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import SearchSection from "./SearchSection";
 import styles from "../../../../styles/Home.module.css";
-
+import HomeIcon from '@mui/icons-material/Home';
+import ImageIcon from '@mui/icons-material/Image';
+import ContactsIcon from '@mui/icons-material/Contacts';
+import ForestIcon from '@mui/icons-material/Forest';
 import Link from "next/link";
 
 
@@ -44,31 +47,38 @@ export default function PrimarySearchAppBar(props) {
       name: "Home",
       path: "/",
       background:'white',
-      color:'black',
-      border:"none"
+      color:'#0f4c39',
+      border:"none",
+      
+      icon:<HomeIcon style={{ fontSize: 19 }}></HomeIcon> ,
     },
     {
       name: "Species",
       path: "/species",
-      color:'black',
+      color:'#0f4c39',
       background:'white',
-      border:"none"
+      border:"none",
+      icon:<ForestIcon style={{ fontSize: 19 }}></ForestIcon>
+      
+      
 
     },
     {
       name: "Images",
       path: "/images",
-      color:'black',
+      color:'#0f4c39',
       background:'white',
-      border:"none"
+      border:"none",
+      icon:<ImageIcon style={{ fontSize: 19 }}></ImageIcon>
 
     },
     {
       name: "Contact",
       path: "/contact",
-      color:'black',
+      color:'#0f4c39',
       background:'white',
-      border:"none"
+      border:"none",
+      icon:<ContactsIcon style={{ fontSize: 19 }}></ContactsIcon>
 
     },
   ];
@@ -135,7 +145,8 @@ export default function PrimarySearchAppBar(props) {
       {pages.map((page, index) => (
         <Link href={page.path}>
         <MenuItem key={page} onClick={handleCloseNavMenu}>
-          <Typography textAlign="center">{page.name}</Typography>
+         
+          <Typography  textAlign="center">{page.name}</Typography>
         </MenuItem></Link>
       ))}
     </Menu>
@@ -160,8 +171,10 @@ export default function PrimarySearchAppBar(props) {
             
             {pages.map((page, index) => (
               <Link href={page.path}>
-                <MenuItem key={page} style={{ color: page.color ,border: page.border}} className={page.background} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page.name}</Typography>
+                <MenuItem  key={page} style={{ color: page.color ,border: page.border}} className={page.background} onClick={handleCloseNavMenu}>
+                <Typography style={{ fontSize: 0.1 }} >{page.icon}</Typography>
+                
+                  <Typography style={{fontWeight:600,paddingTop:1}} textAlign="center">{page.name}</Typography>
                 </MenuItem>
               </Link>
             ))}

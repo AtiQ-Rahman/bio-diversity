@@ -25,72 +25,71 @@ const Map = () => {
     <div className={styles.body}>
       <Header index={1} />
       <div className={styles.main}>
-      <Box
-        className={styles.main_box}
-        component="main"
-        sx={{
-          flexGrow: 1,
-          py: 8,
-          mt: 10,
-        }}
-      >
-        <Grid
-          container
-          spacing={3}
-          xs={12}
-          md={12}
-          sx={{ m: 4 }}
-          style={{ marginRight: "5px"}}
+        <Box
+          className={styles.main_box}
+          component="main"
+          sx={{
+            flexGrow: 1,
+            py: 8,
+            mt: 10,
+          }}
         >
           <Grid
-            item
-            md={10}
-            xl={8}
+            container
+            spacing={3}
             xs={12}
-           
-            style={{ borderRadius: "10px" }}
-            // style={{  paddingRight: "20px" }}
+            md={12}
+            sx={{ m: 4 }}
+            style={{ marginRight: "5px" }}
           >
-            <Image width={1000}height={500} src={map}></Image>
+            <Grid
+              item
+              md={10}
+              xl={8}
+              xs={12}
+              style={{ borderRadius: "10px" }}
+              // style={{  paddingRight: "20px" }}
+            >
+              <Image width={1000} height={500} src={map}></Image>
+            </Grid>
+            <Grid
+              sx={{ boxShadow: "1px solid blac" }}
+              style={{ borderRadius: "10px" }}
+              item
+              lg={4}
+              md={2}
+              xl={4}
+              xs={12}
+            >
+              <Card sx={{ maxWidth: 345 }}>
+                <Image src={imageSrc}></Image>
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                    Species
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    The full name of the genus or species can be inserted, or
+                    you can type the first four letters of the generic name
+                    and/or the first four letters of the species (or other)
+                    epithet in upper or lower case (e.g. Mere micr or mere micr
+                    for Meredithia microphylla). A full list of the species and
+                    subspecific entities in each genus can be obtained in the
+                    genus database.
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                  <Button size="small">Share</Button>
+                  <Button size="small">Learn More</Button>
+                </CardActions>
+              </Card>
+            </Grid>
           </Grid>
-          <Grid
-            sx={{boxShadow: "1px solid blac"}}
-            style={{ borderRadius: "10px"}}
-            item
-            lg={4}
-            md={2}
-            xl={4}
-            xs={12}
-          >
-            <Card sx={{ maxWidth: 345 }}>
-              <Image src={imageSrc}></Image>
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  Species
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  The full name of the genus or species can be inserted, or you
-                  can type the first four letters of the generic name and/or the
-                  first four letters of the species (or other) epithet in upper
-                  or lower case (e.g. Mere micr or mere micr for Meredithia
-                  microphylla). A full list of the species and subspecific
-                  entities in each genus can be obtained in the genus database.
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Button size="small">Share</Button>
-                <Button size="small">Learn More</Button>
-              </CardActions>
-            </Card>
-          </Grid>
-        </Grid>
 
-        {/*  */}
-      </Box>
+          {/*  */}
+        </Box>
       </div>
 
-        <Footer />
-
+      <Footer />
     </div>
   );
 };
