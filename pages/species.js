@@ -124,7 +124,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 20,
-    
   },
 }));
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
@@ -225,7 +224,7 @@ const Species = () => {
                   gutterBottom
                   component="description"
                   variant="div"
-                  style={{ fontSize: 20,color:"black" ,}}
+                  style={{ fontSize: 20, color: "black" }}
                 >
                   The full name of the genus or species can be inserted, or you
                   can type the first four letters of the generic name and/or the
@@ -266,7 +265,7 @@ const Species = () => {
                       minWidth: "90px",
                       minHeight: "40px",
                       marginTop: "13px",
-                      fontWeight:600
+                      fontWeight: 600,
                     }}
                   >
                     Search
@@ -285,7 +284,7 @@ const Species = () => {
                 sx={{ b: 1, mb: 3 }}
                 style={{ borderRadius: "10px" }}
               >
-                <TableContainer component={Paper} >
+                <TableContainer component={Paper}>
                   <Table sx={{ minWidth: 650 }} aria-label="customized table">
                     {/* <TableHead>
                       <TableRow>
@@ -319,7 +318,11 @@ const Species = () => {
                             "&:last-child td, &:last-child th": { border: 0 },
                           }}
                         >
-                          <StyledTableCell component="th" scope="row" className={styles.textContainer}>
+                          <StyledTableCell
+                            component="th"
+                            scope="row"
+                            className={styles.textContainer}
+                          >
                             {row.number}
                           </StyledTableCell>
                           <StyledTableCell component="th">
@@ -331,11 +334,11 @@ const Species = () => {
                             ></Image>
                           </StyledTableCell>
                           <StyledTableCell align="center">
-                            <Typography component="h3" variant="h3" >
+                            <Typography component="h3" variant="h3">
                               {row.Species}
                             </Typography>
                           </StyledTableCell>
-                          <StyledTableCell align="center" >
+                          <StyledTableCell align="center">
                             {row.Family}
                           </StyledTableCell>
                           <StyledTableCell align="center">
@@ -347,7 +350,10 @@ const Species = () => {
                           <StyledTableCell align="center">
                             {row.Size}
                           </StyledTableCell>
-                          <StyledTableCell align="center" className={styles.textContainer} >
+                          <StyledTableCell
+                            align="center"
+                            className={styles.textContainer}
+                          >
                             {row.GIS}
                           </StyledTableCell>
                           <StyledTableCell align="center">
@@ -427,17 +433,15 @@ const Species = () => {
             fontSize: 20,
             fontFamily: "Raleway",
             color: "#0f4c39",
-          
-           
           }}
         >
-          <br/>
+          <br />
         </BootstrapDialogTitle>
         <DialogContent dividers>
           <Image
             src={imageSrc}
             // width={500}
-            height={500}
+            height={400}
           ></Image>
           <Typography
             gutterBottom
