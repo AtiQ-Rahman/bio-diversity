@@ -26,7 +26,7 @@ import {
     Toolbar,
     useMediaQuery,
   } from "@mui/material";
-
+  import { Icon } from "@iconify/react";
 // Material Kit 2 React examples
 import DefaultCounterCard from "./DefaultCounterCard";
 
@@ -34,25 +34,28 @@ function Counters() {
   return (
 
       
-        <Grid container item xs={12} lg={12} md={12} sx={{ mx: "auto" }}>
+        <Grid container item xs={12} lg={12} md={12} >
           <Grid item xs={12} md={4} >
+          {/* <Icon icon="material-symbols:biotech-outline" /> */}
             <DefaultCounterCard
               count={2000}
               suffix="+"
               title="Species"
               description="From teknaf to tetulia"
-              backgroundColor="#0f4c39"
-
+             
+              // backgroundColor="#0f4c39"
+            
             />
           </Grid>
           <Grid item xs={12} md={4}>
             <DefaultCounterCard
               count={3000}
               suffix="+"
-              backgroundColor="#2c8f7c"
+              // backgroundColor="#2c8f7c"
 
               title="Images"
               description="Available for checking"
+            
             />
           </Grid>
           <Grid item xs={12} md={4} >
@@ -61,8 +64,8 @@ function Counters() {
               suffix="+"
               title="Request"
               description="For adding on our server"
-              backgroundColor="#0f4c39"
-
+              // backgroundColor="#0f4c39"
+             
             />
           </Grid>
         </Grid>
