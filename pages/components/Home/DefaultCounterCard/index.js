@@ -21,26 +21,26 @@ import CountUp from "react-countup";
 import styles from "../../../../styles/Home.module.css";
 
 // Material Kit 2 React components
-import { Card, CardContent, CardActions, Typography } from "@mui/material";
+import { Card, CardContent, CardActions, Typography, Grid } from "@mui/material";
 
 function DefaultCounterCard({ color, count,backgroundColor, title, description, ...rest }) {
   return (
-    <Card sx={{ minWidth: 275 , boxShadow:"5px 5px 25px #16161670",borderRadius:'0px', background: backgroundColor}} >
+    <Grid  >
       <CardContent>
 
         <Typography variant="h1" component="div" color="white">
           <CountUp end={count} duration={1} {...rest} />
         </Typography>
-        <Typography sx={{ mb: 1.5 }}  variant="h3" color="white">
+        {/* <Typography sx={{ mb: 1.5 }}  variant="h3" color="white">
           {title}
-        </Typography>
-        <Typography variant="body2" color="white">
+        </Typography> */}
+        <Typography variant="body2" color="white" fontWeight={600}>
           {description}
           <br />
-          {'"a benevolent smile"'}
+          {/* {'"a benevolent smile"'} */}
         </Typography>
       </CardContent>
-    </Card>
+    </Grid>
   );
 }
 

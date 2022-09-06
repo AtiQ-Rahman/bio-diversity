@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 // material-ui
 import { useTheme, styled } from '@mui/material/styles';
-import { Avatar, Box, ButtonBase, Card, Grid, InputAdornment, OutlinedInput, Popper } from '@mui/material';
+import { Avatar, Box, Button, ButtonBase, Card, Grid, InputAdornment, OutlinedInput, Popper } from '@mui/material';
 
 // third-party
 import PopupState, { bindPopper, bindToggle } from 'material-ui-popup-state';
@@ -69,7 +69,7 @@ const MobileSearch = ({ value, setValue, popupState }) => {
             placeholder="Search"
             startAdornment={
                 <InputAdornment position="start">
-                    <IconSearch stroke={1.5} size="1rem" color={theme.palette.grey[500]} />
+                   <Button> <IconSearch stroke={1.5} size="1rem" color={theme.palette.grey[500]} /></Button>
                 </InputAdornment>
             }
             endAdornment={
@@ -128,7 +128,7 @@ const SearchSection = () => {
                             <Box sx={{ ml: 2 }}>
                                 <ButtonBase sx={{ borderRadius: '12px' }}>
                                     <HeaderAvatarStyle variant="rounded" {...bindToggle(popupState)} sx={{ height:30 , top:-10 }}>
-                                        <IconSearch stroke={1.5} size="1rem" />
+                                       <IconSearch stroke={1.5} size="1rem" />
                                     </HeaderAvatarStyle>
                                 </ButtonBase>
                             </Box>
