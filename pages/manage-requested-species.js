@@ -228,21 +228,13 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({
         }
     })
 }));
-export default function ManageSpecies() {
+export default function ManageRequestedSpecies() {
     const theme = useTheme();
     const matchDownMd = useMediaQuery(theme.breakpoints.down('lg'));
     // const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     // const handleOpen = () => setOpen(true);
     // const handleClose = () => setOpen(false);
-    const uploadToClient = (event) => {
-    if (event.target.files && event.target.files[0]) {
-        const i = event.target.files[0];
-  
-        setImage(i);
-        setCreateObjectURL(URL.createObjectURL(i));
-      }
-    };
     const router = useRouter();
     const handleClickOpen = () => {
         setOpen(true);
@@ -334,7 +326,7 @@ export default function ManageSpecies() {
                                     {/* TABLE */}
                                     <Divider></Divider>
 
-                                    <h1>Total Species Found (5)</h1>
+                                    <h1>Requested Species (5)</h1>
                                     <br />
                                     <Grid
                                         item
@@ -398,7 +390,23 @@ export default function ManageSpecies() {
                                                                 {row.GIS}
                                                             </StyledTableCell>
                                                             <StyledTableCell align="center">
-                                                                <Box sx={{ flexGrow: 1, flexDirection: 'row' }}>
+                                                                <Box sx={{ flexGrow: 1, flexDirection: 'column' }}>
+                                                                    <Button
+                                                                        className={styles.bg_secondary}
+                                                                        style={{
+                                                                            width: "80px",
+                                                                            maxHeight: "80px",
+                                                                            minWidth: "40px",
+                                                                            minHeight: "40px",
+                                                                            color: 'white',
+                                                                            boxShadow: '1px 1px 4px grey'
+                                                                        }}
+                                                                        onClick={handleClickOpen}
+                                                                        sx={{ mb: 1, mr: 0.5 }}
+                                                                    // variant="outlined"
+                                                                    >
+                                                                        <Icon icon="carbon:view-filled" /> &nbsp; View
+                                                                    </Button>
                                                                     <Button
                                                                         className={styles.bg_primary}
                                                                         style={{
@@ -413,7 +421,7 @@ export default function ManageSpecies() {
                                                                         sx={{ mb: 1, mr: 0.5 }}
                                                                     // variant="outlined"
                                                                     >
-                                                                        <Icon icon="dashicons:edit-large" />&nbsp; Edit
+                                                                        <Icon icon="healthicons:i-documents-accepted" />&nbsp; Accept
                                                                     </Button>
 
                                                                     {/* =======MODAL===== */}
@@ -424,15 +432,15 @@ export default function ManageSpecies() {
                                                                             boxShadow: '1px 1px 4px grey',
                                                                             maxHeight: "80px",
                                                                             width: "80px",
-                                                                            background: 'white',
+                                                                            background: 'red',
                                                                             minHeight: "40px",
-                                                                            color: '#0f4c39'
+                                                                            color: 'white'
                                                                         }}
                                                                         type="button"
-                                                                        // onClick={() => router.push("/map")}
+                                                                    // onClick={() => router.push("/map")}
 
                                                                     >
-                                                                        <Icon icon="fluent:delete-16-filled" />&nbsp; Delete
+                                                                        <Icon icon="ic:twotone-leave-bags-at-home" />&nbsp;Decline
                                                                     </Button>
                                                                 </Box>
 
@@ -465,139 +473,35 @@ export default function ManageSpecies() {
 
                     >
                         <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose} style={{ fontWeight: 600, fontSize: 20, fontFamily: 'Raleway', color: '#0f4c39' }}>
-                        Species Details
+                            Details
                         </BootstrapDialogTitle>
                         <DialogContent dividers>
-
-                                <Grid >
-
-                                    <Grid container spacing={3} >
-                                        <Grid item xs={12}>
-                                            <TextField
-                                                required
-                                                id="Species"
-                                                name="Species"
-                                                label="Species Name"
-                                                fullWidth
-                                                autoComplete="Species Name"
-                                                variant="standard"
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12} sm={6}>
-                                            <TextField
-                                                required
-                                                id="Family"
-                                                name="Family"
-                                                label="Family"
-                                                fullWidth
-                                                autoComplete="Family"
-                                                variant="standard"
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12} sm={6}>
-                                            <TextField
-                                                required
-                                                id="Locality"
-                                                name="Locality"
-                                                label="Locality"
-                                                fullWidth
-                                                autoComplete="Locality"
-                                                variant="standard"
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12} sm={6}>
-                                            <TextField
-                                                required
-                                                id="Habitat"
-                                                name="Habitat"
-                                                label="Habitat"
-                                                fullWidth
-                                                autoComplete="Habitat"
-                                                variant="standard"
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12} sm={6}>
-                                            <TextField
-                                                required
-                                                id="Size (cm)"
-                                                name="Size (cm)"
-                                                label="Size (cm)"
-                                                fullWidth
-                                                autoComplete="Size (cm)"
-                                                variant="standard"
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12} sm={6}>
-                                            <TextField
-                                                required
-                                                id="latitude(GIS)"
-                                                name="latitude(GIS)"
-                                                label="latitude(GIS)"
-                                                fullWidth
-                                                autoComplete="latitude(GIS)"
-                                                variant="standard"
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12} sm={6}>
-                                            <TextField
-                                                required
-                                                id="longitude(GIS)"
-                                                name="longitude(GIS)"
-                                                label="longitude(GIS)"
-                                                fullWidth
-                                                autoComplete="longitude(GIS)"
-                                                variant="standard"
-                                            />
-                                        </Grid>
-
-                                        <Grid item xs={12}>
-                                            <TextField
-                                                label="Descripton"
-                                                multiline
-                                                rows={4}
-                                                placeholder="Type your Descripton here"
-                                                variant="outlined"
-                                                fullWidth
-                                                required
-                                            />
-                                        </Grid>
-
-                                        <Grid>
-                                            <TextField
-                                                sx={{
-                                                    flexGrow: 1,
-
-                                                    mt: 2,
-                                                    ml: 3,
-                                                }}
-                                                type="file"
-                                                name="myImage"
-                                                onChange={uploadToClient}
-                                            />
-                                        </Grid>
-                                    </Grid>
-                                    <br />
-                                    <Button
-                                        className={styles.bg_primary}
-
-                                        style={{
-                                            width: "80px",
-                                            maxHeight: "80px",
-                                            minWidth: "40px",
-                                            minHeight: "40px",
-                                            color: "white",
-                                            boxShadow: "1px 1px 4px grey",
-                                            marginBottom: "10px"
-                                        }}
-                                    >
-                                        Upload
-                                    </Button>
-                                </Grid>
-                           
+                            <Image
+                                src={imageSrc}
+                                // width={500}
+                                height={500}
+                            ></Image>
+                            <Typography gutterBottom style={{ fontWeight: 600, fontSize: 30, fontFamily: 'Raleway', paddingBottom: 20, paddingTop: 20, color: '#0f4c39' }}>
+                                Praesent commodo cursus magna
+                            </Typography>
+                            <Typography gutterBottom style={{ fontWeight: 600, fontFamily: 'Roboto', }}>
+                                Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
+                                Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
+                            </Typography>
+                            <Typography gutterBottom style={{ fontWeight: 300, fontFamily: 'Roboto', }}>
+                                Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus
+                                magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec
+                                ullamcorper nulla non metus auctor fringilla. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
+                                Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
+                                Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus
+                                magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec
+                                ullamcorper nulla non metus auctor fringilla. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
+                                Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
+                            </Typography>
                         </DialogContent>
                         <DialogActions>
-                            <Button size="small" className={styles.bg_primary} sx ={{color:"white"}}>Save</Button>
-                            <Button size="small" className={styles.bg_primary} sx ={{color:"white"}}>Cancel</Button>
+                            <Button size="small">Share</Button>
+                            <Button size="small">Learn More</Button>
                         </DialogActions>
                     </BootstrapDialog>
                 </Main>
