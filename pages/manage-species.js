@@ -469,7 +469,7 @@ export default function ManageSpecies() {
                         </BootstrapDialogTitle>
                         <DialogContent dividers>
 
-                                <Grid >
+                               
 
                                     <Grid container spacing={3} >
                                         <Grid item xs={12}>
@@ -592,7 +592,7 @@ export default function ManageSpecies() {
                                     >
                                         Upload
                                     </Button>
-                                </Grid>
+                               
                            
                         </DialogContent>
                         <DialogActions>
