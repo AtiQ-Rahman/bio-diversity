@@ -206,10 +206,10 @@ const Species = () => {
     <div className={styles.body}>
       <Header index={1} />
 
-      <div className={styles.main} sx={{ height: "100%" }}>
-        <Box component="section" className={styles.main_box} sx={{ mt: 10 }}>
+      <div className={styles.main} >
+        <Box component="section" className={styles.main_box} >
           {/* Species Search */}
-          <Grid container item xs={12} md={12} sx={{ mx: "auto" }}>
+          <Grid container item xs={12} md={12} sx={{ mx: "auto" , mt: 10 }}>
             <Grid item xs={12} md={12}>
               <Card sx={{ marginBottom: "10px" }}>
                 <Typography
