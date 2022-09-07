@@ -21,6 +21,7 @@ import Link from "next/link";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import AddIcon from "@mui/icons-material/Add";
+
 const options = [
   "None",
   "Atria",
@@ -37,7 +38,6 @@ const options = [
   "Triton",
   "Umbriel",
 ];
-
 const ITEM_HEIGHT = 48;
 export default function PrimarySearchAppBar(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -70,96 +70,107 @@ export default function PrimarySearchAppBar(props) {
   };
   const isMenuOpen = Boolean(anchorEl1);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-  let pages = [
-    {
-      name: "Home",
-      path: "/",
-      background: "white",
-      color: "white",
-      border: "none",
+  const [pages , setPages] = React.useState([])
+  const [force , setForce] = React.useState(false)
+  const renderContribute = (
+    <Menu
+    id="long-menu"
+    MenuListProps={{
+      "aria-labelledby": "long-button",
+    }}
+    anchorEl={anchorEl}
+    open={open}
+    onClose={handleClose}
+    PaperProps={{
+      style: {
+        maxHeight: ITEM_HEIGHT * 4.5,
+        width: "20ch",
+      },
+    }}
+  >
+    {options.map((option) => (
+      <MenuItem
+        key={option}
+        selected={option === "Pyxis"}
+        onClick={handleClose}
+      
+      >
+        {option}
+      </MenuItem>
+    ))}
+  </Menu>
+  );
+  React.useEffect(()=>{
 
-      icon: <HomeIcon style={{ fontSize: 19 }}></HomeIcon>,
-    },
-    {
-      name: "Species",
-      path: "/species",
-      color: "white",
-      background: "white",
-      border: "none",
-      icon: <ForestIcon style={{ fontSize: 19 }}></ForestIcon>,
-    },
-    {
-      name: "Images",
-      path: "/images",
-      color: "white",
-      background: "white",
-      border: "none",
-      icon: <ImageIcon style={{ fontSize: 19 }}></ImageIcon>,
-    },
-    {
-      name: "Contact",
-      path: "/contact",
-      color: "white",
-      background: "white",
-      border: "none",
-      icon: <ContactsIcon style={{ fontSize: 19 }}></ContactsIcon>,
-    },
-    {
-      // name: "Contribute",
-      path: "",
-      color: "white",
-      background: "white",
-      border: "none",
+    let pages = [
+      {
+        name: "Home",
+        path: "/",
+        background: "white",
+        color: "white",
+        border: "none",
+  
+        icon: <HomeIcon style={{ fontSize: 19 }}></HomeIcon>,
+      },
+      {
+        name: "Species",
+        path: "/species",
+        color: "white",
+        background: "white",
+        border: "none",
+        icon: <ForestIcon style={{ fontSize: 19 }}></ForestIcon>,
+      },
+      {
+        name: "Images",
+        path: "/images",
+        color: "white",
+        background: "white",
+        border: "none",
+        icon: <ImageIcon style={{ fontSize: 19 }}></ImageIcon>,
+      },
+      {
+        name: "Contact",
+        path: "/contact",
+        color: "white",
+        background: "white",
+        border: "none",
+        icon: <ContactsIcon style={{ fontSize: 19 }}></ContactsIcon>,
+      },
+      {
+        // name: "Contribute",
+        path: "",
+        color: "white",
+        background: "white",
+        border: "none",
+  
+        name: (
+          <div>
+            <IconButton
+              aria-label="more"
+              id="long-button"
+              aria-controls={open ? "long-menu" : undefined}
+              aria-expanded={open ? "true" : undefined}
+              aria-haspopup="true"
+              onClick={handleClick}
+            >
+              <AddIcon style={{ fontSize: 19 }} sx={{ color: "white" }}></AddIcon>
+              <Typography sx={{ color: "white" }} style={{ fontWeight: 600 }}>
+                Contribute
+              </Typography>{" "}
+              <ArrowDropDownIcon sx={{ color: "white" }} />
+            </IconButton>
+            {renderContribute}
+          </div>
+        ),
+      },
+    ];
+    pages[props.index].background = styles.bg_primary;
+    pages[props.index].color = "white";
+    pages[props.index].border = "10px solid #0f4c39";
+    setPages(pages);
+    setForce(!force)
+  },[])
 
-      name: (
-        <div>
-          <IconButton
-            aria-label="more"
-            id="long-button"
-            aria-controls={open ? "long-menu" : undefined}
-            aria-expanded={open ? "true" : undefined}
-            aria-haspopup="true"
-            onClick={handleClick}
-          >
-            <AddIcon style={{ fontSize: 19 }} sx={{ color: "white" }}></AddIcon>
-            <Typography sx={{ color: "white" }} style={{ fontWeight: 600 }}>
-              Contribute
-            </Typography>{" "}
-            <ArrowDropDownIcon sx={{ color: "white" }} />
-          </IconButton>
-          <Menu
-            id="long-menu"
-            MenuListProps={{
-              "aria-labelledby": "long-button",
-            }}
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            PaperProps={{
-              style: {
-                maxHeight: ITEM_HEIGHT * 4.5,
-                width: "20ch",
-              },
-            }}
-          >
-            {options.map((option) => (
-              <MenuItem
-                key={option}
-                selected={option === "Pyxis"}
-                onClick={handleClose}
-              
-              >
-                {option}
-              </MenuItem>
-            ))}
-          </Menu>
-        </div>
-      ),
-    },
-  ];
-  pages[props.index].background = styles.bg_primary;
-  pages[props.index].color = "white";
-  pages[props.index].border = "10px solid #0f4c39";
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl1(event.currentTarget);

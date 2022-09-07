@@ -206,9 +206,9 @@ export default function Images() {
               </Grid>
               <Divider></Divider>
               <Grid container xs={12} md={12} sx={{ mt: 5, mb: 0 }}>
-                {speciesList?.map((item) => {
+                {speciesList?.map((item,index) => {
                   return (
-                    <Grid item xs={6} md={3} sx={{ mb: 3 }}>
+                    <Grid key={`species${index}`}item xs={6} md={3} sx={{ mb: 3 }}>
                       <Card
                         sx={{
                           maxWidth: 345,
