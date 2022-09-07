@@ -150,13 +150,13 @@ export default function Images() {
       <Header index={2}></Header>
       <div className={styles.main_box}>
         <Box component="section">
-          <Grid container item xs={12} md={12} sx={{ mx: "auto" }}>
-            <Grid item xs={12} md={12}>
+          <Grid container item xs={12} md={12} sx={{ mx: "auto", mt: 10 }}>
+            <Grid item xs={12} md={12} >
               <Typography
                 gutterBottom
                 component="h2"
                 variant="h2"
-                style={{ color: "#0f4c39", fontSize: 30 }}
+                style={{ color: "#0f4c39", fontSize: 30 ,}}
               >
                 Images Search
               </Typography>

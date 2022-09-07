@@ -21,6 +21,7 @@ import Link from "next/link";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import AddIcon from "@mui/icons-material/Add";
+
 const options = [
   "None",
   "Atria",
@@ -112,7 +113,7 @@ export default function PrimarySearchAppBar(props) {
       border: "none",
 
       name: (
-        <div>
+        <Grid>
           <IconButton
             aria-label="more"
             id="long-button"
@@ -153,7 +154,7 @@ export default function PrimarySearchAppBar(props) {
               </MenuItem>
             ))}
           </Menu>
-        </div>
+       </Grid>
       ),
     },
   ];
@@ -196,8 +197,8 @@ export default function PrimarySearchAppBar(props) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-     <Grid > <MenuItem onClick={handleMenuClose}>Share Your DataSet</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Upload Species List</MenuItem></Grid>
+      <MenuItem onClick={handleMenuClose}>Share Your DataSet</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Upload Species List</MenuItem>
       {/* <MenuItem onClick={handleMenuClose}>Upload Species List</MenuItem> */}
     </Menu>
   );
