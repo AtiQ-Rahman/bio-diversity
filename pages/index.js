@@ -84,7 +84,7 @@ export default function Home() {
                 >
                   <Grid>
                     <Typography className={styles.font}>
-                      Listing the World’s BIO Diversity
+                      Listing The World’s BIO Diversity
                     </Typography>{" "}
                     <Counters />
                   </Grid>

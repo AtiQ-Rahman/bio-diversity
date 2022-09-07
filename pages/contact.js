@@ -15,7 +15,7 @@ import Footer from "./components/Home/Footer/Footer";
 
 const contact = () => {
   return (
-    <div className={styles.container}>
+    <div >
       <Header index={3} />
 
       <div>

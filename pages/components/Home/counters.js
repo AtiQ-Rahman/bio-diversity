@@ -18,17 +18,21 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Divider from "@mui/material/Divider";
 import styles from "../../../styles/Home.module.css";
-
+import BiotechIcon from '@mui/icons-material/Biotech';
+import ImageIcon from '@mui/icons-material/Image';
+import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
 import {
     AppBar,
     Box,
     CssBaseline,
+    IconButton,
     Toolbar,
     useMediaQuery,
   } from "@mui/material";
   import { Icon } from "@iconify/react";
 // Material Kit 2 React examples
 import DefaultCounterCard from "./DefaultCounterCard";
+import { width } from "@mui/system";
 
 function Counters() {
   return (
@@ -38,11 +42,18 @@ function Counters() {
           <Grid item xs={12} md={4} >
           {/* <Icon icon="material-symbols:biotech-outline" /> */}
             <DefaultCounterCard
+            
               count={2000}
               suffix="+"
               title="Species"
               description="From teknaf to tetulia"
-             
+              actionIcon={
+                <IconButton 
+                sx={{ color: "white" }}
+                >
+                  < BiotechIcon   sx={{ fontSize: "40px" }} />
+                </IconButton>
+              }
               // backgroundColor="#0f4c39"
             
             />
@@ -55,7 +66,14 @@ function Counters() {
 
               title="Images"
               description="Available for checking"
-            
+              actionIcon={
+                <IconButton 
+                sx={{ color: "white" }}
+              
+                >
+                  < ImageIcon   sx={{ fontSize: "40px" }} />
+                </IconButton>
+              }
             />
           </Grid>
           <Grid item xs={12} md={4} >
@@ -65,7 +83,13 @@ function Counters() {
               title="Request"
               description="For adding on our server"
               // backgroundColor="#0f4c39"
-             
+              actionIcon={
+                <IconButton 
+                sx={{ color: "white" }}
+                >
+                  < ContentPasteSearchIcon  sx={{ fontSize: "40px" }} />
+                </IconButton>
+              }
             />
           </Grid>
         </Grid>
