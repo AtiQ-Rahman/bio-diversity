@@ -40,6 +40,7 @@ const options = [
 
 const ITEM_HEIGHT = 48;
 export default function PrimarySearchAppBar(props) {
+  const [anchorEl, setAnchorEl] = React.useState(null);
   const [anchorEl1, setAnchorEl1] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -48,7 +49,7 @@ export default function PrimarySearchAppBar(props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const [anchorEl, setAnchorEl] = React.useState(null);
+
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -67,7 +68,7 @@ export default function PrimarySearchAppBar(props) {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-  const isMenuOpen = Boolean(anchorEl);
+  const isMenuOpen = Boolean(anchorEl1);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   let pages = [
     {
@@ -138,10 +139,8 @@ export default function PrimarySearchAppBar(props) {
               style: {
                 maxHeight: ITEM_HEIGHT * 4.5,
                 width: "20ch",
-               
               },
             }}
-
           >
             {options.map((option) => (
               <MenuItem
@@ -163,7 +162,7 @@ export default function PrimarySearchAppBar(props) {
   pages[props.index].border = "10px solid #0f4c39";
 
   const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl1(event.currentTarget);
   };
 
   const handleMobileMenuClose = () => {
@@ -171,7 +170,7 @@ export default function PrimarySearchAppBar(props) {
   };
 
   const handleMenuClose = () => {
-    setAnchorEl(null);
+    setAnchorEl1(null);
     handleMobileMenuClose();
   };
 
@@ -182,8 +181,8 @@ export default function PrimarySearchAppBar(props) {
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
-   
-      anchorEl={anchorEl}
+  
+    anchorEl1={anchorEl1}
       anchorOrigin={{
         vertical: "top",
         horizontal: "right",
@@ -206,7 +205,7 @@ export default function PrimarySearchAppBar(props) {
   const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
     <Menu
-      anchorEl={mobileMoreAnchorEl}
+    anchorEl1={mobileMoreAnchorEl}
       anchorOrigin={{
         vertical: "top",
         horizontal: "right",
