@@ -19,7 +19,7 @@ const contact = () => {
       <Header index={3} />
 
       <div>
-        <Grid sx={{ m: 11 }}>
+        <Grid sx={{ m: 15 }}>
           <Grid>
             <Card
               style={{
@@ -100,7 +100,7 @@ const contact = () => {
                         fullWidth
                         style={{
                        
-                          backgroundColor: "#0f4c39",
+                          backgroundColor: "#c44d34",
                         }}
                       >
                         Submit

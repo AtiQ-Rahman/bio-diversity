@@ -10,7 +10,7 @@ import Image from "next/image";
 const imageSrc = require("../pages/assets/images/species1.jpg");
 import { useRouter } from "next/router";
 import Header from "./components/Home/Header";
-import { styled } from "@mui/material/styles";
+import { createTheme, styled } from "@mui/material/styles";
 import { speciesList } from "./utils/speciesList";
 import PropTypes from "prop-types";
 import {
@@ -43,7 +43,7 @@ import {
   DialogActions,
 } from "@mui/material";
 import Footer from "./components/Home/Footer/Footer";
-import Counters from "./components/Home/counters";
+
 import CloseIcon from "@mui/icons-material/Close";
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -53,6 +53,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     padding: theme.spacing(1),
   },
 }));
+
 
 const BootstrapDialogTitle = (props) => {
   const { children, onClose, ...other } = props;
@@ -151,12 +152,12 @@ export default function Images() {
       <div className={styles.main_box}>
         <Box component="section">
           <Grid container item xs={12} md={12} sx={{ mx: "auto", mt: 10 }}>
-            <Grid item xs={12} md={12} >
+            <Grid item xs={12} md={12}>
               <Typography
                 gutterBottom
                 component="h2"
                 variant="h2"
-                style={{ color: "#0f4c39", fontSize: 30 ,}}
+                style={{ color: "#c44d34", fontSize: 30 }}
               >
                 Images Search
               </Typography>
@@ -206,9 +207,15 @@ export default function Images() {
               </Grid>
               <Divider></Divider>
               <Grid container xs={12} md={12} sx={{ mt: 5, mb: 0 }}>
-                {speciesList?.map((item,index) => {
+                {speciesList?.map((item, index) => {
                   return (
-                    <Grid key={`species${index}`}item xs={6} md={3} sx={{ mb: 3 }}>
+                    <Grid
+                      key={`species${index}`}
+                      item
+                      xs={6}
+                      md={3}
+                      sx={{ mb: 3 }}
+                    >
                       <Card
                         sx={{
                           maxWidth: 345,
@@ -325,53 +332,10 @@ export default function Images() {
                 })}
               </Grid>
 
-              <Grid item xs={12} padding="30"></Grid>
-              {/* <Counters></Counters> */}
+
             </Grid>
           </Grid>
-          {/* <ImageList
-            sx={{
-              width:"80%",
-              mx:"auto",
-              // Promote the list into its own layer in Chrome. This costs memory, but helps keeping high FPS.
-              transform: "translateZ(0)",
-            }}
-            rowHeight={200}
-            gap={1}
-          >
-            {itemData.map((item) => {
-              const cols = 1;
-              const rows = 1;
 
-              return (
-                <ImageListItem key={item.img} cols={cols} rows={rows}>
-                  <img
-                    {...srcset(item.img, 250, 200, rows, cols)}
-                    alt={item.title}
-                    loading="lazy"
-                  />
-                  <ImageListItemBar
-                    sx={{
-                      background:
-                        "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, " +
-                        "rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)",
-                    }}
-                    title={item.title}
-                    position="top"
-                    actionIcon={
-                      <IconButton
-                        sx={{ color: "white" }}
-                        aria-label={`star ${item.title}`}
-                      >
-                        <StarBorderIcon />
-                      </IconButton>
-                    }
-                    actionPosition="left"
-                  />
-                </ImageListItem>
-              );
-            })}
-          </ImageList> */}
         </Box>
       </div>
 

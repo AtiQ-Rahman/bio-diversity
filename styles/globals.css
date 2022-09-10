@@ -1,10 +1,10 @@
 
 :root {
-  --app-primary-color: #0f4c39;
+  --app-primary-color: #c44d34;
   --app-secondary-color: #fff;
   --app-border: #e7e7e7;
   --app-sideBar-color: rgb(225, 253, 249);
-  --app-insideSidebar-color:#0f4c39;
+  --app-insideSidebar-color:#c44d34;
   --app-dropDown-color:rgb(225, 253, 249);
   --app-fontFamily:'Times New Roman', Times, serif;
 }

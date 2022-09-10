@@ -216,7 +216,7 @@ const Species = () => {
                   gutterBottom
                   component="h2"
                   variant="h2"
-                  style={{ color: "#0f4c39", fontSize: 30 }}
+                  style={{ color: "#c44d34", fontSize: 30 }}
                 >
                   Species Search
                 </Typography>
