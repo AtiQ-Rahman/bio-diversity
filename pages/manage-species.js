@@ -49,6 +49,7 @@ import {
     Dialog,
 } from "@mui/material";
 import Paper from "@mui/material/Paper";
+import Link  from "next/link";
 const imageSrc = require("../pages/assets/images/species1.jpg");
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -236,12 +237,12 @@ export default function ManageSpecies() {
     // const handleOpen = () => setOpen(true);
     // const handleClose = () => setOpen(false);
     const uploadToClient = (event) => {
-    if (event.target.files && event.target.files[0]) {
-        const i = event.target.files[0];
-  
-        setImage(i);
-        setCreateObjectURL(URL.createObjectURL(i));
-      }
+        if (event.target.files && event.target.files[0]) {
+            const i = event.target.files[0];
+
+            setImage(i);
+            setCreateObjectURL(URL.createObjectURL(i));
+        }
     };
     const router = useRouter();
     const handleClickOpen = () => {
@@ -328,6 +329,40 @@ export default function ManageSpecies() {
                                             >
                                                 Search
                                             </Button>
+                                            <Link href="/add-new-species">
+                                                <Button
+                                                    type="button"
+                                                    // onClick={}
+                                                    className={styles.bg_primary}
+                                                    style={{
+                                                        color: "white",
+                                                        height: "50px",
+                                                        maxWidth: "150px",
+                                                        maxHeight: "80px",
+                                                        minWidth: "40px",
+                                                        minHeight: "40px",
+                                                    }}
+                                                >
+                                                    <Icon icon="dashicons:plus-large" />&nbsp; Add New Species
+                                                </Button>
+                                            </Link>
+
+                                            <Button
+                                                type="button"
+                                                // onClick={}
+                                                className={styles.bg_secondary}
+                                                style={{
+                                                    color: "white",
+                                                    height: "50px",
+                                                    maxWidth: "150px",
+                                                    maxHeight: "80px",
+                                                    minWidth: "40px",
+                                                    minHeight: "40px",
+                                                }}
+                                            >
+                                                Import from CSV
+                                            </Button>
+
                                         </Box>
                                     </Grid>
 
@@ -429,7 +464,7 @@ export default function ManageSpecies() {
                                                                             color: '#0f4c39'
                                                                         }}
                                                                         type="button"
-                                                                        // onClick={() => router.push("/map")}
+                                                                    // onClick={() => router.push("/map")}
 
                                                                     >
                                                                         <Icon icon="fluent:delete-16-filled" />&nbsp; Delete
@@ -465,139 +500,139 @@ export default function ManageSpecies() {
 
                     >
                         <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose} style={{ fontWeight: 600, fontSize: 20, fontFamily: 'Raleway', color: '#0f4c39' }}>
-                        Species Details
+                            Species Details
                         </BootstrapDialogTitle>
                         <DialogContent dividers>
 
-                               
 
-                                    <Grid container spacing={3} >
-                                        <Grid item xs={12}>
-                                            <TextField
-                                                required
-                                                id="Species"
-                                                name="Species"
-                                                label="Species Name"
-                                                fullWidth
-                                                autoComplete="Species Name"
-                                                variant="standard"
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12} sm={6}>
-                                            <TextField
-                                                required
-                                                id="Family"
-                                                name="Family"
-                                                label="Family"
-                                                fullWidth
-                                                autoComplete="Family"
-                                                variant="standard"
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12} sm={6}>
-                                            <TextField
-                                                required
-                                                id="Locality"
-                                                name="Locality"
-                                                label="Locality"
-                                                fullWidth
-                                                autoComplete="Locality"
-                                                variant="standard"
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12} sm={6}>
-                                            <TextField
-                                                required
-                                                id="Habitat"
-                                                name="Habitat"
-                                                label="Habitat"
-                                                fullWidth
-                                                autoComplete="Habitat"
-                                                variant="standard"
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12} sm={6}>
-                                            <TextField
-                                                required
-                                                id="Size (cm)"
-                                                name="Size (cm)"
-                                                label="Size (cm)"
-                                                fullWidth
-                                                autoComplete="Size (cm)"
-                                                variant="standard"
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12} sm={6}>
-                                            <TextField
-                                                required
-                                                id="latitude(GIS)"
-                                                name="latitude(GIS)"
-                                                label="latitude(GIS)"
-                                                fullWidth
-                                                autoComplete="latitude(GIS)"
-                                                variant="standard"
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12} sm={6}>
-                                            <TextField
-                                                required
-                                                id="longitude(GIS)"
-                                                name="longitude(GIS)"
-                                                label="longitude(GIS)"
-                                                fullWidth
-                                                autoComplete="longitude(GIS)"
-                                                variant="standard"
-                                            />
-                                        </Grid>
 
-                                        <Grid item xs={12}>
-                                            <TextField
-                                                label="Descripton"
-                                                multiline
-                                                rows={4}
-                                                placeholder="Type your Descripton here"
-                                                variant="outlined"
-                                                fullWidth
-                                                required
-                                            />
-                                        </Grid>
+                            <Grid container spacing={3} >
+                                <Grid item xs={12}>
+                                    <TextField
+                                        required
+                                        id="Species"
+                                        name="Species"
+                                        label="Species Name"
+                                        fullWidth
+                                        autoComplete="Species Name"
+                                        variant="standard"
+                                    />
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <TextField
+                                        required
+                                        id="Family"
+                                        name="Family"
+                                        label="Family"
+                                        fullWidth
+                                        autoComplete="Family"
+                                        variant="standard"
+                                    />
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <TextField
+                                        required
+                                        id="Locality"
+                                        name="Locality"
+                                        label="Locality"
+                                        fullWidth
+                                        autoComplete="Locality"
+                                        variant="standard"
+                                    />
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <TextField
+                                        required
+                                        id="Habitat"
+                                        name="Habitat"
+                                        label="Habitat"
+                                        fullWidth
+                                        autoComplete="Habitat"
+                                        variant="standard"
+                                    />
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <TextField
+                                        required
+                                        id="Size (cm)"
+                                        name="Size (cm)"
+                                        label="Size (cm)"
+                                        fullWidth
+                                        autoComplete="Size (cm)"
+                                        variant="standard"
+                                    />
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <TextField
+                                        required
+                                        id="latitude(GIS)"
+                                        name="latitude(GIS)"
+                                        label="latitude(GIS)"
+                                        fullWidth
+                                        autoComplete="latitude(GIS)"
+                                        variant="standard"
+                                    />
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <TextField
+                                        required
+                                        id="longitude(GIS)"
+                                        name="longitude(GIS)"
+                                        label="longitude(GIS)"
+                                        fullWidth
+                                        autoComplete="longitude(GIS)"
+                                        variant="standard"
+                                    />
+                                </Grid>
 
-                                        <Grid>
-                                            <TextField
-                                                sx={{
-                                                    flexGrow: 1,
+                                <Grid item xs={12}>
+                                    <TextField
+                                        label="Descripton"
+                                        multiline
+                                        rows={4}
+                                        placeholder="Type your Descripton here"
+                                        variant="outlined"
+                                        fullWidth
+                                        required
+                                    />
+                                </Grid>
 
-                                                    mt: 2,
-                                                    ml: 3,
-                                                }}
-                                                type="file"
-                                                name="myImage"
-                                                onChange={uploadToClient}
-                                            />
-                                        </Grid>
-                                    </Grid>
-                                    <br />
-                                    <Button
-                                        className={styles.bg_primary}
+                                <Grid>
+                                    <TextField
+                                        sx={{
+                                            flexGrow: 1,
 
-                                        style={{
-                                            width: "80px",
-                                            maxHeight: "80px",
-                                            minWidth: "40px",
-                                            minHeight: "40px",
-                                            color: "white",
-                                            boxShadow: "1px 1px 4px grey",
-                                            marginBottom: "10px"
+                                            mt: 2,
+                                            ml: 3,
                                         }}
-                                    >
-                                        Upload
-                                    </Button>
-                               
-                           
+                                        type="file"
+                                        name="myImage"
+                                        onChange={uploadToClient}
+                                    />
+                                </Grid>
+                            </Grid>
+                            <br />
+                            <Button
+                                className={styles.bg_primary}
+
+                                style={{
+                                    width: "80px",
+                                    maxHeight: "80px",
+                                    minWidth: "40px",
+                                    minHeight: "40px",
+                                    color: "white",
+                                    boxShadow: "1px 1px 4px grey",
+                                    marginBottom: "10px"
+                                }}
+                            >
+                                Upload
+                            </Button>
+
+
                         </DialogContent>
                         <DialogActions>
-                            <Button size="small" className={styles.bg_primary} sx ={{color:"white"}}>Save</Button>
-                            <Button size="small" className={styles.bg_primary} sx ={{color:"white"}}>Cancel</Button>
+                            <Button size="small" className={styles.bg_primary} sx={{ color: "white" }}>Save</Button>
+                            <Button size="small" className={styles.bg_primary} sx={{ color: "white" }}>Cancel</Button>
                         </DialogActions>
                     </BootstrapDialog>
                 </Main>

@@ -21,6 +21,7 @@
     "@mui/system": "^5.8.6",
     "@mui/utils": "^5.8.6",
     "@tabler/icons": "^1.82.0",
+    "axios": "^0.27.2",
     "formik": "^2.2.9",
     "framer-motion": "^7.2.0",
     "mapbox-gl": "^2.10.0",
