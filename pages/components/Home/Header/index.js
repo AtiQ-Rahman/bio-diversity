@@ -66,6 +66,7 @@ const options = [
     "Triton",
     "Umbriel",
 ];
+
 const ITEM_HEIGHT = 48;
 export default function PrimarySearchAppBar(props) {
     const classes = useStyles()
@@ -78,30 +79,7 @@ export default function PrimarySearchAppBar(props) {
     const handleClose = () => {
         setAnchorEl(null);
     };
-
-    const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-    const [anchorElNav, setAnchorElNav] = React.useState(null);
-    const [anchorElUser, setAnchorElUser] = React.useState(null);
-
-    const handleOpenNavMenu = (event) => {
-        setAnchorElNav(event.currentTarget);
-    };
-    const handleOpenUserMenu = (event) => {
-        setAnchorElUser(event.currentTarget);
-    };
-
-    const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
-    };
-
-    const handleCloseUserMenu = () => {
-        setAnchorElUser(null);
-    };
-    const isMenuOpen = Boolean(anchorEl1);
-    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-    const [pages, setPages] = React.useState([])
-    const [force, setForce] = React.useState(false)
-    const renderContribute = (
+        const renderContribute = (
         <Menu
             id="long-menu"
             MenuListProps={{
@@ -129,77 +107,103 @@ export default function PrimarySearchAppBar(props) {
             ))}
         </Menu>
     );
-    React.useEffect(() => {
+    let pages = [
+        {
+            name: "Home",
+            path: "/",
+            // background: "white",
+            color: "white",
+            border: "none",
 
-        let pages = [
-            {
-                name: "Home",
-                path: "/",
-                // background: "white",
-                color: "white",
-                border: "none",
+            icon: <HomeIcon style={{ fontSize: 19 }}></HomeIcon>,
+        },
+        {
+            name: "Species",
+            path: "/species",
+            color: "white",
+            // background: "white",
+            border: "none",
+            icon: <ForestIcon style={{ fontSize: 19 }}></ForestIcon>,
+        },
+        {
+            name: "Images",
+            path: "/images",
+            color: "white",
 
-                icon: <HomeIcon style={{ fontSize: 19 }}></HomeIcon>,
-            },
-            {
-                name: "Species",
-                path: "/species",
-                color: "white",
-                // background: "white",
-                border: "none",
-                icon: <ForestIcon style={{ fontSize: 19 }}></ForestIcon>,
-            },
-            {
-                name: "Images",
-                path: "/images",
-                color: "white",
+            // background: "white",
+            border: "none",
+            icon: <ImageIcon style={{ fontSize: 19 }}></ImageIcon>,
+        },
+        {
+            name: "Contact",
+            path: "/contact",
+            color: "white",
+            // background: "white",
+            border: "none",
+            icon: <ContactsIcon style={{ fontSize: 19 }}></ContactsIcon>,
+        },
+        {
+            // name: "Contribute",
+            path: "",
+            color: "white",
+            // background: "white",
+            border: "none",
 
-                // background: "white",
-                border: "none",
-                icon: <ImageIcon style={{ fontSize: 19 }}></ImageIcon>,
-            },
-            {
-                name: "Contact",
-                path: "/contact",
-                color: "white",
-                // background: "white",
-                border: "none",
-                icon: <ContactsIcon style={{ fontSize: 19 }}></ContactsIcon>,
-            },
-            {
-                // name: "Contribute",
-                path: "",
-                color: "white",
-                // background: "white",
-                border: "none",
+            name: (
+                <Box>
+                    <IconButton
+                        aria-label="more"
+                        id="long-button"
+                        aria-controls={open ? "long-menu" : undefined}
+                        aria-expanded={open ? "true" : undefined}
+                        aria-haspopup="true"
+                        onClick={handleClick}
+                    >
+                        <AddIcon style={{ fontSize: 19 }} sx={{ color: "white" }}></AddIcon>
+                        <Typography sx={{ color: "white" }} style={{ fontWeight: 600 }}>
+                            Contribute
+                        </Typography>{" "}
+                        <ArrowDropDownIcon sx={{ color: "white" }} />
+                    </IconButton>
+                    {renderContribute}
+                </Box>
+            ),
+        },
+    ];
+    pages[props.index].background = "#c44d34";
+    pages[props.index].color = "white";
+    pages[props.index].border = "10px solid #c44d34";
 
-                name: (
-                    <div>
-                        <IconButton
-                            aria-label="more"
-                            id="long-button"
-                            aria-controls={open ? "long-menu" : undefined}
-                            aria-expanded={open ? "true" : undefined}
-                            aria-haspopup="true"
-                            onClick={handleClick}
-                        >
-                            <AddIcon style={{ fontSize: 19 }} sx={{ color: "white" }}></AddIcon>
-                            <Typography sx={{ color: "white" }} style={{ fontWeight: 600 }}>
-                                Contribute
-                            </Typography>{" "}
-                            <ArrowDropDownIcon sx={{ color: "white" }} />
-                        </IconButton>
-                        {renderContribute}
-                    </div>
-                ),
-            },
-        ];
-        pages[props.index].background = "#c44d34";
-        pages[props.index].color = "white";
-        pages[props.index].border = "10px solid #c44d34";
-        setPages(pages);
-        setForce(!force)
-    }, [])
+
+    const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+    const [anchorElNav, setAnchorElNav] = React.useState(null);
+    const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+    const handleOpenNavMenu = (event) => {
+        setAnchorElNav(event.currentTarget);
+    };
+    const handleOpenUserMenu = (event) => {
+        setAnchorElUser(event.currentTarget);
+    };
+
+    const handleCloseNavMenu = () => {
+        setAnchorElNav(null);
+    };
+
+    const handleCloseUserMenu = () => {
+        setAnchorElUser(null);
+    };
+    const isMenuOpen = Boolean(anchorEl1);
+    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+    // const [pages, setPages] = React.useState([])
+    const [force, setForce] = React.useState(false)
+
+    // React.useEffect(() => {
+
+
+    //     setPages(pages);
+    //     setForce(!force)
+    // }, [])
 
 
     const handleProfileMenuOpen = (event) => {
@@ -263,7 +267,7 @@ export default function PrimarySearchAppBar(props) {
             {pages.map((page, index) => (
                 <Link href={page.path}>
                     <MenuItem key={page} onClick={handleCloseNavMenu}>
-                        <Typography textAlign="center">{page.name}</Typography>
+                        <Box textAlign="center">{page.name}</Box>
                     </MenuItem>
                 </Link>
             ))}
@@ -312,12 +316,8 @@ export default function PrimarySearchAppBar(props) {
                                 >
                                     <Typography style={{ fontSize: 0.1, }}>{page.icon}</Typography>
 
-                                    <Typography
-                                        style={{ fontWeight: 600, paddingTop: 1 }}
-                                        textAlign="center"
-                                    >
-                                        {page.name}
-                                    </Typography>
+                                    <Box textAlign="center">{page.name}</Box>
+
                                     {/* <Typography>{page.menu}</Typography> */}
                                 </MenuItem>
                             </Link>
