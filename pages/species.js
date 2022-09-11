@@ -7,34 +7,34 @@ import PropTypes from "prop-types";
 const imageSrc = require("../pages/assets/images/species1.jpg");
 
 import {
-  AppBar,
-  Box,
-  CssBaseline,
-  Toolbar,
-  Container,
-  useMediaQuery,
-  Grid,
-  Typography,
-  TextField,
-  TableCell,
-  TableRow,
-  TableBody,
-  TableHead,
-  Table,
-  TableContainer,
-  Button,
-  Modal,
-  Divider,
-  Card,
-  CardActions,
-  CardContent,
-  tableCellClasses,
-  TablePagination,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  Dialog,
+    AppBar,
+    Box,
+    CssBaseline,
+    Toolbar,
+    Container,
+    useMediaQuery,
+    Grid,
+    Typography,
+    TextField,
+    TableCell,
+    TableRow,
+    TableBody,
+    TableHead,
+    Table,
+    TableContainer,
+    Button,
+    Modal,
+    Divider,
+    Card,
+    CardActions,
+    CardContent,
+    tableCellClasses,
+    TablePagination,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    IconButton,
+    Dialog,
 } from "@mui/material";
 import Header from "./components/Home/Header";
 import CollapseCard from "./components/Home/collapseCard";
@@ -45,248 +45,225 @@ import Image from "next/image";
 import Footer from "./components/Home/Footer/Footer";
 import Counters from "./components/Home/counters";
 import { fontSize, fontWeight, height } from "@mui/system";
+import { speciesList } from "./utils/speciesList";
+import { useState } from "react";
+import { useEffect } from "react";
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-  "& .MuiDialogContent-root": {
-    padding: theme.spacing(2),
-  },
-  "& .MuiDialogActions-root": {
-    padding: theme.spacing(1),
-  },
+    "& .MuiDialogContent-root": {
+        padding: theme.spacing(2),
+    },
+    "& .MuiDialogActions-root": {
+        padding: theme.spacing(1),
+    },
 }));
 
 const BootstrapDialogTitle = (props) => {
-  const { children, onClose, ...other } = props;
+    const { children, onClose, ...other } = props;
 
-  return (
-    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
-      {children}
-      {onClose ? (
-        <IconButton
-          aria-label="close"
-          onClick={onClose}
-          sx={{
-            position: "absolute",
-            right: 8,
-            top: 8,
-            color: (theme) => theme.palette.grey[500],
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
-      ) : null}
-    </DialogTitle>
-  );
+    return (
+        <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
+            {children}
+            {onClose ? (
+                <IconButton
+                    aria-label="close"
+                    onClick={onClose}
+                    sx={{
+                        position: "absolute",
+                        right: 8,
+                        top: 8,
+                        color: (theme) => theme.palette.grey[500],
+                    }}
+                >
+                    <CloseIcon />
+                </IconButton>
+            ) : null}
+        </DialogTitle>
+    );
 };
 
 BootstrapDialogTitle.propTypes = {
-  children: PropTypes.node,
-  onClose: PropTypes.func.isRequired,
+    children: PropTypes.node,
+    onClose: PropTypes.func.isRequired,
 };
 
 function createData(
-  number,
-  imageSrc,
-  Species,
-  Family,
-  Locality,
-  Habitat,
-  Size,
-  GIS,
-  Additional
-) {
-  return {
     number,
     imageSrc,
     Species,
+    description,
     Family,
     Locality,
     Habitat,
     Size,
-    GIS,
-    Additional,
-  };
+    lat,
+    lng
+) {
+    return {
+        number,
+        imageSrc,
+        Species,
+        description,
+        Family,
+        Locality,
+        Habitat,
+        Size,
+        lat,
+        lng,
+    };
 }
 const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
 };
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 20,
-  },
+    [`&.${tableCellClasses.head}`]: {
+        backgroundColor: theme.palette.common.black,
+        color: theme.palette.common.white,
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 20,
+    },
 }));
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  "&:last-child td, &:last-child th": {
-    border: 0,
-  },
+    "&:nth-of-type(odd)": {
+        backgroundColor: theme.palette.action.hover,
+    },
+    // hide last border
+    "&:last-child td, &:last-child th": {
+        border: 0,
+    },
 }));
-const rows = [
-  createData(
-    1,
-    imageSrc,
-    "Bryopsis indica Gepp & Gepp",
-    "Bryopsidaceae",
-    "St Martin’s Island (SMI)",
-    "rocks, corals",
-    "2-3",
-    "20.622990,92.320325"
-  ),
-  createData(
-    2,
-    imageSrc,
-    "Bryopsis indica Gepp & Gepp",
-    "Bryopsidaceae",
-    "St Martin’s Island (SMI)",
-    "rocks, corals",
-    "2-3",
-    "20.622990,92.320325"
-  ),
 
-  createData(
-    3,
-    imageSrc,
-    "Bryopsis indica Gepp & Gepp",
-    "Bryopsidaceae",
-    "St Martin’s Island (SMI)",
-    "rocks, corals",
-    "2-3",
-    "20.622990,92.320325"
-  ),
 
-  createData(
-    4,
-    imageSrc,
-    "Bryopsis indica Gepp & Gepp",
-    "Bryopsidaceae",
-    "St Martin’s Island (SMI)",
-    "rocks, corals",
-    "2-3",
-    "20.622990,92.320325"
-  ),
 
-  createData(
-    5,
-    imageSrc,
-    "Bryopsis indica Gepp & Gepp",
-    "Bryopsidaceae",
-    "St Martin’s Island (SMI)",
-    "rocks, corals",
-    "2-3",
-    "20.622990,92.320325"
-  ),
-];
+
+
 const Species = () => {
-  // const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-  // const handleOpen = () => setOpen(true);
-  // const handleClose = () => setOpen(false);
-  const router = useRouter();
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
-  return (
-    <div className={styles.body}>
-      <Header index={1} />
+    // const classes = useStyles();
+    const [open, setOpen] = React.useState(false);
+    // const handleOpen = () => setOpen(true);
+    // const handleClose = () => setOpen(false);
+    const [rows, setRows] = useState([])
+    useEffect(() => {
+        let list = []
+        speciesList.map((species, index) => {
+            list.push(createData(
+                index,
+                species.imageSrc,
+                species.title,
+                species.description,
+                "Bryopsidaceae",
+                "St Martin’s Island (SMI)",
+                "rocks, corals",
+                "2-3",
+                20.622990,
+                92.320325
+            ),)
+            if (index == speciesList.length - 1) {
+                setRows(list)
+            }
+        })
 
-      <div className={styles.main} >
-        <Box component="section" className={styles.main_box} >
-          {/* Species Search */}
-          <Grid container item xs={12} md={12} sx={{ mx: "auto" , mt: 10 }}>
-            <Grid item xs={12} md={12}>
-              <Card sx={{ marginBottom: "10px" }}>
-                <Typography
-                  gutterBottom
-                  component="h2"
-                  variant="h2"
-                  style={{ color: "#c44d34", fontSize: 30 }}
-                >
-                  Species Search
-                </Typography>
-                <Typography
-                  gutterBottom
-                  component="description"
-                  variant="div"
-                  style={{ fontSize: 20, color: "black" }}
-                >
-                  The full name of the genus or species can be inserted, or you
-                  can type the first four letters of the generic name and/or the
-                  first four letters <br /> of the species (or other) epithet in
-                  upper or lower case (e.g. Mere micr or mere micr for
-                  Meredithia microphylla). A full list of the species <br /> and
-                  subspecific entities in each genus can be obtained in the
-                  genus database.
-                </Typography>
-              </Card>
+    }, [])
+    const router = useRouter();
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+    const handleClose = () => {
+        setOpen(false);
+    };
+    return (
+        <div className={styles.body}>
+            <Header index={1} />
 
-              <Divider></Divider>
-              <Grid item xs={11} style={{ borderRadius: "5px" }}>
-                <Box
-                  component="form"
-                  sx={{
-                    "& > :not(style)": { m: 1, width: "25ch" },
-                  }}
-                  noValidate
-                  autoComplete="off"
-                >
-                  <TextField
-                    label="Search By Name"
-                    color="secondary"
-                    className={styles.custom_input}
-                  />
-                  <TextField label="Search By  Family" color="secondary" />
-                  <TextField label="Select Country" color="secondary" />
-                  <TextField label="Select Area" color="secondary" />
-                  <Button
-                    type="button"
-                    // onClick={}
-                    className={styles.bg_primary}
-                    style={{
-                      color: "white",
-                      maxWidth: "80px",
-                      maxHeight: "80px",
-                      minWidth: "90px",
-                      minHeight: "40px",
-                      marginTop: "13px",
-                      fontWeight: 600,
-                    }}
-                  >
-                    Search
-                  </Button>
-                </Box>
-              </Grid>
+            <div className={styles.main} >
+                <Box component="section" className={styles.main_box} >
+                    {/* Species Search */}
+                    <Grid container item xs={12} md={12} sx={{ mx: "auto", mt: 10 }}>
+                        <Grid item xs={12} md={12}>
+                            <Card sx={{ marginBottom: "10px" }}>
+                                <Typography
+                                    gutterBottom
+                                    component="h2"
+                                    variant="h2"
+                                    style={{ color: "#c44d34", fontSize: 30 }}
+                                >
+                                    Species Search
+                                </Typography>
+                                <Typography
+                                    gutterBottom
+                                    component="description"
+                                    variant="div"
+                                    style={{ fontSize: 20, color: "black" }}
+                                >
+                                    The full name of the genus or species can be inserted, or you
+                                    can type the first four letters of the generic name and/or the
+                                    first four letters <br /> of the species (or other) epithet in
+                                    upper or lower case (e.g. Mere micr or mere micr for
+                                    Meredithia microphylla). A full list of the species <br /> and
+                                    subspecific entities in each genus can be obtained in the
+                                    genus database.
+                                </Typography>
+                            </Card>
 
-              {/* TABLE */}
-              <Divider></Divider>
+                            <Divider></Divider>
+                            <Grid item xs={11} style={{ borderRadius: "5px" }}>
+                                <Box
+                                    component="form"
+                                    sx={{
+                                        "& > :not(style)": { m: 1, width: "25ch" },
+                                    }}
+                                    noValidate
+                                    autoComplete="off"
+                                >
+                                    <TextField
+                                        label="Search By Name"
+                                        color="secondary"
+                                        className={styles.custom_input}
+                                    />
+                                    <TextField label="Search By  Family" color="secondary" />
+                                    <TextField label="Select Country" color="secondary" />
+                                    <TextField label="Select Area" color="secondary" />
+                                    <Button
+                                        type="button"
+                                        // onClick={}
+                                        className={styles.bg_primary}
+                                        style={{
+                                            color: "white",
+                                            maxWidth: "80px",
+                                            maxHeight: "80px",
+                                            minWidth: "90px",
+                                            minHeight: "40px",
+                                            marginTop: "13px",
+                                            fontWeight: 600,
+                                        }}
+                                    >
+                                        Search
+                                    </Button>
+                                </Box>
+                            </Grid>
 
-              <h1>Total Species Found (5)</h1>
-              <br />
-              <Grid
-                item
-                xs={12}
-                sx={{ b: 1, mb: 3 }}
-                style={{ borderRadius: "10px" }}
-              >
-                <TableContainer component={Paper}>
-                  <Table sx={{ minWidth: 650 }} aria-label="customized table">
-                    {/* <TableHead>
+                            {/* TABLE */}
+                            <Divider></Divider>
+
+                            <h1>Total Species Found (5)</h1>
+                            <br />
+                            <Grid
+                                item
+                                xs={12}
+                                sx={{ b: 1, mb: 3 }}
+                                style={{ borderRadius: "10px" }}
+                            >
+                                <TableContainer component={Paper}>
+                                    <Table sx={{ minWidth: 650 }} aria-label="customized table">
+                                        {/* <TableHead>
                       <TableRow>
                         <StyledTableCell>SI</StyledTableCell>
                         <StyledTableCell>Image</StyledTableCell>
@@ -310,96 +287,96 @@ const Species = () => {
                         </StyledTableCell>
                       </TableRow>
                     </TableHead> */}
-                    <TableBody>
-                      {rows.map((row) => (
-                        <StyledTableRow
-                          key={row.name}
-                          sx={{
-                            "&:last-child td, &:last-child th": { border: 0 },
-                          }}
-                        >
-                          <StyledTableCell
-                            component="th"
-                            scope="row"
-                            className={styles.textContainer}
-                          >
-                            {row.number}
-                          </StyledTableCell>
-                          <StyledTableCell component="th">
-                            <Image
-                              src={row.imageSrc}
-                              height={100}
-                              width={150}
-                              sx={{ borderRadius: 10 }}
-                            ></Image>
-                          </StyledTableCell>
-                          <StyledTableCell align="center">
-                            <Typography component="h3" variant="h3">
-                              {row.Species}
-                            </Typography>
-                          </StyledTableCell>
-                          <StyledTableCell align="center">
-                            {row.Family}
-                          </StyledTableCell>
-                          <StyledTableCell align="center">
-                            {row.Locality}
-                          </StyledTableCell>
-                          <StyledTableCell align="center">
-                            {row.Habitat}
-                          </StyledTableCell>
-                          <StyledTableCell align="center">
-                            {row.Size}
-                          </StyledTableCell>
-                          <StyledTableCell
-                            align="center"
-                            className={styles.textContainer}
-                          >
-                            {row.GIS}
-                          </StyledTableCell>
-                          <StyledTableCell align="center">
-                            <Box sx={{ flexGrow: 1, flexDirection: "row" }}>
-                              <Button
-                                className={styles.bg_primary}
-                                style={{
-                                  width: "80px",
-                                  maxHeight: "80px",
-                                  minWidth: "40px",
-                                  minHeight: "40px",
-                                  color: "white",
-                                  boxShadow: "1px 1px 4px grey",
-                                }}
-                                onClick={handleClickOpen}
-                                sx={{ mb: 1, mr: 0.5 }}
-                                // variant="outlined"
-                              >
-                                Details
-                              </Button>
+                                        <TableBody>
+                                            {rows.map((row) => (
+                                                <StyledTableRow
+                                                    key={row.name}
+                                                    sx={{
+                                                        "&:last-child td, &:last-child th": { border: 0 },
+                                                    }}
+                                                >
+                                                    <StyledTableCell
+                                                        component="th"
+                                                        scope="row"
+                                                        className={styles.textContainer}
+                                                    >
+                                                        {row.number}
+                                                    </StyledTableCell>
+                                                    <StyledTableCell component="th">
+                                                        <Image
+                                                            src={row.imageSrc}
+                                                            height={100}
+                                                            width={150}
+                                                            sx={{ borderRadius: 10 }}
+                                                        ></Image>
+                                                    </StyledTableCell>
+                                                    <StyledTableCell align="center">
+                                                        <Typography component="h3" variant="h3">
+                                                            {row.Species}
+                                                        </Typography>
+                                                    </StyledTableCell>
+                                                    <StyledTableCell align="center">
+                                                        {row.Family}
+                                                    </StyledTableCell>
+                                                    <StyledTableCell align="center">
+                                                        {row.Locality}
+                                                    </StyledTableCell>
+                                                    <StyledTableCell align="center">
+                                                        {row.Habitat}
+                                                    </StyledTableCell>
+                                                    <StyledTableCell align="center">
+                                                        {row.Size}
+                                                    </StyledTableCell>
+                                                    <StyledTableCell
+                                                        align="center"
+                                                        className={styles.textContainer}
+                                                    >
+                                                        {row.GIS}
+                                                    </StyledTableCell>
+                                                    <StyledTableCell align="center">
+                                                        <Box sx={{ flexGrow: 1, flexDirection: "row" }}>
+                                                            <Button
+                                                                className={styles.bg_primary}
+                                                                style={{
+                                                                    width: "80px",
+                                                                    maxHeight: "80px",
+                                                                    minWidth: "40px",
+                                                                    minHeight: "40px",
+                                                                    color: "white",
+                                                                    boxShadow: "1px 1px 4px grey",
+                                                                }}
+                                                                onClick={handleClickOpen}
+                                                                sx={{ mb: 1, mr: 0.5 }}
+                                                            // variant="outlined"
+                                                            >
+                                                                Details
+                                                            </Button>
 
-                              {/* =======MODAL===== */}
+                                                            {/* =======MODAL===== */}
 
-                              <br />
-                              <Button
-                                style={{
-                                  boxShadow: "1px 1px 4px grey",
-                                  maxHeight: "80px",
-                                  width: "80px",
-                                  background: "white",
-                                  minHeight: "40px",
-                                  color: "#0f4c39",
-                                }}
-                                type="button"
-                                onClick={() => router.push("/map")}
-                              >
-                                View&nbsp;map
-                              </Button>
-                            </Box>
-                          </StyledTableCell>
-                        </StyledTableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-                {/* <TablePagination
+                                                            <br />
+                                                            <Button
+                                                                style={{
+                                                                    boxShadow: "1px 1px 4px grey",
+                                                                    maxHeight: "80px",
+                                                                    width: "80px",
+                                                                    background: "white",
+                                                                    minHeight: "40px",
+                                                                    color: "#0f4c39",
+                                                                }}
+                                                                type="button"
+                                                                onClick={() => router.push({ pathname: "/map", query: row })}
+                                                            >
+                                                                View&nbsp;map
+                                                            </Button>
+                                                        </Box>
+                                                    </StyledTableCell>
+                                                </StyledTableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                                {/* <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
         count={rows.length}
@@ -408,86 +385,86 @@ const Species = () => {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       /> */}
-              </Grid>
-            </Grid>
-          </Grid>
-        </Box>
-      </div>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Box>
+            </div>
 
-      <BootstrapDialog
-        onClose={handleClose}
-        aria-labelledby="customized-dialog-title"
-        open={open}
-        fullWidth
-        maxWidth="md"
-        // style={{
-        //   // width: "100%",
-        //   minWidth: "500px"
-        // }}
-      >
-        <BootstrapDialogTitle
-          id="customized-dialog-title"
-          onClose={handleClose}
-          style={{
-            fontWeight: 600,
-            fontSize: 20,
-            fontFamily: "Raleway",
-            color: "#0f4c39",
-          }}
-        >
-          <br />
-        </BootstrapDialogTitle>
-        <DialogContent dividers>
-          <Image
-            src={imageSrc}
-            // width={500}
-            height={400}
-          ></Image>
-          <Typography
-            gutterBottom
-            style={{
-              fontWeight: 600,
-              fontSize: 30,
-              fontFamily: "Raleway",
-              paddingBottom: 20,
-              paddingTop: 20,
-              color: "#0f4c39",
-            }}
-          >
-            Praesent commodo cursus magna
-          </Typography>
-          <Typography
-            gutterBottom
-            style={{ fontWeight: 600, fontFamily: "Roboto" }}
-          >
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-            Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor
-            auctor.
-          </Typography>
-          <Typography
-            gutterBottom
-            style={{ fontWeight: 300, fontFamily: "Roboto" }}
-          >
-            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo
-            cursus magna, vel scelerisque nisl consectetur et. Donec sed odio
-            dui. Donec ullamcorper nulla non metus auctor fringilla. Praesent
-            commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus
-            sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
-            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo
-            cursus magna, vel scelerisque nisl consectetur et. Donec sed odio
-            dui. Donec ullamcorper nulla non metus auctor fringilla. Praesent
-            commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus
-            sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
-          </Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button size="small">Share</Button>
-          <Button size="small">Learn More</Button>
-        </DialogActions>
-      </BootstrapDialog>
-      <Footer />
-    </div>
-  );
+            <BootstrapDialog
+                onClose={handleClose}
+                aria-labelledby="customized-dialog-title"
+                open={open}
+                fullWidth
+                maxWidth="md"
+            // style={{
+            //   // width: "100%",
+            //   minWidth: "500px"
+            // }}
+            >
+                <BootstrapDialogTitle
+                    id="customized-dialog-title"
+                    onClose={handleClose}
+                    style={{
+                        fontWeight: 600,
+                        fontSize: 20,
+                        fontFamily: "Raleway",
+                        color: "#0f4c39",
+                    }}
+                >
+                    <br />
+                </BootstrapDialogTitle>
+                <DialogContent dividers>
+                    <Image
+                        src={imageSrc}
+                        // width={500}
+                        height={400}
+                    ></Image>
+                    <Typography
+                        gutterBottom
+                        style={{
+                            fontWeight: 600,
+                            fontSize: 30,
+                            fontFamily: "Raleway",
+                            paddingBottom: 20,
+                            paddingTop: 20,
+                            color: "#0f4c39",
+                        }}
+                    >
+                        Praesent commodo cursus magna
+                    </Typography>
+                    <Typography
+                        gutterBottom
+                        style={{ fontWeight: 600, fontFamily: "Roboto" }}
+                    >
+                        Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
+                        Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor
+                        auctor.
+                    </Typography>
+                    <Typography
+                        gutterBottom
+                        style={{ fontWeight: 300, fontFamily: "Roboto" }}
+                    >
+                        Aenean lacinia bibendum nulla sed consectetur. Praesent commodo
+                        cursus magna, vel scelerisque nisl consectetur et. Donec sed odio
+                        dui. Donec ullamcorper nulla non metus auctor fringilla. Praesent
+                        commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus
+                        sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
+                        Aenean lacinia bibendum nulla sed consectetur. Praesent commodo
+                        cursus magna, vel scelerisque nisl consectetur et. Donec sed odio
+                        dui. Donec ullamcorper nulla non metus auctor fringilla. Praesent
+                        commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus
+                        sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
+                    </Typography>
+                </DialogContent>
+                <DialogActions>
+                    <Button size="small">Share</Button>
+                    <Button size="small">Learn More</Button>
+                </DialogActions>
+            </BootstrapDialog>
+            <Footer />
+        </div>
+    );
 };
 
 export default Species;
