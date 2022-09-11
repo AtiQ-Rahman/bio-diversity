@@ -47,11 +47,29 @@ import {
     DialogTitle,
     IconButton,
     Dialog,
+    Autocomplete
 } from "@mui/material";
 import Paper from "@mui/material/Paper";
-import Link  from "next/link";
+import Link from "next/link";
+import { Formik, Form } from "formik";
+import * as Yup from "yup";
+import callApi from "./utils/callApi";
+const kingdoms = require('./utils/kingdoms')
+const phylums = require('./utils/kingdoms')
+const classes = require('./utils/kingdoms')
+const orders = require('./utils/kingdoms')
+const families = require('./utils/kingdoms')
+const genuses = require('./utils/kingdoms')
+const species = require('./utils/kingdoms')
 const imageSrc = require("../pages/assets/images/species1.jpg");
-
+const initialValues = {
+    kingdom: '',
+    phylum: '',
+    class: '',
+    order: '',
+    family: '',
+    genus: '',
+}
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
         padding: theme.spacing(2),
@@ -299,71 +317,241 @@ export default function ManageSpecies() {
                                             Species Search
                                         </Typography>
                                     </Card>
+                                    <Grid item xs={12} style={{ borderRadius: "5px", marginTop: 15 }}>
 
-                                    <Divider></Divider>
-                                    <Grid item xs={11} style={{ borderRadius: "5px" }}>
-                                        <Box
-                                            component="form"
-                                            sx={{
-                                                "& > :not(style)": { m: 1, width: "25ch" },
+                                        <Formik
+                                            initialValues={initialValues}
+                                            validationSchema={Yup.object().shape({
+
+                                                species: Yup.object().shape({
+                                                    english: Yup.string().required("Patient english name is required"),
+                                                    bangla: Yup.string().required("patient bangla is required"),
+
+                                                    // gender: Yup.string().required("patient gender is required"),
+                                                    // address: Yup.string().required("patient adressis required"),
+                                                }),
+
+                                                kingdom: Yup.string("Add Remarks").required("Add Remark"),
+                                                phylum: Yup.string("Add filmType").required("Add filmType"),
+                                                class: Yup.string("Add priority").required("Add priority"),
+                                                order: Yup.string("Add priority").required("Add priority"),
+                                                genus: Yup.string("Add priority").required("Add priority"),
+
+                                            })}
+                                            onSubmit={async (
+                                                values,
+                                                { resetForm, setErrors, setStatus, setSubmitting, setFieldValue }
+                                            ) => {
+                                                try {
+                                                    // console.log({ values });
+                                                    // // console.log(values.reportfile.name);
+                                                    // let xrayData = values;
+                                                    // xrayData.createdBy = {
+                                                    //   name: loggedUser.name,
+                                                    //   userId: loggedUser.userId,
+                                                    // };
+                                                    // xrayData.createdAt = new Date().getTime();
+                                                    // console.log({ loggedUser: loggedUser.userId });
+                                                    // const data = new FormData();
+                                                    // data.append("data", JSON.stringify(xrayData));
+                                                    // let files = values.reportfile;
+                                                    // if (files.length != 0) {
+                                                    //   for (const single_file of files) {
+                                                    //     data.append('reportfile', single_file)
+
+                                                    //   }
+                                                    // }
+
+                                                    // // data.append("reportfile", values.reportfile);
+                                                    // callApi.post("/xray/new", data, {
+                                                    //   headers: {
+                                                    //     "Content-Type": "multipart/form-data"
+                                                    //   }
+                                                    // }).then((res) => {\
+                                                    //   console.log("response", res);
+                                                    //   enqueueSnackbar("Report  Uploaded Successfully", {
+                                                    //     variant: "success",
+                                                    //     // action: <Button>See all</Button>
+                                                    //   });
+                                                    //   setErrors(false);
+                                                    // });
+                                                } catch (error) {
+                                                    console.log({ error });
+
+                                                    setStatus({ success: false });
+                                                    setErrors({ submit: error.message });
+                                                    setSubmitting(false);
+                                                }
                                             }}
-                                            noValidate
-                                            autoComplete="off"
                                         >
-                                            <TextField label="Search By Name" color="secondary" className={styles.custom_input} />
-                                            <TextField label="Search By  Family" color="secondary" />
-                                            <TextField label="Select Country" color="secondary" />
-                                            <TextField label="Select Area" color="secondary" />
-                                            <Button
-                                                type="button"
-                                                // onClick={}
-                                                className={styles.bg_primary}
-                                                style={{
-                                                    color: "white",
-                                                    height: "50px",
-                                                    maxWidth: "80px",
-                                                    maxHeight: "80px",
-                                                    minWidth: "40px",
-                                                    minHeight: "40px",
-                                                }}
-                                            >
-                                                Search
-                                            </Button>
-                                            <Link href="/add-new-species">
-                                                <Button
-                                                    type="button"
-                                                    // onClick={}
-                                                    className={styles.bg_primary}
-                                                    style={{
-                                                        color: "white",
-                                                        height: "50px",
-                                                        maxWidth: "150px",
-                                                        maxHeight: "80px",
-                                                        minWidth: "40px",
-                                                        minHeight: "40px",
-                                                    }}
+                                            {({
+                                                errors,
+                                                handleBlur,
+                                                handleChange,
+                                                handleSubmit,
+                                                isSubmitting,
+                                                touched,
+                                                values,
+                                                setFieldValue,
+                                            }) => (
+                                                <Form
+
+                                                    onSubmit={handleSubmit}
+
                                                 >
-                                                    <Icon icon="dashicons:plus-large" />&nbsp; Add New Species
-                                                </Button>
-                                            </Link>
+                                                    <Grid container xs={12} spacing={3} >
 
-                                            <Button
-                                                type="button"
-                                                // onClick={}
-                                                className={styles.bg_secondary}
-                                                style={{
-                                                    color: "white",
-                                                    height: "50px",
-                                                    maxWidth: "150px",
-                                                    maxHeight: "80px",
-                                                    minWidth: "40px",
-                                                    minHeight: "40px",
-                                                }}
-                                            >
-                                                Import from CSV
-                                            </Button>
+                                                        <Grid item xs={2}>
+                                                            <Autocomplete
+                                                                size="small"
+                                                                disablePortal
+                                                                id="genuses"
+                                                                name={values?.genus}
+                                                                options={genuses}
+                                                                key="genuses"
+                                                                getOptionLabel={(option) => option.name}
 
-                                        </Box>
+                                                                // sx={{ width: 300 }}
+                                                                onChange={(e, value) => {
+                                                                    setFieldValue('genus', value);
+                                                                }}
+                                                                renderInput={(params) => (
+                                                                    <TextField
+                                                                        {...params}
+                                                                        error={Boolean(
+                                                                            touched?.genus && errors?.genus
+                                                                        )}
+                                                                        helperText={
+                                                                            touched?.genus && errors?.genus
+                                                                        }
+                                                                        style={{ padding: "2px" }}
+                                                                        label="---Select genus---"
+                                                                        variant="outlined"
+                                                                        placeholder="Select"
+                                                                        value={values?.genus}
+                                                                    />
+                                                                )}
+                                                            />
+                                                        </Grid>
+                                                        <Grid item xs={2}>
+                                                            <Autocomplete
+                                                                size="small"
+                                                                disablePortal
+                                                                id="kingdoms"
+                                                                name={values?.kingdom}
+                                                                options={kingdoms}
+                                                                key="kingdoms"
+                                                                getOptionLabel={(option) => option.name}
+
+                                                                // sx={{ width: 300 }}
+                                                                onChange={(e, value) => {
+                                                                    setFieldValue('kingdom', value);
+                                                                }}
+                                                                renderInput={(params) => (
+                                                                    <TextField
+                                                                        {...params}
+                                                                        error={Boolean(
+                                                                            touched?.species && errors?.species
+                                                                        )}
+                                                                        helperText={
+                                                                            touched?.species && errors?.species
+                                                                        }
+                                                                        style={{ padding: "2px" }}
+                                                                        label="---Select Species---"
+                                                                        variant="outlined"
+                                                                        placeholder="Select"
+                                                                        value={values?.kingdom}
+                                                                    />
+                                                                )}
+                                                            />
+                                                        </Grid>
+                                                        <Grid item xs={2}>
+
+                                                            <TextField
+                                                                size="small"
+
+                                                                error={Boolean(
+                                                                    touched?.commonName && errors?.commonName
+                                                                )}
+                                                                helperText={
+                                                                    touched?.commonName && errors?.commonName
+                                                                }
+
+                                                                label="Common Name"
+                                                                variant="outlined"
+                                                                placeholder="Select"
+                                                                value={values?.commonName}
+                                                            />
+
+                                                        </Grid>
+                                                        <Grid item xs={2}>
+
+                                                            <TextField
+                                                                size="small"
+
+                                                                error={Boolean(
+                                                                    touched?.taxonomy && errors?.taxonomy
+                                                                )}
+                                                                helperText={
+                                                                    touched?.taxonomy && errors?.taxonomy
+                                                                }
+
+                                                                label="Higher Taxonomy"
+                                                                variant="outlined"
+                                                                placeholder="Select"
+                                                                value={values?.taxonomy}
+                                                            />
+
+                                                        </Grid>
+                                                        <Grid item xs={2}>
+
+                                                            <TextField
+                                                                size="small"
+                                                                error={Boolean(
+                                                                    touched?.distribution && errors?.distribution
+                                                                )}
+                                                                helperText={
+                                                                    touched?.distribution && errors?.distribution
+                                                                }
+
+                                                                label="Distribution"
+                                                                variant="outlined"
+                                                                placeholder="Select"
+                                                                value={values?.distribution}
+                                                            />
+
+                                                        </Grid>
+                                                        <Grid item xs={2}>
+
+                                                            <Button
+                                                                className={styles.bg_primary}
+
+                                                                style={{
+                                                                    width: "80px",
+                                                                    maxHeight: "80px",
+                                                                    minWidth: "40px",
+                                                                    minHeight: "40px",
+                                                                    color: "white",
+                                                                    boxShadow: "1px 1px 4px grey",
+                                                                    marginBottom: "10px"
+                                                                }}
+                                                            >
+                                                                Search
+                                                            </Button>
+
+                                                        </Grid>
+                                                    </Grid>
+
+                                                    <br />
+
+
+
+
+
+                                                </Form>
+                                            )}
+                                        </Formik>
+
                                     </Grid>
 
                                     {/* TABLE */}
