@@ -87,6 +87,33 @@
 .dropDown {
   background: var(--app-dropDown-color);
 }
+.map_container{
+  height:1080px;
+  width: 100%;
+}
+.sidebar {
+  background-color: rgba(35, 55, 75, 0.9);
+  color: #fff;
+  padding: 6px 12px;
+  font-family: monospace;
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 12px;
+  border-radius: 4px;
+}
+.details_bar {
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #000;
+  font-family: monospace;
+  z-index: 1;
+  position: absolute;
+  height: 1080px;
+  top: 0;
+  right: 0;
+  border-radius: 4px;
+}
 .footer {
   display: flex;
   flex: 1;

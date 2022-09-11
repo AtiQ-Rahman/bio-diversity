@@ -62,7 +62,7 @@ export default function Home() {
               item
               xs={12}
               md={12}
-              // style={{ borderRadius: "20px", paddingRight: "10px" }}
+            // style={{ borderRadius: "20px", paddingRight: "10px" }}
             >
               <Grid className={styles.featuredContainer}>
                 <Header index={0} />
@@ -74,7 +74,7 @@ export default function Home() {
                   direction="column"
                   alignItems="center"
                   justifyContent="center"
-                  // style={{ minHeight: "50vh" }}
+                // style={{ minHeight: "50vh" }}
                 >
                   <Grid>
                     <Typography className={styles.font}>
@@ -134,7 +134,7 @@ export default function Home() {
               alignItems="center"
               justifyContent="center"
 
-              // style={{ minHeight: "100vh" }}
+            // style={{ minHeight: "100vh" }}
             >
               <Typography
                 paddingRight={107}
@@ -153,13 +153,13 @@ export default function Home() {
                 className={styles.imageList}
               >
                 {itemData.map((item) => (
-                  <ImageListItem   className={styles.overlay} key={item.img} >
+                  <ImageListItem className={styles.overlay} key={item.img} >
                     <img
                       src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
                       srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
                       alt={item.title}
                       loading="lazy"
-                  
+
                     />
                     <ImageListItemBar
                       title={item.title}
@@ -189,7 +189,7 @@ const itemData = [
     title: "Breakfast",
     author: "@bkristastucchio",
     featured: true,
-  
+
   },
   {
     img: "https://images.unsplash.com/photo-1551782450-a2132b4ba21d",
