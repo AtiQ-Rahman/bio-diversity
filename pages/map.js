@@ -51,10 +51,12 @@ const navStyle = {
 const Map = () => {
     const router = useRouter()
     console.log(router.query)
-    const [query , setQuery] = useState(router.query)
+    const [query, setQuery] = useState(router.query)
     const mapContainer = useRef(null);
     const map = useRef(null);
     const [zoom, setZoom] = useState(10);
+    const [lng, setLng] = useState(query.lng)
+    const [lat, setLat] = useState(query.lat)
     const [popupInfo, setPopUpInfo] = useState(null)
     const _updateViewport = viewport => {
         setViewPort({ viewport });
@@ -122,7 +124,7 @@ const Map = () => {
                 // style={{  paddingRight: "20px" }}
                 >
                     <div className={styles.sidebar}>
-                        Longitude: {query.lng} | Latitude: {query.lat} | Zoom: {zoom}
+                        Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
                     </div>
                     <div className={styles.details_bar}>
 
@@ -175,7 +177,7 @@ const Map = () => {
 
     );
 };
-Map.getInitialProps = ({query}) => {
-    return {query}
-  }
+Map.getInitialProps = ({ query }) => {
+    return { query }
+}
 export default Map;

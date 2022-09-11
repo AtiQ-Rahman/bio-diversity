@@ -45,9 +45,9 @@ import Image from "next/image";
 import Footer from "./components/Home/Footer/Footer";
 import Counters from "./components/Home/counters";
 import { fontSize, fontWeight, height } from "@mui/system";
-import { speciesList } from "./utils/speciesList";
 import { useState } from "react";
 import { useEffect } from "react";
+import callApi from "./utils/callApi";
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     "& .MuiDialogContent-root": {
         padding: theme.spacing(2),
@@ -152,8 +152,24 @@ const Species = () => {
     // const handleClose = () => setOpen(false);
     const [rows, setRows] = useState([])
     useEffect(() => {
+        getAllSpeciesList()
+
+    }, [])
+    const router = useRouter();
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+    const handleClose = () => {
+        setOpen(false);
+    };
+    const getAllSpeciesList = async () => {
+        let searchParameters = {
+            name: "test"
+        }
+        const speciesList = await callApi("/get-species-list", searchParameters);
         let list = []
-        speciesList.map((species, index) => {
+        console.log(speciesList)
+        speciesList?.data?.map((species, index) => {
             list.push(createData(
                 index,
                 species.imageSrc,
@@ -166,19 +182,12 @@ const Species = () => {
                 20.622990,
                 92.320325
             ),)
-            if (index == speciesList.length - 1) {
+            if (index == speciesList.data.length - 1) {
+                console.log('working')
                 setRows(list)
             }
         })
-
-    }, [])
-    const router = useRouter();
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-    const handleClose = () => {
-        setOpen(false);
-    };
+    }
     return (
         <div className={styles.body}>
             <Header index={1} />
@@ -304,7 +313,7 @@ const Species = () => {
                                                     </StyledTableCell>
                                                     <StyledTableCell component="th">
                                                         <Image
-                                                            src={row.imageSrc}
+                                                            src={imageSrc}
                                                             height={100}
                                                             width={150}
                                                             sx={{ borderRadius: 10 }}
