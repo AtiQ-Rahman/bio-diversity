@@ -33,6 +33,9 @@ function DefaultCounterCard({ color, count,backgroundColor, title, description,a
         <Grid><Typography variant="h1" component="div" color="white">
         <CountUp  end={count} duration={1} {...rest} />
         </Typography>
+        <Typography variant="h1" component="div" color="white">
+       {title}
+        </Typography>
        
         <Typography variant="body2" color="white" fontWeight={600}>
           {description}

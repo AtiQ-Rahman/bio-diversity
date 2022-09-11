@@ -45,7 +45,7 @@ function Counters() {
             
               count={2000}
               suffix="+"
-              title="Species"
+              // title="Species"
               description="From teknaf to tetulia"
               actionIcon={
                 <IconButton 
@@ -64,7 +64,7 @@ function Counters() {
               suffix="+"
               // backgroundColor="#2c8f7c"
 
-              title="Images"
+              // title="Images"
               description="Available for checking"
               actionIcon={
                 <IconButton 
@@ -80,7 +80,7 @@ function Counters() {
             <DefaultCounterCard
               count={1000}
               suffix="+"
-              title="Request"
+              // title="Request"
               description="For adding on our server"
               // backgroundColor="#0f4c39"
               actionIcon={
