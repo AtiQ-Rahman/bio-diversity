@@ -50,7 +50,7 @@ export default function Home() {
       title: "Breakfast",
       author: "@bkristastucchio",
       featured: true,
-  
+
     },
     {
       img: species2,
@@ -67,10 +67,19 @@ export default function Home() {
     setSpacing(Number(event.target.value));
   };
 
-  const jsx = `
-<Grid container spacing={${spacing}}>
-`;
-
+  const jsx = `<Grid container spacing={${spacing}}>`;
+  const slides = [
+    { url: img, title: "beach" },
+    { url: species2, title: "boat" },
+    { url: img, title: "forest" },
+    { url: species2, title: "city" },
+    { url: img, title: "italy" },
+  ];
+  const containerStyles = {
+    width: "500px",
+    height: "280px",
+    margin: "0 auto",
+  };
   return (
     <div className={styles.body}>
       <div className={styles.main}>
@@ -84,14 +93,15 @@ export default function Home() {
             >
               <Grid className={styles.featuredContainer}>
                 <Header index={0} />
-             
+                <CuroselCard slides={slides}/>
                 <Grid
-                  className={styles.container}
+                  className={styles.image_container}
                   container
                   spacing={0}
                   direction="column"
                   alignItems="center"
                   justifyContent="center"
+
                 // style={{ minHeight: "50vh" }}
                 >
                   <Grid>
@@ -178,7 +188,7 @@ export default function Home() {
 
                       srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
                       alt={item.title}
-                      // loading="lazy"
+                    // loading="lazy"
                     />
                     <ImageListItemBar
                       title={item.title}

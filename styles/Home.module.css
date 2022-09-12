@@ -242,7 +242,7 @@
   background-image: url("../pages/assets/images/species2.jpg");
   animation-delay: 1s;
 } */
-@keyframes animate {
+/* @keyframes animate {
   0%,
   100% {
     background-image: url("../assets/images/species3.jpg");
@@ -256,8 +256,19 @@
   75% {
     background-image: url("../assets/images/species1.jpg");
   }
-}
+} */
+.image_container{
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    height: 300px;
+    width: 1000px;
+    left:"50px";
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
+    background-color: rgba(95, 89, 89, 0.4);
+  justify-content: "center";
 
+}
 .feature {
   display: flex;
   align-items: center;
