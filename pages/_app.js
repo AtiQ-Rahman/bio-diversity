@@ -4,16 +4,19 @@ import { store } from "../store";
 import { ThemeProvider } from "@mui/material/styles";
 import themes from '../theme';
 import { CssBaseline } from "@mui/material";
+// import { BrowserRouter } from "react-router-dom";
 
 function MyApp({ Component, pageProps }) {
   // const customization = useSelector((state) => state.customization);
 
   return (
     <Provider store={store}>
+        {/* <BrowserRouter> */}
       <ThemeProvider theme={themes({ fontFamily: 'Raleway, Arial'})}>
       <CssBaseline/>
         <Component {...pageProps} />
       </ThemeProvider>
+      {/* </BrowserRouter> */}
     </Provider>
   );
 }
