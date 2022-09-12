@@ -189,7 +189,7 @@ const Species = () => {
         const speciesList = listOfSpecies;
         let list = []
         console.log(speciesList)
-        speciesList?.data?.map((species, index) => {
+        speciesList?.map((species, index) => {
             list.push(createData(
                 index,
                 species.imageSrc,
@@ -202,7 +202,7 @@ const Species = () => {
                 20.622990,
                 92.320325
             ),)
-            if (index == speciesList.data.length - 1) {
+            if (index == speciesList.length - 1) {
                 console.log('working')
                 setRows(list)
             }
