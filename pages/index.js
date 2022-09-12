@@ -84,7 +84,7 @@ export default function Home() {
             >
               <Grid className={styles.featuredContainer}>
                 <Header index={0} />
-
+             
                 <Grid
                   className={styles.container}
                   container
