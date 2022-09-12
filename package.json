@@ -7,7 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "preDeploy": "next export",
-    "deploy":"gh-pages -d out",
+    "deploy": "node deploy.js",
     "start": "next start",
     "lint": "next lint"
   },
@@ -47,6 +47,7 @@
     "react-slick": "^0.29.0",
     "redux": "^4.2.0",
     "sass": "^1.54.4",
+    "shelljs": "^0.8.5",
     "slick-carousel": "^1.8.1",
     "yup": "^0.32.11"
   },
