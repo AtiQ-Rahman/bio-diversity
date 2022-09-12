@@ -165,9 +165,9 @@ export default function Home() {
 
               <ImageList
                 gap={40}
-                sx={{ width: 1100, height: 550 }}
+                sx={{ width: 1100,}}
                 cols={3}
-                rowHeight={350}
+                rowHeight={250}
                 className={styles.imageList}
               >
                 {itemData.map((item) => (
