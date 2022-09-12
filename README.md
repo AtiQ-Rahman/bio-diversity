@@ -1,10 +1,17 @@
 
 ## Getting Started with BIO-DIVERSITY
 
-First, run the development server:
+Run the development client:
 
 ```bash
 yarn install
 yarn dev
 ```
 
+Run the development server:
+
+```bash
+cd server
+yarn install
+yarn dev
+```
