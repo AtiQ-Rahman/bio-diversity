@@ -4,7 +4,7 @@ import { styled } from "@mui/material/styles";
 import { useRouter } from "next/router";
 import CloseIcon from "@mui/icons-material/Close";
 import PropTypes from "prop-types";
-const imageSrc = require("../pages/assets/images/species1.jpg");
+const imageSrc = require("../assets/images/species1.jpg");
 
 import {
     AppBar,
@@ -36,27 +36,29 @@ import {
     IconButton, Autocomplete,
     Dialog,
 } from "@mui/material";
-import Header from "./components/Home/Header";
-import CollapseCard from "./components/Home/collapseCard";
-import SearchSection from "./components/Home/Header/SearchSection";
+import Header from "../components/Home/Header";
+import CollapseCard from "../components/Home/collapseCard";
+import SearchSection from "../components/Home/Header/SearchSection";
 import Paper from "@mui/material/Paper";
 import { Link, Router } from "react-router-dom";
 import Image from "next/image";
-import Footer from "./components/Home/Footer/Footer";
-import Counters from "./components/Home/counters";
+import Footer from "../components/Home/Footer/Footer";
+import Counters from "../components/Home/counters";
 import { fontSize, fontWeight, height } from "@mui/system";
 import { useState } from "react";
 import { useEffect } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import callApi from "./utils/callApi";
-const kingdoms = require('./utils/kingdoms')
-const phylums = require('./utils/kingdoms')
-const classes = require('./utils/kingdoms')
-const orders = require('./utils/kingdoms')
-const families = require('./utils/kingdoms')
-const genuses = require('./utils/kingdoms')
-const species = require('./utils/kingdoms')
+import  listOfSpecies  from "../utils/speciesList";
+import callApi from "../utils/callApi";
+const kingdoms = require('../utils/kingdoms')
+const phylums = require('../utils/kingdoms')
+const classes = require('../utils/kingdoms')
+const orders = require('../utils/kingdoms')
+const families = require('../utils/kingdoms')
+const genuses = require('../utils/kingdoms')
+const species = require('../utils/kingdoms')
+
 const initialValues = {
     kingdom: '',
     phylum: '',
@@ -183,7 +185,8 @@ const Species = () => {
         let searchParameters = {
             name: "test"
         }
-        const speciesList = await callApi("/get-species-list", searchParameters);
+        // const speciesList = await callApi("/get-species-list", searchParameters);
+        const speciesList = listOfSpecies;
         let list = []
         console.log(speciesList)
         speciesList?.data?.map((species, index) => {

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-// import Footer from './components/Home/Footer/Footer';
-// import Header from "./components/Home/Header";
+// import Footer from '../components/Home/Footer/Footer';
+// import Header from "../components/Home/Header";
 import {
   Typography,
   Grid,
@@ -13,12 +13,12 @@ import {
   Box,
 } from "@mui/material";
 // import ImageUpload from "./ImageUpload";
-import Header from "./components/Home/Header";
+import Header from "../components/Home/Header";
 import styles from "../styles/Home.module.css";
-import Footer from "./components/Home/Footer/Footer";
+import Footer from "../components/Home/Footer/Footer";
 
-const map = require("../pages/assets/images/map.png");
-const form = () => {
+const map = require("../assets/images/map.png");
+const RequestForm = () => {
   const [image, setImage] = useState(null);
   const [createObjectURL, setCreateObjectURL] = useState(null);
 
@@ -176,4 +176,4 @@ const form = () => {
   );
 };
 
-export default form;
+export default RequestForm;

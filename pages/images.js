@@ -5,13 +5,13 @@ import ImageListItemBar from "@mui/material/ImageListItemBar";
 import IconButton from "@mui/material/IconButton";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import styles from "../styles/Home.module.css";
-import CollapseCard from "./components/Home/collapseCard";
+import CollapseCard from "../components/Home/collapseCard";
 import Image from "next/image";
-const imageSrc = require("../pages/assets/images/species1.jpg");
+const imageSrc = require("../assets/images/species1.jpg");
 import { useRouter } from "next/router";
-import Header from "./components/Home/Header";
+import Header from "../components/Home/Header";
 import { createTheme, styled } from "@mui/material/styles";
-import { speciesList } from "./utils/speciesList";
+import { speciesList } from "../utils/speciesList";
 import PropTypes from "prop-types";
 import {
     AppBar,
@@ -42,7 +42,7 @@ import {
     DialogContent,
     DialogActions,
 } from "@mui/material";
-import Footer from "./components/Home/Footer/Footer";
+import Footer from "../components/Home/Footer/Footer";
 
 import CloseIcon from "@mui/icons-material/Close";
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({

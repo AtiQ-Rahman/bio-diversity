@@ -7,9 +7,9 @@ import {
   CardContent,
 } from "@mui/material";
 import React from "react";
-import Header from "./components/Home/Header";
+import Header from "../components/Home/Header";
 import styles from "../styles/Home.module.css";
-import Footer from "./components/Home/Footer/Footer";
+import Footer from "../components/Home/Footer/Footer";
 // import './App.css';
 // import { Grid, TextField, Button, Card, CardContent, Typography } from '@material-ui/core';
 

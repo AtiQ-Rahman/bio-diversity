@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-// import Footer from './components/Home/Footer/Footer';
-// import Header from "./components/Home/Header";
+// import Footer from '../components/Home/Footer/Footer';
+// import Header from "../components/Home/Header";
 import {
   Typography,
   Grid,
@@ -19,29 +19,29 @@ import {
   Divider
 } from "@mui/material";
 // import ImageUpload from "./ImageUpload";
-import Header from "./components/Admin/Header";
-import Sidebar from './components/Admin/Sidebar';
-import Breadcrumbs from './components/Home/ui-component/extended/Breadcrumbs';
+import Header from "../components/Admin/Header";
+import Sidebar from '../components/Admin/Sidebar';
+import Breadcrumbs from '../components/Home/ui-component/extended/Breadcrumbs';
 import { useDispatch, useSelector } from 'react-redux';
 import { IconChevronRight } from '@tabler/icons';
 import { Icon } from "@iconify/react";
-import navigation from './components/Admin/menu-items';
+import navigation from '../components/Admin/menu-items';
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 
-import { drawerWidth } from './store/constant';
-import { SET_MENU } from './store/actions';
+import { drawerWidth } from '../store/constant';
+import { SET_MENU } from '../store/actions';
 import styles from "../styles/Home.module.css";
 import { styled, useTheme } from "@mui/material/styles";
 import Image from "next/image";
-// import { kingdoms } from "./utils/kingdoms";
-const kingdoms = require('./utils/kingdoms')
-const phylums = require('./utils/kingdoms')
-const classes = require('./utils/kingdoms')
-const orders = require('./utils/kingdoms')
-const families = require('./utils/kingdoms')
-const genuses = require('./utils/kingdoms')
-const species = require('./utils/kingdoms')
+// import { kingdoms } from "../utils/kingdoms";
+const kingdoms = require('../utils/kingdoms')
+const phylums = require('../utils/kingdoms')
+const classes = require('../utils/kingdoms')
+const orders = require('../utils/kingdoms')
+const families = require('../utils/kingdoms')
+const genuses = require('../utils/kingdoms')
+const species = require('../utils/kingdoms')
 console.log(kingdoms)
 const Input = styled("input")({
   display: "none",
@@ -88,11 +88,11 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({
     }
   })
 }));
-const map = require("../pages/assets/images/map.png");
-const addNewSpecies = () => {
+const map = require("../assets/images/map.png");
+const AddNewSpecies = () => {
   const [image, setImage] = useState(null);
   const [createObjectURL, setCreateObjectURL] = useState(null);
-  const theme = useTheme();
+  const theme =useTheme();
   const matchDownMd = useMediaQuery(theme.breakpoints.down('lg'));
   const initialValues = {
     kingdom: '',
@@ -705,4 +705,4 @@ const addNewSpecies = () => {
   );
 };
 
-export default addNewSpecies;
+export default AddNewSpecies;

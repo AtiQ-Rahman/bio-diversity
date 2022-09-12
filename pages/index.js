@@ -1,7 +1,7 @@
 import * as React from "react";
 import Head from "next/head";
 import Image from "next/image";
-import { speciesList } from "./utils/speciesList";
+import { speciesList } from "../utils/speciesList";
 import {
   AppBar,
   Box,
@@ -31,20 +31,38 @@ import { styled, useTheme } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
 
 import styles from "../styles/Home.module.css";
-import Header from "./components/Home/Header";
-import Counters from "./components/Home/counters";
-import CuroselCard from "./components/Home/curoselCard";
-import CollapseCard from "./components/Home/collapseCard";
-import Footer from "./components/Home/Footer/Footer";
-const img = require("../pages/assets/images/species3.jpg");
-const species2 = require("../pages/assets/images/species2.jpg");
+import Header from "../components/Home/Header";
+import Counters from "../components/Home/counters";
+import CuroselCard from "../components/Home/curoselCard";
+import CollapseCard from "../components/Home/collapseCard";
+import Footer from "../components/Home/Footer/Footer";
+const img = require("../assets/images/species3.jpg");
+const species2 = require("../assets/images/species2.jpg");
 import { Icon } from "@iconify/react";
 import { height, width } from "@mui/system";
 import InfoIcon from "@mui/icons-material/Info";
 
 export default function Home() {
   const [spacing, setSpacing] = React.useState(2);
-
+  const itemData = [
+    {
+      img: img,
+      title: "Breakfast",
+      author: "@bkristastucchio",
+      featured: true,
+  
+    },
+    {
+      img: species2,
+      title: "Burger",
+      author: "@rollelflex_graphy726",
+    },
+    {
+      img: species2,
+      title: "Camera",
+      author: "@helloimnik",
+    },
+  ];
   const handleChange = (event) => {
     setSpacing(Number(event.target.value));
   };
@@ -154,12 +172,13 @@ export default function Home() {
               >
                 {itemData.map((item) => (
                   <ImageListItem className={styles.overlay} key={item.img} >
-                    <img
-                      src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
+                    <Image
+                      src={item.img}
+                      layout="fill"
+
                       srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
                       alt={item.title}
-                      loading="lazy"
-
+                      // loading="lazy"
                     />
                     <ImageListItemBar
                       title={item.title}
@@ -183,22 +202,4 @@ export default function Home() {
     </div>
   );
 }
-const itemData = [
-  {
-    img: "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e",
-    title: "Breakfast",
-    author: "@bkristastucchio",
-    featured: true,
 
-  },
-  {
-    img: "https://images.unsplash.com/photo-1551782450-a2132b4ba21d",
-    title: "Burger",
-    author: "@rollelflex_graphy726",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1522770179533-24471fcdba45",
-    title: "Camera",
-    author: "@helloimnik",
-  },
-];

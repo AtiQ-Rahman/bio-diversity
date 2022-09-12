@@ -244,16 +244,16 @@
 @keyframes animate {
   0%,
   100% {
-    background-image: url("../pages/assets/images/species3.jpg");
+    background-image: url("../assets/images/species3.jpg");
   }
   25% {
-    background-image: url("../pages/assets/images/species1.jpg");
+    background-image: url("../assets/images/species1.jpg");
   }
   50% {
-    background-image: url("../pages/assets/images/species2.jpg");
+    background-image: url("../assets/images/species2.jpg");
   }
   75% {
-    background-image: url("../pages/assets/images/species1.jpg");
+    background-image: url("../assets/images/species1.jpg");
   }
 }
 
@@ -331,7 +331,7 @@
   /* margin-top: 30px; */
   padding-top: 100px;
   height: calc(70vh - 100px);
-  background: url(../pages/assets/images/bg-pattern.png) no-repeat center
+  background: url(../assets/images/bg-pattern.png) no-repeat center
     #637073;
   background-size: cover;
   content-visibility: auto;

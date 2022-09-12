@@ -12,18 +12,18 @@ import {
     Typography,
 } from "@mui/material";
 import React, { useState, useEffect, useRef } from "react";
-import Header from "./components/Home/Header";
+import Header from "../components/Home/Header";
 import styles from "../styles/Home.module.css";
 import Image from "next/image";
-import Footer from "./components/Home/Footer/Footer";
+import Footer from "../components/Home/Footer/Footer";
 import { margin } from "@mui/system";
-import Counters from "./components/Home/counters";
-import { CityPin } from "./utils/city-pin";
+import Counters from "../components/Home/counters";
+import { CityPin } from "../utils/city-pin";
 import mapboxgl from 'mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { useRouter } from 'next/router'
 mapboxgl.accessToken = process.env.mapbox_key;
-import CITIES from "./utils/cities.json";
+import CITIES from "../utils/cities.json";
 import MapGL, {
     Marker,
     Popup,
@@ -32,8 +32,8 @@ import MapGL, {
 } from "react-map-gl";
 
 
-const imageSrc = require("../pages/assets/images/species1.jpg");
-const map = require("../pages/assets/images/map.png");
+const imageSrc = require("../assets/images/species1.jpg");
+const map = require("../assets/images/map.png");
 const fullscreenControlStyle = {
     position: "relative",
     top: 0,
@@ -129,7 +129,7 @@ const Map = () => {
                     <div className={styles.details_bar}>
 
                         <Card sx={{ maxWidth: 345, height: 1080 }}>
-                            <Image src={imageSrc}></Image>
+                            <Image src={imageSrc} alt="species-image" width="345" height={200}></Image>
                             <CardContent>
                                 <Typography gutterBottom variant="h5" component="div">
                                     {query?.Species}

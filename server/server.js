@@ -21,7 +21,7 @@ process.on("uncaughtException", (err) => {
     process.exit(1)
 })
 // config 
-dotenv.config({ path: './config/config.env' });
+dotenv.config({ path: '../config/config.env' });
 
 // connecting database
 

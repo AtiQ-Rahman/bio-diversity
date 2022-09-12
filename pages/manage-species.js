@@ -5,14 +5,14 @@ import Image from "next/image";
 import { styled, useTheme } from "@mui/material/styles";
 import { useEffect, useState } from 'react';
 import styles from "../styles/Home.module.css";
-import Header from "./components/Admin/Header";
-import Sidebar from './components/Admin/Sidebar';
-import Breadcrumbs from './components/Home/ui-component/extended/Breadcrumbs';
+import Header from "../components/Admin/Header";
+import Sidebar from '../components/Admin/Sidebar';
+import Breadcrumbs from '../components/Home/ui-component/extended/Breadcrumbs';
 import { useDispatch, useSelector } from 'react-redux';
 import { IconChevronRight } from '@tabler/icons';
-import navigation from './components/Admin/menu-items';
-import { drawerWidth } from './store/constant';
-import { SET_MENU } from './store/actions';
+import navigation from '../components/Admin/menu-items';
+import { drawerWidth } from '../store/constant';
+import { SET_MENU } from '../store/actions';
 import React from "react";
 import { useRouter } from "next/router";
 import CloseIcon from '@mui/icons-material/Close';
@@ -53,15 +53,15 @@ import Paper from "@mui/material/Paper";
 import Link from "next/link";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import callApi from "./utils/callApi";
-const kingdoms = require('./utils/kingdoms')
-const phylums = require('./utils/kingdoms')
-const classes = require('./utils/kingdoms')
-const orders = require('./utils/kingdoms')
-const families = require('./utils/kingdoms')
-const genuses = require('./utils/kingdoms')
-const species = require('./utils/kingdoms')
-const imageSrc = require("../pages/assets/images/species1.jpg");
+import callApi from "../utils/callApi";
+const kingdoms = require('../utils/kingdoms')
+const phylums = require('../utils/kingdoms')
+const classes = require('../utils/kingdoms')
+const orders = require('../utils/kingdoms')
+const families = require('../utils/kingdoms')
+const genuses = require('../utils/kingdoms')
+const species = require('../utils/kingdoms')
+const imageSrc = require("../assets/images/species1.jpg");
 const initialValues = {
     kingdom: '',
     phylum: '',
@@ -307,7 +307,7 @@ export default function ManageSpecies() {
                 <Main theme={theme} open={leftDrawerOpened}>
 
                     <Breadcrumbs separator={IconChevronRight} navigation={navigation} icon title rightAlign />
-                    <div className={styles.main} sx={{ height: "100%" }}>
+                    <div className={styles.main}>
                         <Box component="section" className={styles.main_box} >
                             {/* Species Search */}
                             <Grid container item xs={12} md={12} sx={{ mx: "auto" }}>
