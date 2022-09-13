@@ -261,8 +261,9 @@
     position: absolute;
     z-index: 1;
     top: 0;
-    height: 300px;
-    width: 1000px;
+    height: 700px;
+
+
     left:"50px";
     background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
     background-color: rgba(95, 89, 89, 0.4);
@@ -341,8 +342,8 @@
 }
 .secondContainer {
   /* margin-top: 30px; */
-  padding-top: 100px;
-  height: calc(70vh - 100px);
+  padding-top: 50px;
+  /* height: calc(70vh - 100px); */
   background: url(../assets/images/bg-pattern.png) no-repeat center
     #254c54;
   background-size: cover;
