@@ -23,6 +23,7 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import AddIcon from "@mui/icons-material/Add";
 import { makeStyles } from "@mui/styles";
 import { useLocation } from "react-router-dom";
+import LogoSection from '../LogoSection';
 
 // const {
 
@@ -50,12 +51,31 @@ const useStyles = makeStyles({
 });
 
 const options = [
-  "Contribute",
-  "Team",
-  "Links",
-  "Contact",
-  "About",
-  "FAQ",
+  {
+    name: "Contribute",
+    url: "/add-new-species"
+  },
+  {
+    name: "Team",
+    url: "/"
+  },
+  {
+    name: "Links",
+    url: "/"
+  },
+  {
+    name: "Contact",
+    url: "/contact"
+  },
+  {
+    name: "About",
+    url: "/"
+  },
+  {
+    name: "FAQ",
+    url: "/"
+  },
+
   // {
   //     name: "Contact",
   //     path: "/contact",
@@ -117,7 +137,10 @@ export default function PrimarySearchAppBar(props) {
           selected={option === "Pyxis"}
           onClick={handleClose}
         >
-          {option}
+          <Link href={option.url}>
+            {option.name}
+
+          </Link>
         </MenuItem>
       ))}
     </Menu>
@@ -302,15 +325,17 @@ export default function PrimarySearchAppBar(props) {
         }}
       >
         <Toolbar>
-          <Typography
-            variant="h3"
-            noWrap
-            component="div"
-            color="white"
-            sx={{ display: { xs: "none", sm: "block" } }}
-          >
-            Bio diversity
-          </Typography>
+          <Box component="span" sx={{ display: { xs: 'none', md: 'block' }, flexGrow: 1 }}>
+            <LogoSection />
+            <span style={{
+              fontSize: "30px",
+              color: "white",
+              padding: "10px"
+            }}> Bio diversity</span>
+
+
+          </Box>
+
           <Box sx={{ flexGrow: 1 }} />
           {/* <SearchSection /> */}
 

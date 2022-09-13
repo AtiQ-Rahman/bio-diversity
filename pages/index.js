@@ -24,6 +24,15 @@ import CollapseCard from "../components/Home/collapseCard";
 import Footer from "../components/Home/Footer/Footer";
 const img = require("../assets/images/species3.jpg");
 const species2 = require("../assets/images/species2.jpg");
+const imageSrc = require("../assets/images/species4.jpg");
+const imageSrc2 = require("../assets/images/species5.jpg");
+const imageSrc3 = require("../assets/images/species6.jpg");
+const species7 = require("../assets/images/species7.jpg");
+const species8 = require("../assets/images/species8.jpg");
+const species9 = require("../assets/images/species9.jpg");
+const species10 = require("../assets/images/species10.jpg");
+const species12 = require("../assets/images/species12.jpg");
+const species3 = require("../assets/images/species3.jpg");
 import { Icon } from "@iconify/react";
 import { height, width } from "@mui/system";
 import InfoIcon from "@mui/icons-material/Info";
@@ -32,19 +41,19 @@ export default function Home() {
   const [spacing, setSpacing] = React.useState(2);
   const itemData = [
     {
-      img: img,
+      img: species8,
       title: "Breakfast",
       author: "@bkristastucchio",
       featured: true,
 
     },
     {
-      img: species2,
+      img: species10,
       title: "Burger",
       author: "@rollelflex_graphy726",
     },
     {
-      img: species2,
+      img: species7,
       title: "Camera",
       author: "@helloimnik",
     },
@@ -55,11 +64,14 @@ export default function Home() {
 
   const jsx = `<Grid container spacing={${spacing}}>`;
   const slides = [
-    { url: img, title: "beach" },
-    { url: species2, title: "boat" },
-    { url: img, title: "forest" },
-    { url: species2, title: "city" },
-    { url: img, title: "italy" },
+    { url: imageSrc, title: "beach" },
+    { url: imageSrc2, title: "boat" },
+    { url: imageSrc3, title: "forest" },
+    { url: species7, title: "city" },
+    { url: species8, title: "italy" },
+    { url: species9, title: "italy" },
+    { url: species10, title: "italy" },
+    { url: species12, title: "italy" },
   ];
   const containerStyles = {
     width: "500px",

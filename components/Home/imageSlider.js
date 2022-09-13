@@ -32,7 +32,6 @@ import SearchIcon from "@mui/icons-material/Search";
 const slideStyles = {
     width: "100%",
     height: "700px",
-    borderRadius: "10px",
     backgroundSize: "cover",
     backgroundPosition: "center",
 };
@@ -61,13 +60,13 @@ const leftArrowStyles = {
 
 const sliderStyles = {
     position: "relative",
-    height: "800px",
+    height: "700px",
 };
 
 const dotsContainerStyles = {
-    position:'absolute',
-    marginBottom:"10px",
-    bottom:0,
+    position: 'absolute',
+    marginBottom: "10px",
+    bottom: 0,
     display: "flex",
     justifyContent: "center",
 };
@@ -80,6 +79,17 @@ const dotStyle = {
 
 const ImageSlider = ({ slides }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
+    var i = 1;
+
+    function infiniteLoop() {
+        setTimeout(function () {
+            if(currentIndex == slides.length -1) setCurrentIndex(0)
+            else setCurrentIndex(currentIndex + 1)
+            i++;
+        }, 6000)
+    }
+
+    infiniteLoop();
     const goToPrevious = () => {
         const isFirstSlide = currentIndex === 0;
         const newIndex = isFirstSlide ? slides.length - 1 : currentIndex - 1;
@@ -96,6 +106,7 @@ const ImageSlider = ({ slides }) => {
     console.log(slides)
     const slideStylesWidthBackground = {
         ...slideStyles,
+        transition: "background-image 1s ease-in",
         backgroundImage: `url(${slides[currentIndex].url.default.src})`,
     };
 
@@ -121,7 +132,7 @@ const ImageSlider = ({ slides }) => {
                         ❱
                     </div>
                 </div>
-                
+
                 <Grid>
                     <Typography className={styles.font}>
                         Listing The World’s BIO Diversity
@@ -166,18 +177,18 @@ const ImageSlider = ({ slides }) => {
       </IconButton> */}
                 </Grid>
                 <div style={dotsContainerStyles}>
-                {slides.map((slide, slideIndex) => (
-                    <div
-                        style={dotStyle}
-                        key={slideIndex}
-                        onClick={() => goToSlide(slideIndex)}
-                    >
-                        ●
-                    </div>
-                ))}
-            </div>
+                    {slides.map((slide, slideIndex) => (
+                        <div
+                            style={dotStyle}
+                            key={slideIndex}
+                            onClick={() => goToSlide(slideIndex)}
+                        >
+                            ●
+                        </div>
+                    ))}
+                </div>
             </Grid>
-            
+
         </div>
 
     );

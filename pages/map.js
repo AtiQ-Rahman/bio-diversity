@@ -54,7 +54,7 @@ const Map = () => {
     const [query, setQuery] = useState(router.query)
     const mapContainer = useRef(null);
     const map = useRef(null);
-    const [zoom, setZoom] = useState(10);
+    const [zoom, setZoom] = useState(15);
     const [lng, setLng] = useState(query.lng)
     const [lat, setLat] = useState(query.lat)
     const [popupInfo, setPopUpInfo] = useState(null)
@@ -65,7 +65,7 @@ const Map = () => {
         if (map.current) return; // initialize map only once
         map.current = new mapboxgl.Map({
             container: mapContainer.current,
-            style: 'mapbox://styles/h-tech/cl7skv6tt001e14pn3keltoah',
+            style: 'mapbox://styles/h-tech/cl80aun1000f115n0i7622vwy',
             center: [query.lng, query.lat],
             zoom: zoom
         });

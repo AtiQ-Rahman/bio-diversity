@@ -65,7 +65,7 @@ const Map = () => {
         if (map.current) return; // initialize map only once
         map.current = new mapboxgl.Map({
             container: mapContainer.current,
-            style: 'mapbox://styles/h-tech/cl7skv6tt001e14pn3keltoah',
+            style: 'mapbox://styles/h-tech/cl80aun1000f115n0i7622vwy',
             center: [lng, lat],
             zoom: zoom
         });

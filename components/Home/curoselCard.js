@@ -13,9 +13,15 @@ import { fontSize } from "@mui/system";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import ImageSlider from "./imageSlider";
-const imageSrc = require("../../assets/images/species1.jpg");
-const imageSrc2 = require("../../assets/images/species2.jpg");
-const imageSrc3 = require("../../assets/images/species3.jpg");
+const imageSrc = require("../../assets/images/species4.jpg");
+const imageSrc2 = require("../../assets/images/species5.jpg");
+const imageSrc3 = require("../../assets/images/species6.jpg");
+const species7 = require("../../assets/images/species7.jpg");
+const species8 = require("../../assets/images/species8.jpg");
+const species9 = require("../../assets/images/species9.jpg");
+const species10 = require("../../assets/images/species10.jpg");
+const species12 = require("../../assets/images/species12.jpg");
+const species3 = require("../../assets/images/species3.jpg");
 const settings = {
   dots: true,
   infinite: true,
@@ -46,7 +52,7 @@ var items = [
     imageSrc: imageSrc3,
   },
 ];
-export default function MediaCard({slides}) {
+export default function MediaCard({ slides }) {
   const [title, setTitle] = React.useState(items[0].title);
   const [description, setDescription] = React.useState(items[0].description);
   function Item(props) {
@@ -60,22 +66,18 @@ export default function MediaCard({slides}) {
           // borderRadius: "20px",
         }}>
         <Grid container xs={12} md={12}>
-            <Image
-              layout="fill"
-              src={props.item.imageSrc}
-              alt="Live from space album cover"
-            />
-
+          <Image
+            layout="fill"
+            src={props.item.imageSrc}
+            alt="Live from space album cover"
+          />
 
         </Grid>
-
-
       </Box>
     );
   }
 
   return (
-
     <Box
       height={500}
     >
