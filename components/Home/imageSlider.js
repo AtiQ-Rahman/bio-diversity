@@ -25,10 +25,12 @@ import {
     ListSubheader,
     ImageListItemBar,
 } from "@mui/material";
-
+import { Icon } from '@iconify/react';
 import styles from '../../styles/Home.module.css'
 import { styled, useTheme } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
+import Image from "next/image";
+import blurImage from "../../assets/images/blur.jpg"
 const slideStyles = {
     width: "100%",
     height: "700px",
@@ -72,18 +74,17 @@ const dotsContainerStyles = {
 };
 
 const dotStyle = {
-    margin: "0 3px",
+    margin: "0 1px",
     cursor: "pointer",
     fontSize: "20px",
 };
-
 const ImageSlider = ({ slides }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     var i = 1;
 
     function infiniteLoop() {
         setTimeout(function () {
-            if(currentIndex == slides.length -1) setCurrentIndex(0)
+            if (currentIndex == slides.length - 1) setCurrentIndex(0)
             else setCurrentIndex(currentIndex + 1)
             i++;
         }, 6000)
@@ -103,17 +104,38 @@ const ImageSlider = ({ slides }) => {
     const goToSlide = (slideIndex) => {
         setCurrentIndex(slideIndex);
     };
-    console.log(slides)
     const slideStylesWidthBackground = {
-        ...slideStyles,
-        transition: "background-image 1s ease-in",
-        backgroundImage: `url(${slides[currentIndex].url.default.src})`,
-    };
+        // ...slideStyles,
+        // transition: "background-image 1s ease-in",
 
+        src: slides[currentIndex].url,
+        objectFit: "cover",
+
+    };
+    const [ready, setReady] = useState(false);
+
+    const handleLoad = (event) => {
+        event.persist();
+        if (event.target.srcset) {
+            setReady(true);
+        }
+    };
     return (
         <div style={sliderStyles}>
+            <div style={{
+                opacity: ready ? 1 : 0,
+                transition: "all .3s ease-in"
+            }}>
+                <Image
+                    {...slideStylesWidthBackground}
+                    placeholder="blur"
+                    blurDataURL={blurImage}
+                    onLoad={handleLoad}
+                    layout="fill"
+                ></Image>
+            </div>
 
-            <div style={slideStylesWidthBackground}></div>
+            {/* <div style={slideStylesWidthBackground}></div> */}
             <Grid
                 className={styles.image_container}
                 container
@@ -177,15 +199,27 @@ const ImageSlider = ({ slides }) => {
       </IconButton> */}
                 </Grid>
                 <div style={dotsContainerStyles}>
-                    {slides.map((slide, slideIndex) => (
-                        <div
-                            style={dotStyle}
-                            key={slideIndex}
-                            onClick={() => goToSlide(slideIndex)}
-                        >
-                            ●
-                        </div>
-                    ))}
+                    {slides.map((slide, slideIndex) => {
+                       return( slideIndex === currentIndex ? (
+                            <div
+                                style={dotStyle}
+                                key={slideIndex}
+                                onClick={() => goToSlide(slideIndex)}
+                            >
+                                <Icon icon="ci:dot-03-m" width="30" height="30" style={{position :"relative",top: -6}} />
+                            </div>
+                        ) : (
+                            <div
+                                style={dotStyle}
+                                key={slideIndex}
+                                onClick={() => goToSlide(slideIndex)}
+                            >
+                                <Icon color="gray" icon="ci:dot-03-m"  />
+                            </div>
+
+                        )
+                    )}
+                    )}
                 </div>
             </Grid>
 

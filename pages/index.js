@@ -32,6 +32,7 @@ const species8 = require("../assets/images/species8.jpg");
 const species9 = require("../assets/images/species9.jpg");
 const species10 = require("../assets/images/species10.jpg");
 const species12 = require("../assets/images/species12.jpg");
+import blurImage from "../assets/images/blur.jpg"
 const species3 = require("../assets/images/species3.jpg");
 import { Icon } from "@iconify/react";
 import { height, width } from "@mui/system";
@@ -42,19 +43,19 @@ export default function Home() {
   const itemData = [
     {
       img: species8,
-      title: "Breakfast",
+      title: "Butterfly",
       author: "@bkristastucchio",
       featured: true,
 
     },
     {
       img: species10,
-      title: "Burger",
+      title: "Turtle",
       author: "@rollelflex_graphy726",
     },
     {
       img: species7,
-      title: "Camera",
+      title: "Deer",
       author: "@helloimnik",
     },
   ];
@@ -73,6 +74,14 @@ export default function Home() {
     { url: species10, title: "italy" },
     { url: species12, title: "italy" },
   ];
+  const [ready, setReady] = React.useState(false);
+
+  const handleLoad = (event) => {
+    event.persist();
+    if (event.target.srcset) {
+        setReady(true);
+    }
+};
   const containerStyles = {
     width: "500px",
     height: "280px",
@@ -124,12 +133,17 @@ export default function Home() {
                         className={styles.imageList}
                       >
                         {itemData.map((item) => (
-                          <ImageListItem className={styles.overlay} key={item.img} >
+                          <ImageListItem className={styles.overlay} key={item.img} style={{
+                            opacity: ready ? 1 : 0,
+                            transition: "all .3s ease-in"
+                        }} >
                             <Image
                               src={item.img}
                               layout="fill"
-
-                              srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                              placeholder="blur"
+                              blurDataURL={blurImage}
+                              onLoad={handleLoad}
+                              // srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
                               alt={item.title}
                             // loading="lazy"
                             />
