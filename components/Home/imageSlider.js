@@ -86,7 +86,7 @@ const ImageSlider = ({ slides }) => {
         timer = setTimeout(function () {
             if (currentIndex == slides.length - 1) setCurrentIndex(0)
             else setCurrentIndex(currentIndex + 1)
-        }, 6000)
+        }, 3000)
     }
 
     infiniteLoop();

@@ -69,8 +69,6 @@ export default function Home() {
     { url: imageSrc2, title: "boat" },
     { url: species8, title: "italy" },
     { url: species9, title: "italy" },
-    { url: species10, title: "italy" },
-    { url: species12, title: "italy" },
   ];
   const [ready, setReady] = React.useState(false);
 
