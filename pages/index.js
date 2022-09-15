@@ -67,8 +67,6 @@ export default function Home() {
   const slides = [
     { url: imageSrc, title: "beach" },
     { url: imageSrc2, title: "boat" },
-    { url: imageSrc3, title: "forest" },
-    { url: species7, title: "city" },
     { url: species8, title: "italy" },
     { url: species9, title: "italy" },
     { url: species10, title: "italy" },

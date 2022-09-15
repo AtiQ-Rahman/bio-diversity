@@ -80,62 +80,67 @@ const dotStyle = {
 };
 const ImageSlider = ({ slides }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
-    var i = 1;
+    var timer;
 
     function infiniteLoop() {
-        setTimeout(function () {
+        timer = setTimeout(function () {
             if (currentIndex == slides.length - 1) setCurrentIndex(0)
             else setCurrentIndex(currentIndex + 1)
-            i++;
         }, 6000)
     }
 
     infiniteLoop();
     const goToPrevious = () => {
+        clearTimeout(timer)
         const isFirstSlide = currentIndex === 0;
         const newIndex = isFirstSlide ? slides.length - 1 : currentIndex - 1;
         setCurrentIndex(newIndex);
     };
     const goToNext = () => {
+        clearTimeout(timer)
         const isLastSlide = currentIndex === slides.length - 1;
         const newIndex = isLastSlide ? 0 : currentIndex + 1;
         setCurrentIndex(newIndex);
     };
     const goToSlide = (slideIndex) => {
+        clearTimeout(timer)
         setCurrentIndex(slideIndex);
     };
+    console.log(slides)
     const slideStylesWidthBackground = {
-        // ...slideStyles,
-        // transition: "background-image 1s ease-in",
-
-        src: slides[currentIndex].url,
-        objectFit: "cover",
+        ...slideStyles,
+        transition: "all 1s ease-in-out",
+        backgroundImage: `url(${slides[currentIndex].url.default.src})`,
+        // src: slides[currentIndex].url,
+        
+        // objectFit: "cover",
+        // objectPoistion:"center"
 
     };
     const [ready, setReady] = useState(false);
 
     const handleLoad = (event) => {
-        event.persist();
-        if (event.target.srcset) {
             setReady(true);
-        }
+
     };
     return (
         <div style={sliderStyles}>
-            <div style={{
+            {/* <div style={{
                 opacity: ready ? 1 : 0,
                 transition: "all .3s ease-in"
             }}>
                 <Image
                     {...slideStylesWidthBackground}
                     placeholder="blur"
+                    style={{transition: "all 0.5s ease-out",}}
                     blurDataURL={blurImage}
-                    onLoad={handleLoad}
+                    onLoadingComplete={handleLoad}
                     layout="fill"
+                    priority
                 ></Image>
-            </div>
+            </div> */}
 
-            {/* <div style={slideStylesWidthBackground}></div> */}
+            <div style={slideStylesWidthBackground}></div>
             <Grid
                 className={styles.image_container}
                 container
@@ -200,13 +205,13 @@ const ImageSlider = ({ slides }) => {
                 </Grid>
                 <div style={dotsContainerStyles}>
                     {slides.map((slide, slideIndex) => {
-                       return( slideIndex === currentIndex ? (
+                        return (slideIndex === currentIndex ? (
                             <div
                                 style={dotStyle}
                                 key={slideIndex}
                                 onClick={() => goToSlide(slideIndex)}
                             >
-                                <Icon icon="ci:dot-03-m" width="30" height="30" style={{position :"relative",top: -6}} />
+                                <Icon icon="ci:dot-03-m" width="30" height="30" style={{ position: "relative", top: -6 }} />
                             </div>
                         ) : (
                             <div
@@ -214,11 +219,12 @@ const ImageSlider = ({ slides }) => {
                                 key={slideIndex}
                                 onClick={() => goToSlide(slideIndex)}
                             >
-                                <Icon color="gray" icon="ci:dot-03-m"  />
+                                <Icon color="gray" icon="ci:dot-03-m" />
                             </div>
 
                         )
-                    )}
+                        )
+                    }
                     )}
                 </div>
             </Grid>
