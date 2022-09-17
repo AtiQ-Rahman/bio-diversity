@@ -323,7 +323,7 @@ const Species = () => {
                     setFieldValue,
                   }) => (
                     <Form onSubmit={handleSubmit}>
-                      <Grid container xs={12} spacing={2}>
+                      <Grid container xs={8} spacing={2}>
                             <Grid item xs={2}>
                               <Autocomplete
                                 size="small"

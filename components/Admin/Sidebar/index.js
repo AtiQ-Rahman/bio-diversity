@@ -36,6 +36,7 @@ const Sidebar = ({ drawerOpen, drawerToggle, window }) => {
           }}
         >
           <MenuList />
+          
         </PerfectScrollbar>
         {/* <MenuList /> */}
       </BrowserView>
