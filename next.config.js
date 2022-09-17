@@ -10,3 +10,4 @@ const nextConfig = {
     path: '',
   },
 }
+module.exports = nextConfig
