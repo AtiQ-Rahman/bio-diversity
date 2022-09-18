@@ -2,6 +2,7 @@ const yargs = require('yargs');
 const app = require("./app");
 
 const dotenv = require("dotenv");
+dotenv.config()
 
 var fs = require('fs'),
     http = require('http'),
@@ -21,8 +22,7 @@ process.on("uncaughtException", (err) => {
     process.exit(1)
 })
 // config 
-dotenv.config({ path: '../config/config.env' });
-
+dotenv.config()
 // connecting database
 
 const argv = yargs.argv
