@@ -16,99 +16,101 @@ import {
   useMediaQuery,
   CssBaseline,
   Autocomplete,
-  Divider
+  Divider,
 } from "@mui/material";
 // import ImageUpload from "./ImageUpload";
 import Header from "../components/Admin/Header";
-import Sidebar from '../components/Admin/Sidebar';
-import Breadcrumbs from '../components/Home/ui-component/extended/Breadcrumbs';
-import { useDispatch, useSelector } from 'react-redux';
-import { IconChevronRight } from '@tabler/icons';
+import Sidebar from "../components/Admin/Sidebar";
+import Breadcrumbs from "../components/Home/ui-component/extended/Breadcrumbs";
+import { useDispatch, useSelector } from "react-redux";
+import { IconChevronRight } from "@tabler/icons";
 import { Icon } from "@iconify/react";
-import navigation from '../components/Admin/menu-items';
+import navigation from "../components/Admin/menu-items";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 
-import { drawerWidth } from '../store/constant';
-import { SET_MENU } from '../store/actions';
+import { drawerWidth } from "../store/constant";
+import { SET_MENU } from "../store/actions";
 import styles from "../styles/Home.module.css";
 import { styled, useTheme } from "@mui/material/styles";
 import Image from "next/image";
 // import { kingdoms } from "../utils/kingdoms";
-const kingdoms = require('../utils/kingdoms')
-const phylums = require('../utils/kingdoms')
-const classes = require('../utils/kingdoms')
-const orders = require('../utils/kingdoms')
-const families = require('../utils/kingdoms')
-const genuses = require('../utils/kingdoms')
-const species = require('../utils/kingdoms')
-console.log(kingdoms)
+const kingdoms = require("../utils/kingdoms");
+const phylums = require("../utils/kingdoms");
+const classes = require("../utils/kingdoms");
+const orders = require("../utils/kingdoms");
+const families = require("../utils/kingdoms");
+const genuses = require("../utils/kingdoms");
+const species = require("../utils/kingdoms");
+console.log(kingdoms);
 const Input = styled("input")({
   display: "none",
 });
-const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({ theme, open }) => ({
-  ...theme.typography.mainContent,
-  ...(!open && {
-    borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 0,
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
+const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
+  ({ theme, open }) => ({
+    ...theme.typography.mainContent,
+    ...(!open && {
+      borderBottomLeftRadius: 0,
+      borderBottomRightRadius: 0,
+      transition: theme.transitions.create("margin", {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
+      [theme.breakpoints.up("md")]: {
+        marginLeft: -(drawerWidth - 20),
+        width: `calc(100% - ${drawerWidth}px)`,
+      },
+      [theme.breakpoints.down("md")]: {
+        marginLeft: "20px",
+        width: `calc(100% - ${drawerWidth}px)`,
+        padding: "16px",
+      },
+      [theme.breakpoints.down("sm")]: {
+        marginLeft: "10px",
+        width: `calc(100% - ${drawerWidth}px)`,
+        padding: "16px",
+        marginRight: "10px",
+      },
     }),
-    [theme.breakpoints.up('md')]: {
-      marginLeft: -(drawerWidth - 20),
-      width: `calc(100% - ${drawerWidth}px)`
-    },
-    [theme.breakpoints.down('md')]: {
-      marginLeft: '20px',
+    ...(open && {
+      transition: theme.transitions.create("margin", {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+      marginLeft: 0,
+      borderBottomLeftRadius: 0,
+      borderBottomRightRadius: 0,
       width: `calc(100% - ${drawerWidth}px)`,
-      padding: '16px'
-    },
-    [theme.breakpoints.down('sm')]: {
-      marginLeft: '10px',
-      width: `calc(100% - ${drawerWidth}px)`,
-      padding: '16px',
-      marginRight: '10px'
-    }
-  }),
-  ...(open && {
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen
+      [theme.breakpoints.down("md")]: {
+        marginLeft: "20px",
+      },
+      [theme.breakpoints.down("sm")]: {
+        marginLeft: "10px",
+      },
     }),
-    marginLeft: 0,
-    borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 0,
-    width: `calc(100% - ${drawerWidth}px)`,
-    [theme.breakpoints.down('md')]: {
-      marginLeft: '20px'
-    },
-    [theme.breakpoints.down('sm')]: {
-      marginLeft: '10px'
-    }
   })
-}));
+);
 const map = require("../assets/images/map.png");
 const AddNewSpecies = () => {
   const [image, setImage] = useState(null);
   const [createObjectURL, setCreateObjectURL] = useState(null);
-  const theme =useTheme();
-  const matchDownMd = useMediaQuery(theme.breakpoints.down('lg'));
+  const theme = useTheme();
+  const matchDownMd = useMediaQuery(theme.breakpoints.down("lg"));
   const initialValues = {
-    kingdom: '',
-    phylum: '',
-    class: '',
-    order: '',
-    family: '',
-    genus: '',
+    kingdom: "",
+    phylum: "",
+    class: "",
+    order: "",
+    family: "",
+    genus: "",
     species: {
-      bangla: '',
-      english: ""
+      bangla: "",
+      english: "",
     },
     categories: [],
     additionalFiles: [],
-    profileImage: ""
-  }
+    profileImage: "",
+  };
   // Handle left drawer
   const leftDrawerOpened = useSelector((state) => state.customization.opened);
   const dispatch = useDispatch();
@@ -125,7 +127,7 @@ const AddNewSpecies = () => {
     }
   };
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: "flex" }}>
       <CssBaseline />
       {/* header */}
       <AppBar
@@ -135,7 +137,9 @@ const AddNewSpecies = () => {
         elevation={0}
         sx={{
           bgcolor: theme.palette.background.default,
-          transition: leftDrawerOpened ? theme.transitions.create('width') : 'none'
+          transition: leftDrawerOpened
+            ? theme.transitions.create("width")
+            : "none",
         }}
       >
         <Toolbar>
@@ -144,16 +148,26 @@ const AddNewSpecies = () => {
       </AppBar>
 
       {/* drawer */}
-      <Sidebar drawerOpen={leftDrawerOpened} drawerToggle={handleLeftDrawerToggle} />
+      <Sidebar
+        drawerOpen={leftDrawerOpened}
+        drawerToggle={handleLeftDrawerToggle}
+      />
       <Main theme={theme} open={leftDrawerOpened}>
         {/* breadcrumb */}
-        <Breadcrumbs separator={IconChevronRight} navigation={navigation} icon title rightAlign />
+        <Breadcrumbs
+          separator={IconChevronRight}
+          navigation={navigation}
+          icon
+          title
+          rightAlign
+        />
         <Formik
           initialValues={initialValues}
           validationSchema={Yup.object().shape({
-
             species: Yup.object().shape({
-              english: Yup.string().required("Patient english name is required"),
+              english: Yup.string().required(
+                "Patient english name is required"
+              ),
               bangla: Yup.string().required("patient bangla is required"),
 
               // gender: Yup.string().required("patient gender is required"),
@@ -165,7 +179,6 @@ const AddNewSpecies = () => {
             class: Yup.string("Add priority").required("Add priority"),
             order: Yup.string("Add priority").required("Add priority"),
             genus: Yup.string("Add priority").required("Add priority"),
-
           })}
           onSubmit={async (
             values,
@@ -187,10 +200,8 @@ const AddNewSpecies = () => {
               // if (files.length != 0) {
               //   for (const single_file of files) {
               //     data.append('reportfile', single_file)
-
               //   }
               // }
-
               // // data.append("reportfile", values.reportfile);
               // callApi.post("/xray/new", data, {
               //   headers: {
@@ -223,16 +234,17 @@ const AddNewSpecies = () => {
             values,
             setFieldValue,
           }) => (
-            <Form
-
-              onSubmit={handleSubmit}
-
-            >
-              <Grid sx={{ p: 10, background: "white" }} >
-                <Typography gutterBottom variant="h3" align="start" sx={{ p: 2 }}>
+            <Form onSubmit={handleSubmit}>
+              <Grid sx={{ p: 10, background: "white" }}>
+                <Typography
+                  gutterBottom
+                  variant="h3"
+                  align="start"
+                  sx={{ p: 2 }}
+                >
                   Enter Your Details
                 </Typography>
-                <Grid container spacing={3} >
+                <Grid container spacing={3}>
                   <Grid item xs={2}>
                     <Autocomplete
                       size="small"
@@ -242,20 +254,15 @@ const AddNewSpecies = () => {
                       options={kingdoms}
                       key="kingdoms"
                       getOptionLabel={(option) => option.name}
-
                       // sx={{ width: 300 }}
                       onChange={(e, value) => {
-                        setFieldValue('kingdom', value);
+                        setFieldValue("kingdom", value);
                       }}
                       renderInput={(params) => (
                         <TextField
                           {...params}
-                          error={Boolean(
-                            touched?.kingdom && errors?.kingdom
-                          )}
-                          helperText={
-                            touched?.kingdom && errors?.kingdom
-                          }
+                          error={Boolean(touched?.kingdom && errors?.kingdom)}
+                          helperText={touched?.kingdom && errors?.kingdom}
                           style={{ padding: "2px" }}
                           label="---Select Kingdom---"
                           variant="outlined"
@@ -274,20 +281,15 @@ const AddNewSpecies = () => {
                       options={phylums}
                       key="phylums"
                       getOptionLabel={(option) => option.name}
-
                       // sx={{ width: 300 }}
                       onChange={(e, value) => {
-                        setFieldValue('phylum', value);
+                        setFieldValue("phylum", value);
                       }}
                       renderInput={(params) => (
                         <TextField
                           {...params}
-                          error={Boolean(
-                            touched?.phylum && errors?.phylum
-                          )}
-                          helperText={
-                            touched?.phylum && errors?.phylum
-                          }
+                          error={Boolean(touched?.phylum && errors?.phylum)}
+                          helperText={touched?.phylum && errors?.phylum}
                           style={{ padding: "2px" }}
                           label="---Select Phylum---"
                           variant="outlined"
@@ -306,20 +308,15 @@ const AddNewSpecies = () => {
                       options={classes}
                       key="classes"
                       getOptionLabel={(option) => option.name}
-
                       // sx={{ width: 300 }}
                       onChange={(e, value) => {
-                        setFieldValue('class', value);
+                        setFieldValue("class", value);
                       }}
                       renderInput={(params) => (
                         <TextField
                           {...params}
-                          error={Boolean(
-                            touched?.class && errors?.class
-                          )}
-                          helperText={
-                            touched?.class && errors?.class
-                          }
+                          error={Boolean(touched?.class && errors?.class)}
+                          helperText={touched?.class && errors?.class}
                           style={{ padding: "2px" }}
                           label="---Select Class---"
                           variant="outlined"
@@ -338,20 +335,15 @@ const AddNewSpecies = () => {
                       options={orders}
                       key="orders"
                       getOptionLabel={(option) => option.name}
-
                       // sx={{ width: 300 }}
                       onChange={(e, value) => {
-                        setFieldValue('order', value);
+                        setFieldValue("order", value);
                       }}
                       renderInput={(params) => (
                         <TextField
                           {...params}
-                          error={Boolean(
-                            touched?.order && errors?.order
-                          )}
-                          helperText={
-                            touched?.order && errors?.order
-                          }
+                          error={Boolean(touched?.order && errors?.order)}
+                          helperText={touched?.order && errors?.order}
                           style={{ padding: "2px" }}
                           label="---Select Order---"
                           variant="outlined"
@@ -370,20 +362,15 @@ const AddNewSpecies = () => {
                       options={families}
                       key="families"
                       getOptionLabel={(option) => option.name}
-
                       // sx={{ width: 300 }}
                       onChange={(e, value) => {
-                        setFieldValue('family', value);
+                        setFieldValue("family", value);
                       }}
                       renderInput={(params) => (
                         <TextField
                           {...params}
-                          error={Boolean(
-                            touched?.family && errors?.family
-                          )}
-                          helperText={
-                            touched?.family && errors?.family
-                          }
+                          error={Boolean(touched?.family && errors?.family)}
+                          helperText={touched?.family && errors?.family}
                           style={{ padding: "2px" }}
                           label="---Select Family---"
                           variant="outlined"
@@ -402,20 +389,15 @@ const AddNewSpecies = () => {
                       options={genuses}
                       key="genuses"
                       getOptionLabel={(option) => option.name}
-
                       // sx={{ width: 300 }}
                       onChange={(e, value) => {
-                        setFieldValue('genus', value);
+                        setFieldValue("genus", value);
                       }}
                       renderInput={(params) => (
                         <TextField
                           {...params}
-                          error={Boolean(
-                            touched?.genus && errors?.genus
-                          )}
-                          helperText={
-                            touched?.genus && errors?.genus
-                          }
+                          error={Boolean(touched?.genus && errors?.genus)}
+                          helperText={touched?.genus && errors?.genus}
                           style={{ padding: "2px" }}
                           label="---Select genus---"
                           variant="outlined"
@@ -452,7 +434,9 @@ const AddNewSpecies = () => {
                             variant="outlined"
                           />
                         </Grid>
-                        <Typography gutterBottom component="h3" variant="div">Identification Features</Typography>
+                        <Typography gutterBottom component="h3" variant="div">
+                          Identification Features
+                        </Typography>
 
                         {values?.categories.map((category, index) => {
                           return (
@@ -464,9 +448,7 @@ const AddNewSpecies = () => {
                                 margin="normal"
                                 name="category.name"
                                 onBlur={handleBlur}
-                                onChange={(e, value) => {
-
-                                }}
+                                onChange={(e, value) => {}}
                                 // type="number"
                                 value={category.name || ""}
                                 variant="outlined"
@@ -478,35 +460,30 @@ const AddNewSpecies = () => {
                                 margin="normal"
                                 name="category.name"
                                 onBlur={handleBlur}
-                                onChange={(e, value) => {
-
-                                }}
+                                onChange={(e, value) => {}}
                                 // type="number"
                                 value={category.name || ""}
                                 variant="outlined"
                               />
                               <Divider />
                             </>
-                          )
+                          );
                         })}
                         <Button
                           className={styles.bg_secondary}
-
                           style={{
                             width: "80px",
                             maxHeight: "80px",
                             minWidth: "200px",
                             minHeight: "40px",
-                            marginBottom: "10px"
+                            marginBottom: "10px",
                           }}
                           onClick={(e) => {
                             values.categories.push({
                               name: "",
-                              data: ""
-
-                            })
-                            setFieldValue("categories", values.categories)
-
+                              data: "",
+                            });
+                            setFieldValue("categories", values.categories);
                           }}
                         >
                           Add New Category
@@ -572,10 +549,22 @@ const AddNewSpecies = () => {
                         </Grid>
                       </Grid>
                       <Grid item xs={6} sx={{ p: 2 }}>
-                        <Typography component="h3" variant="div">Profile Image</Typography>
+                        <Typography component="h2" variant="div">
+                          Profile Image
+                        </Typography>
                         {createObjectURL ? (
-                          <Image src={createObjectURL} height="200" width="150"></Image>
-                        ) : (<Icon icon="entypo:upload-to-cloud" width="200" height="200" />)}
+                          <Image
+                            src={createObjectURL}
+                            height="200"
+                            width="150"
+                          ></Image>
+                        ) : (
+                          <Icon
+                            icon="entypo:upload-to-cloud"
+                            width="70"
+                            height="80"
+                          />
+                        )}
 
                         <TextField
                           sx={{
@@ -601,16 +590,18 @@ const AddNewSpecies = () => {
                               color="success"
                               onChange={(e) => {
                                 for (let file of e.target.files) {
-                                  values.additionalFiles.push(file)
-
+                                  values.additionalFiles.push(file);
                                 }
-                                setFieldValue("additionalFiles", values.additionalFiles);
-                                console.log(e.target.files)
+                                setFieldValue(
+                                  "additionalFiles",
+                                  values.additionalFiles
+                                );
+                                console.log(e.target.files);
                                 // setFileName(e.target.files[0].name);
                               }}
-                            // onChange={(event, values) => {
-                            //   setFieldValue("file", event.currentTarget.files[0]);
-                            // }}
+                              // onChange={(event, values) => {
+                              //   setFieldValue("file", event.currentTarget.files[0]);
+                              // }}
                             />
 
                             <div> </div>
@@ -619,50 +610,94 @@ const AddNewSpecies = () => {
                               variant="contained"
                               component="div"
                               size="large"
-                              style={{ border: "1px solid #c6b3b3", borderRadius: "10px", marginTop: "20px" }}
-
+                              style={{
+                                border: "1px solid #c6b3b3",
+                                borderRadius: "10px",
+                                marginTop: "20px",
+                              }}
                             >
                               {values?.additionalFiles?.length > 0 ? (
-                                Array.from(values.additionalFiles).slice(0, 5).map((file, index) => {
-                                  return (<Grid key={`additionalFiles${index}`} xs={12} style={{ border: "1px solid #eee", borderRadius: "10px", marginRight: "5px" }}>
-                                    <Grid container xs={12} style={{ padding: 10 }}>
-                                      <Grid item xs={1} md={2} style={{ paddingTop: 2 }}><Icon icon="bi:image" /></Grid>
-                                      <Grid item xs={10} md={9} style={{ paddingLeft: 2 }}><Typography component="div" variant="body">{file.name}</Typography></Grid>
-                                      <Grid item xs={1} style={{ paddingTop: 2 }}>
-                                        <Icon icon="fluent:delete-32-filled" onClick={(e) => {
-                                          let list = Array.from(values.additionalFiles)
-                                          list.splice(index, 1)
-                                          setFieldValue("additionalFiles", list)
-                                        }} />
-
+                                Array.from(values.additionalFiles)
+                                  .slice(0, 5)
+                                  .map((file, index) => {
+                                    return (
+                                      <Grid
+                                        key={`additionalFiles${index}`}
+                                        xs={12}
+                                        style={{
+                                          border: "1px solid #eee",
+                                          borderRadius: "10px",
+                                          marginRight: "5px",
+                                        }}
+                                      >
+                                        <Grid
+                                          container
+                                          xs={12}
+                                          style={{ padding: 10 }}
+                                        >
+                                          <Grid
+                                            item
+                                            xs={1}
+                                            md={2}
+                                            style={{ paddingTop: 2 }}
+                                          >
+                                            <Icon icon="bi:image" />
+                                          </Grid>
+                                          <Grid
+                                            item
+                                            xs={10}
+                                            md={9}
+                                            style={{ paddingLeft: 2 }}
+                                          >
+                                            <Typography
+                                              component="div"
+                                              variant="body"
+                                            >
+                                              {file.name}
+                                            </Typography>
+                                          </Grid>
+                                          <Grid
+                                            item
+                                            xs={1}
+                                            style={{ paddingTop: 2 }}
+                                          >
+                                            <Icon
+                                              icon="fluent:delete-32-filled"
+                                              onClick={(e) => {
+                                                let list = Array.from(
+                                                  values.additionalFiles
+                                                );
+                                                list.splice(index, 1);
+                                                setFieldValue(
+                                                  "additionalFiles",
+                                                  list
+                                                );
+                                              }}
+                                            />
+                                          </Grid>
+                                        </Grid>
                                       </Grid>
-                                    </Grid>
-
-                                  </Grid>)
-                                })
-                              ) : (<Typography sx={{ p: 5 }} component="h4" variant="caption">Please Upload Addition File here</Typography>)}
-
+                                    );
+                                  })
+                              ) : (
+                                <Typography
+                                  sx={{ p: 5 }}
+                                  component="h4"
+                                  variant="caption"
+                                >
+                                  Please Upload Addition File here
+                                </Typography>
+                              )}
                             </Box>
-
                           </label>
-
                         </Grid>
-
                       </Grid>
                     </Grid>
-
                   </Grid>
-
-
-
-
-
-
                 </Grid>
                 <br />
                 <Button
                   className={styles.bg_primary}
-
                   style={{
                     width: "80px",
                     maxHeight: "80px",
@@ -670,14 +705,14 @@ const AddNewSpecies = () => {
                     minHeight: "40px",
                     color: "white",
                     boxShadow: "1px 1px 4px grey",
-                    marginBottom: "10px"
+                    marginBottom: "10px",
                   }}
+                  sx={{ mb: 1, mr: 1 }}
                 >
                   Save
                 </Button>
                 <Button
                   className={styles.bg_secondary}
-
                   style={{
                     width: "80px",
                     maxHeight: "80px",
@@ -685,22 +720,16 @@ const AddNewSpecies = () => {
                     minHeight: "40px",
                     color: "white",
                     boxShadow: "1px 1px 4px grey",
-                    marginBottom: "10px"
+                    marginBottom: "10px",
                   }}
                 >
                   Cancel
                 </Button>
               </Grid>
-
-
-
             </Form>
           )}
         </Formik>
-
-
       </Main>
-
     </Box>
   );
 };
