@@ -93,10 +93,18 @@ const NavCollapse = ({ menu, level }) => {
               variant={selected === menu.id ? "h5" : "body1"}
               color="inherit"
               sx={{ my: "auto",flexDirection: 'row' }}
-             
-           
             >
-              <Box > {menu.icon} {menu.title} </Box>
+              <Grid
+                container
+                direction="row"
+                // justifyContent="center"
+                alignItems="center"
+             
+              >
+                {" "}
+                {menu.icon}   {menu.title}
+                {" "}
+              </Grid>
               {/* <Grid display={flex}>
                 <Grid  xs={2}>
                   <Typography  > {menu.icon} </Typography>
@@ -105,7 +113,6 @@ const NavCollapse = ({ menu, level }) => {
                   <Typography>{menu.title}</Typography>
                 </Grid>
               </Grid> */}
-              
             </Typography>
           }
           secondary={
