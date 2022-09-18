@@ -253,9 +253,18 @@ export default function ManageSpecies() {
   const matchDownMd = useMediaQuery(theme.breakpoints.down("lg"));
   // const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [openUpload, setOpenUpload] = React.useState(false);
   // const handleOpen = () => setOpen(true);
   // const handleClose = () => setOpen(false);
   const uploadToClient = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      const i = event.target.files[0];
+
+      setImage(i);
+      setCreateObjectURL(URL.createObjectURL(i));
+    }
+  };
+  const uploadCSV = (event) => {
     if (event.target.files && event.target.files[0]) {
       const i = event.target.files[0];
 
@@ -269,6 +278,12 @@ export default function ManageSpecies() {
   };
   const handleClose = () => {
     setOpen(false);
+  };
+  const handleClickUpload = () => {
+    setOpenUpload(true);
+  };
+  const handleCloseUpload = () => {
+    setOpenUpload(false);
   };
   // Handle left drawer
   const leftDrawerOpened = useSelector((state) => state.customization.opened);
@@ -420,7 +435,7 @@ export default function ManageSpecies() {
                         setFieldValue,
                       }) => (
                         <Form onSubmit={handleSubmit}>
-                          <Grid container xs={12} spacing={3}>
+                          <Grid container xs={9} spacing={3}>
                             <Grid item xs={2}>
                               <Autocomplete
                                 size="small"
@@ -442,7 +457,7 @@ export default function ManageSpecies() {
                                     )}
                                     helperText={touched?.genus && errors?.genus}
                                     style={{ padding: "2px" }}
-                                    label="---Select genus---"
+                                    label="Select genus"
                                     variant="outlined"
                                     placeholder="Select"
                                     value={values?.genus}
@@ -473,7 +488,7 @@ export default function ManageSpecies() {
                                       touched?.species && errors?.species
                                     }
                                     style={{ padding: "2px" }}
-                                    label="---Select Species---"
+                                    label="Select Species"
                                     variant="outlined"
                                     placeholder="Select"
                                     value={values?.kingdom}
@@ -552,8 +567,55 @@ export default function ManageSpecies() {
 
                   {/* TABLE */}
                   <Divider></Divider>
+                  <Grid container xs={12}>
+                    <Grid item xs={12} md={5}>
+                      <h1>Total Species Found (5)</h1>
+                    </Grid>
 
-                  <h1>Total Species Found (5)</h1>
+                    <Grid item xs={12} md={7}>
+                      <Grid container xs={12} md={12}>
+
+
+                        <Grid item xs={12} style={{
+                          display: "flex",
+                          justifyContent: "end",
+                        }}>
+                          <Button
+                            className={styles.bg_primary}
+                            style={{
+                              width: "150px",
+                              maxHeight: "80px",
+                              minWidth: "40px",
+                              minHeight: "40px",
+                              color: "white",
+                              boxShadow: "1px 1px 4px grey",
+                              margin: "10px",
+                            }}
+                            onClick={(e)=>{
+                              router.push('/add-new-species')
+                            }}
+                          >
+                            Add New Species
+                          </Button>
+                          <Button
+                            className={styles.bg_primary}
+                            style={{
+                              width: "150px",
+                              maxHeight: "80px",
+                              minWidth: "40px",
+                              minHeight: "40px",
+                              color: "white",
+                              boxShadow: "1px 1px 4px grey",
+                              margin: "10px",
+                            }}
+                            onClick={handleClickUpload}
+                          >
+                            Upload Species
+                          </Button></Grid>
+                      </Grid>
+                    </Grid>
+
+                  </Grid>
                   <br />
                   <Grid
                     item
@@ -637,7 +699,7 @@ export default function ManageSpecies() {
                                     }}
                                     onClick={handleClickOpen}
                                     sx={{ mb: 1, mr: 0.5 }}
-                                    // variant="outlined"
+                                  // variant="outlined"
                                   >
                                     <Icon icon="dashicons:edit-large" />
                                     &nbsp; Edit
@@ -656,7 +718,7 @@ export default function ManageSpecies() {
                                       color: "#0f4c39",
                                     }}
                                     type="button"
-                                    // onClick={() => router.push("/map")}
+                                  // onClick={() => router.push("/map")}
                                   >
                                     <Icon icon="fluent:delete-16-filled" />
                                     &nbsp; Delete
@@ -802,6 +864,72 @@ export default function ManageSpecies() {
                     type="file"
                     name="myImage"
                     onChange={uploadToClient}
+                  />
+                </Grid>
+              </Grid>
+              <br />
+              <Button
+                className={styles.bg_primary}
+                style={{
+                  width: "80px",
+                  maxHeight: "80px",
+                  minWidth: "40px",
+                  minHeight: "40px",
+                  color: "white",
+                  boxShadow: "1px 1px 4px grey",
+                  marginBottom: "10px",
+                }}
+              >
+                Upload
+              </Button>
+            </DialogContent>
+            <DialogActions>
+              <Button
+                size="small"
+                className={styles.bg_primary}
+                sx={{ color: "white" }}
+              >
+                Save
+              </Button>
+              <Button
+                size="small"
+                className={styles.bg_primary}
+                sx={{ color: "white" }}
+              >
+                Cancel
+              </Button>
+            </DialogActions>
+          </BootstrapDialog>
+          <BootstrapDialog
+            onClose={handleCloseUpload}
+            aria-labelledby="customized-dialog-title"
+            open={openUpload}
+          >
+            <BootstrapDialogTitle
+              id="customized-dialog-title"
+              onClose={handleCloseUpload}
+              style={{
+                fontWeight: 600,
+                fontSize: 20,
+                fontFamily: "Raleway",
+                color: "#0f4c39",
+              }}
+            >
+              Upload CSV
+            </BootstrapDialogTitle>
+            <DialogContent dividers>
+              <Grid container spacing={3}>
+                <Grid>
+                  <TextField
+                    sx={{
+                      flexGrow: 1,
+
+                      mt: 2,
+                      ml: 3,
+                    }}
+                    type="file"
+                    name="myImage"
+                    onChange={uploadCSV}
                   />
                 </Grid>
               </Grid>

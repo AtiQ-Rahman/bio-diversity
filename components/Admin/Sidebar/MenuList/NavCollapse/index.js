@@ -29,7 +29,6 @@ const NavCollapse = ({ menu, level }) => {
   const theme = useTheme();
   const customization = useSelector((state) => state.customization);
   const router = useRouter();
-
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState(null);
 
@@ -79,7 +78,10 @@ const NavCollapse = ({ menu, level }) => {
           borderRadius: `${customization.borderRadius}px`,
           mb: 0.5,
           alignItems: "flex-start",
-          backgroundColor: level > 1 ? "transparent !important" : "inherit",
+          // backgroundColor: level > 1 ? "transparent !important" : "inherit",
+          backgroundColor: router.pathname === menu.url ? "#c44d34" : "inherit",
+          color: router.pathname === menu.url ? "white" : "inherit",
+
           py: level > 1 ? 1 : 1.25,
           pl: `${level * 24}px`,
         }}

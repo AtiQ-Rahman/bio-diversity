@@ -21,7 +21,7 @@ const dashboard = {
             type: 'collapse',
             url: '/admin-dashboard',
             // icon: icons.IconDashboard,
-            icon:<DashboardIcon sx={{ fontSize: 20 }}/>,
+            icon:<DashboardIcon sx={{ fontSize: 15 , mr : 1 }}/>,
             breadcrumbs: false
         },
         {
@@ -30,7 +30,7 @@ const dashboard = {
             type: 'collapse',
             url: '/manage-species',
             target: true,
-            icon:<ManageSearchIcon  sx={{ fontSize: 20 }}/>
+            icon:<ManageSearchIcon  sx={{ fontSize: 15 , mr : 1 }}/>
           
         },
         {
@@ -38,7 +38,7 @@ const dashboard = {
             title: 'Requested Species List',
             type: 'collapse',
             url: '/manage-requested-species',
-            icon:<ListAltIcon  sx={{ fontSize: 20 }}/>,
+            icon:<ListAltIcon  sx={{ fontSize: 15 , mr : 1 }}/>,
             target: true
         },
         {
@@ -47,7 +47,7 @@ const dashboard = {
             type: 'collapse',
             url: '/admin-zoning',
             target: true,
-            icon:<CenterFocusWeakIcon  sx={{ fontSize: 20 }}/>
+            icon:<CenterFocusWeakIcon  sx={{ fontSize: 15 , mr : 1 }}/>
         },
         {
             id: 'distribution',
@@ -55,7 +55,7 @@ const dashboard = {
             type: 'collapse',
             url: '/distribution',
             target: true,
-            icon:<AddLocationAltIcon  sx={{ fontSize: 20 }}/>
+            icon:<AddLocationAltIcon  sx={{ fontSize: 15 , mr : 1 }}/>
         }
     ]
 };
