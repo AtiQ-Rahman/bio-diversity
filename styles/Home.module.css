@@ -129,6 +129,13 @@
   align-items: center;
   flex-grow: 1;
 }
+.marker {
+  display: block;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 0;
+  }
 .bg_primary {
   background: var(--app-primary-color);
   color: "white";

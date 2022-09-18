@@ -75,10 +75,16 @@ const Map = () => {
             setZoom(map.current.getZoom().toFixed(2));
         });
         CITIES.map((city) => {
-            new mapboxgl.Marker(
-                <CityPin size={20} onClick={() => setPopUpInfo(city)} />
-
-            )
+            // const el = document.createElement('div');
+            // const width = 50;
+            // const height = 50;
+            // el.className = styles.marker;
+            // el.style.backgroundImage = `url(https://placekitten.com/g/${width}/${height}/)`;
+            // el.style.width = `${width}px`;
+            // el.style.height = `${height}px`;
+            // el.style.backgroundSize = '100%';
+            // <CityPin size={20} onClick={() => setPopUpInfo(city)} />
+            new mapboxgl.Marker()
                 .setLngLat(city)
                 .addTo(map.current);
         })
