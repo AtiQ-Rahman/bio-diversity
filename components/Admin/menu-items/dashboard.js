@@ -20,7 +20,7 @@ const dashboard = {
             title: 'Dashboard',
             type: 'collapse',
             url: '/admin-dashboard',
-            // icon: icons.IconDashboard,
+            icon: icons.IconDashboard,
             icon:<DashboardIcon sx={{ fontSize: 15 , mr : 1 }}/>,
             breadcrumbs: false
         },
@@ -29,6 +29,15 @@ const dashboard = {
             title: 'Manage Species',
             type: 'collapse',
             url: '/manage-species',
+            target: true,
+            icon:<ManageSearchIcon  sx={{ fontSize: 15 , mr : 1 }}/>
+          
+        },
+        {
+            id: 'categories',
+            title: 'Manage Category',
+            type: 'collapse',
+            url: '/manage-categories',
             target: true,
             icon:<ManageSearchIcon  sx={{ fontSize: 15 , mr : 1 }}/>
           

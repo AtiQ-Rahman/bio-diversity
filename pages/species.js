@@ -52,6 +52,7 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import listOfSpecies from "../utils/speciesList";
 import callApi from "../utils/callApi";
+import DetailsDialog from "../components/DetailsDialog";
 const kingdoms = require("../utils/kingdoms");
 const phylums = require("../utils/kingdoms");
 const classes = require("../utils/kingdoms");
@@ -324,128 +325,128 @@ const Species = () => {
                   }) => (
                     <Form onSubmit={handleSubmit}>
                       <Grid container xs={8} spacing={2}>
-                            <Grid item xs={2}>
-                              <Autocomplete
-                                size="small"
-                                disablePortal
-                                id="genuses"
-                                name={values?.genus}
-                                options={genuses}
-                                key="genuses"
-                                getOptionLabel={(option) => option.name}
-                                // sx={{ width: 300 }}
-                                onChange={(e, value) => {
-                                  setFieldValue("genus", value);
-                                }}
-                                renderInput={(params) => (
-                                  <TextField
-                                    {...params}
-                                    error={Boolean(
-                                      touched?.genus && errors?.genus
-                                    )}
-                                    helperText={touched?.genus && errors?.genus}
-                                    style={{ padding: "2px" }}
-                                    label="---Select genus---"
-                                    variant="outlined"
-                                    placeholder="Select"
-                                    value={values?.genus}
-                                  />
-                                )}
-                              />
-                            </Grid>
-                            <Grid item xs={2}>
-                              <Autocomplete
-                                size="small"
-                                disablePortal
-                                id="kingdoms"
-                                name={values?.kingdom}
-                                options={kingdoms}
-                                key="kingdoms"
-                                getOptionLabel={(option) => option.name}
-                                // sx={{ width: 300 }}
-                                onChange={(e, value) => {
-                                  setFieldValue("kingdom", value);
-                                }}
-                                renderInput={(params) => (
-                                  <TextField
-                                    {...params}
-                                    error={Boolean(
-                                      touched?.species && errors?.species
-                                    )}
-                                    helperText={
-                                      touched?.species && errors?.species
-                                    }
-                                    style={{ padding: "2px" }}
-                                    label="---Select Species---"
-                                    variant="outlined"
-                                    placeholder="Select"
-                                    value={values?.kingdom}
-                                  />
-                                )}
-                              />
-                            </Grid>
-                            <Grid item xs={2}>
+                        <Grid item xs={2}>
+                          <Autocomplete
+                            size="small"
+                            disablePortal
+                            id="genuses"
+                            name={values?.genus}
+                            options={genuses}
+                            key="genuses"
+                            getOptionLabel={(option) => option.name}
+                            // sx={{ width: 300 }}
+                            onChange={(e, value) => {
+                              setFieldValue("genus", value);
+                            }}
+                            renderInput={(params) => (
                               <TextField
-                                size="small"
+                                {...params}
                                 error={Boolean(
-                                  touched?.commonName && errors?.commonName
+                                  touched?.genus && errors?.genus
                                 )}
-                                helperText={
-                                  touched?.commonName && errors?.commonName
-                                }
-                                label="Common Name"
+                                helperText={touched?.genus && errors?.genus}
+                                style={{ padding: "2px" }}
+                                label="---Select genus---"
                                 variant="outlined"
                                 placeholder="Select"
-                                value={values?.commonName}
+                                value={values?.genus}
                               />
-                            </Grid>
-                            <Grid item xs={2}>
+                            )}
+                          />
+                        </Grid>
+                        <Grid item xs={2}>
+                          <Autocomplete
+                            size="small"
+                            disablePortal
+                            id="kingdoms"
+                            name={values?.kingdom}
+                            options={kingdoms}
+                            key="kingdoms"
+                            getOptionLabel={(option) => option.name}
+                            // sx={{ width: 300 }}
+                            onChange={(e, value) => {
+                              setFieldValue("kingdom", value);
+                            }}
+                            renderInput={(params) => (
                               <TextField
-                                size="small"
+                                {...params}
                                 error={Boolean(
-                                  touched?.taxonomy && errors?.taxonomy
+                                  touched?.species && errors?.species
                                 )}
                                 helperText={
-                                  touched?.taxonomy && errors?.taxonomy
+                                  touched?.species && errors?.species
                                 }
-                                label="Higher Taxonomy"
+                                style={{ padding: "2px" }}
+                                label="---Select Species---"
                                 variant="outlined"
                                 placeholder="Select"
-                                value={values?.taxonomy}
+                                value={values?.kingdom}
                               />
-                            </Grid>
-                            <Grid item xs={2}>
-                              <TextField
-                                size="small"
-                                error={Boolean(
-                                  touched?.distribution && errors?.distribution
-                                )}
-                                helperText={
-                                  touched?.distribution && errors?.distribution
-                                }
-                                label="Distribution"
-                                variant="outlined"
-                                placeholder="Select"
-                                value={values?.distribution}
-                              />
-                            </Grid>
-                            <Grid item xs={2}>
-                              <Button
-                                className={styles.bg_primary}
-                                style={{
-                                  width: "80px",
-                                  maxHeight: "80px",
-                                  minWidth: "40px",
-                                  minHeight: "40px",
-                                  color: "white",
-                                  boxShadow: "1px 1px 4px grey",
-                                  marginBottom: "10px",
-                                }}
-                              >
-                                Search
-                              </Button>
-                            </Grid>
-                          </Grid>
+                            )}
+                          />
+                        </Grid>
+                        <Grid item xs={2}>
+                          <TextField
+                            size="small"
+                            error={Boolean(
+                              touched?.commonName && errors?.commonName
+                            )}
+                            helperText={
+                              touched?.commonName && errors?.commonName
+                            }
+                            label="Common Name"
+                            variant="outlined"
+                            placeholder="Select"
+                            value={values?.commonName}
+                          />
+                        </Grid>
+                        <Grid item xs={2}>
+                          <TextField
+                            size="small"
+                            error={Boolean(
+                              touched?.taxonomy && errors?.taxonomy
+                            )}
+                            helperText={
+                              touched?.taxonomy && errors?.taxonomy
+                            }
+                            label="Higher Taxonomy"
+                            variant="outlined"
+                            placeholder="Select"
+                            value={values?.taxonomy}
+                          />
+                        </Grid>
+                        <Grid item xs={2}>
+                          <TextField
+                            size="small"
+                            error={Boolean(
+                              touched?.distribution && errors?.distribution
+                            )}
+                            helperText={
+                              touched?.distribution && errors?.distribution
+                            }
+                            label="Distribution"
+                            variant="outlined"
+                            placeholder="Select"
+                            value={values?.distribution}
+                          />
+                        </Grid>
+                        <Grid item xs={2}>
+                          <Button
+                            className={styles.bg_primary}
+                            style={{
+                              width: "80px",
+                              maxHeight: "80px",
+                              minWidth: "40px",
+                              minHeight: "40px",
+                              color: "white",
+                              boxShadow: "1px 1px 4px grey",
+                              marginBottom: "10px",
+                            }}
+                          >
+                            Search
+                          </Button>
+                        </Grid>
+                      </Grid>
 
                       <br />
                     </Form>
@@ -550,7 +551,7 @@ const Species = () => {
                                 }}
                                 onClick={handleClickOpen}
                                 sx={{ mb: 1, mr: 0.5 }}
-                                // variant="outlined"
+                              // variant="outlined"
                               >
                                 Details
                               </Button>
@@ -596,77 +597,7 @@ const Species = () => {
         </Box>
       </div>
 
-      <BootstrapDialog
-        onClose={handleClose}
-        aria-labelledby="customized-dialog-title"
-        open={open}
-        fullWidth
-        maxWidth="md"
-        // style={{
-        //   // width: "100%",
-        //   minWidth: "500px"
-        // }}
-      >
-        <BootstrapDialogTitle
-          id="customized-dialog-title"
-          onClose={handleClose}
-          style={{
-            fontWeight: 600,
-            fontSize: 20,
-            fontFamily: "Raleway",
-            color: "#0f4c39",
-          }}
-        >
-          <br />
-        </BootstrapDialogTitle>
-        <DialogContent dividers>
-          <Image
-            src={imageSrc}
-            // width={500}
-            height={400}
-          ></Image>
-          <Typography
-            gutterBottom
-            style={{
-              fontWeight: 600,
-              fontSize: 30,
-              fontFamily: "Raleway",
-              paddingBottom: 20,
-              paddingTop: 20,
-              color: "#0f4c39",
-            }}
-          >
-            Praesent commodo cursus magna
-          </Typography>
-          <Typography
-            gutterBottom
-            style={{ fontWeight: 600, fontFamily: "Roboto" }}
-          >
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-            Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor
-            auctor.
-          </Typography>
-          <Typography
-            gutterBottom
-            style={{ fontWeight: 300, fontFamily: "Roboto" }}
-          >
-            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo
-            cursus magna, vel scelerisque nisl consectetur et. Donec sed odio
-            dui. Donec ullamcorper nulla non metus auctor fringilla. Praesent
-            commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus
-            sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
-            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo
-            cursus magna, vel scelerisque nisl consectetur et. Donec sed odio
-            dui. Donec ullamcorper nulla non metus auctor fringilla. Praesent
-            commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus
-            sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
-          </Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button size="small">Share</Button>
-          <Button size="small">Learn More</Button>
-        </DialogActions>
-      </BootstrapDialog>
+      <DetailsDialog open={open} handleClose={handleClose}></DetailsDialog>
       <Footer />
     </div>
   );
