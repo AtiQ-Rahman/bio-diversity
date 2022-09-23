@@ -1,5 +1,7 @@
 import { useState } from "react";
 import Counters from "./counters";
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import {
     AppBar,
     Box,
@@ -33,7 +35,7 @@ import Image from "next/image";
 import blurImage from "../../assets/images/blur.jpg"
 const slideStyles = {
     width: "100%",
-    height: "700px",
+    height: "800px",
     backgroundSize: "cover",
     backgroundPosition: "center",
 };
@@ -153,10 +155,10 @@ const ImageSlider = ({ slides }) => {
             >
                 <div>
                     <div onClick={goToPrevious} style={leftArrowStyles}>
-                        ❰
+                        <ArrowBackIosIcon/>
                     </div>
                     <div onClick={goToNext} style={rightArrowStyles}>
-                        ❱
+                      <ArrowForwardIosIcon/>
                     </div>
                 </div>
 

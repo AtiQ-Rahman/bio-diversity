@@ -234,7 +234,7 @@
 /* featured */
 
 .featuredContainer {
-  height: 700px;
+  height: 800px;
   /* background-image: url("../pages/assets/images/species3.jpg"); */
 
   background-size: cover;
@@ -268,7 +268,7 @@
     position: absolute;
     z-index: 1;
     top: 0;
-    height: 700px;
+    height: 800px;
 
 
     left:"50px";

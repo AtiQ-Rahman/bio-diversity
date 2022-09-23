@@ -325,13 +325,32 @@ export default function PrimarySearchAppBar(props) {
         }}
       >
         <Toolbar>
-          <Box component="span" sx={{ display: { xs: 'none', md: 'block' }, flexGrow: 1 }}>
-            <LogoSection />
-            <span style={{
+          <Box
+           component="span" sx={{ display: { xs: 'none', md: 'block' }, flexGrow: 1 }}
+           >
+        
+            <Grid
+                container
+                direction="row"
+                // justifyContent="center"
+                alignItems="center"
+             
+              >
+                  <Box> <LogoSection /></Box>
+                  <Box  container
+                direction="colum"
+                // justifyContent="center"
+              ><Box><span style={{
               fontSize: "30px",
               color: "white",
               padding: "10px"
-            }}> Bio diversity</span>
+            }}> Biodiversity of Bagladesh</span></Box>  <Box ><span style={{
+              fontSize: "20px",
+              color: "white",
+              padding: "10px"
+            }}>Database and Mapping</span></Box></Box>
+              </Grid>
+       
 
 
           </Box>
