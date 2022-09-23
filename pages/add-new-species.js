@@ -97,15 +97,24 @@ const AddNewSpecies = () => {
   const theme = useTheme();
   const matchDownMd = useMediaQuery(theme.breakpoints.down("lg"));
   const initialValues = {
+    serial:"",
     kingdom: "",
     phylum: "",
     class: "",
     order: "",
     family: "",
     genus: "",
+    species:"",
+    subSpecies:"",
+    variety:"",
+    subVariety:"",
+    clone:"",
+    forma:"",
     species: {
       bangla: "",
       english: "",
+      commonName:"",
+      synonym:""
     },
     categories: [],
     additionalFiles: [],
@@ -169,16 +178,24 @@ const AddNewSpecies = () => {
                 "Patient english name is required"
               ),
               bangla: Yup.string().required("patient bangla is required"),
+              commonName: Yup.string().required("patient commonName is required"),
+              synonym: Yup.string().required("patient commonName is required"),
 
               // gender: Yup.string().required("patient gender is required"),
               // address: Yup.string().required("patient adressis required"),
             }),
-
+            serial: Yup.string("Add Remarks").required("Add Remark"),
             kingdom: Yup.string("Add Remarks").required("Add Remark"),
             phylum: Yup.string("Add filmType").required("Add filmType"),
             class: Yup.string("Add priority").required("Add priority"),
             order: Yup.string("Add priority").required("Add priority"),
             genus: Yup.string("Add priority").required("Add priority"),
+            species: Yup.string("Add priority").required("Add priority"),
+            subSpecies: Yup.string("Add priority").required("Add priority"),
+            variety: Yup.string("Add priority").required("Add priority"),
+            subVariety: Yup.string("Add priority").required("Add priority"),
+            clone: Yup.string("Add priority").required("Add priority"),
+            forma: Yup.string("Add priority").required("Add priority"),
           })}
           onSubmit={async (
             values,
@@ -245,6 +262,33 @@ const AddNewSpecies = () => {
                   Enter Your Details
                 </Typography>
                 <Grid container spacing={3}>
+                <Grid item xs={2}>
+                    <Autocomplete
+                      size="small"
+                      disablePortal
+                      id="serial"
+                      name={values?.serial}
+                      // options={serials}
+                      key=""
+                      // getOptionLabel={(option) => option.name}
+                      // // sx={{ width: 300 }}
+                      // onChange={(e, value) => {
+                      //   setFieldValue("serial", value);
+                      // }}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          error={Boolean(touched?.serial && errors?.serial)}
+                          helperText={touched?.serial && errors?.serial}
+                          style={{ padding: "2px" }}
+                          label="---serial---"
+                          variant="outlined"
+                          placeholder="Select"
+                          value={values?.serial}
+                        />
+                      )}
+                    />
+                  </Grid>
                   <Grid item xs={2}>
                     <Autocomplete
                       size="small"
@@ -407,6 +451,168 @@ const AddNewSpecies = () => {
                       )}
                     />
                   </Grid>
+                  <Grid item xs={2}>
+                    <Autocomplete
+                      size="small"
+                      disablePortal
+                      id="species"
+                      name={values?.species}
+                      options={genuses}
+                      key=""
+                      getOptionLabel={(option) => option.name}
+                      // sx={{ width: 300 }}
+                      onChange={(e, value) => {
+                        setFieldValue("species", value);
+                      }}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          error={Boolean(touched?.species && errors?.species)}
+                          helperText={touched?.species && errors?.species}
+                          style={{ padding: "2px" }}
+                          label="---Select species---"
+                          variant="outlined"
+                          placeholder="Select"
+                          value={values?.species}
+                        />
+                      )}
+                    />
+                  </Grid>
+                  <Grid item xs={2}>
+                    <Autocomplete
+                      size="small"
+                      disablePortal
+                      id="subSpecies"
+                      name={values?.subSpecies}
+                      options={genuses}
+                      key=""
+                      getOptionLabel={(option) => option.name}
+                      // sx={{ width: 300 }}
+                      onChange={(e, value) => {
+                        setFieldValue("subSpecies", value);
+                      }}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          error={Boolean(touched?.subSpecies && errors?.subSpecies)}
+                          helperText={touched?.subSpecies && errors?.subSpecies}
+                          style={{ padding: "2px" }}
+                          label="---Select Sub Species---"
+                          variant="outlined"
+                          placeholder="Select"
+                          value={values?.subSpecies}
+                        />
+                      )}
+                    />
+                  </Grid>
+                  <Grid item xs={2}>
+                    <Autocomplete
+                      size="small"
+                      disablePortal
+                      id="variety"
+                      name={values?.variety}
+                      options={genuses}
+                      key=""
+                      getOptionLabel={(option) => option.name}
+                      // sx={{ width: 300 }}
+                      onChange={(e, value) => {
+                        setFieldValue("variety", value);
+                      }}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          error={Boolean(touched?.variety && errors?.variety)}
+                          helperText={touched?.variety && errors?.variety}
+                          style={{ padding: "2px" }}
+                          label="---Select variety---"
+                          variant="outlined"
+                          placeholder="Select"
+                          value={values?.variety}
+                        />
+                      )}
+                    />
+                  </Grid>
+                  <Grid item xs={2}>
+                    <Autocomplete
+                      size="small"
+                      disablePortal
+                      id="subVariety"
+                      name={values?.subVariety}
+                      options={genuses}
+                      key=""
+                      getOptionLabel={(option) => option.name}
+                      // sx={{ width: 300 }}
+                      onChange={(e, value) => {
+                        setFieldValue("subVariety", value);
+                      }}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          error={Boolean(touched?.subVariety && errors?.subVariety)}
+                          helperText={touched?.subVariety && errors?.subVariety}
+                          style={{ padding: "2px" }}
+                          label="---Select sub-variety---"
+                          variant="outlined"
+                          placeholder="Select"
+                          value={values?.subVariety}
+                        />
+                      )}
+                    />
+                  </Grid>
+                  <Grid item xs={2}>
+                    <Autocomplete
+                      size="small"
+                      disablePortal
+                      id="clone"
+                      name={values?.clone}
+                      options={genuses}
+                      key=""
+                      getOptionLabel={(option) => option.name}
+                      // sx={{ width: 300 }}
+                      onChange={(e, value) => {
+                        setFieldValue("clone", value);
+                      }}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          error={Boolean(touched?.clone && errors?.clone)}
+                          helperText={touched?.clone && errors?.clone}
+                          style={{ padding: "2px" }}
+                          label="---Select clone---"
+                          variant="outlined"
+                          placeholder="Select"
+                          value={values?.clone}
+                        />
+                      )}
+                    />
+                  </Grid>
+                  <Grid item xs={2}>
+                    <Autocomplete
+                      size="small"
+                      disablePortal
+                      id="forma"
+                      name={values?.forma}
+                      options={genuses}
+                      key=""
+                      getOptionLabel={(option) => option.name}
+                      // sx={{ width: 300 }}
+                      onChange={(e, value) => {
+                        setFieldValue("forma", value);
+                      }}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          error={Boolean(touched?.forma && errors?.forma)}
+                          helperText={touched?.forma && errors?.forma}
+                          style={{ padding: "2px" }}
+                          label="---Select forma---"
+                          variant="outlined"
+                          placeholder="Select"
+                          value={values?.forma}
+                        />
+                      )}
+                    />
+                  </Grid>
 
                   <Grid item xs={12}>
                     <Grid container item xs={12}>
@@ -431,6 +637,30 @@ const AddNewSpecies = () => {
                             label="Bangla Name"
                             fullWidth
                             autoComplete="Bangla Name"
+                            variant="outlined"
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            required
+                            id="commonName"
+                            name="commonName"
+                            margin="normal"
+                            label="Common Name"
+                            fullWidth
+                            autoComplete="commonName"
+                            variant="outlined"
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            required
+                            id="synonym"
+                            name="synonym"
+                            margin="normal"
+                            label="synonym"
+                            fullWidth
+                            autoComplete="synonym"
                             variant="outlined"
                           />
                         </Grid>
@@ -537,7 +767,343 @@ const AddNewSpecies = () => {
                         </Grid>
                         <Grid item xs={12}>
                           <TextField
+                            label="Migration"
+                            multiline
+                            rows={3}
+                            margin="normal"
+                            placeholder="Type your Descripton here"
+                            variant="outlined"
+                            fullWidth
+                            required
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
                             label="Breeding Behavior"
+                            multiline
+                            rows={4}
+                            margin="normal"
+                            placeholder="Type your Descripton here"
+                            variant="outlined"
+                            fullWidth
+                            required
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            label="Chromosome Number"
+                            multiline
+                            rows={4}
+                            margin="normal"
+                            placeholder="Type your Descripton here"
+                            variant="outlined"
+                            fullWidth
+                            required
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            label="Molecular Characteristic"
+                            multiline
+                            rows={4}
+                            margin="normal"
+                            placeholder="Type your Descripton here"
+                            variant="outlined"
+                            fullWidth
+                            required
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            label="Notes"
+                            multiline
+                            rows={4}
+                            margin="normal"
+                            placeholder="Type your Descripton here"
+                            variant="outlined"
+                            fullWidth
+                            required
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            label="World distribution"
+                            multiline
+                            rows={4}
+                            margin="normal"
+                            placeholder="Type your Descripton here"
+                            variant="outlined"
+                            fullWidth
+                            required
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            label="Ecological Role"
+                            multiline
+                            rows={4}
+                            margin="normal"
+                            placeholder="Type your Descripton here"
+                            variant="outlined"
+                            fullWidth
+                            required
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            label="IUCN status"
+                            multiline
+                            rows={4}
+                            margin="normal"
+                            placeholder="Type your Descripton here"
+                            variant="outlined"
+                            fullWidth
+                            required
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            label="Economic Importance"
+                            multiline
+                            rows={4}
+                            margin="normal"
+                            placeholder="Type your Descripton here"
+                            variant="outlined"
+                            fullWidth
+                            required
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            label="Medicinal use"
+                            multiline
+                            rows={4}
+                            margin="normal"
+                            placeholder="Type your Descripton here"
+                            variant="outlined"
+                            fullWidth
+                            required
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            label="Uses as Foods and Feeds"
+                            multiline
+                            rows={4}
+                            margin="normal"
+                            placeholder="Type your Descripton here"
+                            variant="outlined"
+                            fullWidth
+                            required
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            label="As pharmaceuticals"
+                            multiline
+                            rows={4}
+                            margin="normal"
+                            placeholder="Type your Descripton here"
+                            variant="outlined"
+                            fullWidth
+                            required
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            label="As industrial product"
+                            multiline
+                            rows={4}
+                            margin="normal"
+                            placeholder="Type your Descripton here"
+                            variant="outlined"
+                            fullWidth
+                            required
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            label="Other information"
+                            multiline
+                            rows={4}
+                            margin="normal"
+                            placeholder="Type your Descripton here"
+                            variant="outlined"
+                            fullWidth
+                            required
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            label="Other uses"
+                            multiline
+                            rows={4}
+                            margin="normal"
+                            placeholder="Type your Descripton here"
+                            variant="outlined"
+                            fullWidth
+                            required
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            label="Ecological Indicator"
+                            multiline
+                            rows={4}
+                            margin="normal"
+                            placeholder="Type your Descripton here"
+                            variant="outlined"
+                            fullWidth
+                            required
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            label="Exotic"
+                            multiline
+                            rows={4}
+                            margin="normal"
+                            placeholder="Type your Descripton here"
+                            variant="outlined"
+                            fullWidth
+                            required
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            label="Types of plant"
+                            multiline
+                            rows={4}
+                            margin="normal"
+                            placeholder="Type your Descripton here"
+                            variant="outlined"
+                            fullWidth
+                            required
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            label="Crop / fruit / industrial products/ weed etc"
+                            multiline
+                            rows={4}
+                            margin="normal"
+                            placeholder="Type your Descripton here"
+                            variant="outlined"
+                            fullWidth
+                            required
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            label="Fruting time"
+                            multiline
+                            rows={4}
+                            margin="normal"
+                            placeholder="Type your Descripton here"
+                            variant="outlined"
+                            fullWidth
+                            required
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            label="Scientific Research Interest"
+                            multiline
+                            rows={4}
+                            margin="normal"
+                            placeholder="Type your Descripton here"
+                            variant="outlined"
+                            fullWidth
+                            required
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            label="Value C-sequester"
+                            multiline
+                            rows={4}
+                            margin="normal"
+                            placeholder="Type your Descripton here"
+                            variant="outlined"
+                            fullWidth
+                            required
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            label="Health Resource"
+                            multiline
+                            rows={4}
+                            margin="normal"
+                            placeholder="Type your Descripton here"
+                            variant="outlined"
+                            fullWidth
+                            required
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            label="Ecosystem Benefit"
+                            multiline
+                            rows={4}
+                            margin="normal"
+                            placeholder="Type your Descripton here"
+                            variant="outlined"
+                            fullWidth
+                            required
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            label="Growing season"
+                            multiline
+                            rows={4}
+                            margin="normal"
+                            placeholder="Type your Descripton here"
+                            variant="outlined"
+                            fullWidth
+                            required
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            label="Threats to the Species / Genus"
+                            multiline
+                            rows={4}
+                            margin="normal"
+                            placeholder="Type your Descripton here"
+                            variant="outlined"
+                            fullWidth
+                            required
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            label="Conservation status"
+                            multiline
+                            rows={4}
+                            margin="normal"
+                            placeholder="Type your Descripton here"
+                            variant="outlined"
+                            fullWidth
+                            required
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            label="Measures taken"
+                            multiline
+                            rows={4}
+                            margin="normal"
+                            placeholder="Type your Descripton here"
+                            variant="outlined"
+                            fullWidth
+                            required
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            label="Miscellaneous"
                             multiline
                             rows={4}
                             margin="normal"
