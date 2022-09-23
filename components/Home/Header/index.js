@@ -16,7 +16,7 @@ import styles from "../../../styles/Home.module.css";
 import HomeIcon from "@mui/icons-material/Home";
 import ImageIcon from "@mui/icons-material/Image";
 import ContactsIcon from "@mui/icons-material/Contacts";
-import ForestIcon from "@mui/icons-material/Forest";
+import YardIcon from '@mui/icons-material/Yard';
 import Link from "next/link";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
@@ -24,7 +24,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { makeStyles } from "@mui/styles";
 import { useLocation } from "react-router-dom";
 import LogoSection from '../LogoSection';
-
+import PetsIcon from '@mui/icons-material/Pets';
 // const {
 
 //   Button,
@@ -51,9 +51,10 @@ const useStyles = makeStyles({
 });
 
 const options = [
+ 
   {
     name: "Contribute",
-    url: "/add-new-species"
+    url: "/"
   },
   {
     name: "Team",
@@ -71,6 +72,26 @@ const options = [
     name: "About",
     url: "/"
   },
+  {
+    name:"Team",
+    url:"/"
+   },
+   {
+    name:"Help",
+    url:"/"
+   },
+   {
+    name:"Mapping and Zoning",
+    url:"/"
+   },
+   {
+    name:"Database",
+    url:"/"
+   },
+   {
+    name:"Biodiversity Policy Acts",
+    url:"/"
+   },
   {
     name: "FAQ",
     url: "/"
@@ -126,8 +147,9 @@ export default function PrimarySearchAppBar(props) {
       onClose={handleClose}
       PaperProps={{
         style: {
-          maxHeight: ITEM_HEIGHT * 4.5,
-          width: "20ch",
+          // maxHeight: ITEM_HEIGHT * 4.5,
+          maxHeight:"80ch",
+          width: "30ch",
         },
       }}
     >
@@ -156,21 +178,66 @@ export default function PrimarySearchAppBar(props) {
       icon: <HomeIcon style={{ fontSize: 19 }}></HomeIcon>,
     },
     {
-      name: "Species",
-      path: "/species",
+      name: "Plants",
+      path: "/plants",
       color: "white",
       // background: "white",
       border: "none",
-      icon: <ForestIcon style={{ fontSize: 19 }}></ForestIcon>,
+      icon: <YardIcon style={{ fontSize: 19 }}></YardIcon>,
     },
     {
-      name: "Images",
-      path: "/images",
+      name: "Animals",
+      path: "/animals",
       color: "white",
 
       // background: "white",
       border: "none",
-      icon: <ImageIcon style={{ fontSize: 19 }}></ImageIcon>,
+      icon: <PetsIcon style={{ fontSize: 19 }}></PetsIcon>,
+    },
+    {
+      name: "Fungi",
+      path: "/",
+      color: "white",
+
+      // background: "white",
+      border: "none",
+      icon: <PetsIcon style={{ fontSize: 19 }}></PetsIcon>,
+    },
+    {
+      name: "Micro-organism",
+      path: "/",
+      color: "white",
+
+      // background: "white",
+      border: "none",
+      icon: <PetsIcon style={{ fontSize: 19 }}></PetsIcon>,
+    },
+    {
+      name: "Ecosystem Diversity",
+      path: "/",
+      color: "white",
+
+      // background: "white",
+      border: "none",
+      icon: <PetsIcon style={{ fontSize: 19 }}></PetsIcon>,
+    },
+    {
+      name: "content",
+      path: "/",
+      color: "white",
+
+      // background: "white",
+      border: "none",
+      icon: <PetsIcon style={{ fontSize: 19 }}></PetsIcon>,
+    },
+    {
+      name: "Genetic & Sub-cellular Diversity ",
+      path: "/",
+      color: "white",
+
+      // background: "white",
+      border: "none",
+      icon: <PetsIcon style={{ fontSize: 19 }}></PetsIcon>,
     },
     // {
     //     name: "Contact",
@@ -344,7 +411,7 @@ export default function PrimarySearchAppBar(props) {
               fontSize: "30px",
               color: "white",
               padding: "10px"
-            }}> Biodiversity of Bagladesh</span></Box>  <Box ><span style={{
+            }}> Biodiversity of Bangladesh</span></Box>  <Box ><span style={{
               fontSize: "20px",
               color: "white",
               padding: "10px"
