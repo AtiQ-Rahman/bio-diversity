@@ -4,7 +4,7 @@ const axiosConfig = {
 };
 const apiClient = axios.create(axiosConfig);
 
-const callApi = async (endPonint, data) => {
+const callApi = async (endPonint, data , config = {}) => {
   let meta = {
     clientIdentifier: "bio-diversity",
     clientName: "htech",
@@ -13,7 +13,7 @@ const callApi = async (endPonint, data) => {
   }
   data.meta = meta
 
-  let response = await apiClient.post(endPonint, data)
+  let response = await apiClient.post(endPonint, data, config)
   return response.data
 };
 

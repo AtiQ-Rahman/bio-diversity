@@ -12,8 +12,8 @@ app.use(bodyParser.json());
 app.use(express.json({limit: '100mb'})); 
 app.use(logger);
 // import routes
-const adminRoutes = require("./apis/adminRoutes");
-const userRoutes = require("./apis/userRoutes");
+const adminRoutes = require("./routes/adminRoutes");
+const userRoutes = require("./routes/userRoutes");
 
 // route 
 app.use("/api/v1", adminRoutes);

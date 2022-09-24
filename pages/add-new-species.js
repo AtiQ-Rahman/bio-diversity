@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 // import Footer from '../components/Home/Footer/Footer';
 // import Header from "../components/Home/Header";
 import {
@@ -33,6 +33,7 @@ import { drawerWidth } from "../store/constant";
 import { SET_MENU } from "../store/actions";
 import styles from "../styles/Home.module.css";
 import { styled, useTheme } from "@mui/material/styles";
+import callApi from "../utils/callApi";
 import Image from "next/image";
 // import { kingdoms } from "../utils/kingdoms";
 const kingdoms = require("../utils/kingdoms");
@@ -95,6 +96,7 @@ const AddNewSpecies = () => {
    const [image, setImage] = useState(null);
    const [createObjectURL, setCreateObjectURL] = useState(null);
    const theme = useTheme();
+   const [categoryList, setCatgoryList] = React.useState()
    const matchDownMd = useMediaQuery(theme.breakpoints.down("lg"));
    const initialValues = {
       serial: "",
@@ -116,10 +118,19 @@ const AddNewSpecies = () => {
          commonName: "",
          synonym: ""
       },
+      identificationFeatures: {},
       categories: [],
       additionalFiles: [],
       profileImage: "",
    };
+   async function fetchData() {
+      let response = await callApi('/get-categories-list', {})
+      setCatgoryList(response.data)
+   }
+   useEffect(() => {
+      fetchData()
+
+   }, [])
    // Handle left drawer
    const leftDrawerOpened = useSelector((state) => state.customization.opened);
    const dispatch = useDispatch();
@@ -184,54 +195,54 @@ const AddNewSpecies = () => {
                      // gender: Yup.string().required("patient gender is required"),
                      // address: Yup.string().required("patient adressis required"),
                   }),
-                  serial: Yup.string("Add serial").required("Add serial"),
-                  kingdom: Yup.string("Add kingdom").required("Add kingdom"),
-                  phylum: Yup.string("Add phylum").required("Add phylum"),
-                  class: Yup.string("Add class").required("Add class"),
-                  order: Yup.string("Add order").required("Add order"),
-                  genus: Yup.string("Add genus").required("Add genus"),
-                  species: Yup.string("Add species").required("Add species"),
-                  subSpecies: Yup.string("Add subSpecies").required("Add subSpecies"),
-                  variety: Yup.string("Add variety").required("Add variety"),
-                  subVariety: Yup.string("Add subVariety").required("Add subVariety"),
-                  clone: Yup.string("Add clone").required("Add clone"),
-                  forma: Yup.string("Add forma").required("Add forma"),
+                  // serial: Yup.string("Add serial").required("Add serial"),
+                  // kingdom: Yup.string("Add kingdom").required("Add kingdom"),
+                  // phylum: Yup.string("Add phylum").required("Add phylum"),
+                  // class: Yup.string("Add class").required("Add class"),
+                  // order: Yup.string("Add order").required("Add order"),
+                  // genus: Yup.string("Add genus").required("Add genus"),
+                  // species: Yup.string("Add species").required("Add species"),
+                  // subSpecies: Yup.string("Add subSpecies").required("Add subSpecies"),
+                  // variety: Yup.string("Add variety").required("Add variety"),
+                  // subVariety: Yup.string("Add subVariety").required("Add subVariety"),
+                  // clone: Yup.string("Add clone").required("Add clone"),
+                  // forma: Yup.string("Add forma").required("Add forma"),
                })}
                onSubmit={async (
                   values,
                   { resetForm, setErrors, setStatus, setSubmitting, setFieldValue }
                ) => {
                   try {
-                     // console.log({ values });
-                     // // console.log(values.reportfile.name);
-                     // let xrayData = values;
-                     // xrayData.createdBy = {
-                     //   name: loggedUser.name,
-                     //   userId: loggedUser.userId,
-                     // };
-                     // xrayData.createdAt = new Date().getTime();
+                     console.log({ values });
+                     // console.log(values.reportfile.name);
+                     let speciesData = values;
+                     speciesData.createdBy = {
+                        name: "test admin",
+                        userId: "blabla",
+                     };
+                     speciesData.createdAt = new Date().getTime();
                      // console.log({ loggedUser: loggedUser.userId });
-                     // const data = new FormData();
-                     // data.append("data", JSON.stringify(xrayData));
-                     // let files = values.reportfile;
-                     // if (files.length != 0) {
-                     //   for (const single_file of files) {
-                     //     data.append('reportfile', single_file)
-                     //   }
-                     // }
-                     // // data.append("reportfile", values.reportfile);
-                     // callApi.post("/xray/new", data, {
-                     //   headers: {
-                     //     "Content-Type": "multipart/form-data"
-                     //   }
-                     // }).then((res) => {
-                     //   console.log("response", res);
-                     //   enqueueSnackbar("Report  Uploaded Successfully", {
-                     //     variant: "success",
-                     //     // action: <Button>See all</Button>
-                     //   });
-                     //   setErrors(false);
+                     const data = new FormData();
+                     data.append("data", JSON.stringify(speciesData));
+                     let files = values.additionalFiles;
+                     if (files.length != 0) {
+                        for (const single_file of files) {
+                           data.append('additionalFiles', single_file)
+                        }
+                     }
+                     // data.append("reportfile", values.reportfile);
+                     let res = await callApi("/create-new-species", data, {
+                        headers: {
+                           "Content-Type": "multipart/form-data"
+                        }
+                     })
+                     console.log("response", res);
+                     // enqueueSnackbar("Report  Uploaded Successfully", {
+                     //    variant: "success",
+                     //    // action: <Button>See all</Button>
                      // });
+                     setErrors(false);
+
                   } catch (error) {
                      console.log({ error });
 
@@ -314,7 +325,7 @@ const AddNewSpecies = () => {
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("phylum", value);
+                                    setFieldValue("phylum", value.name);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
@@ -613,6 +624,7 @@ const AddNewSpecies = () => {
                                        size="small"
                                        label="English Name"
                                        fullWidth
+                                       onChange={handleChange}
                                        autoComplete="English Name"
                                        variant="outlined"
                                     />
@@ -626,6 +638,7 @@ const AddNewSpecies = () => {
                                        size="small"
                                        label="Bangla Name"
                                        fullWidth
+                                       onChange={handleChange}
                                        autoComplete="Bangla Name"
                                        variant="outlined"
                                     />
@@ -634,12 +647,13 @@ const AddNewSpecies = () => {
                                     <TextField
                                        required
                                        id="commonName"
-                                       name="commonName"
+                                       name="species.commonName"
                                        margin="normal"
                                        size="small"
                                        label="Common Name"
                                        fullWidth
                                        autoComplete="commonName"
+                                       onChange={handleChange}
                                        variant="outlined"
                                     />
                                  </Grid>
@@ -647,13 +661,14 @@ const AddNewSpecies = () => {
                                     <TextField
                                        required
                                        id="synonym"
-                                       name="synonym"
+                                       name="species.synonym"
                                        margin="normal"
                                        size="small"
-                                       label="synonym"
+                                       label="Synonym"
                                        fullWidth
                                        autoComplete="synonym"
                                        variant="outlined"
+                                       onChange={handleChange}
                                     />
                                  </Grid>
                                  <Grid item xs={12} sx={{ p: 2 }}>
@@ -668,7 +683,7 @@ const AddNewSpecies = () => {
                                        ></Image>
                                     ) : (
                                        <Icon icon="bx:image-add" width="70"
-                                       height="80" />
+                                          height="80" />
                                     )}
 
                                     <TextField
@@ -683,9 +698,9 @@ const AddNewSpecies = () => {
                                        onChange={uploadToClient}
                                     />
                                     <Grid item xs={12}>
-                                    <Typography component="h4" variant="div">
-                                       Additional Image
-                                    </Typography>
+                                       <Typography component="h4" variant="div">
+                                          Additional Image
+                                       </Typography>
                                        <label htmlFor="contained-button-file">
                                           <Input
                                              id="contained-button-file"
@@ -793,14 +808,14 @@ const AddNewSpecies = () => {
                                                    component="h5"
                                                    variant="h5"
                                                 >
-                                                  <Icon icon="clarity:image-gallery-solid" width={20} />  Please Upload Addition File here
+                                                   <Icon icon="clarity:image-gallery-solid" width={20} />  Please Upload Addition File here
                                                 </Typography>
                                              )}
                                           </Box>
                                        </label>
                                     </Grid>
                                  </Grid>
-                                 <Grid item xs={12}>
+                                 {/* <Grid item xs={12}>
                                     <Typography gutterBottom component="h3" variant="div">
                                        Identification Features
                                     </Typography>
@@ -856,6 +871,85 @@ const AddNewSpecies = () => {
                                     >
                                        Add New Category
                                     </Button>
+                                 </Grid> */}
+                                 <Grid item xs={12}>
+                                    <Grid container xs={12} spacing={2}>
+                                       <Grid item xs={2}>
+                                          <Autocomplete
+                                             size="small"
+                                             disablePortal
+                                             id="species"
+                                             name={values?.category}
+                                             options={categoryList}
+                                             key=""
+                                             getOptionLabel={(option) => option.name}
+                                             // sx={{ width: 300 }}
+                                             onChange={(e, value) => {
+                                                setFieldValue("category", value);
+                                             }}
+                                             renderInput={(params) => (
+                                                <TextField
+                                                   {...params}
+                                                   error={Boolean(touched?.category && errors?.category)}
+                                                   helperText={touched?.category && errors?.category}
+                                                   style={{ padding: "2px" }}
+                                                   label="Select Category"
+                                                   variant="outlined"
+                                                   placeholder="Select"
+                                                   value={values?.category}
+                                                />
+                                             )}
+                                          />
+                                       </Grid>
+                                       {values?.category?.type === 'Dropdown' ? (
+                                          <Grid item xs={2}>
+                                             <Autocomplete
+                                                size="small"
+                                                disablePortal
+                                                id="species"
+                                                name={values?.identificationFeatures?.subCategory}
+                                                options={values?.category.keyList}
+                                                isOptionEqualToValue={(option, value) => option.key === value.key}
+                                                getOptionLabel={(option) => option.name}
+                                                // sx={{ width: 300 }}
+                                                onChange={(e, value) => {
+                                                   setFieldValue("identificationFeatures.subCategory", value);
+                                                }}
+                                                renderInput={(params) => (
+                                                   <TextField
+                                                      {...params}
+                                                      error={Boolean(touched?.identificationFeatures?.subCategory && errors?.identificationFeatures?.subCategory)}
+                                                      helperText={touched?.identificationFeatures?.subCategory && errors?.identificationFeatures?.subCategory}
+                                                      style={{ padding: "2px" }}
+                                                      label="Select Sub Category"
+                                                      variant="outlined"
+                                                      placeholder="Select"
+                                                      value={values?.category}
+                                                   />
+                                                )}
+                                             />
+                                          </Grid>
+                                       ) :
+                                          values?.category?.keyList?.map((item, index) => {
+                                             return (
+                                                <Grid item xs={2}>
+                                                   <TextField
+                                                      required
+                                                      id={`key${index}`}
+                                                      key={`key${index}`}
+                                                      name={`identificationFeatures.${item.key}`}
+                                                      // margin="normal"
+                                                      size="small"
+                                                      label={item.name}
+                                                      fullWidth
+                                                      onChange={handleChange}
+                                                      autoComplete={item.name}
+                                                      variant="outlined"
+                                                   />
+                                                </Grid>
+                                             )
+                                          })}
+                                    </Grid>
                                  </Grid>
 
                                  <Grid item xs={3}>
@@ -869,6 +963,8 @@ const AddNewSpecies = () => {
                                        variant="outlined"
                                        fullWidth
                                        required
+                                       name="identificationFeatures.physical"
+                                       onChange={handleChange}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -882,6 +978,8 @@ const AddNewSpecies = () => {
                                        variant="outlined"
                                        fullWidth
                                        required
+                                       name="identificationFeatures.habitat"
+                                       onChange={handleChange}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -895,6 +993,8 @@ const AddNewSpecies = () => {
                                        variant="outlined"
                                        fullWidth
                                        required
+                                       name="identificationFeatures.behavior"
+                                       onChange={handleChange}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -908,6 +1008,8 @@ const AddNewSpecies = () => {
                                        variant="outlined"
                                        fullWidth
                                        required
+                                       name="identificationFeatures.migration"
+                                       onChange={handleChange}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -921,6 +1023,8 @@ const AddNewSpecies = () => {
                                        variant="outlined"
                                        fullWidth
                                        required
+                                       name="identificationFeatures.breeding"
+                                       onChange={handleChange}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -934,6 +1038,8 @@ const AddNewSpecies = () => {
                                        variant="outlined"
                                        fullWidth
                                        required
+                                       name="identificationFeatures.chromosome"
+                                       onChange={handleChange}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -947,6 +1053,8 @@ const AddNewSpecies = () => {
                                        variant="outlined"
                                        fullWidth
                                        required
+                                       name="identificationFeatures.molecular"
+                                       onChange={handleChange}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -960,6 +1068,8 @@ const AddNewSpecies = () => {
                                        variant="outlined"
                                        fullWidth
                                        required
+                                       name="identificationFeatures.notes"
+                                       onChange={handleChange}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -973,19 +1083,8 @@ const AddNewSpecies = () => {
                                        variant="outlined"
                                        fullWidth
                                        required
-                                    />
-                                 </Grid>
-                                 <Grid item xs={3}>
-                                    <TextField
-                                       label="Ecological Role"
-                                       multiline
-                                       rows={3}
-                                       margin="normal"
-                                       size="small"
-                                       placeholder="Type your Descripton here"
-                                       variant="outlined"
-                                       fullWidth
-                                       required
+                                       name="identificationFeatures.distribution"
+                                       onChange={handleChange}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -999,6 +1098,8 @@ const AddNewSpecies = () => {
                                        variant="outlined"
                                        fullWidth
                                        required
+                                       name="identificationFeatures.iucn"
+                                       onChange={handleChange}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1012,6 +1113,8 @@ const AddNewSpecies = () => {
                                        variant="outlined"
                                        fullWidth
                                        required
+                                       name="identificationFeatures.economic"
+                                       onChange={handleChange}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1025,6 +1128,8 @@ const AddNewSpecies = () => {
                                        variant="outlined"
                                        fullWidth
                                        required
+                                       name="identificationFeatures.medicinal"
+                                       onChange={handleChange}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1038,6 +1143,8 @@ const AddNewSpecies = () => {
                                        variant="outlined"
                                        fullWidth
                                        required
+                                       name="identificationFeatures."
+                                       onChange={handleChange}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1051,6 +1158,8 @@ const AddNewSpecies = () => {
                                        variant="outlined"
                                        fullWidth
                                        required
+                                       name="identificationFeatures.pharmaceuticals"
+                                       onChange={handleChange}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1064,6 +1173,8 @@ const AddNewSpecies = () => {
                                        variant="outlined"
                                        fullWidth
                                        required
+                                       name="identificationFeatures."
+                                       onChange={handleChange}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1077,6 +1188,8 @@ const AddNewSpecies = () => {
                                        variant="outlined"
                                        fullWidth
                                        required
+                                       name="identificationFeatures.otherInfo"
+                                       onChange={handleChange}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1090,6 +1203,8 @@ const AddNewSpecies = () => {
                                        variant="outlined"
                                        fullWidth
                                        required
+                                       name="identificationFeatures.otherUses"
+                                       onChange={handleChange}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1103,6 +1218,8 @@ const AddNewSpecies = () => {
                                        variant="outlined"
                                        fullWidth
                                        required
+                                       name="identificationFeatures.ecologicalIndicator"
+                                       onChange={handleChange}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1116,19 +1233,8 @@ const AddNewSpecies = () => {
                                        variant="outlined"
                                        fullWidth
                                        required
-                                    />
-                                 </Grid>
-                                 <Grid item xs={3}>
-                                    <TextField
-                                       label="Types of plant"
-                                       multiline
-                                       rows={3}
-                                       margin="normal"
-                                       size="small"
-                                       placeholder="Type your Descripton here"
-                                       variant="outlined"
-                                       fullWidth
-                                       required
+                                       name="identificationFeatures."
+                                       onChange={handleChange}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1142,6 +1248,8 @@ const AddNewSpecies = () => {
                                        variant="outlined"
                                        fullWidth
                                        required
+                                       name="identificationFeatures.typeOfSpecies"
+                                       onChange={handleChange}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1155,6 +1263,8 @@ const AddNewSpecies = () => {
                                        variant="outlined"
                                        fullWidth
                                        required
+                                       name="identificationFeatures.fruitingTime"
+                                       onChange={handleChange}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1168,19 +1278,8 @@ const AddNewSpecies = () => {
                                        variant="outlined"
                                        fullWidth
                                        required
-                                    />
-                                 </Grid>
-                                 <Grid item xs={3}>
-                                    <TextField
-                                       label="Value C-sequester"
-                                       multiline
-                                       rows={3}
-                                       margin="normal"
-                                       size="small"
-                                       placeholder="Type your Descripton here"
-                                       variant="outlined"
-                                       fullWidth
-                                       required
+                                       name="identificationFeatures."
+                                       onChange={handleChange}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1194,19 +1293,8 @@ const AddNewSpecies = () => {
                                        variant="outlined"
                                        fullWidth
                                        required
-                                    />
-                                 </Grid>
-                                 <Grid item xs={3}>
-                                    <TextField
-                                       label="Ecosystem Benefit"
-                                       multiline
-                                       rows={3}
-                                       margin="normal"
-                                       size="small"
-                                       placeholder="Type your Descripton here"
-                                       variant="outlined"
-                                       fullWidth
-                                       required
+                                       name="identificationFeatures."
+                                       onChange={handleChange}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1220,6 +1308,8 @@ const AddNewSpecies = () => {
                                        variant="outlined"
                                        fullWidth
                                        required
+                                       name="identificationFeatures.season"
+                                       onChange={handleChange}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1233,6 +1323,8 @@ const AddNewSpecies = () => {
                                        variant="outlined"
                                        fullWidth
                                        required
+                                       name="identificationFeatures.threats"
+                                       onChange={handleChange}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1246,6 +1338,8 @@ const AddNewSpecies = () => {
                                        variant="outlined"
                                        fullWidth
                                        required
+                                       name="identificationFeatures.conservation"
+                                       onChange={handleChange}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1259,6 +1353,8 @@ const AddNewSpecies = () => {
                                        variant="outlined"
                                        fullWidth
                                        required
+                                       name="identificationFeatures.measures"
+                                       onChange={handleChange}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1272,6 +1368,8 @@ const AddNewSpecies = () => {
                                        variant="outlined"
                                        fullWidth
                                        required
+                                       name="identificationFeatures.miscellaneous"
+                                       onChange={handleChange}
                                     />
                                  </Grid>
 
@@ -1282,6 +1380,8 @@ const AddNewSpecies = () => {
                         <br />
                         <Button
                            className={styles.bg_primary}
+                           type="submit"
+                           // disabled={isSubmitting}
                            style={{
                               width: "80px",
                               maxHeight: "80px",
@@ -1296,6 +1396,7 @@ const AddNewSpecies = () => {
                            Save
                         </Button>
                         <Button
+
                            className={styles.bg_secondary}
                            style={{
                               width: "80px",
