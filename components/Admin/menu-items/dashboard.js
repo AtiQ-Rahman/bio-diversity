@@ -44,7 +44,7 @@ const dashboard = {
         },
         {
             id: 'register3',
-            title: 'Requested Species List',
+            title: 'Requested Species',
             type: 'collapse',
             url: '/manage-requested-species',
             icon:<ListAltIcon  sx={{ fontSize: 15 , mr : 1 }}/>,
