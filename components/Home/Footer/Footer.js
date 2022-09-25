@@ -16,7 +16,7 @@ const Footer = () => {
 
       <div className={styles.footerLeft}>
 
-        <h3>Bio <span>Diversity</span></h3>
+        <h3>Biodiversity of <span>Bangladesh</span></h3>
 
         <p className={styles.footerLinks}>
 

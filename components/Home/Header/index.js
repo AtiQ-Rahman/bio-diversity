@@ -388,7 +388,7 @@ export default function PrimarySearchAppBar(props) {
         style={{
           // borderBottom: "1px solid #e5e5e5",
           // boxShadow: "none",
-          height: 90,
+          height: 110,
           // backgroundColor: "rgba(0,0,0,.5)",
           backgroundColor: navBg,
           // opacity: 0.5,
@@ -412,10 +412,17 @@ export default function PrimarySearchAppBar(props) {
                 direction="colum"
                 // justifyContent="center"
               ><Box><span style={{
+                fontFamily:"Comic Sans MS",
               fontSize: "30px",
               color: "white",
               padding: "10px"
-            }}> Biodiversity of Bangladesh</span></Box>  <Box ><span style={{
+            }}> <>Biodiversity of <span style={{
+              fontWeight:'800',
+
+              color: "#c44d34",
+            
+            }}>Bangladesh</span></></span></Box>  <Box ><span style={{
+              fontFamily:"Gabriola",
               fontSize: "20px",
               color: "white",
               padding: "10px"
