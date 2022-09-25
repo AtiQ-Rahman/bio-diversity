@@ -47,6 +47,9 @@ const genuses = require("../utils/kingdoms");
 const species = require("../utils/kingdoms");
 const plants = require("../utils/plants");
 const animals = require("../utils/animals");
+const fungis = require("../utils/fungi");
+const microOrgansims = require("../utils/microOrgansim");
+
 console.log(kingdoms);
 const Input = styled("input")({
    display: "none",
@@ -96,7 +99,7 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
    })
 );
 const map = require("../assets/images/map.png");
-const Animals = () => {
+const MicroOrgansim = () => {
    const [image, setImage] = useState(null);
    const [createObjectURL, setCreateObjectURL] = useState(null);
    const theme = useTheme();
@@ -109,6 +112,7 @@ const Animals = () => {
       animal:"",
       class: "",
       order: "",
+      fungi:"",
       family: "",
       genus: "",
       species: "",
@@ -157,7 +161,7 @@ const Animals = () => {
         
          {/* header */}
      
-         <Header index={2} />
+         <Header index={4} />
     
 
          {/* drawer */}
@@ -275,25 +279,25 @@ const Animals = () => {
                               <Autocomplete
                                  size="small"
                                  disablePortal
-                                 id="animals"
-                                 name={values?.animal}
-                                 options={animals}
-                                 key="animals"
+                                 id="microOrgansims"
+                                 name={values?.microOrgansim}
+                                 options={microOrgansims}
+                                 key="microOrgansims"
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("animal", value);
+                                    setFieldValue("microOrgansim", value);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
                                        {...params}
-                                       error={Boolean(touched?.animal && errors?.animal)}
-                                       helperText={touched?.animal && errors?.animal}
+                                       error={Boolean(touched?.microOrgansim && errors?.microOrgansim)}
+                                       helperText={touched?.microOrgansim && errors?.microOrgansim}
                                        style={{ padding: "2px" }}
-                                       label="animals"
+                                       label="microOrgansims"
                                        variant="outlined"
                                        placeholder="Select"
-                                       value={values?.animal}
+                                       value={values?.microOrgansim}
                                     />
                                  )}
                               />
@@ -1310,7 +1314,7 @@ const Animals = () => {
    );
 };
 
-export default Animals;
+export default MicroOrgansim;
 
 
 
