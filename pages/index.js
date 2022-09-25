@@ -159,7 +159,7 @@ export default function Home() {
                     </Grid>
                   </Grid>
                   <Grid item xs={12} md={12}>
-                    <Footer />
+                    {/* <Footer /> */}
 
                   </Grid>
                   {/* <h1 className={styles.title}>Getting started BIO-DIVERSITY!</h1> */}

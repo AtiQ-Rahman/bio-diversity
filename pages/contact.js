@@ -114,7 +114,7 @@ const contact = () => {
         </Grid>
       </div>
 
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

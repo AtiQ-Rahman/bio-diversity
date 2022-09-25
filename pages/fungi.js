@@ -1307,7 +1307,7 @@ const Fungi = () => {
                   </Form>
                )}
             </Formik>
-            <Footer  style={{ padding: "100px" }} />
+            {/* <Footer  style={{ padding: "100px" }} /> */}
       </Box>
    );
 };
