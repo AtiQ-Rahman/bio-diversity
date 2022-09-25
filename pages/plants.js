@@ -58,7 +58,7 @@ const phylums = require("../utils/kingdoms");
 const classes = require("../utils/kingdoms");
 const orders = require("../utils/kingdoms");
 const families = require("../utils/kingdoms");
-const genuses = require("../utils/kingdoms");
+const plants = require("../utils/plants");
 const species = require("../utils/kingdoms");
 
 const initialValues = {
@@ -67,7 +67,7 @@ const initialValues = {
   class: "",
   order: "",
   family: "",
-  genus: "",
+  plant: "",
 };
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -261,7 +261,7 @@ const Species = () => {
                     phylum: Yup.string("Add filmType").required("Add filmType"),
                     class: Yup.string("Add priority").required("Add priority"),
                     order: Yup.string("Add priority").required("Add priority"),
-                    genus: Yup.string("Add priority").required("Add priority"),
+                    plant: Yup.string("Add priority").required("Add priority"),
                   })}
                   onSubmit={async (
                     values,
@@ -329,32 +329,32 @@ const Species = () => {
                           <Autocomplete
                             size="small"
                             disablePortal
-                            id="genuses"
-                            name={values?.genus}
-                            options={genuses}
-                            key="genuses"
+                            id="plants"
+                            name={values?.plant}
+                            options={plants}
+                            key="plants"
                             getOptionLabel={(option) => option.name}
                             // sx={{ width: 300 }}
                             onChange={(e, value) => {
-                              setFieldValue("genus", value);
+                              setFieldValue("plant", value);
                             }}
                             renderInput={(params) => (
                               <TextField
                                 {...params}
                                 error={Boolean(
-                                  touched?.genus && errors?.genus
+                                  touched?.plant && errors?.plant
                                 )}
-                                helperText={touched?.genus && errors?.genus}
+                                helperText={touched?.plant && errors?.plant}
                                 style={{ padding: "2px" }}
-                                label="---Select genus---"
+                                label="---Select plant---"
                                 variant="outlined"
                                 placeholder="Select"
-                                value={values?.genus}
+                                value={values?.plant}
                               />
                             )}
                           />
                         </Grid>
-                        <Grid item xs={2}>
+                        {/* <Grid item xs={2}>
                           <Autocomplete
                             size="small"
                             disablePortal
@@ -384,7 +384,7 @@ const Species = () => {
                               />
                             )}
                           />
-                        </Grid>
+                        </Grid> */}
                         <Grid item xs={2}>
                           <TextField
                             size="small"
@@ -400,7 +400,7 @@ const Species = () => {
                             value={values?.commonName}
                           />
                         </Grid>
-                        <Grid item xs={2}>
+                        {/* <Grid item xs={2}>
                           <TextField
                             size="small"
                             error={Boolean(
@@ -414,8 +414,8 @@ const Species = () => {
                             placeholder="Select"
                             value={values?.taxonomy}
                           />
-                        </Grid>
-                        <Grid item xs={2}>
+                        </Grid> */}
+                        {/* <Grid item xs={2}>
                           <TextField
                             size="small"
                             error={Boolean(
@@ -429,7 +429,7 @@ const Species = () => {
                             placeholder="Select"
                             value={values?.distribution}
                           />
-                        </Grid>
+                        </Grid> */}
                         <Grid item xs={2}>
                           <Button
                             className={styles.bg_primary}
@@ -455,10 +455,10 @@ const Species = () => {
               </Grid>
 
               {/* TABLE */}
-              <Divider></Divider>
+              {/* <Divider></Divider> */}
 
-              <h1>Total Species Found (5)</h1>
-              <br />
+              {/* <h1>Total Species Found (5)</h1>
+              <br /> */}
               <Grid
                 item
                 xs={12}
@@ -467,30 +467,7 @@ const Species = () => {
               >
                 <TableContainer component={Paper}>
                   <Table sx={{ minWidth: 650 }} aria-label="customized table">
-                    {/* <TableHead>
-                      <TableRow>
-                        <StyledTableCell>SI</StyledTableCell>
-                        <StyledTableCell>Image</StyledTableCell>
-
-                        <StyledTableCell align="center">
-                          Species
-                        </StyledTableCell>
-                        <StyledTableCell align="center">Family</StyledTableCell>
-                        <StyledTableCell align="center">
-                          Locality
-                        </StyledTableCell>
-                        <StyledTableCell align="center">
-                          Habitat
-                        </StyledTableCell>
-                        <StyledTableCell align="center">
-                          Size &nbsp;(cm)
-                        </StyledTableCell>
-                        <StyledTableCell align="center">GIS</StyledTableCell>
-                        <StyledTableCell align="center">
-                          Additional button
-                        </StyledTableCell>
-                      </TableRow>
-                    </TableHead> */}
+                  
                     <TableBody>
                       {rows.map((row) => (
                         <StyledTableRow
@@ -556,7 +533,7 @@ const Species = () => {
                                 Details
                               </Button>
 
-                              {/* =======MODAL===== */}
+                            
 
                               <br />
                               <Button
@@ -582,23 +559,15 @@ const Species = () => {
                     </TableBody>
                   </Table>
                 </TableContainer>
-                {/* <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      /> */}
-              </Grid>
+              
+              </Grid> 
             </Grid>
           </Grid>
         </Box>
       </div>
 
       <DetailsDialog open={open} handleClose={handleClose}></DetailsDialog>
-      <Footer />
+      <Footer  style={{ padding: "100px" }} />
     </div>
   );
 };
