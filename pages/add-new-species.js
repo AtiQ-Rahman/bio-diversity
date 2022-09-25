@@ -102,7 +102,7 @@ const AddNewSpecies = () => {
       serial: "",
       kingdom: "",
       phylum: "",
-      class: "",
+      classes: "",
       order: "",
       family: "",
       genus: "",
@@ -112,7 +112,7 @@ const AddNewSpecies = () => {
       subVariety: "",
       clone: "",
       forma: "",
-      species: {
+      nameOfSpecies: {
          bangla: "",
          english: "",
          commonName: "",
@@ -184,7 +184,7 @@ const AddNewSpecies = () => {
             <Formik
                initialValues={initialValues}
                validationSchema={Yup.object().shape({
-                  species: Yup.object().shape({
+                  nameOfSpecies: Yup.object().shape({
                      english: Yup.string().required(
                         "Patient english name is required"
                      ),
@@ -222,14 +222,17 @@ const AddNewSpecies = () => {
                      };
                      speciesData.createdAt = new Date().getTime();
                      // console.log({ loggedUser: loggedUser.userId });
+                     console.log(speciesData)
+                     speciesData.thumbnailImage = createObjectURL
                      const data = new FormData();
                      data.append("data", JSON.stringify(speciesData));
-                     let files = values.additionalFiles;
+                     let files = speciesData.additionalFiles;
                      if (files.length != 0) {
                         for (const single_file of files) {
                            data.append('additionalFiles', single_file)
                         }
                      }
+                     console.log(data)
                      // data.append("reportfile", values.reportfile);
                      let res = await callApi("/create-new-species", data, {
                         headers: {
@@ -298,7 +301,7 @@ const AddNewSpecies = () => {
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("kingdom", value);
+                                    setFieldValue("kingdom", value.name);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
@@ -346,24 +349,24 @@ const AddNewSpecies = () => {
                                  size="small"
                                  disablePortal
                                  id="classes"
-                                 name={values?.class}
+                                 name={values?.classes}
                                  options={classes}
                                  key="classes"
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("class", value);
+                                    setFieldValue("classes", value.name);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
                                        {...params}
-                                       error={Boolean(touched?.class && errors?.class)}
-                                       helperText={touched?.class && errors?.class}
+                                       error={Boolean(touched?.classes && errors?.classes)}
+                                       helperText={touched?.classes && errors?.classes}
                                        style={{ padding: "2px" }}
                                        label="---Select Class---"
                                        variant="outlined"
                                        placeholder="Select"
-                                       value={values?.class}
+                                       value={values?.classes}
                                     />
                                  )}
                               />
@@ -379,7 +382,7 @@ const AddNewSpecies = () => {
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("order", value);
+                                    setFieldValue("order", value.name);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
@@ -406,7 +409,7 @@ const AddNewSpecies = () => {
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("family", value);
+                                    setFieldValue("family", value.name);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
@@ -433,7 +436,7 @@ const AddNewSpecies = () => {
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("genus", value);
+                                    setFieldValue("genus", value.name);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
@@ -460,7 +463,7 @@ const AddNewSpecies = () => {
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("species", value);
+                                    setFieldValue("species", value.name);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
@@ -487,7 +490,7 @@ const AddNewSpecies = () => {
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("subSpecies", value);
+                                    setFieldValue("subSpecies", value.name);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
@@ -514,7 +517,7 @@ const AddNewSpecies = () => {
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("variety", value);
+                                    setFieldValue("variety", value.name);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
@@ -541,7 +544,7 @@ const AddNewSpecies = () => {
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("subVariety", value);
+                                    setFieldValue("subVariety", value.name);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
@@ -568,7 +571,7 @@ const AddNewSpecies = () => {
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("clone", value);
+                                    setFieldValue("clone", value.name);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
@@ -595,7 +598,7 @@ const AddNewSpecies = () => {
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("forma", value);
+                                    setFieldValue("forma", value.name);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
@@ -619,7 +622,7 @@ const AddNewSpecies = () => {
                                     <TextField
                                        required
                                        id="Species"
-                                       name="species.english"
+                                       name="nameOfSpecies.english"
                                        margin="normal"
                                        size="small"
                                        label="English Name"
@@ -633,7 +636,7 @@ const AddNewSpecies = () => {
                                     <TextField
                                        required
                                        id="banglaName"
-                                       name="species.bangla"
+                                       name="nameOfSpecies.bangla"
                                        margin="normal"
                                        size="small"
                                        label="Bangla Name"
@@ -647,7 +650,7 @@ const AddNewSpecies = () => {
                                     <TextField
                                        required
                                        id="commonName"
-                                       name="species.commonName"
+                                       name="nameOfSpecies.commonName"
                                        margin="normal"
                                        size="small"
                                        label="Common Name"
@@ -661,7 +664,7 @@ const AddNewSpecies = () => {
                                     <TextField
                                        required
                                        id="synonym"
-                                       name="species.synonym"
+                                       name="nameOfSpecies.synonym"
                                        margin="normal"
                                        size="small"
                                        label="Synonym"
@@ -708,8 +711,8 @@ const AddNewSpecies = () => {
                                              name="additionalFiles"
                                              type="file"
                                              accept=".png, */png, .jpg, */jpg"
-                                             error={Boolean(touched.file && errors.file)}
-                                             helpertext={touched.file && errors.file}
+                                             error={Boolean(touched.additionalFiles && errors.additionalFiles)}
+                                             helpertext={touched.additionalFiles && errors.additionalFiles}
                                              color="success"
                                              onChange={(e) => {
                                                 for (let file of e.target.files) {
@@ -962,7 +965,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures.physical"
                                        onChange={handleChange}
                                     />
@@ -977,7 +980,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures.habitat"
                                        onChange={handleChange}
                                     />
@@ -992,7 +995,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures.behavior"
                                        onChange={handleChange}
                                     />
@@ -1007,7 +1010,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures.migration"
                                        onChange={handleChange}
                                     />
@@ -1022,7 +1025,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures.breeding"
                                        onChange={handleChange}
                                     />
@@ -1037,7 +1040,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures.chromosome"
                                        onChange={handleChange}
                                     />
@@ -1052,7 +1055,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures.molecular"
                                        onChange={handleChange}
                                     />
@@ -1067,7 +1070,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures.notes"
                                        onChange={handleChange}
                                     />
@@ -1082,7 +1085,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures.distribution"
                                        onChange={handleChange}
                                     />
@@ -1097,7 +1100,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures.iucn"
                                        onChange={handleChange}
                                     />
@@ -1112,7 +1115,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures.economic"
                                        onChange={handleChange}
                                     />
@@ -1127,7 +1130,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures.medicinal"
                                        onChange={handleChange}
                                     />
@@ -1142,7 +1145,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures."
                                        onChange={handleChange}
                                     />
@@ -1157,7 +1160,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures.pharmaceuticals"
                                        onChange={handleChange}
                                     />
@@ -1172,7 +1175,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures."
                                        onChange={handleChange}
                                     />
@@ -1187,7 +1190,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures.otherInfo"
                                        onChange={handleChange}
                                     />
@@ -1202,7 +1205,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures.otherUses"
                                        onChange={handleChange}
                                     />
@@ -1217,7 +1220,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures.ecologicalIndicator"
                                        onChange={handleChange}
                                     />
@@ -1232,7 +1235,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures."
                                        onChange={handleChange}
                                     />
@@ -1247,7 +1250,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures.typeOfSpecies"
                                        onChange={handleChange}
                                     />
@@ -1262,7 +1265,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures.fruitingTime"
                                        onChange={handleChange}
                                     />
@@ -1277,7 +1280,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures."
                                        onChange={handleChange}
                                     />
@@ -1292,7 +1295,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures."
                                        onChange={handleChange}
                                     />
@@ -1307,7 +1310,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures.season"
                                        onChange={handleChange}
                                     />
@@ -1322,7 +1325,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures.threats"
                                        onChange={handleChange}
                                     />
@@ -1337,7 +1340,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures.conservation"
                                        onChange={handleChange}
                                     />
@@ -1352,7 +1355,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures.measures"
                                        onChange={handleChange}
                                     />
@@ -1367,7 +1370,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures.miscellaneous"
                                        onChange={handleChange}
                                     />
