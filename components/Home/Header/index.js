@@ -81,6 +81,10 @@ const options = [
     url:"/"
    },
    {
+    name:"Content",
+    url:"/"
+   },
+   {
     name:"Mapping and Zoning",
     url:"/"
    },
@@ -175,7 +179,7 @@ export default function PrimarySearchAppBar(props) {
       color: "white",
       border: "none",
 
-      icon: <HomeIcon style={{ fontSize: 19 }}></HomeIcon>,
+      // icon: <HomeIcon style={{ fontSize: 19 }}></HomeIcon>,
     },
     {
       name: "Plants",
@@ -183,7 +187,7 @@ export default function PrimarySearchAppBar(props) {
       color: "white",
       // background: "white",
       border: "none",
-      icon: <YardIcon style={{ fontSize: 19 }}></YardIcon>,
+      // icon: <YardIcon style={{ fontSize: 19 }}></YardIcon>,
     },
     {
       name: "Animals",
@@ -192,52 +196,52 @@ export default function PrimarySearchAppBar(props) {
 
       // background: "white",
       border: "none",
-      icon: <PetsIcon style={{ fontSize: 19 }}></PetsIcon>,
+      // icon: <PetsIcon style={{ fontSize: 19 }}></PetsIcon>,
     },
     {
       name: "Fungi",
-      path: "/",
+      path: "/fungi",
       color: "white",
 
       // background: "white",
       border: "none",
-      icon: <PetsIcon style={{ fontSize: 19 }}></PetsIcon>,
+      // icon: <PetsIcon style={{ fontSize: 19 }}></PetsIcon>,
     },
     {
       name: "Micro-organism",
-      path: "/",
+      path: "/microOrgansim",
       color: "white",
 
       // background: "white",
       border: "none",
-      icon: <PetsIcon style={{ fontSize: 19 }}></PetsIcon>,
+      // icon: <PetsIcon style={{ fontSize: 19 }}></PetsIcon>,
     },
     {
       name: "Ecosystem Diversity",
-      path: "/",
+      path: "/ecosystemDiversity",
       color: "white",
 
       // background: "white",
       border: "none",
-      icon: <PetsIcon style={{ fontSize: 19 }}></PetsIcon>,
+      // icon: <PetsIcon style={{ fontSize: 19 }}></PetsIcon>,
     },
-    {
-      name: "content",
-      path: "/",
-      color: "white",
+    // {
+    //   name: "content",
+    //   path: "/",
+    //   color: "white",
 
-      // background: "white",
-      border: "none",
-      icon: <PetsIcon style={{ fontSize: 19 }}></PetsIcon>,
-    },
+    //   // background: "white",
+    //   border: "none",
+    //   // icon: <PetsIcon style={{ fontSize: 19 }}></PetsIcon>,
+    // },
     {
       name: "Genetic & Sub-cellular Diversity ",
-      path: "/",
+      path: "/geneticSubCellularDiversity",
       color: "white",
 
       // background: "white",
       border: "none",
-      icon: <PetsIcon style={{ fontSize: 19 }}></PetsIcon>,
+      // icon: <PetsIcon style={{ fontSize: 19 }}></PetsIcon>,
     },
     // {
     //     name: "Contact",

@@ -47,6 +47,9 @@ const genuses = require("../utils/kingdoms");
 const species = require("../utils/kingdoms");
 const plants = require("../utils/plants");
 const animals = require("../utils/animals");
+const fungis = require("../utils/fungi");
+const microOrgansims = require("../utils/microOrgansim");
+
 console.log(kingdoms);
 const Input = styled("input")({
    display: "none",
@@ -96,7 +99,7 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
    })
 );
 const map = require("../assets/images/map.png");
-const Animals = () => {
+const geneticSubCellularDiversity = () => {
    const [image, setImage] = useState(null);
    const [createObjectURL, setCreateObjectURL] = useState(null);
    const theme = useTheme();
@@ -109,6 +112,7 @@ const Animals = () => {
       animal:"",
       class: "",
       order: "",
+      fungi:"",
       family: "",
       genus: "",
       species: "",
@@ -157,7 +161,7 @@ const Animals = () => {
         
          {/* header */}
      
-         <Header index={2} />
+         <Header index={6} />
     
 
          {/* drawer */}
@@ -272,32 +276,37 @@ const Animals = () => {
                               />
                            </Grid>
                            <Grid item xs={2}>
-                              <Autocomplete
+                              <TextField
+                                 required
+                                 id="Species/taxa name"
+                                 name="Species/taxa name"
+                                 // margin="normal"
                                  size="small"
-                                 disablePortal
-                                 id="animals"
-                                 name={values?.animal}
-                                 options={animals}
-                                 key="animals"
-                                 getOptionLabel={(option) => option.name}
-                                 // sx={{ width: 300 }}
-                                 onChange={(e, value) => {
-                                    setFieldValue("animal", value);
-                                 }}
-                                 renderInput={(params) => (
-                                    <TextField
-                                       {...params}
-                                       error={Boolean(touched?.animal && errors?.animal)}
-                                       helperText={touched?.animal && errors?.animal}
-                                       style={{ padding: "2px" }}
-                                       label="animals"
-                                       variant="outlined"
-                                       placeholder="Select"
-                                       value={values?.animal}
-                                    />
-                                 )}
+                                 label="Species/taxa name"
+                                 type="Species/taxa name"
+                                 fullWidth
+                                 autoComplete="Species/taxa name"
+                                 variant="outlined"
                               />
                            </Grid>
+                           <Grid item xs={2}>
+                              <TextField
+                                 required
+                                 id="genetic data"
+                                 name="genetic data"
+                                 // margin="normal"
+                                 size="small"
+                                 label="genetic data"
+                                 type="genetic data"
+                                 fullWidth
+                                 autoComplete="genetic data"
+                                 variant="outlined"
+                              />
+                           </Grid>
+                           
+                          
+                          
+                           
                            <Grid item xs={2}>
                               <Autocomplete
                                  size="small"
@@ -1310,7 +1319,7 @@ const Animals = () => {
    );
 };
 
-export default Animals;
+export default geneticSubCellularDiversity;
 
 
 

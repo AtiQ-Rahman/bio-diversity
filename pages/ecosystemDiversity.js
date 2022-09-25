@@ -47,6 +47,9 @@ const genuses = require("../utils/kingdoms");
 const species = require("../utils/kingdoms");
 const plants = require("../utils/plants");
 const animals = require("../utils/animals");
+const fungis = require("../utils/fungi");
+const microOrgansims = require("../utils/microOrgansim");
+
 console.log(kingdoms);
 const Input = styled("input")({
    display: "none",
@@ -96,7 +99,7 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
    })
 );
 const map = require("../assets/images/map.png");
-const Animals = () => {
+const EcosystemDiversity = () => {
    const [image, setImage] = useState(null);
    const [createObjectURL, setCreateObjectURL] = useState(null);
    const theme = useTheme();
@@ -109,6 +112,7 @@ const Animals = () => {
       animal:"",
       class: "",
       order: "",
+      fungi:"",
       family: "",
       genus: "",
       species: "",
@@ -157,7 +161,7 @@ const Animals = () => {
         
          {/* header */}
      
-         <Header index={2} />
+         <Header index={5} />
     
 
          {/* drawer */}
@@ -272,30 +276,87 @@ const Animals = () => {
                               />
                            </Grid>
                            <Grid item xs={2}>
-                              <Autocomplete
+                              <TextField
+                                 required
+                                 id="deseription"
+                                 name="deseription"
+                                 // margin="normal"
                                  size="small"
-                                 disablePortal
-                                 id="animals"
-                                 name={values?.animal}
-                                 options={animals}
-                                 key="animals"
-                                 getOptionLabel={(option) => option.name}
-                                 // sx={{ width: 300 }}
-                                 onChange={(e, value) => {
-                                    setFieldValue("animal", value);
-                                 }}
-                                 renderInput={(params) => (
-                                    <TextField
-                                       {...params}
-                                       error={Boolean(touched?.animal && errors?.animal)}
-                                       helperText={touched?.animal && errors?.animal}
-                                       style={{ padding: "2px" }}
-                                       label="animals"
-                                       variant="outlined"
-                                       placeholder="Select"
-                                       value={values?.animal}
-                                    />
-                                 )}
+                                 label="deseription"
+                                 type="deseription"
+                                 fullWidth
+                                 autoComplete="deseription"
+                                 variant="outlined"
+                              />
+                           </Grid>
+                           <Grid item xs={2}>
+                              <TextField
+                                 required
+                                 id="C-sequestration"
+                                 name="C-sequestration"
+                                 // margin="normal"
+                                 size="small"
+                                 label="C-sequestration"
+                                 type="C-sequestration"
+                                 fullWidth
+                                 autoComplete="C-sequestration"
+                                 variant="outlined"
+                              />
+                           </Grid>
+                           <Grid item xs={2}>
+                              <TextField
+                                 required
+                                 id="C-Production"
+                                 name="C-Production"
+                                 // margin="normal"
+                                 size="small"
+                                 label="C-Production"
+                                 type="C-Production"
+                                 fullWidth
+                                 autoComplete="C-Production"
+                                 variant="outlined"
+                              />
+                           </Grid>
+                           <Grid item xs={2}>
+                              <TextField
+                                 required
+                                 id="O2-Production"
+                                 name="O2-Production"
+                                 // margin="normal"
+                                 size="small"
+                                 label="O2-Production"
+                                 type="O2-Production"
+                                 fullWidth
+                                 autoComplete="O2-Production"
+                                 variant="outlined"
+                              />
+                           </Grid>
+                           <Grid item xs={2}>
+                              <TextField
+                                 required
+                                 id="Ecosystem value"
+                                 name="Ecosystem value"
+                                 // margin="normal"
+                                 size="small"
+                                 label="Ecosystem value"
+                                 type="Ecosystem value"
+                                 fullWidth
+                                 autoComplete="Ecosystem value"
+                                 variant="outlined"
+                              />
+                           </Grid>
+                           <Grid item xs={2}>
+                              <TextField
+                                 required
+                                 id="Ecosystem status"
+                                 name="Ecosystem value"
+                                 // margin="normal"
+                                 size="small"
+                                 label="Ecosystem value"
+                                 type="Ecosystem value"
+                                 fullWidth
+                                 autoComplete="Ecosystem value"
+                                 variant="outlined"
                               />
                            </Grid>
                            <Grid item xs={2}>
@@ -1310,7 +1371,7 @@ const Animals = () => {
    );
 };
 
-export default Animals;
+export default EcosystemDiversity;
 
 
 

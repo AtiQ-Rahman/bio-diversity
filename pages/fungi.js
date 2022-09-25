@@ -47,6 +47,7 @@ const genuses = require("../utils/kingdoms");
 const species = require("../utils/kingdoms");
 const plants = require("../utils/plants");
 const animals = require("../utils/animals");
+const fungis = require("../utils/fungi");
 console.log(kingdoms);
 const Input = styled("input")({
    display: "none",
@@ -96,7 +97,7 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
    })
 );
 const map = require("../assets/images/map.png");
-const Animals = () => {
+const Fungi = () => {
    const [image, setImage] = useState(null);
    const [createObjectURL, setCreateObjectURL] = useState(null);
    const theme = useTheme();
@@ -109,6 +110,7 @@ const Animals = () => {
       animal:"",
       class: "",
       order: "",
+      fungi:"",
       family: "",
       genus: "",
       species: "",
@@ -157,7 +159,7 @@ const Animals = () => {
         
          {/* header */}
      
-         <Header index={2} />
+         <Header index={3} />
     
 
          {/* drawer */}
@@ -275,25 +277,25 @@ const Animals = () => {
                               <Autocomplete
                                  size="small"
                                  disablePortal
-                                 id="animals"
-                                 name={values?.animal}
-                                 options={animals}
-                                 key="animals"
+                                 id="fungis"
+                                 name={values?.fungi}
+                                 options={fungis}
+                                 key="fungis"
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("animal", value);
+                                    setFieldValue("fungi", value);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
                                        {...params}
-                                       error={Boolean(touched?.animal && errors?.animal)}
-                                       helperText={touched?.animal && errors?.animal}
+                                       error={Boolean(touched?.fungi && errors?.fungi)}
+                                       helperText={touched?.fungi && errors?.fungi}
                                        style={{ padding: "2px" }}
-                                       label="animals"
+                                       label="fungis"
                                        variant="outlined"
                                        placeholder="Select"
-                                       value={values?.animal}
+                                       value={values?.fungi}
                                     />
                                  )}
                               />
@@ -1310,7 +1312,7 @@ const Animals = () => {
    );
 };
 
-export default Animals;
+export default Fungi;
 
 
 
