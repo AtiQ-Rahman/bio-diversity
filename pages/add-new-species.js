@@ -37,6 +37,7 @@ import callApi from "../utils/callApi";
 import Image from "next/image";
 import mapboxgl from 'mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 import 'mapbox-gl/dist/mapbox-gl.css';
+import { teal } from "@mui/material/colors";
 mapboxgl.accessToken = process.env.mapbox_key;
 // import { kingdoms } from "../utils/kingdoms";
 const kingdoms = require("../utils/kingdoms");
@@ -103,12 +104,12 @@ const AddNewSpecies = () => {
    const matchDownMd = useMediaQuery(theme.breakpoints.down("lg"));
    const mapContainer = useRef(null);
    const map = useRef(null);
-   const [lng, setLng] = useState(90.399452);
-   const [lat, setLat] = useState(23.777176);
+   const [lng, setLng] = useState(0);
+   const [lat, setLat] = useState(0);
    const [zoom, setZoom] = useState(6.52);
    const [markerUrl, setMarkerUrl] = useState('');
    const [force, setForce] = useState(null);
-
+   const [profileIndex, setProfileIndex] = useState()
    const initialValues = {
       serial: "",
       kingdom: "",
@@ -123,8 +124,10 @@ const AddNewSpecies = () => {
       subVariety: "",
       clone: "",
       forma: "",
+      address: "",
       lng,
       lat,
+      addtionalCategories: [],
       nameOfSpecies: {
          bangla: "",
          english: "",
@@ -142,6 +145,10 @@ const AddNewSpecies = () => {
    }
    useEffect(() => {
       // if (!map.current) return; // initialize map only once
+      if (!markerUrl) {
+         setLng(0)
+         setLat(0)
+      }; // initialize map only once
       map.current = new mapboxgl.Map({
          container: mapContainer.current,
          style: 'mapbox://styles/h-tech/cl80aun1000f115n0i7622vwy',
@@ -153,16 +160,17 @@ const AddNewSpecies = () => {
       //    setLat(map.current.getCenter().lat.toFixed(4));
       //    setZoom(map.current.getZoom().toFixed(2));
       // });
-      console.log('markerUrl',markerUrl)
+      console.log('markerUrl', markerUrl)
       const el = document.createElement('div');
       const width = 50;
       const height = 50;
       el.className = styles.marker;
-      el.style.backgroundImage =`url('${markerUrl}')` ;
+      el.style.backgroundImage = `url('${markerUrl}')`;
       el.style.width = `${width}px`;
       el.style.height = `${height}px`;
       el.style.backgroundSize = 'cover';
       let marker = new mapboxgl.Marker(el);
+      marker.setLngLat([lng, lat]).addTo(map.current);
 
       map.current.on('click', function (event) {
          var coordinates = event.lngLat;
@@ -211,6 +219,8 @@ const AddNewSpecies = () => {
             let dataUri;
             dataUri = reader.result;
             console.log(dataUri)
+            setLng(90.399452)
+            setLat(23.777176)
             setMarkerUrl(dataUri)
             setForce(!force)
             return
@@ -298,6 +308,7 @@ const AddNewSpecies = () => {
                      speciesData.marker = markerUrl
                      speciesData.lng = lng
                      speciesData.lat = lat
+                     speciesData.profileIndex = profileIndex
                      const data = new FormData();
                      data.append("data", JSON.stringify(speciesData));
                      let files = speciesData.additionalFiles;
@@ -344,10 +355,9 @@ const AddNewSpecies = () => {
                         <Typography
                            gutterBottom
                            variant="h3"
-                           align="start"
-                           sx={{ p: 2 }}
+
                         >
-                           Enter Your Details
+                           Add New Species
                         </Typography>
                         <Grid container spacing={3}>
                            <Grid item xs={2}>
@@ -772,7 +782,18 @@ const AddNewSpecies = () => {
                                        }}
                                        type="file"
                                        name="profileImage"
-                                       onChange={uploadToClient}
+                                       onChange={(event) => {
+                                          const file = event.target.files[0];
+                                          setCreateObjectURL(URL.createObjectURL(file))
+                                          let length = values?.additionalFiles?.length
+                                          if (length) {
+                                             setProfileIndex(length)
+                                          }
+                                          else {
+                                             setProfileIndex(0)
+                                          }
+                                          values.additionalFiles.push(file);
+                                       }}
                                     />
                                     <Grid item xs={12}>
                                        <Typography component="h4" variant="div">
@@ -893,105 +914,141 @@ const AddNewSpecies = () => {
                                     </Grid>
                                  </Grid>
                                  <Grid item xs={12}>
-                                    <Grid item xs={6}>
-                                       <Typography component="h4" variant="div">
-                                          Add Marker
-                                       </Typography>
-                                       {markerUrl ? (
-                                          <Image
-                                             src={markerUrl}
-                                             height="200"
-                                             width="150"
-                                          ></Image>
-                                       ) : (
-                                          <Icon icon="bx:image-add" width="70"
-                                             height="80" />
-                                       )}
+                                    <Grid container spacing={3}>
+                                       <Grid item md={6}>
+                                          <Typography component="h4" variant="div">
+                                             Add Marker
+                                          </Typography>
+                                          {markerUrl ? (
+                                             <Image
+                                                src={markerUrl}
+                                                height="200"
+                                                width="150"
+                                             ></Image>
+                                          ) : (
+                                             <Icon icon="bx:image-add" width="70"
+                                                height="80" />
+                                          )}
 
-                                       <TextField
-                                          sx={{
-                                             flexGrow: 1,
+                                          <TextField
+                                             sx={{
+                                                flexGrow: 1,
 
-                                             mt: 2,
-                                             ml: 3,
-                                          }}
-                                          type="file"
-                                          name="marker"
-                                          onChange={getMarkerUrl}
-                                       />
+                                                mt: 2,
+                                                ml: 3,
+                                             }}
+                                             type="file"
+                                             name="marker"
+                                             onChange={getMarkerUrl}
+                                          />
+                                          <Grid container spacing={2}>
+                                             <Grid item md={6}>
+                                                <TextField
+                                                   required
+                                                   id="longitude"
+                                                   name="longitude"
+                                                   margin="normal"
+                                                   size="small"
+                                                   label="Longitude"
+                                                   value={lng ?? 0}
+                                                   type="number"
 
-                                       <TextField
-                                          required
-                                          id="longitude"
-                                          name="longitude"
-                                          margin="normal"
-                                          size="small"
-                                          label="Longitude"
-                                          value={lng ?? 0}
-                                          type="number"
+                                                   fullWidth
+                                                   autoComplete="longitude"
+                                                   onChange={(e) => {
+                                                      setLng(parseFloat(e.target.value))
+                                                   }}
+                                                   variant="outlined"
+                                                />
 
-                                          fullWidth
-                                          autoComplete="longitude"
-                                          onChange={(e) => {
-                                             setLng(parseFloat(e.target.value))
-                                          }}
-                                          variant="outlined"
-                                       />
-                                       <TextField
-                                          required
-                                          id="lattitude"
-                                          name="lattitude"
-                                          margin="normal"
-                                          size="small"
-                                          type="number"
-                                          label="Lattitude"
-                                          value={lat ? lat : 0}
-                                          fullWidth
-                                          autoComplete="lattitude"
-                                          onChange={(e) => {
-                                             setLat(parseFloat(e.target.value))
-                                          }}
-                                          variant="outlined"
-                                       />
+                                             </Grid>
+                                             <Grid item md={6}>
+                                                <TextField
+                                                   required
+                                                   id="lattitude"
+                                                   name="lattitude"
+                                                   margin="normal"
+                                                   size="small"
+                                                   type="number"
+                                                   label="Lattitude"
+                                                   value={lat ? lat : 0}
+                                                   fullWidth
+                                                   autoComplete="lattitude"
+                                                   onChange={(e) => {
+                                                      setLat(parseFloat(e.target.value))
+                                                   }}
+                                                   variant="outlined"
+                                                />
+                                             </Grid>
+                                             <Grid item md={12}>
+                                                <TextField
+
+                                                   id="address"
+                                                   name="adress"
+                                                   // margin="normal"
+                                                   size="small"
+                                                   type="address"
+                                                   label="Address"
+                                                   fullWidth
+                                                   autoComplete="lattitude"
+                                                   onChange={handleChange}
+                                                   variant="outlined"
+                                                />
+                                             </Grid>
+                                          </Grid>
+
+                                       </Grid>
+                                       <Grid item md={6} sx={{ height: "100%" }}>
+                                          <div ref={mapContainer} className={styles.map_container_2}></div>
+                                       </Grid>
                                     </Grid>
-                                    <Grid item xs={6} sx={{ height: "200px" }}>
-                                       <div ref={mapContainer} className={styles.map_container_2}></div>
-                                    </Grid>
+
 
 
 
                                  </Grid>
-                                 {/* <Grid item xs={12}>
+
+                                 <Grid item xs={12}>
                                     <Typography gutterBottom component="h3" variant="div">
                                        Identification Features
                                     </Typography>
-                                    {values?.categories.map((category, index) => {
+
+                                    {values?.addtionalCategories?.map((category, index) => {
                                        return (
                                           <>
                                              <TextField
                                                 fullWidth
                                                 autoFocus
                                                 label={`Category Name ${index + 1}`}
+                                                key={`CategoryName${index}`}
                                                 margin="normal"
                                                 size="small"
-                                                name="category.name"
+
                                                 onBlur={handleBlur}
-                                                onChange={(e, value) => { }}
+                                                onChange={(e, value) => {
+                                                   values.addtionalCategories[index].name = e.target.value
+                                                   setFieldValue("addtionalCategories", values.addtionalCategories);
+
+                                                }}
                                                 // type="number"
                                                 value={category.name || ""}
                                                 variant="outlined"
                                              />
                                              <TextField
                                                 fullWidth
+                                                key={`CategoryValue${index}`}
                                                 autoFocus
-                                                label={`Category Data ${index}`}
+                                                label={`Category Data ${index + 1}`}
                                                 margin="normal"
                                                 size="small"
-                                                name="category.name"
                                                 onBlur={handleBlur}
-                                                onChange={(e, value) => { }}
+                                                onChange={(e, value) => {
+                                                   values.addtionalCategories[index].value = e.target.value
+                                                   setFieldValue("addtionalCategories", values.addtionalCategories);
+
+                                                }}
+                                                value={category.value || ""}
                                                 // type="number"
-                                                value={category.name || ""}
                                                 variant="outlined"
                                              />
                                              <Divider />
@@ -1008,17 +1065,15 @@ const AddNewSpecies = () => {
                                           marginBottom: "10px",
                                        }}
                                        onClick={(e) => {
-                                          values.categories.push({
+                                          values.addtionalCategories.push({
                                              name: "",
                                              data: "",
                                           });
-                                          setFieldValue("categories", values.categories);
+                                          setFieldValue("addtionalCategories", values.addtionalCategories);
                                        }}
                                     >
                                        Add New Category
                                     </Button>
-                                 </Grid> */}
-                                 <Grid item xs={12}>
                                     <Grid container xs={12} spacing={2}>
                                        <Grid item xs={2}>
                                           <Autocomplete
@@ -1029,6 +1084,8 @@ const AddNewSpecies = () => {
                                              options={categoryList}
                                              key=""
                                              getOptionLabel={(option) => option.name}
+                                             isOptionEqualToValue={(option, value) => option.serial === value.serial}
+
                                              // sx={{ width: 300 }}
                                              onChange={(e, value) => {
                                                 setFieldValue("category", value);
@@ -1088,7 +1145,9 @@ const AddNewSpecies = () => {
                                                       size="small"
                                                       label={item.name}
                                                       fullWidth
-                                                      onChange={handleChange}
+                                                      onChange={(e) => {
+                                                         values.identificationFeatures[item.key] = e.target.value
+                                                      }}
                                                       autoComplete={item.name}
                                                       variant="outlined"
                                                    />
@@ -1110,7 +1169,9 @@ const AddNewSpecies = () => {
                                        fullWidth
 
                                        name="identificationFeatures.physical"
-                                       onChange={handleChange}
+                                       onChange={(e) => {
+                                          values.identificationFeatures['physical'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1125,7 +1186,9 @@ const AddNewSpecies = () => {
                                        fullWidth
 
                                        name="identificationFeatures.habitat"
-                                       onChange={handleChange}
+                                       onChange={(e) => {
+                                          values.identificationFeatures['habitat'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1140,7 +1203,9 @@ const AddNewSpecies = () => {
                                        fullWidth
 
                                        name="identificationFeatures.behavior"
-                                       onChange={handleChange}
+                                       onChange={(e) => {
+                                          values.identificationFeatures['behavior'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1155,7 +1220,9 @@ const AddNewSpecies = () => {
                                        fullWidth
 
                                        name="identificationFeatures.migration"
-                                       onChange={handleChange}
+                                       onChange={(e) => {
+                                          values.identificationFeatures['migration'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1170,7 +1237,9 @@ const AddNewSpecies = () => {
                                        fullWidth
 
                                        name="identificationFeatures.breeding"
-                                       onChange={handleChange}
+                                       onChange={(e) => {
+                                          values.identificationFeatures['breeding'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1185,7 +1254,9 @@ const AddNewSpecies = () => {
                                        fullWidth
 
                                        name="identificationFeatures.chromosome"
-                                       onChange={handleChange}
+                                       onChange={(e) => {
+                                          values.identificationFeatures['chromosome'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1200,7 +1271,9 @@ const AddNewSpecies = () => {
                                        fullWidth
 
                                        name="identificationFeatures.molecular"
-                                       onChange={handleChange}
+                                       onChange={(e) => {
+                                          values.identificationFeatures['molecular'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1215,7 +1288,9 @@ const AddNewSpecies = () => {
                                        fullWidth
 
                                        name="identificationFeatures.notes"
-                                       onChange={handleChange}
+                                       onChange={(e) => {
+                                          values.identificationFeatures['notes'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1230,7 +1305,9 @@ const AddNewSpecies = () => {
                                        fullWidth
 
                                        name="identificationFeatures.distribution"
-                                       onChange={handleChange}
+                                       onChange={(e) => {
+                                          values.identificationFeatures['distribution'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1245,7 +1322,9 @@ const AddNewSpecies = () => {
                                        fullWidth
 
                                        name="identificationFeatures.iucn"
-                                       onChange={handleChange}
+                                       onChange={(e) => {
+                                          values.identificationFeatures['iucn'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1260,7 +1339,9 @@ const AddNewSpecies = () => {
                                        fullWidth
 
                                        name="identificationFeatures.economic"
-                                       onChange={handleChange}
+                                       onChange={(e) => {
+                                          values.identificationFeatures['economic'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1275,7 +1356,9 @@ const AddNewSpecies = () => {
                                        fullWidth
 
                                        name="identificationFeatures.medicinal"
-                                       onChange={handleChange}
+                                       onChange={(e) => {
+                                          values.identificationFeatures['medicinal'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1289,8 +1372,10 @@ const AddNewSpecies = () => {
                                        variant="outlined"
                                        fullWidth
 
-                                       name="identificationFeatures."
-                                       onChange={handleChange}
+                                       name="identificationFeatures.foods"
+                                       onChange={(e) => {
+                                          values.identificationFeatures['foods'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1305,7 +1390,9 @@ const AddNewSpecies = () => {
                                        fullWidth
 
                                        name="identificationFeatures.pharmaceuticals"
-                                       onChange={handleChange}
+                                       onChange={(e) => {
+                                          values.identificationFeatures['pharmaceuticals'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1319,8 +1406,10 @@ const AddNewSpecies = () => {
                                        variant="outlined"
                                        fullWidth
 
-                                       name="identificationFeatures."
-                                       onChange={handleChange}
+                                       name="identificationFeatures.industrial"
+                                       onChange={(e) => {
+                                          values.identificationFeatures['industrial'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1335,7 +1424,9 @@ const AddNewSpecies = () => {
                                        fullWidth
 
                                        name="identificationFeatures.otherInfo"
-                                       onChange={handleChange}
+                                       onChange={(e) => {
+                                          values.identificationFeatures['otherInfo'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1350,7 +1441,9 @@ const AddNewSpecies = () => {
                                        fullWidth
 
                                        name="identificationFeatures.otherUses"
-                                       onChange={handleChange}
+                                       onChange={(e) => {
+                                          values.identificationFeatures['otherUses'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1365,7 +1458,9 @@ const AddNewSpecies = () => {
                                        fullWidth
 
                                        name="identificationFeatures.ecologicalIndicator"
-                                       onChange={handleChange}
+                                       onChange={(e) => {
+                                          values.identificationFeatures['ecologicalIndicator'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1379,8 +1474,10 @@ const AddNewSpecies = () => {
                                        variant="outlined"
                                        fullWidth
 
-                                       name="identificationFeatures."
-                                       onChange={handleChange}
+                                       name="identificationFeatures.exotic"
+                                       onChange={(e) => {
+                                          values.identificationFeatures['exotic'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1395,7 +1492,9 @@ const AddNewSpecies = () => {
                                        fullWidth
 
                                        name="identificationFeatures.typeOfSpecies"
-                                       onChange={handleChange}
+                                       onChange={(e) => {
+                                          values.identificationFeatures['physical'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1410,7 +1509,9 @@ const AddNewSpecies = () => {
                                        fullWidth
 
                                        name="identificationFeatures.fruitingTime"
-                                       onChange={handleChange}
+                                       onChange={(e) => {
+                                          values.identificationFeatures['fruitingTime'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1424,8 +1525,10 @@ const AddNewSpecies = () => {
                                        variant="outlined"
                                        fullWidth
 
-                                       name="identificationFeatures."
-                                       onChange={handleChange}
+                                       name="identificationFeatures.scientific"
+                                       onChange={(e) => {
+                                          values.identificationFeatures['scientific'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1439,8 +1542,10 @@ const AddNewSpecies = () => {
                                        variant="outlined"
                                        fullWidth
 
-                                       name="identificationFeatures."
-                                       onChange={handleChange}
+                                       name="identificationFeatures.health"
+                                       onChange={(e) => {
+                                          values.identificationFeatures['health'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1455,7 +1560,9 @@ const AddNewSpecies = () => {
                                        fullWidth
 
                                        name="identificationFeatures.season"
-                                       onChange={handleChange}
+                                       onChange={(e) => {
+                                          values.identificationFeatures['season'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1470,7 +1577,9 @@ const AddNewSpecies = () => {
                                        fullWidth
 
                                        name="identificationFeatures.threats"
-                                       onChange={handleChange}
+                                       onChange={(e) => {
+                                          values.identificationFeatures['threats'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1485,7 +1594,9 @@ const AddNewSpecies = () => {
                                        fullWidth
 
                                        name="identificationFeatures.conservation"
-                                       onChange={handleChange}
+                                       onChange={(e) => {
+                                          values.identificationFeatures['conservation'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1500,7 +1611,9 @@ const AddNewSpecies = () => {
                                        fullWidth
 
                                        name="identificationFeatures.measures"
-                                       onChange={handleChange}
+                                       onChange={(e) => {
+                                          values.identificationFeatures['physical'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1515,7 +1628,9 @@ const AddNewSpecies = () => {
                                        fullWidth
 
                                        name="identificationFeatures.miscellaneous"
-                                       onChange={handleChange}
+                                       onChange={(e) => {
+                                          values.identificationFeatures['miscellaneous'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
 
