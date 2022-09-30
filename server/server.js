@@ -28,9 +28,9 @@ dotenv.config()
 const argv = yargs.argv
 let server;
 
-    server = app.listen(8443, () => {
-        console.log(`Server is working on http://localhost:8443`)
-    });
+server = app.listen(8443, () => {
+    console.log(`Server is working on http://localhost:8443`)
+});
 
 // else {
 //     server = https.createServer(options, app).listen(process.env.PORT, function () {

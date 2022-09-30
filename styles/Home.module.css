@@ -91,6 +91,10 @@
   height:1080px;
   width: 100%;
 }
+.map_container_2{
+  height:200px;
+  width: 100%;
+}
 .sidebar {
   background-color: rgba(35, 55, 75, 0.9);
   color: #fff;
@@ -132,7 +136,7 @@
 .marker {
   display: block;
   border: none;
-  border-radius: 50%;
+  /* border-radius: 50%; */
   cursor: pointer;
   padding: 0;
   }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 // import Footer from '../components/Home/Footer/Footer';
 // import Header from "../components/Home/Header";
 import {
@@ -35,6 +35,9 @@ import styles from "../styles/Home.module.css";
 import { styled, useTheme } from "@mui/material/styles";
 import callApi from "../utils/callApi";
 import Image from "next/image";
+import mapboxgl from 'mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
+import 'mapbox-gl/dist/mapbox-gl.css';
+mapboxgl.accessToken = process.env.mapbox_key;
 // import { kingdoms } from "../utils/kingdoms";
 const kingdoms = require("../utils/kingdoms");
 const phylums = require("../utils/kingdoms");
@@ -98,6 +101,14 @@ const AddNewSpecies = () => {
    const theme = useTheme();
    const [categoryList, setCatgoryList] = React.useState()
    const matchDownMd = useMediaQuery(theme.breakpoints.down("lg"));
+   const mapContainer = useRef(null);
+   const map = useRef(null);
+   const [lng, setLng] = useState(90.399452);
+   const [lat, setLat] = useState(23.777176);
+   const [zoom, setZoom] = useState(6.52);
+   const [markerUrl, setMarkerUrl] = useState('');
+   const [force, setForce] = useState(null);
+
    const initialValues = {
       serial: "",
       kingdom: "",
@@ -112,6 +123,8 @@ const AddNewSpecies = () => {
       subVariety: "",
       clone: "",
       forma: "",
+      lng,
+      lat,
       nameOfSpecies: {
          bangla: "",
          english: "",
@@ -128,9 +141,44 @@ const AddNewSpecies = () => {
       setCatgoryList(response.data)
    }
    useEffect(() => {
+      // if (!map.current) return; // initialize map only once
+      map.current = new mapboxgl.Map({
+         container: mapContainer.current,
+         style: 'mapbox://styles/h-tech/cl80aun1000f115n0i7622vwy',
+         center: [lng, lat],
+         zoom: zoom
+      });
+      // map.current.on('move', () => {
+      //    setLng(map.current.getCenter().lng.toFixed(4));
+      //    setLat(map.current.getCenter().lat.toFixed(4));
+      //    setZoom(map.current.getZoom().toFixed(2));
+      // });
+      console.log('markerUrl',markerUrl)
+      const el = document.createElement('div');
+      const width = 50;
+      const height = 50;
+      el.className = styles.marker;
+      el.style.backgroundImage =`url('${markerUrl}')` ;
+      el.style.width = `${width}px`;
+      el.style.height = `${height}px`;
+      el.style.backgroundSize = 'cover';
+      let marker = new mapboxgl.Marker(el);
+
+      map.current.on('click', function (event) {
+         var coordinates = event.lngLat;
+         setLat(coordinates.lat)
+         setLng(coordinates.lng)
+         setForce(!force)
+         console.log('Lng:', coordinates.lng, 'Lat:', coordinates.lat);
+         marker.setLngLat(coordinates).addTo(map.current);
+      });
+
+      // new mapboxgl.Marker()
+      //    .setLngLat([lng, lat])
+      //    .addTo(map.current);
       fetchData()
 
-   }, [])
+   }, [markerUrl])
    // Handle left drawer
    const leftDrawerOpened = useSelector((state) => state.customization.opened);
    const dispatch = useDispatch();
@@ -140,10 +188,33 @@ const AddNewSpecies = () => {
 
    const uploadToClient = (event) => {
       if (event.target.files[0]) {
-         const i = event.target.files[0];
+         const reader = new FileReader;
 
-         setImage(i);
-         setCreateObjectURL(URL.createObjectURL(i));
+         const file = event.target.files[0];
+
+         reader.readAsDataURL(file);
+         return reader.onload = () => {
+            let dataUri;
+            dataUri = reader.result;
+            return setCreateObjectURL(dataUri)
+         };
+      }
+   };
+   const getMarkerUrl = (event) => {
+      if (event.target.files[0]) {
+         const reader = new FileReader;
+
+         const file = event.target.files[0];
+
+         reader.readAsDataURL(file);
+         return reader.onload = () => {
+            let dataUri;
+            dataUri = reader.result;
+            console.log(dataUri)
+            setMarkerUrl(dataUri)
+            setForce(!force)
+            return
+         };
       }
    };
    return (
@@ -224,6 +295,9 @@ const AddNewSpecies = () => {
                      // console.log({ loggedUser: loggedUser.userId });
                      console.log(speciesData)
                      speciesData.thumbnailImage = createObjectURL
+                     speciesData.marker = markerUrl
+                     speciesData.lng = lng
+                     speciesData.lat = lat
                      const data = new FormData();
                      data.append("data", JSON.stringify(speciesData));
                      let files = speciesData.additionalFiles;
@@ -232,18 +306,18 @@ const AddNewSpecies = () => {
                            data.append('additionalFiles', single_file)
                         }
                      }
-                     console.log(data)
-                     // data.append("reportfile", values.reportfile);
+                     console.log(speciesData)
+
                      let res = await callApi("/create-new-species", data, {
                         headers: {
                            "Content-Type": "multipart/form-data"
                         }
                      })
                      console.log("response", res);
-                     // enqueueSnackbar("Report  Uploaded Successfully", {
-                     //    variant: "success",
-                     //    // action: <Button>See all</Button>
-                     // });
+                     enqueueSnackbar("Report  Uploaded Successfully", {
+                        variant: "success",
+                        // action: <Button>See all</Button>
+                     });
                      setErrors(false);
 
                   } catch (error) {
@@ -818,6 +892,75 @@ const AddNewSpecies = () => {
                                        </label>
                                     </Grid>
                                  </Grid>
+                                 <Grid item xs={12}>
+                                    <Grid item xs={6}>
+                                       <Typography component="h4" variant="div">
+                                          Add Marker
+                                       </Typography>
+                                       {markerUrl ? (
+                                          <Image
+                                             src={markerUrl}
+                                             height="200"
+                                             width="150"
+                                          ></Image>
+                                       ) : (
+                                          <Icon icon="bx:image-add" width="70"
+                                             height="80" />
+                                       )}
+
+                                       <TextField
+                                          sx={{
+                                             flexGrow: 1,
+
+                                             mt: 2,
+                                             ml: 3,
+                                          }}
+                                          type="file"
+                                          name="marker"
+                                          onChange={getMarkerUrl}
+                                       />
+
+                                       <TextField
+                                          required
+                                          id="longitude"
+                                          name="longitude"
+                                          margin="normal"
+                                          size="small"
+                                          label="Longitude"
+                                          value={lng ?? 0}
+                                          type="number"
+
+                                          fullWidth
+                                          autoComplete="longitude"
+                                          onChange={(e) => {
+                                             setLng(parseFloat(e.target.value))
+                                          }}
+                                          variant="outlined"
+                                       />
+                                       <TextField
+                                          required
+                                          id="lattitude"
+                                          name="lattitude"
+                                          margin="normal"
+                                          size="small"
+                                          type="number"
+                                          label="Lattitude"
+                                          value={lat ? lat : 0}
+                                          fullWidth
+                                          autoComplete="lattitude"
+                                          onChange={(e) => {
+                                             setLat(parseFloat(e.target.value))
+                                          }}
+                                          variant="outlined"
+                                       />
+                                    </Grid>
+                                    <Grid item xs={6} sx={{ height: "200px" }}>
+                                       <div ref={mapContainer} className={styles.map_container_2}></div>
+                                    </Grid>
+
+
+
+                                 </Grid>
                                  {/* <Grid item xs={12}>
                                     <Typography gutterBottom component="h3" variant="div">
                                        Identification Features
@@ -965,7 +1108,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       
+
                                        name="identificationFeatures.physical"
                                        onChange={handleChange}
                                     />
@@ -980,7 +1123,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       
+
                                        name="identificationFeatures.habitat"
                                        onChange={handleChange}
                                     />
@@ -995,7 +1138,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       
+
                                        name="identificationFeatures.behavior"
                                        onChange={handleChange}
                                     />
@@ -1010,7 +1153,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       
+
                                        name="identificationFeatures.migration"
                                        onChange={handleChange}
                                     />
@@ -1025,7 +1168,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       
+
                                        name="identificationFeatures.breeding"
                                        onChange={handleChange}
                                     />
@@ -1040,7 +1183,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       
+
                                        name="identificationFeatures.chromosome"
                                        onChange={handleChange}
                                     />
@@ -1055,7 +1198,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       
+
                                        name="identificationFeatures.molecular"
                                        onChange={handleChange}
                                     />
@@ -1070,7 +1213,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       
+
                                        name="identificationFeatures.notes"
                                        onChange={handleChange}
                                     />
@@ -1085,7 +1228,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       
+
                                        name="identificationFeatures.distribution"
                                        onChange={handleChange}
                                     />
@@ -1100,7 +1243,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       
+
                                        name="identificationFeatures.iucn"
                                        onChange={handleChange}
                                     />
@@ -1115,7 +1258,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       
+
                                        name="identificationFeatures.economic"
                                        onChange={handleChange}
                                     />
@@ -1130,7 +1273,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       
+
                                        name="identificationFeatures.medicinal"
                                        onChange={handleChange}
                                     />
@@ -1145,7 +1288,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       
+
                                        name="identificationFeatures."
                                        onChange={handleChange}
                                     />
@@ -1160,7 +1303,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       
+
                                        name="identificationFeatures.pharmaceuticals"
                                        onChange={handleChange}
                                     />
@@ -1175,7 +1318,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       
+
                                        name="identificationFeatures."
                                        onChange={handleChange}
                                     />
@@ -1190,7 +1333,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       
+
                                        name="identificationFeatures.otherInfo"
                                        onChange={handleChange}
                                     />
@@ -1205,7 +1348,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       
+
                                        name="identificationFeatures.otherUses"
                                        onChange={handleChange}
                                     />
@@ -1220,7 +1363,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       
+
                                        name="identificationFeatures.ecologicalIndicator"
                                        onChange={handleChange}
                                     />
@@ -1235,7 +1378,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       
+
                                        name="identificationFeatures."
                                        onChange={handleChange}
                                     />
@@ -1250,7 +1393,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       
+
                                        name="identificationFeatures.typeOfSpecies"
                                        onChange={handleChange}
                                     />
@@ -1265,7 +1408,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       
+
                                        name="identificationFeatures.fruitingTime"
                                        onChange={handleChange}
                                     />
@@ -1280,7 +1423,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       
+
                                        name="identificationFeatures."
                                        onChange={handleChange}
                                     />
@@ -1295,7 +1438,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       
+
                                        name="identificationFeatures."
                                        onChange={handleChange}
                                     />
@@ -1310,7 +1453,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       
+
                                        name="identificationFeatures.season"
                                        onChange={handleChange}
                                     />
@@ -1325,7 +1468,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       
+
                                        name="identificationFeatures.threats"
                                        onChange={handleChange}
                                     />
@@ -1340,7 +1483,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       
+
                                        name="identificationFeatures.conservation"
                                        onChange={handleChange}
                                     />
@@ -1355,7 +1498,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       
+
                                        name="identificationFeatures.measures"
                                        onChange={handleChange}
                                     />
@@ -1370,7 +1513,7 @@ const AddNewSpecies = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       
+
                                        name="identificationFeatures.miscellaneous"
                                        onChange={handleChange}
                                     />

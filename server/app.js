@@ -7,9 +7,9 @@ const bodyParser = require('body-parser');
 
 app.use(express.json());
 app.use(cors());
-app.use(bodyParser.urlencoded({limit: "100mb", extended: true, parameterLimit:10000000}))
-app.use(bodyParser.json());
-app.use(express.json({limit: '100mb'})); 
+// app.use(bodyParser.urlencoded({limit: "100mb", extended: true, parameterLimit:10000000}))
+// app.use(bodyParser.json());
+// app.use(express.json({limit: '100mb'})); 
 app.use(logger);
 // import routes
 const adminRoutes = require("./routes/adminRoutes");

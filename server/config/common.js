@@ -1,9 +1,38 @@
 const db = require("./connectToDatabase")
 const dbName = process.env.DATABASE
 
-
+const createQueryForSpecies = async (table) => {
+    let query = `CREATE TABLE ${table} (
+        id int NOT NULL,
+        serial varchar(10),
+        name varchar(255),
+        profile_image longtext,
+        category varchar(255),
+        idenitificationFeatures longtext,
+        additionaL_files longtext,
+        kingdom varchar(255),
+        phylum varchar(255),
+        class_name varchar(255),
+        order_name varchar(255),
+        family varchar(255),
+        genus varchar(255),
+        species varchar(255),
+        sub_species varchar(255),
+        variety varchar(255),
+        sub_species varchar(255),
+        sub_variety varchar(255),
+        forma varchar(255),
+        createdDatetimeStamp datetime,
+        lng varchar(255),
+        lat varchar(255),
+        marker longtext,
+        PRIMARY KEY (id)
+    );`
+    let res = await this.executeQuery(query)
+    return res
+}
 exports.log = (message = '', value = '') => {
-    if(value == '') return console.log(message)
+    if (value == '') return console.log(message)
     return console.log(message, value)
 }
 exports.tableTypes = {
@@ -16,20 +45,21 @@ exports.tableTypes = {
 }
 
 exports.executeQuery = async (query) => {
-    db.query(query, (err, res) => {
-        console.log(res)
-        if (err) {
-            return err
-        }
-        else {
-            return res;
-
-        }
-    })
+    return db.query(query)
 }
-exports.getTable = (type) => {
+exports.getTable = async (type) => {
     const table = dbName + '_' + type.toLowerCase()
-    return table
+    let query = `SELECT * FROM  ${table};`
+    let res = this.executeQuery(query)
+    console.log(res)
+    if (res.code === 'ER_NO_SUCH_TABLE') {
+        await createQueryForSpecies(table)
+        return table
+    }
+    else {
+        return table
+    }
+
 }
 exports.uniqueIdGenerator = async (table, length) => {
 
