@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 // import Header from "../components/Home/Header";
 import Footer from "../components/Home/Footer/Footer";
 import Header from "../components/Home/Header";
+import { useRouter } from "next/router";
 import {
    Typography,
    Grid,
@@ -19,6 +20,14 @@ import {
    CssBaseline,
    Autocomplete,
    Divider,
+   TableContainer,
+   Paper,
+   Table,
+   TableHead,
+   TableRow,
+   TableCell,
+   TableBody,
+   tableCellClasses
 } from "@mui/material";
 // import ImageUpload from "./ImageUpload";
 
@@ -49,7 +58,87 @@ const plants = require("../utils/plants");
 const animals = require("../utils/animals");
 const fungis = require("../utils/fungi");
 const microOrgansims = require("../utils/microOrgansim");
-
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+   [`&.${tableCellClasses.head}`]: {
+     backgroundColor: theme.palette.common.black,
+     color: theme.palette.common.white
+   },
+   [`&.${tableCellClasses.body}`]: {
+     fontSize: 14
+   }
+ }));
+ const StyledTableRow = styled(TableRow)(({ theme }) => ({
+   "&:nth-of-type(odd)": {
+     backgroundColor: theme.palette.action.hover
+   },
+   // hide last border
+   "&:last-child td, &:last-child th": {
+     border: 0
+   }
+ }));
+ function createData(
+   number,
+   Species,
+   Family,
+   Locality,
+   Habitat,
+   Size,
+   GIS,
+   Additional
+ ) {
+   return { number, Species, Family, Locality, Habitat, Size, GIS, Additional };
+ }
+const rows = [
+   createData(
+     1,
+     "Bryopsis indica Gepp & Gepp",
+     "Bryopsidaceae",
+     "St Martin’s Island (SMI)",
+     "rocks, corals",
+     "2-3",
+     "20.622990,92.320325"
+   ),
+   createData(
+     2,
+     "Bryopsis indica Gepp & Gepp",
+     "Bryopsidaceae",
+     "St Martin’s Island (SMI)",
+     "rocks, corals",
+     "2-3",
+     "20.622990,92.320325"
+   ),
+ 
+   createData(
+     3,
+     "Bryopsis indica Gepp & Gepp",
+     "Bryopsidaceae",
+     "St Martin’s Island (SMI)",
+     "rocks, corals",
+     "2-3",
+     "20.622990,92.320325"
+   ),
+ 
+   createData(
+     4,
+     "Bryopsis indica Gepp & Gepp",
+     "Bryopsidaceae",
+     "St Martin’s Island (SMI)",
+     "rocks, corals",
+     "2-3",
+     "20.622990,92.320325"
+   ),
+ 
+   createData(
+     5,
+     "Bryopsis indica Gepp & Gepp",
+     "Bryopsidaceae",
+     "St Martin’s Island (SMI)",
+     "rocks, corals",
+     "2-3",
+     "20.622990,92.320325"
+   ),
+ ];
+ 
 console.log(kingdoms);
 const Input = styled("input")({
    display: "none",
@@ -156,6 +245,7 @@ const MicroOrgansim = () => {
          setCreateObjectURL(URL.createObjectURL(i));
       }
    };
+   const router = useRouter();
    return (
       <Box>
         
@@ -1309,6 +1399,84 @@ const MicroOrgansim = () => {
                   </Form>
                )}
             </Formik>
+            <Grid item xs={12}      style={{ borderRadius: "10px",paddingBottom:"100px" }} >
+                <TableContainer component={Paper}    >
+                  <Table sx={{ minWidth: 650 }} aria-label="customized table" >
+                    <TableHead>
+                      <TableRow>
+                        <StyledTableCell>SI</StyledTableCell>
+                        <StyledTableCell align="center">Species</StyledTableCell>
+                        <StyledTableCell align="center">Family</StyledTableCell>
+                        <StyledTableCell align="center">Locality</StyledTableCell>
+                        <StyledTableCell align="center">Habitat</StyledTableCell>
+                        <StyledTableCell align="center">Size &nbsp;(cm)</StyledTableCell>
+                        <StyledTableCell align="center">GIS</StyledTableCell>
+                        <StyledTableCell align="center">Additional button</StyledTableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody   >
+                      {rows.map((row) => (
+                        <StyledTableRow
+                          key={row.name}
+                          sx={{
+                            "&:last-child td, &:last-child th": { border: 0 },
+                          }}
+                        
+                        >
+                          <StyledTableCell component="th" scope="row">
+                            {row.number}
+                          </StyledTableCell>
+                          <StyledTableCell align="center">{row.Species}</StyledTableCell>
+                          <StyledTableCell align="center">{row.Family}</StyledTableCell>
+                          <StyledTableCell align="center">{row.Locality}</StyledTableCell>
+                          <StyledTableCell align="center">{row.Habitat}</StyledTableCell>
+                          <StyledTableCell align="center">{row.Size}</StyledTableCell>
+                          <StyledTableCell align="center">{row.GIS}</StyledTableCell>
+                          <StyledTableCell align="center">
+                          <Button
+                             style={{ maxWidth: "80px",
+                             maxHeight: "80px",
+                             minWidth: "40px",
+                             minHeight: "40px"
+                    }}
+                              type="button"
+                              onClick={() => router.push("/details")}
+                              variant="outlined"
+                            >
+                              details
+                            </Button>
+                            {/* =======MODAL===== */}
+
+                           
+                            <br />
+                            {/* <Button
+                             style={{ maxWidth: "80px",
+                             maxHeight: "80px",
+                             minWidth: "40px",
+                             minHeight: "40px"
+                    }}
+                              type="button"
+                              onClick={() => router.push("/map")}
+                              variant="outlined"
+                            >
+                              View&nbsp;map
+                            </Button> */}
+                          </StyledTableCell>
+                        </StyledTableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+                {/* <TablePagination
+        rowsPerPageOptions={[10, 25, 100]}
+        component="div"
+        count={rows.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      /> */}
+              </Grid>
             <Footer  style={{ padding: "100px" }} />
       </Box>
    );
