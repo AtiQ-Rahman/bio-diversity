@@ -54,51 +54,51 @@ const options = [
  
   {
     name: "Contribute",
-    url: "/"
+    url: "/comingSoon"
   },
   {
     name: "Team",
-    url: "/"
+    url: "/comingSoon"
   },
   {
     name: "Links",
-    url: "/"
+    url: "/comingSoon"
   },
   {
     name: "Contact",
-    url: "/contact"
+    url: "/comingSoon"
   },
   {
     name: "About",
-    url: "/"
+    url: "/comingSoon"
   },
   {
     name:"Team",
-    url:"/"
+    url:"/comingSoon"
    },
    {
     name:"Help",
-    url:"/"
+    url:"/comingSoon"
    },
    {
     name:"Content",
-    url:"/"
+    url:"/comingSoon"
    },
    {
     name:"Mapping and Zoning",
-    url:"/"
+    url:"/comingSoon"
    },
    {
     name:"Database",
-    url:"/"
+    url:"/comingSoon"
    },
    {
     name:"Biodiversity Policy Acts",
-    url:"/"
+    url:"/comingSoon"
    },
   {
     name: "FAQ",
-    url: "/"
+    url: "/comingSoon"
   },
 
   // {
@@ -388,7 +388,7 @@ export default function PrimarySearchAppBar(props) {
         style={{
           // borderBottom: "1px solid #e5e5e5",
           // boxShadow: "none",
-          height: 110,
+          height: 90,
           // backgroundColor: "rgba(0,0,0,.5)",
           backgroundColor: navBg,
           // opacity: 0.5,

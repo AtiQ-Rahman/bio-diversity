@@ -15,7 +15,7 @@ function MyApp({ Component, pageProps }) {
       <ThemeProvider theme={themes({ fontFamily: 'Raleway, Arial'})}>
       <CssBaseline/>
         <Component {...pageProps} />
-        <Footer />
+        {/* <Footer /> */}
       </ThemeProvider>
       {/* </BrowserRouter> */}
     </Provider>
