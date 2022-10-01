@@ -23,7 +23,10 @@ import mapboxgl from 'mapbox-gl'; // eslint-disable-line import/no-webpack-loade
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { useRouter } from 'next/router'
 mapboxgl.accessToken = process.env.mapbox_key;
-import CITIES from "../utils/cities.json";
+import callApi, { imageUrl } from "../utils/callApi";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import MapGL, {
     Marker,
     Popup,
@@ -47,39 +50,77 @@ const navStyle = {
     left: 0,
     padding: "10px"
 };
-
+let imageProps = {
+    height: "300px",
+    width: "400px",
+}
+const settings = {
+    customPaging: function (i) {
+        return (
+            <a>
+                <Image src={`${imageUrl + '/' + speciesData.additionalFiles[i]}`} />
+            </a>
+        );
+    },
+    dots: true,
+    dotsClass: "slick-dots slick-thumb",
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1
+};
+const myLoader = ({ src }) => `${src}`
 const Map = () => {
     const router = useRouter()
-    console.log(router.query)
     const [query, setQuery] = useState(router.query)
     const mapContainer = useRef(null);
     const map = useRef(null);
     const [zoom, setZoom] = useState(15);
-    const [lng, setLng] = useState(query.lng)
-    const [lat, setLat] = useState(query.lat)
+    const [lng, setLng] = useState()
+    const [lat, setLat] = useState()
+    const [speciesData, setSpeciesData] = useState({})
     const [popupInfo, setPopUpInfo] = useState(null)
-    const _updateViewport = viewport => {
-        setViewPort({ viewport });
-    };
+    const fetchData = async (query, cbfn) => {
+        let searchParameters = query
+        let response = await callApi("/get-species-by-serial", { searchParameters })
+        if (response?.data?.length > 0) {
+            setSpeciesData(response.data[0])
+            cbfn(response.data[0])
+        }
+        else {
+            cbfn({})
+        }
+    }
     useEffect(() => {
-        if (map.current) return; // initialize map only once
-        map.current = new mapboxgl.Map({
-            container: mapContainer.current,
-            style: 'mapbox://styles/h-tech/cl80aun1000f115n0i7622vwy',
-            center: [query.lng, query.lat],
-            zoom: zoom
-        });
-        map.current.on('move', () => {
-            setLng(map.current.getCenter().lng.toFixed(4));
-            setLat(map.current.getCenter().lat.toFixed(4));
-            setZoom(map.current.getZoom().toFixed(2));
-        });
-        new mapboxgl.Marker()
-            .setLngLat([query.lng, query.lat])
-            .addTo(map.current);
+        if (!query) return; // initialize map only once
+        fetchData(query, (speciesData) => {
+            map.current = new mapboxgl.Map({
+                container: mapContainer.current,
+                style: process.env.mapStyle,
+                center: [speciesData.lng, speciesData.lat],
+                zoom: zoom
+            });
+            map.current.on('move', () => {
+                setLng(map.current.getCenter().lng.toFixed(4));
+                setLat(map.current.getCenter().lat.toFixed(4));
+                setZoom(map.current.getZoom().toFixed(2));
+            });
+            const el = document.createElement('div');
+            const width = 50;
+            const height = 50;
+            el.className = styles.marker;
+            el.style.backgroundImage = `url('${speciesData.marker}')`;
+            el.style.width = `${width}px`;
+            el.style.height = `${height}px`;
+            el.style.top = `-15px`;
+            el.style.backgroundSize = '100%';
+            new mapboxgl.Marker(el)
+                .setLngLat([speciesData.lng, speciesData.lat])
+                .addTo(map.current);
+        })
 
-    });
-    console.log(CITIES)
+
+    }, [query]);
 
     const _renderPopup = () => {
 
@@ -129,7 +170,22 @@ const Map = () => {
                     <div className={styles.details_bar}>
 
                         <Card sx={{ maxWidth: 345, height: 1080 }}>
-                            <Image src={imageSrc} alt="species-image" width="345" height={200}></Image>
+                            {speciesData?.additionalFiles?.length > 0 ?
+                                speciesData.additionalFiles.map((speciesImage, index) => {
+                                    return (
+                                        <div>
+                                            <Slider {...settings}>
+
+                                                <div>
+                                                    <Image {...imageProps} loader={myLoader} src={imageUrl + '/'+ speciesImage} />
+                                                </div>
+
+                                            </Slider>
+                                        </div>)
+                                }) : null
+                                // <Image src={imageUrl + '/'+ speciesData?.profile_image} alt="species-image" width="345" height={200}></Image>
+                            }
+
                             <CardContent>
                                 <Typography gutterBottom variant="h5" component="div">
                                     {query?.Species}
@@ -146,22 +202,6 @@ const Map = () => {
 
                     </div>
                     <div ref={mapContainer} className={styles.map_container}></div>
-                    {/* <MapGL
-            {...viewPort}
-            mapStyle="mapbox://styles/h-tech/cl7skv6tt001e14pn3keltoah"
-            onViewportChange={_updateViewport}
-            mapboxAccessToken={process.env.mapbox_key}
-          > </MapGL> */}
-                    {/* {CITIES.map(_renderCityMarker)}
-
-                    {_renderPopup()}
-
-                    <div className="fullscreen" style={fullscreenControlStyle}>
-                        <FullscreenControl />
-                    </div>
-                    <div className="nav" style={navStyle}>
-                        <NavigationControl />
-                    </div> */}
 
                 </Grid>
 

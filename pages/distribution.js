@@ -12,7 +12,7 @@ import {
     Typography,
 } from "@mui/material";
 import React, { useState, useEffect, useRef } from "react";
-
+import ReactDOM from "react-dom"
 import styles from "../styles/Home.module.css";
 import Image from "next/image";
 import CityPin from "../utils/city-pin";
@@ -26,8 +26,10 @@ import MapGL, {
     NavigationControl,
     FullscreenControl
 } from "react-map-gl";
-
-
+import callApi, { imageUrl } from "../utils/callApi";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 const imageSrc = require("../assets/images/species1.jpg");
 const map = require("../assets/images/map.png");
 const fullscreenControlStyle = {
@@ -58,14 +60,20 @@ const Map = () => {
     const [lat, setLat] = useState(23.777176);
     const [zoom, setZoom] = useState(6.52);
     const [popupInfo, setPopUpInfo] = useState(null)
+    const [speciesList, setSpeciesList] = useState([])
+    const popUpRef = useRef(new mapboxgl.Popup({ offset: 15 }))
     const _updateViewport = viewport => {
         setViewPort({ viewport });
     };
-    useEffect(() => {
-        if (map.current) return; // initialize map only once
+    async function fetchData() {
+        let response = await callApi('/get-species-list', {})
+        setSpeciesList(response.data)
+        let speciesList = response.data
+        console.log({ speciesList })
+        // if (map.current) return; // initialize map only once
         map.current = new mapboxgl.Map({
             container: mapContainer.current,
-            style: 'mapbox://styles/h-tech/cl80aun1000f115n0i7622vwy',
+            style: process.env.mapStyle,
             center: [lng, lat],
             zoom: zoom
         });
@@ -74,25 +82,66 @@ const Map = () => {
             setLat(map.current.getCenter().lat.toFixed(4));
             setZoom(map.current.getZoom().toFixed(2));
         });
-        CITIES.map((city) => {
-            // const el = document.createElement('div');
-            // const width = 50;
-            // const height = 50;
-            // el.className = styles.marker;
-            // el.style.backgroundImage = `url(https://placekitten.com/g/${width}/${height}/)`;
-            // el.style.width = `${width}px`;
-            // el.style.height = `${height}px`;
-            // el.style.backgroundSize = '100%';
-            // <CityPin size={20} onClick={() => setPopUpInfo(city)} />
-            new mapboxgl.Marker()
-                .setLngLat(city)
-                .addTo(map.current);
+        const Popup = ({ routeName, routeNumber, city, type }) => (
+            <div className="popup">
+                <h3 className="route-name">{routeName}</h3>
+                <div className="route-metric-row">
+                    <h4 className="row-title">Route #</h4>
+                    <div className="row-value">{routeNumber}</div>
+                </div>
+                <div className="route-metric-row">
+                    <h4 className="row-title">Route Type</h4>
+                    <div className="row-value">{type}</div>
+                </div>
+                <p className="route-city">Serves {city}</p>
+            </div>
+        )
+        const popupNode = document.createElement("div")
+
+        speciesList.map((city) => {
+            if (city.marker && city.lng && city.lat) {
+                console.log({ city })
+                const el = document.createElement('div');
+                const width = 50;
+                const height = 50;
+                el.className = styles.marker;
+                el.style.backgroundImage = `url('${city.marker}')`;
+                el.style.width = `${width}px`;
+                el.style.height = `${height}px`;
+                el.style.backgroundSize = '100%';
+                // <CityPin size={20} onClick={() => setPopUpInfo(city)} />
+                new mapboxgl.Marker(el)
+                    .setLngLat(city)
+                    .setPopup(new mapboxgl.Popup({ offset: 21 }).setHTML(`
+                    <div>
+                    <div className="popup">
+                        <h3 className="route-name">${city.name.bangla}</h3>
+                        <div className="route-metric-row">
+                            <h4 className="row-title">Route #</h4>
+                            <div className="row-value">${city.name.bangla}</div>
+                        </div>
+                        <div className="route-metric-row">
+                            <h4 className="row-title">Route Type</h4>
+                            <div className="row-value">${city.name.bangla}</div>
+                        </div>
+                        <p className="route-city">Serves ${city.name.bangla}</p>
+                    </div>
+                </div>`
+
+
+                    ))
+                    .addTo(map.current);
+            }
+
         })
         // new mapboxgl.Marker()
         //     .setLngLat([91.613, 24.090])
         //     .addTo(map.current);
 
-    });
+    }
+    useEffect(() => {
+        fetchData()
+    }, []);
     console.log(CITIES)
     const _renderCityMarker = (city, index) => {
         return (
@@ -154,9 +203,6 @@ const Map = () => {
                     <div className={styles.details_bar}>
 
                         <Card sx={{ maxWidth: 345, height: 1080 }}>
-                            <Image src={imageSrc} alt="image"
-                                width="345" height={300}
-                            ></Image>
                             <CardContent>
                                 <Typography gutterBottom variant="h5" component="div">
                                     Species

@@ -86,7 +86,7 @@ const options = [
    },
    {
     name:"Mapping and Zoning",
-    url:"/comingSoon"
+    url:"/distribution"
    },
    {
     name:"Database",

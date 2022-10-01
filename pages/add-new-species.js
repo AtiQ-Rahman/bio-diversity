@@ -151,7 +151,7 @@ const AddNewSpecies = () => {
       }; // initialize map only once
       map.current = new mapboxgl.Map({
          container: mapContainer.current,
-         style: 'mapbox://styles/h-tech/cl80aun1000f115n0i7622vwy',
+         style: process.env.mapStyle,
          center: [lng, lat],
          zoom: zoom
       });
