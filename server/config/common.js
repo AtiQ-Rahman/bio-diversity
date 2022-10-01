@@ -9,7 +9,7 @@ const createQueryForSpecies = async (table) => {
         name varchar(255),
         profile_image longtext,
         category varchar(255),
-        idenitificationFeatures longtext,
+        identificationFeatures longtext,
         additionaL_files longtext,
         kingdom varchar(255),
         phylum varchar(255),
@@ -38,14 +38,16 @@ exports.log = (message = '', value = '') => {
     if (value == '') return console.log(message)
     return console.log(message, value)
 }
-exports.tableTypes = {
-    categories: 'categories',
+exports.speciesTableTypes = {
     plants: "plants",
     animals: "animals",
     microOrgan: "microorganisms",
     fungi: "fungi",
     eco: "ecosystemdiversity",
     genetic: "geneticsubcellulardiversity"
+}
+exports.tableTypes = {
+    categories: 'categories',
 }
 exports.getTableNameFromSql = async (sql) => {
     let matchIndex = sql.match(/bio_diversity/i).index

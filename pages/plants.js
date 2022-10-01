@@ -69,60 +69,60 @@ function createData(
    Size,
    GIS,
    Additional
- ) {
+) {
    return { number, Species, Family, Locality, Habitat, Size, GIS, Additional };
- }
- 
+}
+
 const rows = [
    createData(
-     1,
-     "Bryopsis indica Gepp & Gepp",
-     "Bryopsidaceae",
-     "St Martin’s Island (SMI)",
-     "rocks, corals",
-     "2-3",
-     "20.622990,92.320325"
+      1,
+      "Bryopsis indica Gepp & Gepp",
+      "Bryopsidaceae",
+      "St Martin’s Island (SMI)",
+      "rocks, corals",
+      "2-3",
+      "20.622990,92.320325"
    ),
    createData(
-     2,
-     "Bryopsis indica Gepp & Gepp",
-     "Bryopsidaceae",
-     "St Martin’s Island (SMI)",
-     "rocks, corals",
-     "2-3",
-     "20.622990,92.320325"
+      2,
+      "Bryopsis indica Gepp & Gepp",
+      "Bryopsidaceae",
+      "St Martin’s Island (SMI)",
+      "rocks, corals",
+      "2-3",
+      "20.622990,92.320325"
    ),
- 
+
    createData(
-     3,
-     "Bryopsis indica Gepp & Gepp",
-     "Bryopsidaceae",
-     "St Martin’s Island (SMI)",
-     "rocks, corals",
-     "2-3",
-     "20.622990,92.320325"
+      3,
+      "Bryopsis indica Gepp & Gepp",
+      "Bryopsidaceae",
+      "St Martin’s Island (SMI)",
+      "rocks, corals",
+      "2-3",
+      "20.622990,92.320325"
    ),
- 
+
    createData(
-     4,
-     "Bryopsis indica Gepp & Gepp",
-     "Bryopsidaceae",
-     "St Martin’s Island (SMI)",
-     "rocks, corals",
-     "2-3",
-     "20.622990,92.320325"
+      4,
+      "Bryopsis indica Gepp & Gepp",
+      "Bryopsidaceae",
+      "St Martin’s Island (SMI)",
+      "rocks, corals",
+      "2-3",
+      "20.622990,92.320325"
    ),
- 
+
    createData(
-     5,
-     "Bryopsis indica Gepp & Gepp",
-     "Bryopsidaceae",
-     "St Martin’s Island (SMI)",
-     "rocks, corals",
-     "2-3",
-     "20.622990,92.320325"
+      5,
+      "Bryopsis indica Gepp & Gepp",
+      "Bryopsidaceae",
+      "St Martin’s Island (SMI)",
+      "rocks, corals",
+      "2-3",
+      "20.622990,92.320325"
    ),
- ];
+];
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
    ({ theme, open }) => ({
       ...theme.typography.mainContent,
@@ -169,58 +169,62 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
 );
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
    [`&.${tableCellClasses.head}`]: {
-     backgroundColor: theme.palette.common.black,
-     color: theme.palette.common.white
+      backgroundColor: theme.palette.common.black,
+      color: theme.palette.common.white
    },
    [`&.${tableCellClasses.body}`]: {
-     fontSize: 14
+      fontSize: 14
    }
- }));
- const StyledTableRow = styled(TableRow)(({ theme }) => ({
+}));
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
    "&:nth-of-type(odd)": {
-     backgroundColor: theme.palette.action.hover
+      backgroundColor: theme.palette.action.hover
    },
    // hide last border
    "&:last-child td, &:last-child th": {
-     border: 0
+      border: 0
    }
- }));
+}));
 const map = require("../assets/images/map.png");
 const Plants = () => {
    const [image, setImage] = useState(null);
    const [createObjectURL, setCreateObjectURL] = useState(null);
    const theme = useTheme();
-   const [categoryList, setCatgoryList] = React.useState()
+   const [category, setCatgory] = React.useState()
+   const [speciesList, setSpeciesList] = React.useState([])
    const matchDownMd = useMediaQuery(theme.breakpoints.down("lg"));
    const initialValues = {
-      serial: "",
-      kingdom: "",
-      phylum: "",
-      class: "",
-      order: "",
-      family: "",
-      genus: "",
-      species: "",
-      plants:"",
-      subSpecies: "",
-      variety: "",
-      subVariety: "",
-      clone: "",
-      forma: "",
+      kingdom: null,
+      phylum: null,
+      class: null,
+      order: null,
+      family: null,
+      genus: null,
+      species: null,
+      plants: null,
+      subSpecies: null,
+      variety: null,
+      subVariety: null,
+      clone: null,
+      forma: null,
+      type: null,
       species: {
-         bangla: "",
-         english: "",
-         commonName: "",
-         synonym: ""
+         bangla: null,
+         english: null,
+         commonName: null,
+         synonym: null
       },
       identificationFeatures: {},
       categories: [],
       additionalFiles: [],
-      profileImage: "",
+      profileImage: null,
    };
    async function fetchData() {
-      let response = await callApi('/get-categories-list', {})
-      setCatgoryList(response.data)
+      let response = await callApi('/get-categories-by-name', { name: 'Plants' })
+      if (response.data.length > 0) {
+         console.log(response.data)
+         setCatgory(response.data[0])
+      }
    }
    useEffect(() => {
       fetchData()
@@ -247,535 +251,509 @@ const Plants = () => {
    const router = useRouter();
    return (
       <Box height={800}>
-        
+
          {/* header */}
-     
+
          <Header index={1} />
-    
+
 
          {/* drawer */}
-         
-         
-            {/* breadcrumb */}
-           
-            <Formik
-               initialValues={initialValues}
-               validationSchema={Yup.object().shape({
-                  species: Yup.object().shape({
-                     english: Yup.string().required(
-                        "Patient english name is required"
-                     ),
-                     bangla: Yup.string().required("patient bangla is required"),
-                     commonName: Yup.string().required("patient commonName is required"),
-                     synonym: Yup.string().required("patient commonName is required"),
 
-                     // gender: Yup.string().required("patient gender is required"),
-                     // address: Yup.string().required("patient adressis required"),
-                  }),
-                  // serial: Yup.string("Add serial").required("Add serial"),
-                  // kingdom: Yup.string("Add kingdom").required("Add kingdom"),
-                  // phylum: Yup.string("Add phylum").required("Add phylum"),
-                  // class: Yup.string("Add class").required("Add class"),
-                  // order: Yup.string("Add order").required("Add order"),
-                  // genus: Yup.string("Add genus").required("Add genus"),
-                  // species: Yup.string("Add species").required("Add species"),
-                  // subSpecies: Yup.string("Add subSpecies").required("Add subSpecies"),
-                  // variety: Yup.string("Add variety").required("Add variety"),
-                  // subVariety: Yup.string("Add subVariety").required("Add subVariety"),
-                  // clone: Yup.string("Add clone").required("Add clone"),
-                  // forma: Yup.string("Add forma").required("Add forma"),
-               })}
-               onSubmit={async (
-                  values,
-                  { resetForm, setErrors, setStatus, setSubmitting, setFieldValue }
-               ) => {
-                  try {
-                     console.log({ values });
-                     // console.log(values.reportfile.name);
-                     let speciesData = values;
-                     speciesData.createdBy = {
-                        name: "test admin",
-                        userId: "blabla",
-                     };
-                     speciesData.createdAt = new Date().getTime();
-                     // console.log({ loggedUser: loggedUser.userId });
-                     const data = new FormData();
-                     data.append("data", JSON.stringify(speciesData));
-                     let files = values.additionalFiles;
-                     if (files.length != 0) {
-                        for (const single_file of files) {
-                           data.append('additionalFiles', single_file)
-                        }
-                     }
-                     // data.append("reportfile", values.reportfile);
-                     let res = await callApi("/create-new-species", data, {
-                        headers: {
-                           "Content-Type": "multipart/form-data"
-                        }
-                     })
-                     console.log("response", res);
-                     // enqueueSnackbar("Report  Uploaded Successfully", {
-                     //    variant: "success",
-                     //    // action: <Button>See all</Button>
-                     // });
-                     setErrors(false);
 
-                  } catch (error) {
-                     console.log({ error });
+         {/* breadcrumb */}
 
-                     setStatus({ success: false });
-                     setErrors({ submit: error.message });
-                     setSubmitting(false);
-                  }
-               }}
-            >
-               {({
-                  errors,
-                  handleBlur,
-                  handleChange,
-                  handleSubmit,
-                  isSubmitting,
-                  touched,
-                  values,
-                  setFieldValue,
-               }) => (
-                  <Form onSubmit={handleSubmit}>
-                     <Grid sx={{ p: 10, background: "white" }}>
-                        <Typography
-                           gutterBottom
-                           variant="h3"
-                           align="start"
-                           sx={{ pt: 8 }}
-                        >
-                           Enter Your Details
-                        </Typography>
-                        <Grid container spacing={3}>
-                           <Grid item xs={2}>
-                              <TextField
-                                 required
-                                 id="serial"
-                                 name="serial"
-                                 // margin="normal"
-                                 size="small"
-                                 label="Serial"
-                                 type="number"
-                                 fullWidth
-                                 autoComplete="Serial"
-                                 variant="outlined"
-                              />
-                           </Grid>
-                           <Grid item xs={2}>
-                              <Autocomplete
-                                 size="small"
-                                 disablePortal
-                                 id="plants"
-                                 name={values?.plant}
-                                 options={plants}
-                                 key="plants"
-                                 getOptionLabel={(option) => option.name}
-                                 // sx={{ width: 300 }}
-                                 onChange={(e, value) => {
-                                    setFieldValue("plant", value);
-                                 }}
-                                 renderInput={(params) => (
-                                    <TextField
-                                       {...params}
-                                       error={Boolean(touched?.plant && errors?.plant)}
-                                       helperText={touched?.plant && errors?.plant}
-                                       style={{ padding: "2px" }}
-                                       label="---Select plants---"
-                                       variant="outlined"
-                                       placeholder="Select"
-                                       value={values?.plant}
-                                    />
-                                 )}
-                              />
-                           </Grid>
-                           <Grid item xs={2}>
-                              <Autocomplete
-                                 size="small"
-                                 disablePortal
-                                 id="kingdoms"
-                                 name={values?.kingdom}
-                                 options={kingdoms}
-                                 key="kingdoms"
-                                 getOptionLabel={(option) => option.name}
-                                 // sx={{ width: 300 }}
-                                 onChange={(e, value) => {
-                                    setFieldValue("kingdom", value);
-                                 }}
-                                 renderInput={(params) => (
-                                    <TextField
-                                       {...params}
-                                       error={Boolean(touched?.kingdom && errors?.kingdom)}
-                                       helperText={touched?.kingdom && errors?.kingdom}
-                                       style={{ padding: "2px" }}
-                                       label="---Select Kingdom---"
-                                       variant="outlined"
-                                       placeholder="Select"
-                                       value={values?.kingdom}
-                                    />
-                                 )}
-                              />
-                           </Grid>
-                           <Grid item xs={2}>
-                              <Autocomplete
-                                 size="small"
-                                 disablePortal
-                                 id="phylums"
-                                 name={values?.phylum}
-                                 options={phylums}
-                                 key="phylums"
-                                 getOptionLabel={(option) => option.name}
-                                 // sx={{ width: 300 }}
-                                 onChange={(e, value) => {
-                                    setFieldValue("phylum", value.name);
-                                 }}
-                                 renderInput={(params) => (
-                                    <TextField
-                                       {...params}
-                                       error={Boolean(touched?.phylum && errors?.phylum)}
-                                       helperText={touched?.phylum && errors?.phylum}
-                                       style={{ padding: "2px" }}
-                                       label="---Select Phylum---"
-                                       variant="outlined"
-                                       placeholder="Select"
-                                       value={values?.phylum}
-                                    />
-                                 )}
-                              />
-                           </Grid>
-                           <Grid item xs={2}>
-                              <Autocomplete
-                                 size="small"
-                                 disablePortal
-                                 id="classes"
-                                 name={values?.class}
-                                 options={classes}
-                                 key="classes"
-                                 getOptionLabel={(option) => option.name}
-                                 // sx={{ width: 300 }}
-                                 onChange={(e, value) => {
-                                    setFieldValue("class", value);
-                                 }}
-                                 renderInput={(params) => (
-                                    <TextField
-                                       {...params}
-                                       error={Boolean(touched?.class && errors?.class)}
-                                       helperText={touched?.class && errors?.class}
-                                       style={{ padding: "2px" }}
-                                       label="---Select Class---"
-                                       variant="outlined"
-                                       placeholder="Select"
-                                       value={values?.class}
-                                    />
-                                 )}
-                              />
-                           </Grid>
-                           <Grid item xs={2}>
-                              <Autocomplete
-                                 size="small"
-                                 disablePortal
-                                 id="orders"
-                                 name={values?.order}
-                                 options={orders}
-                                 key="orders"
-                                 getOptionLabel={(option) => option.name}
-                                 // sx={{ width: 300 }}
-                                 onChange={(e, value) => {
-                                    setFieldValue("order", value);
-                                 }}
-                                 renderInput={(params) => (
-                                    <TextField
-                                       {...params}
-                                       error={Boolean(touched?.order && errors?.order)}
-                                       helperText={touched?.order && errors?.order}
-                                       style={{ padding: "2px" }}
-                                       label="---Select Order---"
-                                       variant="outlined"
-                                       placeholder="Select"
-                                       value={values?.order}
-                                    />
-                                 )}
-                              />
-                           </Grid>
-                           <Grid item xs={2}>
-                              <Autocomplete
-                                 size="small"
-                                 disablePortal
-                                 id="families"
-                                 name={values?.family}
-                                 options={families}
-                                 key="families"
-                                 getOptionLabel={(option) => option.name}
-                                 // sx={{ width: 300 }}
-                                 onChange={(e, value) => {
-                                    setFieldValue("family", value);
-                                 }}
-                                 renderInput={(params) => (
-                                    <TextField
-                                       {...params}
-                                       error={Boolean(touched?.family && errors?.family)}
-                                       helperText={touched?.family && errors?.family}
-                                       style={{ padding: "2px" }}
-                                       label="---Select Family---"
-                                       variant="outlined"
-                                       placeholder="Select"
-                                       value={values?.family}
-                                    />
-                                 )}
-                              />
-                           </Grid>
-                           <Grid item xs={2}>
-                              <Autocomplete
-                                 size="small"
-                                 disablePortal
-                                 id="genuses"
-                                 name={values?.genus}
-                                 options={genuses}
-                                 key="genuses"
-                                 getOptionLabel={(option) => option.name}
-                                 // sx={{ width: 300 }}
-                                 onChange={(e, value) => {
-                                    setFieldValue("genus", value);
-                                 }}
-                                 renderInput={(params) => (
-                                    <TextField
-                                       {...params}
-                                       error={Boolean(touched?.genus && errors?.genus)}
-                                       helperText={touched?.genus && errors?.genus}
-                                       style={{ padding: "2px" }}
-                                       label="---Select genus---"
-                                       variant="outlined"
-                                       placeholder="Select"
-                                       value={values?.genus}
-                                    />
-                                 )}
-                              />
-                           </Grid>
-                           <Grid item xs={2}>
-                              <Autocomplete
-                                 size="small"
-                                 disablePortal
-                                 id="species"
-                                 name={values?.species}
-                                 options={genuses}
-                                 key=""
-                                 getOptionLabel={(option) => option.name}
-                                 // sx={{ width: 300 }}
-                                 onChange={(e, value) => {
-                                    setFieldValue("species", value);
-                                 }}
-                                 renderInput={(params) => (
-                                    <TextField
-                                       {...params}
-                                       error={Boolean(touched?.species && errors?.species)}
-                                       helperText={touched?.species && errors?.species}
-                                       style={{ padding: "2px" }}
-                                       label="---Select species---"
-                                       variant="outlined"
-                                       placeholder="Select"
-                                       value={values?.species}
-                                    />
-                                 )}
-                              />
-                           </Grid>
-                           <Grid item xs={2}>
-                              <Autocomplete
-                                 size="small"
-                                 disablePortal
-                                 id="subSpecies"
-                                 name={values?.subSpecies}
-                                 options={genuses}
-                                 key=""
-                                 getOptionLabel={(option) => option.name}
-                                 // sx={{ width: 300 }}
-                                 onChange={(e, value) => {
-                                    setFieldValue("subSpecies", value);
-                                 }}
-                                 renderInput={(params) => (
-                                    <TextField
-                                       {...params}
-                                       error={Boolean(touched?.subSpecies && errors?.subSpecies)}
-                                       helperText={touched?.subSpecies && errors?.subSpecies}
-                                       style={{ padding: "2px" }}
-                                       label="---Select Sub Species---"
-                                       variant="outlined"
-                                       placeholder="Select"
-                                       value={values?.subSpecies}
-                                    />
-                                 )}
-                              />
-                           </Grid>
-                           <Grid item xs={2}>
-                              <Autocomplete
-                                 size="small"
-                                 disablePortal
-                                 id="variety"
-                                 name={values?.variety}
-                                 options={genuses}
-                                 key=""
-                                 getOptionLabel={(option) => option.name}
-                                 // sx={{ width: 300 }}
-                                 onChange={(e, value) => {
-                                    setFieldValue("variety", value);
-                                 }}
-                                 renderInput={(params) => (
-                                    <TextField
-                                       {...params}
-                                       error={Boolean(touched?.variety && errors?.variety)}
-                                       helperText={touched?.variety && errors?.variety}
-                                       style={{ padding: "2px" }}
-                                       label="---Select variety---"
-                                       variant="outlined"
-                                       placeholder="Select"
-                                       value={values?.variety}
-                                    />
-                                 )}
-                              />
-                           </Grid>
-                           <Grid item xs={2}>
-                              <Autocomplete
-                                 size="small"
-                                 disablePortal
-                                 id="subVariety"
-                                 name={values?.subVariety}
-                                 options={genuses}
-                                 key=""
-                                 getOptionLabel={(option) => option.name}
-                                 // sx={{ width: 300 }}
-                                 onChange={(e, value) => {
-                                    setFieldValue("subVariety", value);
-                                 }}
-                                 renderInput={(params) => (
-                                    <TextField
-                                       {...params}
-                                       error={Boolean(touched?.subVariety && errors?.subVariety)}
-                                       helperText={touched?.subVariety && errors?.subVariety}
-                                       style={{ padding: "2px" }}
-                                       label="---Select sub-variety---"
-                                       variant="outlined"
-                                       placeholder="Select"
-                                       value={values?.subVariety}
-                                    />
-                                 )}
-                              />
-                           </Grid>
-                           <Grid item xs={2}>
-                              <Autocomplete
-                                 size="small"
-                                 disablePortal
-                                 id="clone"
-                                 name={values?.clone}
-                                 options={genuses}
-                                 key=""
-                                 getOptionLabel={(option) => option.name}
-                                 // sx={{ width: 300 }}
-                                 onChange={(e, value) => {
-                                    setFieldValue("clone", value);
-                                 }}
-                                 renderInput={(params) => (
-                                    <TextField
-                                       {...params}
-                                       error={Boolean(touched?.clone && errors?.clone)}
-                                       helperText={touched?.clone && errors?.clone}
-                                       style={{ padding: "2px" }}
-                                       label="---Select clone---"
-                                       variant="outlined"
-                                       placeholder="Select"
-                                       value={values?.clone}
-                                    />
-                                 )}
-                              />
-                           </Grid>
-                           <Grid item xs={2}>
-                              <Autocomplete
-                                 size="small"
-                                 disablePortal
-                                 id="forma"
-                                 name={values?.forma}
-                                 options={genuses}
-                                 key=""
-                                 getOptionLabel={(option) => option.name}
-                                 // sx={{ width: 300 }}
-                                 onChange={(e, value) => {
-                                    setFieldValue("forma", value);
-                                 }}
-                                 renderInput={(params) => (
-                                    <TextField
-                                       {...params}
-                                       error={Boolean(touched?.forma && errors?.forma)}
-                                       helperText={touched?.forma && errors?.forma}
-                                       style={{ padding: "2px" }}
-                                       label="---Select forma---"
-                                       variant="outlined"
-                                       placeholder="Select"
-                                       value={values?.forma}
-                                    />
-                                 )}
-                              />
-                           </Grid>
+         <Formik
+            initialValues={initialValues}
+            validationSchema={Yup.object().shape({
+               species: Yup.object().shape({
+                  english: Yup.string().required(
+                     "Patient english name is required"
+                  ),
+                  bangla: Yup.string().required("patient bangla is required"),
+                  commonName: Yup.string().required("patient commonName is required"),
+                  synonym: Yup.string().required("patient commonName is required"),
 
-                           <Grid item xs={12}>
-                              <Grid container item xs={12} spacing={2}>
+                  // gender: Yup.string().required("patient gender is required"),
+                  // address: Yup.string().required("patient adressis required"),
+               }),
+               // serial: Yup.string("Add serial").required("Add serial"),
+               // kingdom: Yup.string("Add kingdom").required("Add kingdom"),
+               // phylum: Yup.string("Add phylum").required("Add phylum"),
+               // class: Yup.string("Add class").required("Add class"),
+               // order: Yup.string("Add order").required("Add order"),
+               // genus: Yup.string("Add genus").required("Add genus"),
+               // species: Yup.string("Add species").required("Add species"),
+               // subSpecies: Yup.string("Add subSpecies").required("Add subSpecies"),
+               // variety: Yup.string("Add variety").required("Add variety"),
+               // subVariety: Yup.string("Add subVariety").required("Add subVariety"),
+               // clone: Yup.string("Add clone").required("Add clone"),
+               // forma: Yup.string("Add forma").required("Add forma"),
+            })}
+            onSubmit={async (
+               values,
+               { resetForm, setErrors, setStatus, setSubmitting, setFieldValue }
+            ) => {
+               try {
+                  console.log({ values });
+                  // console.log(values.reportfile.name);
+                  values.category = 'Plants'
 
-                                 <Grid item xs={3}>
-                                    <TextField
-                                       required
-                                       id="Species"
-                                       name="species.english"
-                                       margin="normal"
-                                       size="small"
-                                       label="English Name"
-                                       fullWidth
-                                       onChange={handleChange}
-                                       autoComplete="English Name"
-                                       variant="outlined"
-                                    />
-                                 </Grid>
-                                 <Grid item xs={3}>
-                                    <TextField
-                                       required
-                                       id="banglaName"
-                                       name="species.bangla"
-                                       margin="normal"
-                                       size="small"
-                                       label="Bangla Name"
-                                       fullWidth
-                                       onChange={handleChange}
-                                       autoComplete="Bangla Name"
-                                       variant="outlined"
-                                    />
-                                 </Grid>
-                                 <Grid item xs={3}>
-                                    <TextField
-                                       required
-                                       id="commonName"
-                                       name="species.commonName"
-                                       margin="normal"
-                                       size="small"
-                                       label="Common Name"
-                                       fullWidth
-                                       autoComplete="commonName"
-                                       onChange={handleChange}
-                                       variant="outlined"
-                                    />
-                                 </Grid>
-                                 <Grid item xs={3}>
-                                    <TextField
-                                       required
-                                       id="synonym"
-                                       name="species.synonym"
-                                       margin="normal"
-                                       size="small"
-                                       label="Synonym"
-                                       fullWidth
-                                       autoComplete="synonym"
-                                       variant="outlined"
-                                       onChange={handleChange}
-                                    />
-                                 </Grid>
-                                 {/* <Grid item xs={12}>
+                  let searchParameters = values;
+                  // console.log({ loggedUser: loggedUser.userId });
+                  // data.append("reportfile", values.reportfile);
+                  let res = await callApi("/search-species-by-field", { searchParameters })
+                  console.log("response", res);
+                  setSpeciesList(res?.data)
+                  // enqueueSnackbar("Report  Uploaded Successfully", {
+                  //    variant: "success",
+                  //    // action: <Button>See all</Button>
+                  // });
+                  setErrors(false);
+
+               } catch (error) {
+                  console.log({ error });
+
+                  setStatus({ success: false });
+                  setErrors({ submit: error.message });
+                  setSubmitting(false);
+               }
+            }}
+         >
+            {({
+               errors,
+               handleBlur,
+               handleChange,
+               handleSubmit,
+               isSubmitting,
+               touched,
+               values,
+               setFieldValue,
+            }) => (
+               <Form onSubmit={handleSubmit}>
+                  <Grid sx={{ p: 10, background: "white" }}>
+                     <Typography
+                        gutterBottom
+                        variant="h3"
+                        align="start"
+                        sx={{ pt: 8 }}
+                     >
+                        Enter Your Details
+                     </Typography>
+                     <Grid container spacing={3}>
+
+                        <Grid item xs={2}>
+                           <Autocomplete
+                              size="small"
+                              disablePortal
+                              id="plants"
+                              name={values?.type}
+                              options={category?.keyList}
+                              key="plants"
+                              getOptionLabel={(option) => option.name}
+                              // sx={{ width: 300 }}
+                              onChange={(e, value) => {
+                                 console.log({ value })
+                                 setFieldValue("type", value);
+                              }}
+                              renderInput={(params) => (
+                                 <TextField
+                                    {...params}
+                                    error={Boolean(touched?.plant && errors?.plant)}
+                                    helperText={touched?.plant && errors?.plant}
+                                    style={{ padding: "2px" }}
+                                    label="---Select plants---"
+                                    variant="outlined"
+                                    placeholder="Select"
+                                    value={values?.type}
+                                 />
+                              )}
+                           />
+                        </Grid>
+                        <Grid item xs={2}>
+                           <Autocomplete
+                              size="small"
+                              disablePortal
+                              id="kingdoms"
+                              name={values?.kingdom}
+                              options={kingdoms}
+                              key="kingdoms"
+                              getOptionLabel={(option) => option.name}
+                              // sx={{ width: 300 }}
+                              onChange={(e, value) => {
+                                 setFieldValue("kingdom", value);
+                              }}
+                              renderInput={(params) => (
+                                 <TextField
+                                    {...params}
+                                    error={Boolean(touched?.kingdom && errors?.kingdom)}
+                                    helperText={touched?.kingdom && errors?.kingdom}
+                                    style={{ padding: "2px" }}
+                                    label="---Select Kingdom---"
+                                    variant="outlined"
+                                    placeholder="Select"
+                                    value={values?.kingdom}
+                                 />
+                              )}
+                           />
+                        </Grid>
+                        <Grid item xs={2}>
+                           <Autocomplete
+                              size="small"
+                              disablePortal
+                              id="phylums"
+                              name={values?.phylum}
+                              options={phylums}
+                              key="phylums"
+                              getOptionLabel={(option) => option.name}
+                              // sx={{ width: 300 }}
+                              onChange={(e, value) => {
+                                 setFieldValue("phylum", value.name);
+                              }}
+                              renderInput={(params) => (
+                                 <TextField
+                                    {...params}
+                                    error={Boolean(touched?.phylum && errors?.phylum)}
+                                    helperText={touched?.phylum && errors?.phylum}
+                                    style={{ padding: "2px" }}
+                                    label="---Select Phylum---"
+                                    variant="outlined"
+                                    placeholder="Select"
+                                    value={values?.phylum}
+                                 />
+                              )}
+                           />
+                        </Grid>
+                        <Grid item xs={2}>
+                           <Autocomplete
+                              size="small"
+                              disablePortal
+                              id="classes"
+                              name={values?.class}
+                              options={classes}
+                              key="classes"
+                              getOptionLabel={(option) => option.name}
+                              // sx={{ width: 300 }}
+                              onChange={(e, value) => {
+                                 setFieldValue("class", value);
+                              }}
+                              renderInput={(params) => (
+                                 <TextField
+                                    {...params}
+                                    error={Boolean(touched?.class && errors?.class)}
+                                    helperText={touched?.class && errors?.class}
+                                    style={{ padding: "2px" }}
+                                    label="---Select Class---"
+                                    variant="outlined"
+                                    placeholder="Select"
+                                    value={values?.class}
+                                 />
+                              )}
+                           />
+                        </Grid>
+                        <Grid item xs={2}>
+                           <Autocomplete
+                              size="small"
+                              disablePortal
+                              id="orders"
+                              name={values?.order}
+                              options={orders}
+                              key="orders"
+                              getOptionLabel={(option) => option.name}
+                              // sx={{ width: 300 }}
+                              onChange={(e, value) => {
+                                 setFieldValue("order", value);
+                              }}
+                              renderInput={(params) => (
+                                 <TextField
+                                    {...params}
+                                    error={Boolean(touched?.order && errors?.order)}
+                                    helperText={touched?.order && errors?.order}
+                                    style={{ padding: "2px" }}
+                                    label="---Select Order---"
+                                    variant="outlined"
+                                    placeholder="Select"
+                                    value={values?.order}
+                                 />
+                              )}
+                           />
+                        </Grid>
+                        <Grid item xs={2}>
+                           <Autocomplete
+                              size="small"
+                              disablePortal
+                              id="families"
+                              name={values?.family}
+                              options={families}
+                              key="families"
+                              getOptionLabel={(option) => option.name}
+                              // sx={{ width: 300 }}
+                              onChange={(e, value) => {
+                                 setFieldValue("family", value);
+                              }}
+                              renderInput={(params) => (
+                                 <TextField
+                                    {...params}
+                                    error={Boolean(touched?.family && errors?.family)}
+                                    helperText={touched?.family && errors?.family}
+                                    style={{ padding: "2px" }}
+                                    label="---Select Family---"
+                                    variant="outlined"
+                                    placeholder="Select"
+                                    value={values?.family}
+                                 />
+                              )}
+                           />
+                        </Grid>
+                        <Grid item xs={2}>
+                           <Autocomplete
+                              size="small"
+                              disablePortal
+                              id="genuses"
+                              name={values?.genus}
+                              options={genuses}
+                              key="genuses"
+                              getOptionLabel={(option) => option.name}
+                              // sx={{ width: 300 }}
+                              onChange={(e, value) => {
+                                 setFieldValue("genus", value);
+                              }}
+                              renderInput={(params) => (
+                                 <TextField
+                                    {...params}
+                                    error={Boolean(touched?.genus && errors?.genus)}
+                                    helperText={touched?.genus && errors?.genus}
+                                    style={{ padding: "2px" }}
+                                    label="---Select genus---"
+                                    variant="outlined"
+                                    placeholder="Select"
+                                    value={values?.genus}
+                                 />
+                              )}
+                           />
+                        </Grid>
+                        <Grid item xs={2}>
+                           <Autocomplete
+                              size="small"
+                              disablePortal
+                              id="species"
+                              name={values?.species}
+                              options={genuses}
+                              key=""
+                              getOptionLabel={(option) => option.name}
+                              // sx={{ width: 300 }}
+                              onChange={(e, value) => {
+                                 setFieldValue("species", value);
+                              }}
+                              renderInput={(params) => (
+                                 <TextField
+                                    {...params}
+                                    error={Boolean(touched?.species && errors?.species)}
+                                    helperText={touched?.species && errors?.species}
+                                    style={{ padding: "2px" }}
+                                    label="---Select species---"
+                                    variant="outlined"
+                                    placeholder="Select"
+                                    value={values?.species}
+                                 />
+                              )}
+                           />
+                        </Grid>
+                        <Grid item xs={2}>
+                           <Autocomplete
+                              size="small"
+                              disablePortal
+                              id="subSpecies"
+                              name={values?.subSpecies}
+                              options={genuses}
+                              key=""
+                              getOptionLabel={(option) => option.name}
+                              // sx={{ width: 300 }}
+                              onChange={(e, value) => {
+                                 setFieldValue("subSpecies", value);
+                              }}
+                              renderInput={(params) => (
+                                 <TextField
+                                    {...params}
+                                    error={Boolean(touched?.subSpecies && errors?.subSpecies)}
+                                    helperText={touched?.subSpecies && errors?.subSpecies}
+                                    style={{ padding: "2px" }}
+                                    label="---Select Sub Species---"
+                                    variant="outlined"
+                                    placeholder="Select"
+                                    value={values?.subSpecies}
+                                 />
+                              )}
+                           />
+                        </Grid>
+                        <Grid item xs={2}>
+                           <Autocomplete
+                              size="small"
+                              disablePortal
+                              id="variety"
+                              name={values?.variety}
+                              options={genuses}
+                              key=""
+                              getOptionLabel={(option) => option.name}
+                              // sx={{ width: 300 }}
+                              onChange={(e, value) => {
+                                 setFieldValue("variety", value);
+                              }}
+                              renderInput={(params) => (
+                                 <TextField
+                                    {...params}
+                                    error={Boolean(touched?.variety && errors?.variety)}
+                                    helperText={touched?.variety && errors?.variety}
+                                    style={{ padding: "2px" }}
+                                    label="---Select variety---"
+                                    variant="outlined"
+                                    placeholder="Select"
+                                    value={values?.variety}
+                                 />
+                              )}
+                           />
+                        </Grid>
+                        <Grid item xs={2}>
+                           <Autocomplete
+                              size="small"
+                              disablePortal
+                              id="subVariety"
+                              name={values?.subVariety}
+                              options={genuses}
+                              key=""
+                              getOptionLabel={(option) => option.name}
+                              // sx={{ width: 300 }}
+                              onChange={(e, value) => {
+                                 setFieldValue("subVariety", value);
+                              }}
+                              renderInput={(params) => (
+                                 <TextField
+                                    {...params}
+                                    error={Boolean(touched?.subVariety && errors?.subVariety)}
+                                    helperText={touched?.subVariety && errors?.subVariety}
+                                    style={{ padding: "2px" }}
+                                    label="---Select sub-variety---"
+                                    variant="outlined"
+                                    placeholder="Select"
+                                    value={values?.subVariety}
+                                 />
+                              )}
+                           />
+                        </Grid>
+                        <Grid item xs={2}>
+                           <Autocomplete
+                              size="small"
+                              disablePortal
+                              id="clone"
+                              name={values?.clone}
+                              options={genuses}
+                              key=""
+                              getOptionLabel={(option) => option.name}
+                              // sx={{ width: 300 }}
+                              onChange={(e, value) => {
+                                 setFieldValue("clone", value);
+                              }}
+                              renderInput={(params) => (
+                                 <TextField
+                                    {...params}
+                                    error={Boolean(touched?.clone && errors?.clone)}
+                                    helperText={touched?.clone && errors?.clone}
+                                    style={{ padding: "2px" }}
+                                    label="---Select clone---"
+                                    variant="outlined"
+                                    placeholder="Select"
+                                    value={values?.clone}
+                                 />
+                              )}
+                           />
+                        </Grid>
+                        <Grid item xs={2}>
+                           <Autocomplete
+                              size="small"
+                              disablePortal
+                              id="forma"
+                              name={values?.forma}
+                              options={genuses}
+                              key=""
+                              getOptionLabel={(option) => option.name}
+                              // sx={{ width: 300 }}
+                              onChange={(e, value) => {
+                                 setFieldValue("forma", value);
+                              }}
+                              renderInput={(params) => (
+                                 <TextField
+                                    {...params}
+                                    error={Boolean(touched?.forma && errors?.forma)}
+                                    helperText={touched?.forma && errors?.forma}
+                                    style={{ padding: "2px" }}
+                                    label="---Select forma---"
+                                    variant="outlined"
+                                    placeholder="Select"
+                                    value={values?.forma}
+                                 />
+                              )}
+                           />
+                        </Grid>
+
+                        <Grid item xs={12}>
+                           <Grid container item xs={12} spacing={2}>
+
+                              <Grid item xs={3}>
+                                 <TextField
+                                    required
+                                    id="Species"
+                                    name="species.english"
+                                    margin="normal"
+                                    size="small"
+                                    label="English Name"
+                                    fullWidth
+                                    onChange={handleChange}
+                                    autoComplete="English Name"
+                                    variant="outlined"
+                                 />
+                              </Grid>
+                              <Grid item xs={3}>
+                                 <TextField
+                                    required
+                                    id="banglaName"
+                                    name="species.bangla"
+                                    margin="normal"
+                                    size="small"
+                                    label="Bangla Name"
+                                    fullWidth
+                                    onChange={handleChange}
+                                    autoComplete="Bangla Name"
+                                    variant="outlined"
+                                 />
+                              </Grid>
+                              <Grid item xs={3}>
+                                 <TextField
+                                    required
+                                    id="commonName"
+                                    name="species.commonName"
+                                    margin="normal"
+                                    size="small"
+                                    label="Common Name"
+                                    fullWidth
+                                    autoComplete="commonName"
+                                    onChange={handleChange}
+                                    variant="outlined"
+                                 />
+                              </Grid>
+                              <Grid item xs={3}>
+                                 <TextField
+                                    required
+                                    id="synonym"
+                                    name="species.synonym"
+                                    margin="normal"
+                                    size="small"
+                                    label="Synonym"
+                                    fullWidth
+                                    autoComplete="synonym"
+                                    variant="outlined"
+                                    onChange={handleChange}
+                                 />
+                              </Grid>
+                              {/* <Grid item xs={12}>
                                     <Typography gutterBottom component="h3" variant="div">
                                        Identification Features
                                     </Typography>
@@ -832,7 +810,7 @@ const Plants = () => {
                                        Add New Category
                                     </Button>
                                  </Grid> */}
-                                 {/* <Grid item xs={12}>
+                              {/* <Grid item xs={12}>
                                     <Grid container xs={12} spacing={2}>
                                        <Grid item xs={2}>
                                           <Autocomplete
@@ -912,105 +890,118 @@ const Plants = () => {
                                     </Grid>
                                  </Grid> */}
 
-                        
 
 
-                              </Grid>
+
                            </Grid>
                         </Grid>
-                        <br />
-                        <Button
-                           className={styles.bg_primary}
-                           type="submit"
-                           // disabled={isSubmitting}
-                           style={{
-                              width: "80px",
-                              maxHeight: "80px",
-                              minWidth: "40px",
-                              minHeight: "40px",
-                              color: "white",
-                              boxShadow: "1px 1px 4px grey",
-                              marginBottom: "10px",
-                           }}
-                           sx={{ mb: 1, mr: 1 }}
-                        >
-                           Search
-                        </Button>
-                       
                      </Grid>
-                  </Form>
-               )}
-            </Formik>
-          
-            <Grid item xs={12}      style={{ borderRadius: "10px",paddingBottom:"100px" }} >
-                <TableContainer component={Paper}    >
-                  <Table sx={{ minWidth: 650 }} aria-label="customized table" >
-                    <TableHead>
-                      <TableRow>
-                        <StyledTableCell>SI</StyledTableCell>
-                        <StyledTableCell align="center">Species</StyledTableCell>
-                        <StyledTableCell align="center">Family</StyledTableCell>
-                        <StyledTableCell align="center">Locality</StyledTableCell>
-                        <StyledTableCell align="center">Habitat</StyledTableCell>
-                        <StyledTableCell align="center">Size &nbsp;(cm)</StyledTableCell>
-                        <StyledTableCell align="center">GIS</StyledTableCell>
-                        <StyledTableCell align="center">Additional button</StyledTableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody   >
-                      {rows.map((row) => (
-                        <StyledTableRow
-                          key={row.name}
-                          sx={{
-                            "&:last-child td, &:last-child th": { border: 0 },
-                          }}
-                        
-                        >
-                          <StyledTableCell component="th" scope="row">
-                            {row.number}
-                          </StyledTableCell>
-                          <StyledTableCell align="center">{row.Species}</StyledTableCell>
-                          <StyledTableCell align="center">{row.Family}</StyledTableCell>
-                          <StyledTableCell align="center">{row.Locality}</StyledTableCell>
-                          <StyledTableCell align="center">{row.Habitat}</StyledTableCell>
-                          <StyledTableCell align="center">{row.Size}</StyledTableCell>
-                          <StyledTableCell align="center">{row.GIS}</StyledTableCell>
-                          <StyledTableCell align="center">
-                          <Button
-                             style={{ maxWidth: "80px",
-                             maxHeight: "80px",
-                             minWidth: "40px",
-                             minHeight: "40px"
-                    }}
-                              type="button"
-                              onClick={() => router.push("/details")}
-                              variant="outlined"
-                            >
-                              details
-                            </Button>
-                            {/* =======MODAL===== */}
+                     <br />
+                     <Button
+                        className={styles.bg_primary}
+                        type="submit"
+                        // disabled={isSubmitting}
+                        style={{
+                           width: "80px",
+                           maxHeight: "80px",
+                           minWidth: "40px",
+                           minHeight: "40px",
+                           color: "white",
+                           boxShadow: "1px 1px 4px grey",
+                           marginBottom: "10px",
+                        }}
+                        sx={{ mb: 1, mr: 1 }}
+                     >
+                        Search
+                     </Button>
 
-                           
-                            <br />
-                            {/* <Button
-                             style={{ maxWidth: "80px",
-                             maxHeight: "80px",
-                             minWidth: "40px",
-                             minHeight: "40px"
-                    }}
-                              type="button"
-                              onClick={() => router.push("/map")}
-                              variant="outlined"
-                            >
-                              View&nbsp;map
-                            </Button> */}
-                          </StyledTableCell>
-                        </StyledTableRow>
-                      ))}
-                    </TableBody>
+                  </Grid>
+               </Form>
+            )}
+         </Formik>
+
+         <Grid item xs={12} style={{ borderRadius: "10px", paddingBottom: "100px" }} >
+            {speciesList.length > 0 ? (
+               <TableContainer component={Paper}    >
+                  <Table sx={{ minWidth: 650 }} aria-label="customized table" >
+                     <TableHead>
+                        <TableRow>
+                           <StyledTableCell>SI</StyledTableCell>
+                           <StyledTableCell align="center">Species Name</StyledTableCell>
+                           <StyledTableCell align="center">Type</StyledTableCell>
+                           <StyledTableCell align="center">Family</StyledTableCell>
+                           <StyledTableCell align="center">Order name</StyledTableCell>
+                           <StyledTableCell align="center">Lng/Lat</StyledTableCell>
+                           <StyledTableCell align="center">Action</StyledTableCell>
+                        </TableRow>
+                     </TableHead>
+                     <TableBody   >
+                        {speciesList.map((row, index) => (
+                           <StyledTableRow
+                              key={row.index}
+                              sx={{
+                                 "&:last-child td, &:last-child th": { border: 0 },
+                              }}
+
+                           >
+                              <StyledTableCell component="th" scope="row">
+                                 {index + 1}
+                              </StyledTableCell>
+                              <StyledTableCell align="center">{row.name.bangla}</StyledTableCell>
+                              <StyledTableCell align="center">{row.identificationFeatures.subCategory.name}</StyledTableCell>
+                              <StyledTableCell align="center">{row.family}</StyledTableCell>
+                              <StyledTableCell align="center">{row.order_name}</StyledTableCell>
+                              <StyledTableCell align="center">{row.lng} ,{row.lat}</StyledTableCell>
+                              <StyledTableCell align="center">
+                                 <Grid container spacing={1} width={300}>
+                                    <Grid item xs={12}>
+                                       <Button
+                                          style={{
+                                             maxWidth: "80px",
+                                             maxHeight: "80px",
+                                             minWidth: "40px",
+                                             minHeight: "40px"
+                                          }}
+                                          type="button"
+                                          onClick={() => router.push("/details")}
+                                          variant="outlined"
+                                       >
+                                          details
+                                       </Button>
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                       <Button
+                                          style={{
+                                             maxWidth: "80px",
+                                             maxHeight: "80px",
+                                             minWidth: "40px",
+                                             minHeight: "40px"
+                                          }}
+                                          type="button"
+                                          onClick={() => router.push({
+                                             pathname: "/map",
+                                             query: {
+                                                serial: row.serial,
+                                                category: 'Plants'
+                                             }
+                                          })}
+                                          variant="outlined"
+                                       >
+                                          View&nbsp;map
+                                       </Button>
+                                    </Grid>
+
+                                 </Grid>
+
+                              </StyledTableCell>
+                           </StyledTableRow>
+                        ))}
+                     </TableBody>
                   </Table>
-                </TableContainer>
-                {/* <TablePagination
+               </TableContainer>
+            ) : null}
+
+            {/* <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
         count={rows.length}
@@ -1019,10 +1010,10 @@ const Plants = () => {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       /> */}
-              </Grid>
-               <Footer  style={{ padding: "100px" }} />
+         </Grid>
+         <Footer style={{ padding: "100px" }} />
       </Box>
-      
+
    );
 };
 

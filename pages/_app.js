@@ -4,6 +4,8 @@ import { store } from "../store";
 import { ThemeProvider } from "@mui/material/styles";
 import themes from '../theme';
 import { CssBaseline } from "@mui/material";
+import '../styles/mapPopUp.css'
+
 // import { BrowserRouter } from "react-router-dom";
 import Footer from "../components/Home/Footer/Footer";
 function MyApp({ Component, pageProps }) {
