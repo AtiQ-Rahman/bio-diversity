@@ -418,12 +418,10 @@
 
 /* details */
 .detailsCard{
-  background-color: white;
- /* margin: 5%; */
- margin-left: 5%;
- margin-right: 5%;
- 
-
+  background-color: whitesmoke;
+ margin: 5%;
+ margin-left: 7%;
+ margin-right: 7%;
 }
 .title1{
   color: #c44d34;
@@ -433,7 +431,7 @@
   /* height: 800px;
   width: 1000px; */
 
-  background-color: whitesmoke;
+  background-color: white;
 }
 .details{
 /* margin: 5%; */
@@ -441,12 +439,12 @@
 /* height: 1000px; */
 padding-left: 25% ;
 padding-top: 7%;
-background-color: whitesmoke;
+/* background-color: whitesmoke; */
 }
 .detailsCarousel{
   /* width: 100px; */
   margin-left: 5%;
   margin-right: 4%;
-  background-color: whitesmoke;
+  /* background-color: whitesmoke; */
 
 }
