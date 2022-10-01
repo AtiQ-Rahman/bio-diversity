@@ -417,13 +417,34 @@
 }
 
 /* details */
+.detailsCard{
+  background-color: whitesmoke;
+ margin: 5%;
+ margin-left: 7%;
+ margin-right: 7%;
+}
+.title1{
+  color: #c44d34;
+  font-size: 50px;
+}
+.detailsSection{
+  /* height: 800px;
+  width: 1000px; */
+
+  background-color: white;
+}
 .details{
 /* margin: 5%; */
 /* padding-left: 10%; */
 /* height: 1000px; */
-padding:5% ;
-  
+padding-left: 25% ;
+padding-top: 7%;
+/* background-color: whitesmoke; */
 }
-/* .detailsImg{
-  height: 100%;
-} */
+.detailsCarousel{
+  /* width: 100px; */
+  margin-left: 5%;
+  margin-right: 4%;
+  /* background-color: whitesmoke; */
+
+}
