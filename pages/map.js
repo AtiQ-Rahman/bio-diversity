@@ -7,6 +7,7 @@ import {
     CardContent,
     CardMedia,
     Container,
+    Divider,
     Grid,
     Toolbar,
     Typography,
@@ -24,6 +25,8 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { useRouter } from 'next/router'
 mapboxgl.accessToken = process.env.mapbox_key;
 import callApi, { imageUrl } from "../utils/callApi";
+import { styled } from '@mui/material/styles';
+
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -54,28 +57,28 @@ let imageProps = {
     height: "300px",
     width: "400px",
 }
-const settings = {
-    customPaging: function (i) {
-        return (
-            <a>
-                <Image src={`${imageUrl + '/' + speciesData.additionalFiles[i]}`} />
-            </a>
-        );
+const StyledSlider = styled((props) => (
+    <Slider
+      {...props}
+    />
+  ))({
+    '& .slick-dots li': {
+        width: "70px",
+        height: "70px",
+        margin:"0px 4px"
     },
-    dots: true,
-    dotsClass: "slick-dots slick-thumb",
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1
-};
+    '& .slick-dots': {
+        display: "block",
+        position: "relative"
+    },
+  });
 const myLoader = ({ src }) => `${src}`
 const Map = () => {
     const router = useRouter()
     const [query, setQuery] = useState(router.query)
     const mapContainer = useRef(null);
     const map = useRef(null);
-    const [zoom, setZoom] = useState(15);
+    const [zoom, setZoom] = useState(10);
     const [lng, setLng] = useState()
     const [lat, setLat] = useState()
     const [speciesData, setSpeciesData] = useState({})
@@ -91,9 +94,27 @@ const Map = () => {
             cbfn({})
         }
     }
+    const settings = {
+        customPaging: function (i) {
+            return (
+                <Box height={400}>
+                    <Image layout="fill" objectFit="cover" loader={myLoader} src={`${imageUrl + '/' + speciesData?.additionalFiles[i]}`} />
+                </Box>
+
+            );
+        },
+        dots: true,
+        dotsClass: "slick-dots slick-thumb",
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+    };
     useEffect(() => {
         if (!query) return; // initialize map only once
         fetchData(query, (speciesData) => {
+            setLng(speciesData?.lng)
+            setLat(speciesData?.lat)
             map.current = new mapboxgl.Map({
                 container: mapContainer.current,
                 style: process.env.mapStyle,
@@ -106,14 +127,18 @@ const Map = () => {
                 setZoom(map.current.getZoom().toFixed(2));
             });
             const el = document.createElement('div');
-            const width = 50;
-            const height = 50;
+            // const width = "auto";
+            const height = 150;
             el.className = styles.marker;
             el.style.backgroundImage = `url('${speciesData.marker}')`;
-            el.style.width = `${width}px`;
-            el.style.height = `${height}px`;
-            el.style.top = `-15px`;
-            el.style.backgroundSize = '100%';
+            el.style.width = `50px`;
+            el.style.backgroundStyle= 'cover'
+            el.style.backgroundRepeat= 'no-repeat'
+            el.style.backgroundPosition= 'center top'
+            el.style.height = `50px`;
+            // el.style.display = `block`;
+            el.style.top = `-20px`;
+            el.style.backgroundSize = 'contain';
             new mapboxgl.Marker(el)
                 .setLngLat([speciesData.lng, speciesData.lat])
                 .addTo(map.current);
@@ -171,27 +196,32 @@ const Map = () => {
 
                         <Card sx={{ maxWidth: 345, height: 1080 }}>
                             {speciesData?.additionalFiles?.length > 0 ?
-                                speciesData.additionalFiles.map((speciesImage, index) => {
-                                    return (
-                                        <div>
-                                            <Slider {...settings}>
+                                (<div>
+                                    <StyledSlider {...settings}>
+                                        {speciesData.additionalFiles.map((speciesImage, index) => {
+                                            return (
+
 
                                                 <div>
-                                                    <Image {...imageProps} loader={myLoader} src={imageUrl + '/'+ speciesImage} />
+                                                    <Image {...imageProps} loader={myLoader} src={imageUrl + '/' + speciesImage} />
                                                 </div>
 
-                                            </Slider>
-                                        </div>)
-                                }) : null
-                                // <Image src={imageUrl + '/'+ speciesData?.profile_image} alt="species-image" width="345" height={200}></Image>
-                            }
 
+                                            )
+                                        })}
+                                    </StyledSlider>
+                                </div>) :
+
+                                (<Image loader={myLoader} src={imageUrl + '/' + speciesData?.profile_image} alt="species-image" width="345" height={200}></Image>)
+                            }
+                            <br/>
+                            <Divider/>
                             <CardContent>
-                                <Typography gutterBottom variant="h5" component="div">
-                                    {query?.Species}
+                                <Typography gutterBottom variant="h1" component="div">
+                                    {speciesData?.name?.commonName}
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary">
-                                    {query?.description}
+                                    {speciesData?.description}
                                 </Typography>
                             </CardContent>
                             <CardActions>

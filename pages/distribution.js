@@ -106,9 +106,14 @@ const Map = () => {
                 const height = 50;
                 el.className = styles.marker;
                 el.style.backgroundImage = `url('${city.marker}')`;
-                el.style.width = `${width}px`;
-                el.style.height = `${height}px`;
-                el.style.backgroundSize = '100%';
+                el.style.width = `50px`;
+                el.style.backgroundStyle= 'cover'
+                el.style.backgroundRepeat= 'no-repeat'
+                el.style.backgroundPosition= 'center top'
+                el.style.height = `50px`;
+                // el.style.display = `block`;
+                el.style.top = `-20px`;
+                el.style.backgroundSize = 'contain';
                 // <CityPin size={20} onClick={() => setPopUpInfo(city)} />
                 new mapboxgl.Marker(el)
                     .setLngLat(city)
