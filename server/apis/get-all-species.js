@@ -6,7 +6,7 @@ exports.getAllSpecies = async (req, res, next) => {
     let modifiedList = []
     Object.keys(speciesTableTypes).map(async (key, index) => {
         let table = await getTable(speciesTableTypes[key])
-        let searchQuery = `select * from ${table}`
+        let searchQuery = `select * from ${table} where marker is not null`
         let response = await executeQuery(searchQuery)
         // console.log({ response })
         if (response?.length > 0) {
@@ -18,17 +18,20 @@ exports.getAllSpecies = async (req, res, next) => {
                     additionalFiles: item?.additionaL_files?.split(',') || '',
                     name: item?.name ? JSON.parse(item.name) : {},
                 })
+                if(response.length == modifiedResponse.length){
+                    modifiedList = modifiedList.concat(modifiedResponse)
+                }
             }
-            modifiedList = modifiedList.concat(modifiedResponse)
-        }
-        if (Object.keys(speciesTableTypes).length - 1 == index) {
-            console.log(modifiedList.length)
+            if (Object.keys(speciesTableTypes).length - 1 == index) {
+                console.log(modifiedList.length)
 
-            res.status(200).json({
-                success: true,
-                data: modifiedList,
-            })
+                res.status(200).json({
+                    success: true,
+                    data: modifiedList,
+                })
+            }
         }
+
 
     })
 

@@ -19,7 +19,6 @@ import Image from "next/image";
 import Footer from "../components/Home/Footer/Footer";
 import { margin } from "@mui/system";
 import Counters from "../components/Home/counters";
-import { CityPin } from "../utils/city-pin";
 import mapboxgl from 'mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { useRouter } from 'next/router'
@@ -30,48 +29,25 @@ import { styled } from '@mui/material/styles';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import MapGL, {
-    Marker,
-    Popup,
-    NavigationControl,
-    FullscreenControl
-} from "react-map-gl";
-
-
-const imageSrc = require("../assets/images/species1.jpg");
-const map = require("../assets/images/map.png");
-const fullscreenControlStyle = {
-    position: "relative",
-    top: 0,
-    left: 0,
-    padding: "10px"
-};
-
-const navStyle = {
-    position: "absolute",
-    top: 36,
-    left: 0,
-    padding: "10px"
-};
 let imageProps = {
     height: "300px",
     width: "400px",
 }
 const StyledSlider = styled((props) => (
     <Slider
-      {...props}
+        {...props}
     />
-  ))({
+))({
     '& .slick-dots li': {
         width: "70px",
         height: "70px",
-        margin:"0px 4px"
+        margin: "0px 4px"
     },
     '& .slick-dots': {
         display: "block",
         position: "relative"
     },
-  });
+});
 const myLoader = ({ src }) => `${src}`
 const Map = () => {
     const router = useRouter()
@@ -132,9 +108,9 @@ const Map = () => {
             el.className = styles.marker;
             el.style.backgroundImage = `url('${speciesData.marker}')`;
             el.style.width = `50px`;
-            el.style.backgroundStyle= 'cover'
-            el.style.backgroundRepeat= 'no-repeat'
-            el.style.backgroundPosition= 'center top'
+            el.style.backgroundStyle = 'cover'
+            el.style.backgroundRepeat = 'no-repeat'
+            el.style.backgroundPosition = 'center top'
             el.style.height = `50px`;
             // el.style.display = `block`;
             el.style.top = `-20px`;
@@ -214,8 +190,8 @@ const Map = () => {
 
                                 (<Image loader={myLoader} src={imageUrl + '/' + speciesData?.profile_image} alt="species-image" width="345" height={200}></Image>)
                             }
-                            <br/>
-                            <Divider/>
+                            <br />
+                            <Divider />
                             <CardContent>
                                 <Typography gutterBottom variant="h1" component="div">
                                     {speciesData?.name?.commonName}
@@ -223,6 +199,62 @@ const Map = () => {
                                 <Typography variant="body2" color="text.secondary">
                                     {speciesData?.description}
                                 </Typography>
+                                    <Grid item xs={6}>
+                                        <Typography gutterBottom component="description" variant="div">
+                                            <b>Kindom</b>: {speciesData.kindom}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <Typography gutterBottom component="description" variant="div">
+                                            <b>Phylum</b>: {speciesData.phylum}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <Typography gutterBottom component="description" variant="div">
+                                            <b>class</b>: {speciesData.class}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <Typography gutterBottom component="description" variant="div">
+                                            <b>order</b>: {speciesData.order}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <Typography gutterBottom component="description" variant="div">
+                                            <b>family</b>: {speciesData.family}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <Typography gutterBottom component="description" variant="div">
+                                            <b>Genus</b>: {speciesData.genus}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <Typography gutterBottom component="description" variant="div">
+                                            <b>Specis</b>: {speciesData.specis}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <Typography gutterBottom component="description" variant="div">
+                                            <b>Variety</b>: {speciesData.variety}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <Typography gutterBottom component="description" variant="div">
+                                            <b>Sub Variety</b>: {speciesData.subVariety}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <Typography gutterBottom component="description" variant="div">
+                                            <b>clone</b>: {speciesData.clone}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <Typography gutterBottom component="description" variant="div">
+                                            <b>forma</b>: {speciesData.forma}
+                                        </Typography>
+                                    </Grid>
+                         
                             </CardContent>
                             <CardActions>
                                 <Button size="small">Share</Button>

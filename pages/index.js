@@ -59,6 +59,16 @@ export default function Home() {
       author: "@helloimnik",
     },
   ];
+  const settings = {
+    dots: true,
+    dotsClass: "slick-dots slick-thumb",
+    infinite: true,
+    speed: 500,
+    autoplay: true,
+    autoplaySpeed: 2000,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
   const handleChange = (event) => {
     setSpacing(Number(event.target.value));
   };

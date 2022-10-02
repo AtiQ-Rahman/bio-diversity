@@ -5,6 +5,8 @@ const DB = require("../config/connectToDatabase");
 exports.BIOGetSpeciesBySerial = async (req, res, next) => {
     let searchParameters = req.body.searchParameters
     // console.log({searchParameters})
+    console.log(JSON.stringify(searchParameters))
+
     let table = await getTable(searchParameters.category)
     let searchQuery = `select * from ${table} where serial = '${searchParameters.serial}'`
 

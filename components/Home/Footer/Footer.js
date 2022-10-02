@@ -9,10 +9,10 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import RoomIcon from '@mui/icons-material/Room';
 import CallIcon from '@mui/icons-material/Call';
 import EmailIcon from '@mui/icons-material/Email';
-const Footer = () => {
+const Footer = (props) => {
   const router = useRouter()
   return (
-    <footer className={styles.footerDistributed}>
+    <footer {...props} className={styles.footerDistributed}>
 
       <div className={styles.footerLeft}>
 

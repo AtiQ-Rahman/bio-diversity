@@ -43,90 +43,11 @@ import { drawerWidth } from "../store/constant";
 import { SET_MENU } from "../store/actions";
 import styles from "../styles/Home.module.css";
 import { styled, useTheme } from "@mui/material/styles";
-import callApi from "../utils/callApi";
+import callApi, { imageUrl } from "../utils/callApi";
 import Image from "next/image";
 import { useRouter } from "next/router";
-function createData(
-   number,
-   Species,
-   Family,
-   Locality,
-   Habitat,
-   Size,
-   GIS,
-   Additional
- ) {
-   return { number, Species, Family, Locality, Habitat, Size, GIS, Additional };
- }
- 
-const rows = [
-   createData(
-     1,
-     "Bryopsis indica Gepp & Gepp",
-     "Bryopsidaceae",
-     "St Martin’s Island (SMI)",
-     "rocks, corals",
-     "2-3",
-     "20.622990,92.320325"
-   ),
-   createData(
-     2,
-     "Bryopsis indica Gepp & Gepp",
-     "Bryopsidaceae",
-     "St Martin’s Island (SMI)",
-     "rocks, corals",
-     "2-3",
-     "20.622990,92.320325"
-   ),
- 
-   createData(
-     3,
-     "Bryopsis indica Gepp & Gepp",
-     "Bryopsidaceae",
-     "St Martin’s Island (SMI)",
-     "rocks, corals",
-     "2-3",
-     "20.622990,92.320325"
-   ),
- 
-   createData(
-     4,
-     "Bryopsis indica Gepp & Gepp",
-     "Bryopsidaceae",
-     "St Martin’s Island (SMI)",
-     "rocks, corals",
-     "2-3",
-     "20.622990,92.320325"
-   ),
- 
-   createData(
-     5,
-     "Bryopsis indica Gepp & Gepp",
-     "Bryopsidaceae",
-     "St Martin’s Island (SMI)",
-     "rocks, corals",
-     "2-3",
-     "20.622990,92.320325"
-   ),
- ];
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-   [`&.${tableCellClasses.head}`]: {
-     backgroundColor: theme.palette.common.black,
-     color: theme.palette.common.white
-   },
-   [`&.${tableCellClasses.body}`]: {
-     fontSize: 14
-   }
- }));
- const StyledTableRow = styled(TableRow)(({ theme }) => ({
-   "&:nth-of-type(odd)": {
-     backgroundColor: theme.palette.action.hover
-   },
-   // hide last border
-   "&:last-child td, &:last-child th": {
-     border: 0
-   }
- }));
+import { imageLoader } from "../utils/utils";
+
 // import { kingdoms } from "../utils/kingdoms";
 const kingdoms = require("../utils/kingdoms");
 const phylums = require("../utils/kingdoms");
@@ -135,8 +56,7 @@ const orders = require("../utils/kingdoms");
 const families = require("../utils/kingdoms");
 const genuses = require("../utils/kingdoms");
 const species = require("../utils/kingdoms");
-const plants = require("../utils/plants");
-const animals = require("../utils/animals");
+// const animals = require("../utils/animals");
 console.log(kingdoms);
 const Input = styled("input")({
    display: "none",
@@ -185,12 +105,17 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
       }),
    })
 );
+let imageProps = {
+   height: "100px",
+   width: "200px",
+}
 const map = require("../assets/images/map.png");
 const Animals = () => {
    const [image, setImage] = useState(null);
    const [createObjectURL, setCreateObjectURL] = useState(null);
+   const [category, setCatgory] = React.useState()
    const theme = useTheme();
-   const [categoryList, setCatgoryList] = React.useState()
+   const [speciesList, setSpeciesList] = React.useState()
    const matchDownMd = useMediaQuery(theme.breakpoints.down("lg"));
    const initialValues = {
       serial: "",
@@ -201,6 +126,7 @@ const Animals = () => {
       order: "",
       family: "",
       genus: "",
+      type: "",
       species: "",
       plants:"",
       subSpecies: "",
@@ -220,9 +146,13 @@ const Animals = () => {
       profileImage: "",
    };
    async function fetchData() {
-      let response = await callApi('/get-categories-list', {})
-      setCatgoryList(response.data)
+      let response = await callApi('/get-categories-by-name', { name: 'Animals' })
+      if (response.data.length > 0) {
+         console.log(response.data)
+         setCatgory(response.data[0])
+      }
    }
+
    useEffect(() => {
       fetchData()
 
@@ -259,17 +189,17 @@ const Animals = () => {
             <Formik
                initialValues={initialValues}
                validationSchema={Yup.object().shape({
-                  species: Yup.object().shape({
-                     english: Yup.string().required(
-                        "Patient english name is required"
-                     ),
-                     bangla: Yup.string().required("patient bangla is required"),
-                     commonName: Yup.string().required("patient commonName is required"),
-                     synonym: Yup.string().required("patient commonName is required"),
+                  // species: Yup.object().shape({
+                  //    english: Yup.string().required(
+                  //       "Patient english name is required"
+                  //    ),
+                  //    bangla: Yup.string().required("patient bangla is required"),
+                  //    commonName: Yup.string().required("patient commonName is required"),
+                  //    synonym: Yup.string().required("patient commonName is required"),
 
-                     // gender: Yup.string().required("patient gender is required"),
-                     // address: Yup.string().required("patient adressis required"),
-                  }),
+                  //    // gender: Yup.string().required("patient gender is required"),
+                  //    // address: Yup.string().required("patient adressis required"),
+                  // }),
                   // serial: Yup.string("Add serial").required("Add serial"),
                   // kingdom: Yup.string("Add kingdom").required("Add kingdom"),
                   // phylum: Yup.string("Add phylum").required("Add phylum"),
@@ -289,29 +219,14 @@ const Animals = () => {
                ) => {
                   try {
                      console.log({ values });
-                     // console.log(values.reportfile.name);
-                     let speciesData = values;
-                     speciesData.createdBy = {
-                        name: "test admin",
-                        userId: "blabla",
-                     };
-                     speciesData.createdAt = new Date().getTime();
+                     values.category = 'Animals'
+
+                     let searchParameters = values;
                      // console.log({ loggedUser: loggedUser.userId });
-                     const data = new FormData();
-                     data.append("data", JSON.stringify(speciesData));
-                     let files = values.additionalFiles;
-                     if (files.length != 0) {
-                        for (const single_file of files) {
-                           data.append('additionalFiles', single_file)
-                        }
-                     }
                      // data.append("reportfile", values.reportfile);
-                     let res = await callApi("/create-new-species", data, {
-                        headers: {
-                           "Content-Type": "multipart/form-data"
-                        }
-                     })
+                     let res = await callApi("/search-species-by-field", { searchParameters })
                      console.log("response", res);
+                     setSpeciesList(res?.data)
                      // enqueueSnackbar("Report  Uploaded Successfully", {
                      //    variant: "success",
                      //    // action: <Button>See all</Button>
@@ -349,42 +264,28 @@ const Animals = () => {
                         </Typography>
                         <Grid container spacing={3}>
                            <Grid item xs={2}>
-                              <TextField
-                                 required
-                                 id="serial"
-                                 name="serial"
-                                 // margin="normal"
-                                 size="small"
-                                 label="Serial"
-                                 type="number"
-                                 fullWidth
-                                 autoComplete="Serial"
-                                 variant="outlined"
-                              />
-                           </Grid>
-                           <Grid item xs={2}>
                               <Autocomplete
                                  size="small"
                                  disablePortal
                                  id="animals"
-                                 name={values?.animal}
-                                 options={animals}
+                                 name={values?.type}
+                                 options={category?.keyList}
                                  key="animals"
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("animal", value);
+                                    setFieldValue("type", value);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
                                        {...params}
-                                       error={Boolean(touched?.animal && errors?.animal)}
-                                       helperText={touched?.animal && errors?.animal}
+                                       error={Boolean(touched?.type && errors?.type)}
+                                       helperText={touched?.type && errors?.type}
                                        style={{ padding: "2px" }}
                                        label="animals"
                                        variant="outlined"
                                        placeholder="Select"
-                                       value={values?.animal}
+                                       value={values?.type}
                                     />
                                  )}
                               />
@@ -719,7 +620,7 @@ const Animals = () => {
 
                                  <Grid item xs={3}>
                                     <TextField
-                                       required
+                                       
                                        id="Species"
                                        name="species.english"
                                        margin="normal"
@@ -733,7 +634,7 @@ const Animals = () => {
                                  </Grid>
                                  <Grid item xs={3}>
                                     <TextField
-                                       required
+                                       
                                        id="banglaName"
                                        name="species.bangla"
                                        margin="normal"
@@ -747,7 +648,7 @@ const Animals = () => {
                                  </Grid>
                                  <Grid item xs={3}>
                                     <TextField
-                                       required
+                                       
                                        id="commonName"
                                        name="species.commonName"
                                        margin="normal"
@@ -761,7 +662,7 @@ const Animals = () => {
                                  </Grid>
                                  <Grid item xs={3}>
                                     <TextField
-                                       required
+                                       
                                        id="synonym"
                                        name="species.synonym"
                                        margin="normal"
@@ -868,87 +769,8 @@ const Animals = () => {
                                        Add New Category
                                     </Button>
                                  </Grid> */}
-                                 <Grid item xs={12}>
-                                    <Grid container xs={12} spacing={2}>
-                                       <Grid item xs={2}>
-                                          <Autocomplete
-                                             size="small"
-                                             disablePortal
-                                             id="species"
-                                             name={values?.category}
-                                             options={categoryList}
-                                             key=""
-                                             getOptionLabel={(option) => option.name}
-                                             // sx={{ width: 300 }}
-                                             onChange={(e, value) => {
-                                                setFieldValue("category", value);
-                                             }}
-                                             renderInput={(params) => (
-                                                <TextField
-                                                   {...params}
-                                                   error={Boolean(touched?.category && errors?.category)}
-                                                   helperText={touched?.category && errors?.category}
-                                                   style={{ padding: "2px" }}
-                                                   label="Select Category"
-                                                   variant="outlined"
-                                                   placeholder="Select"
-                                                   value={values?.category}
-                                                />
-                                             )}
-                                          />
-                                       </Grid>
-                                       {values?.category?.type === 'Dropdown' ? (
-                                          <Grid item xs={2}>
-                                             <Autocomplete
-                                                size="small"
-                                                disablePortal
-                                                id="species"
-                                                name={values?.identificationFeatures?.subCategory}
-                                                options={values?.category.keyList}
-                                                isOptionEqualToValue={(option, value) => option.key === value.key}
-                                                getOptionLabel={(option) => option.name}
-                                                // sx={{ width: 300 }}
-                                                onChange={(e, value) => {
-                                                   setFieldValue("identificationFeatures.subCategory", value);
-                                                }}
-                                                renderInput={(params) => (
-                                                   <TextField
-                                                      {...params}
-                                                      error={Boolean(touched?.identificationFeatures?.subCategory && errors?.identificationFeatures?.subCategory)}
-                                                      helperText={touched?.identificationFeatures?.subCategory && errors?.identificationFeatures?.subCategory}
-                                                      style={{ padding: "2px" }}
-                                                      label="Select Sub Category"
-                                                      variant="outlined"
-                                                      placeholder="Select"
-                                                      value={values?.category}
-                                                   />
-                                                )}
-                                             />
-                                          </Grid>
-                                       ) :
-                                          values?.category?.keyList?.map((item, index) => {
-                                             return (
-                                                <Grid item xs={2}>
-                                                   <TextField
-                                                      required
-                                                      id={`key${index}`}
-                                                      key={`key${index}`}
-                                                      name={`identificationFeatures.${item.key}`}
-                                                      // margin="normal"
-                                                      size="small"
-                                                      label={item.name}
-                                                      fullWidth
-                                                      onChange={handleChange}
-                                                      autoComplete={item.name}
-                                                      variant="outlined"
-                                                   />
-                                                </Grid>
-                                             )
-                                          })}
-                                    </Grid>
-                                 </Grid>
 
-                                 <Grid item xs={3}>
+<Grid item xs={3}>
                                     <TextField
                                        label="Physical Identification Details"
                                        multiline
@@ -958,9 +780,11 @@ const Animals = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+
                                        name="identificationFeatures.physical"
-                                       onChange={handleChange}
+                                       onChange={(e) => {
+                                          values.identificationFeatures['physical'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -973,9 +797,11 @@ const Animals = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+
                                        name="identificationFeatures.habitat"
-                                       onChange={handleChange}
+                                       onChange={(e) => {
+                                          values.identificationFeatures['habitat'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -988,9 +814,11 @@ const Animals = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+
                                        name="identificationFeatures.behavior"
-                                       onChange={handleChange}
+                                       onChange={(e) => {
+                                          values.identificationFeatures['behavior'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1003,9 +831,11 @@ const Animals = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+
                                        name="identificationFeatures.migration"
-                                       onChange={handleChange}
+                                       onChange={(e) => {
+                                          values.identificationFeatures['migration'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1018,9 +848,11 @@ const Animals = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+
                                        name="identificationFeatures.breeding"
-                                       onChange={handleChange}
+                                       onChange={(e) => {
+                                          values.identificationFeatures['breeding'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1033,9 +865,11 @@ const Animals = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+
                                        name="identificationFeatures.chromosome"
-                                       onChange={handleChange}
+                                       onChange={(e) => {
+                                          values.identificationFeatures['chromosome'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1048,9 +882,11 @@ const Animals = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+
                                        name="identificationFeatures.molecular"
-                                       onChange={handleChange}
+                                       onChange={(e) => {
+                                          values.identificationFeatures['molecular'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1063,9 +899,11 @@ const Animals = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+
                                        name="identificationFeatures.notes"
-                                       onChange={handleChange}
+                                       onChange={(e) => {
+                                          values.identificationFeatures['notes'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1078,9 +916,11 @@ const Animals = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+
                                        name="identificationFeatures.distribution"
-                                       onChange={handleChange}
+                                       onChange={(e) => {
+                                          values.identificationFeatures['distribution'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1093,9 +933,11 @@ const Animals = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+
                                        name="identificationFeatures.iucn"
-                                       onChange={handleChange}
+                                       onChange={(e) => {
+                                          values.identificationFeatures['iucn'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1108,9 +950,11 @@ const Animals = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+
                                        name="identificationFeatures.economic"
-                                       onChange={handleChange}
+                                       onChange={(e) => {
+                                          values.identificationFeatures['economic'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1123,9 +967,11 @@ const Animals = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+
                                        name="identificationFeatures.medicinal"
-                                       onChange={handleChange}
+                                       onChange={(e) => {
+                                          values.identificationFeatures['medicinal'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1138,9 +984,11 @@ const Animals = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
-                                       name="identificationFeatures."
-                                       onChange={handleChange}
+
+                                       name="identificationFeatures.foods"
+                                       onChange={(e) => {
+                                          values.identificationFeatures['foods'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1153,9 +1001,11 @@ const Animals = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+
                                        name="identificationFeatures.pharmaceuticals"
-                                       onChange={handleChange}
+                                       onChange={(e) => {
+                                          values.identificationFeatures['pharmaceuticals'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1168,9 +1018,11 @@ const Animals = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
-                                       name="identificationFeatures."
-                                       onChange={handleChange}
+
+                                       name="identificationFeatures.industrial"
+                                       onChange={(e) => {
+                                          values.identificationFeatures['industrial'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1183,9 +1035,11 @@ const Animals = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+
                                        name="identificationFeatures.otherInfo"
-                                       onChange={handleChange}
+                                       onChange={(e) => {
+                                          values.identificationFeatures['otherInfo'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1198,9 +1052,11 @@ const Animals = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+
                                        name="identificationFeatures.otherUses"
-                                       onChange={handleChange}
+                                       onChange={(e) => {
+                                          values.identificationFeatures['otherUses'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1213,9 +1069,11 @@ const Animals = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+
                                        name="identificationFeatures.ecologicalIndicator"
-                                       onChange={handleChange}
+                                       onChange={(e) => {
+                                          values.identificationFeatures['ecologicalIndicator'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1228,9 +1086,11 @@ const Animals = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
-                                       name="identificationFeatures."
-                                       onChange={handleChange}
+
+                                       name="identificationFeatures.exotic"
+                                       onChange={(e) => {
+                                          values.identificationFeatures['exotic'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1243,9 +1103,11 @@ const Animals = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+
                                        name="identificationFeatures.typeOfSpecies"
-                                       onChange={handleChange}
+                                       onChange={(e) => {
+                                          values.identificationFeatures['physical'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1258,9 +1120,11 @@ const Animals = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+
                                        name="identificationFeatures.fruitingTime"
-                                       onChange={handleChange}
+                                       onChange={(e) => {
+                                          values.identificationFeatures['fruitingTime'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1273,9 +1137,11 @@ const Animals = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
-                                       name="identificationFeatures."
-                                       onChange={handleChange}
+
+                                       name="identificationFeatures.scientific"
+                                       onChange={(e) => {
+                                          values.identificationFeatures['scientific'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1288,9 +1154,11 @@ const Animals = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
-                                       name="identificationFeatures."
-                                       onChange={handleChange}
+
+                                       name="identificationFeatures.health"
+                                       onChange={(e) => {
+                                          values.identificationFeatures['health'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1303,9 +1171,11 @@ const Animals = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+
                                        name="identificationFeatures.season"
-                                       onChange={handleChange}
+                                       onChange={(e) => {
+                                          values.identificationFeatures['season'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1318,9 +1188,11 @@ const Animals = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+
                                        name="identificationFeatures.threats"
-                                       onChange={handleChange}
+                                       onChange={(e) => {
+                                          values.identificationFeatures['threats'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1333,9 +1205,11 @@ const Animals = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+
                                        name="identificationFeatures.conservation"
-                                       onChange={handleChange}
+                                       onChange={(e) => {
+                                          values.identificationFeatures['conservation'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1348,9 +1222,11 @@ const Animals = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+
                                        name="identificationFeatures.measures"
-                                       onChange={handleChange}
+                                       onChange={(e) => {
+                                          values.identificationFeatures['physical'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
                                  <Grid item xs={3}>
@@ -1363,9 +1239,11 @@ const Animals = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+
                                        name="identificationFeatures.miscellaneous"
-                                       onChange={handleChange}
+                                       onChange={(e) => {
+                                          values.identificationFeatures['miscellaneous'] = e.target.value
+                                       }}
                                     />
                                  </Grid>
 
@@ -1397,73 +1275,108 @@ const Animals = () => {
                )}
             </Formik>
             <Grid item xs={12}      style={{ borderRadius: "10px",paddingBottom:"100px" }} >
-                <TableContainer component={Paper}    >
+            {speciesList?.length > 0 ? (
+               <TableContainer component={Paper}    >
                   <Table sx={{ minWidth: 650 }} aria-label="customized table" >
-                    <TableHead>
-                      <TableRow>
-                        <StyledTableCell>SI</StyledTableCell>
-                        <StyledTableCell align="center">Species</StyledTableCell>
-                        <StyledTableCell align="center">Family</StyledTableCell>
-                        <StyledTableCell align="center">Locality</StyledTableCell>
-                        <StyledTableCell align="center">Habitat</StyledTableCell>
-                        <StyledTableCell align="center">Size &nbsp;(cm)</StyledTableCell>
-                        <StyledTableCell align="center">GIS</StyledTableCell>
-                        <StyledTableCell align="center">Additional button</StyledTableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody   >
-                      {rows.map((row) => (
-                        <StyledTableRow
-                          key={row.name}
-                          sx={{
-                            "&:last-child td, &:last-child th": { border: 0 },
-                          }}
-                        
-                        >
-                          <StyledTableCell component="th" scope="row">
-                            {row.number}
-                          </StyledTableCell>
-                          <StyledTableCell align="center">{row.Species}</StyledTableCell>
-                          <StyledTableCell align="center">{row.Family}</StyledTableCell>
-                          <StyledTableCell align="center">{row.Locality}</StyledTableCell>
-                          <StyledTableCell align="center">{row.Habitat}</StyledTableCell>
-                          <StyledTableCell align="center">{row.Size}</StyledTableCell>
-                          <StyledTableCell align="center">{row.GIS}</StyledTableCell>
-                          <StyledTableCell align="center">
-                          <Button
-                             style={{ maxWidth: "80px",
-                             maxHeight: "80px",
-                             minWidth: "40px",
-                             minHeight: "40px"
-                    }}
-                              type="button"
-                              onClick={() => router.push("/details")}
-                              variant="outlined"
-                            >
-                              details
-                            </Button>
-                            {/* =======MODAL===== */}
+                     <TableHead>
+                        <TableRow>
+                           <TableCell>SI</TableCell>
+                           <TableCell align="center">Species Name</TableCell>
+                           <TableCell align="center">Type</TableCell>
+                           <TableCell align="center">Family</TableCell>
+                           <TableCell align="center">Order name</TableCell>
+                           <TableCell align="center">Lng/Lat</TableCell>
+                           <TableCell align="center">Action</TableCell>
+                        </TableRow>
+                     </TableHead>
+                     <TableBody   >
+                        {speciesList.map((row, index) => (
+                           <TableRow
+                              key={row.index}
+                              sx={{
+                                 "&:last-child td, &:last-child th": { border: 0 },
+                              }}
 
-                           
-                            <br />
-                            {/* <Button
-                             style={{ maxWidth: "80px",
-                             maxHeight: "80px",
-                             minWidth: "40px",
-                             minHeight: "40px"
-                    }}
-                              type="button"
-                              onClick={() => router.push("/map")}
-                              variant="outlined"
-                            >
-                              View&nbsp;map
-                            </Button> */}
-                          </StyledTableCell>
-                        </StyledTableRow>
-                      ))}
-                    </TableBody>
+                           >
+                              <TableCell component="th" scope="row">
+                                 {index + 1}
+                              </TableCell>
+                              <TableCell align="center">
+                                 {row.profile_image ? (
+                                 <Grid container sx={{justifyContent:"center"}}>
+                                    <Grid item xs={4}>
+                                       <Image {...imageProps} objectFit="cover" loader={imageLoader} src={imageUrl + '/' + row.profile_image}></Image>
+                                    </Grid>
+                                    <Grid item xs={8}>
+                                       {row.name.bangla}
+
+                                    </Grid>
+                                 </Grid>) : (
+                                    row.name.bangla
+                                 )}
+
+                              </TableCell>
+                              <TableCell align="center">{row.identificationFeatures.subCategory.name}</TableCell>
+
+                              <TableCell align="center">{row.family}</TableCell>
+                              <TableCell align="center">{row.order_name}</TableCell>
+                              <TableCell align="center">{row.lng} ,{row.lat}</TableCell>
+                              <TableCell align="center">
+                                 <Grid container spacing={1} width={100}>
+                                    <Grid item xs={12}>
+                                       <Button
+                                          style={{
+                                             width: "130px",
+                                             maxHeight: "80px",
+                                             minWidth: "40px",
+                                             minHeight: "40px"
+                                          }}
+                                          type="button"
+                                          onClick={() => router.push({
+                                             pathname: "/details",
+                                             query: {
+                                                serial: row.serial,
+                                                category: 'Animals'
+                                             }
+                                          })}
+                                          variant="outlined"
+                                       >
+                                          View Details
+                                       </Button>
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                       <Button
+                                          className={styles.bg_primary}
+                                          style={{
+                                             width: "130px",
+                                             maxHeight: "80px",
+                                             minWidth: "40px",
+                                             minHeight: "40px",
+                                             color: "white"
+                                          }}
+                                          type="button"
+                                          onClick={() => router.push({
+                                             pathname: "/map",
+                                             query: {
+                                                serial: row.serial,
+                                                category: 'Animals'
+                                             }
+                                          })}
+                                       // variant="outlined"
+                                       >
+                                          View on map
+                                       </Button>
+                                    </Grid>
+
+                                 </Grid>
+
+                              </TableCell>
+                           </TableRow>
+                        ))}
+                     </TableBody>
                   </Table>
-                </TableContainer>
+               </TableContainer>
+            ) : null}
                 {/* <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"

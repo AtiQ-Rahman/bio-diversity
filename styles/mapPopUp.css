@@ -1,7 +1,11 @@
 .mapboxgl-popup-content {
   min-width: 200px;
 }
-
+.mapboxgl-popup-close-button {
+  background-color: "black";
+  background: "black";
+  color: "black";
+}
 .route-metric-row {
   align-items: center;
   background-color: #fafafa;

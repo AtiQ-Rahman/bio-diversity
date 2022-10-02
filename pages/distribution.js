@@ -15,21 +15,16 @@ import React, { useState, useEffect, useRef } from "react";
 import ReactDOM from "react-dom"
 import styles from "../styles/Home.module.css";
 import Image from "next/image";
-import CityPin from "../utils/city-pin";
+
 import mapboxgl from 'mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 import 'mapbox-gl/dist/mapbox-gl.css';
+
 mapboxgl.accessToken = process.env.mapbox_key;
-import CITIES from "../utils/cities.json";
-import MapGL, {
-    Marker,
-    Popup,
-    NavigationControl,
-    FullscreenControl
-} from "react-map-gl";
 import callApi, { imageUrl } from "../utils/callApi";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { imageLoader } from "../utils/utils";
 const imageSrc = require("../assets/images/species1.jpg");
 const map = require("../assets/images/map.png");
 const fullscreenControlStyle = {
@@ -45,15 +40,8 @@ const navStyle = {
     left: 0,
     padding: "10px"
 };
-const Map = () => {
-    const [viewPort, setViewPort] = useState({
-        width: "100vw",
-        height: "100vh",
-        latitude: 24.090,
-        longitude: 91.613,
-        zoom: 10,
+const Distribution = () => {
 
-    })
     const mapContainer = useRef(null);
     const map = useRef(null);
     const [lng, setLng] = useState(90.399452);
@@ -62,92 +50,70 @@ const Map = () => {
     const [popupInfo, setPopUpInfo] = useState(null)
     const [speciesList, setSpeciesList] = useState([])
     const popUpRef = useRef(new mapboxgl.Popup({ offset: 15 }))
-    const _updateViewport = viewport => {
-        setViewPort({ viewport });
-    };
-    async function fetchData() {
+    async function fetchData(cbfn) {
         let response = await callApi('/get-species-list', {})
         setSpeciesList(response.data)
         let speciesList = response.data
         console.log({ speciesList })
-        // if (map.current) return; // initialize map only once
-        map.current = new mapboxgl.Map({
-            container: mapContainer.current,
-            style: process.env.mapStyle,
-            center: [lng, lat],
-            zoom: zoom
-        });
-        map.current.on('move', () => {
-            setLng(map.current.getCenter().lng.toFixed(4));
-            setLat(map.current.getCenter().lat.toFixed(4));
-            setZoom(map.current.getZoom().toFixed(2));
-        });
-        const Popup = ({ routeName, routeNumber, city, type }) => (
-            <div className="popup">
-                <h3 className="route-name">{routeName}</h3>
-                <div className="route-metric-row">
-                    <h4 className="row-title">Route #</h4>
-                    <div className="row-value">{routeNumber}</div>
-                </div>
-                <div className="route-metric-row">
-                    <h4 className="row-title">Route Type</h4>
-                    <div className="row-value">{type}</div>
-                </div>
-                <p className="route-city">Serves {city}</p>
-            </div>
-        )
-        const popupNode = document.createElement("div")
-
-        speciesList.map((city) => {
-            if (city.marker && city.lng && city.lat) {
-                console.log({ city })
-                const el = document.createElement('div');
-                const width = 50;
-                const height = 50;
-                el.className = styles.marker;
-                el.style.backgroundImage = `url('${city.marker}')`;
-                el.style.width = `50px`;
-                el.style.backgroundStyle= 'cover'
-                el.style.backgroundRepeat= 'no-repeat'
-                el.style.backgroundPosition= 'center top'
-                el.style.height = `50px`;
-                // el.style.display = `block`;
-                el.style.top = `-20px`;
-                el.style.backgroundSize = 'contain';
-                // <CityPin size={20} onClick={() => setPopUpInfo(city)} />
-                new mapboxgl.Marker(el)
-                    .setLngLat(city)
-                    .setPopup(new mapboxgl.Popup({ offset: 21 }).setHTML(`
-                    <div>
-                    <div className="popup">
-                        <h3 className="route-name">${city.name.bangla}</h3>
-                        <div className="route-metric-row">
-                            <h4 className="row-title">Route #</h4>
-                            <div className="row-value">${city.name.bangla}</div>
-                        </div>
-                        <div className="route-metric-row">
-                            <h4 className="row-title">Route Type</h4>
-                            <div className="row-value">${city.name.bangla}</div>
-                        </div>
-                        <p className="route-city">Serves ${city.name.bangla}</p>
-                    </div>
-                </div>`
-
-
-                    ))
-                    .addTo(map.current);
-            }
-
-        })
-        // new mapboxgl.Marker()
-        //     .setLngLat([91.613, 24.090])
-        //     .addTo(map.current);
-
+        speciesList.length > 0 ? cbfn(speciesList) : cbfn([])
     }
     useEffect(() => {
-        fetchData()
+        fetchData((speciesList)=>{
+            map.current = new mapboxgl.Map({
+                container: mapContainer.current,
+                style: process.env.mapStyle,
+                center: [lng, lat],
+                zoom: zoom
+            });
+            map.current.on('move', () => {
+                setLng(map.current.getCenter().lng.toFixed(4));
+                setLat(map.current.getCenter().lat.toFixed(4));
+                setZoom(map.current.getZoom().toFixed(2));
+            });
+            map.current.addControl(new mapboxgl.NavigationControl(), 'top-left');
+            speciesList.map((city) => {
+                if (city.marker && city.lng && city.lat) {
+                    console.log({ city })
+                    const el = document.createElement('div');
+                    const width = 50;
+                    const height = 50;
+                    el.className = styles.marker;
+                    el.style.backgroundImage = `url('${city.marker}')`;
+                    el.style.width = `50px`;
+                    el.style.backgroundStyle = 'cover'
+                    el.style.backgroundRepeat = 'no-repeat'
+                    el.style.backgroundPosition = 'center top'
+                    el.style.height = `50px`;
+                    // el.style.display = `block`;
+                    el.style.top = `-20px`;
+                    el.style.backgroundSize = 'contain';
+                    new mapboxgl.Marker(el)
+                        .setLngLat(city)
+                        .setPopup(new mapboxgl.Popup({ offset: 30 }).setHTML(`
+                        <div >
+                        <div style="height: 150px; width:150px; background-image: url('${imageUrl + '/'+ city.profile_image}'); background-size : cover ; background-repeat : no-repeat"></div>
+                        <div className="popup">
+                            <h3 className="route-name">${city.name.bangla}</h3>
+                            <div className="route-metric-row">
+                                <h4 className="row-title">Route #</h4>
+                                <div className="row-value">${city.name.bangla}</div>
+                            </div>
+                            <div className="route-metric-row">
+                                <h4 className="row-title">Route Type</h4>
+                                <div className="row-value">${city.name.bangla}</div>
+                            </div>
+                            <p className="route-city">Serves ${city.name.bangla}</p>
+                        </div>
+                    </div>`
+    
+    
+                        ))
+                        .addTo(map.current);
+                }
+    
+            })
+        })
     }, []);
-    console.log(CITIES)
     const _renderCityMarker = (city, index) => {
         return (
             <Marker
@@ -210,8 +176,32 @@ const Map = () => {
                         <Card sx={{ maxWidth: 345, height: 1080 }}>
                             <CardContent>
                                 <Typography gutterBottom variant="h5" component="div">
-                                    Species
+                                    Total Species {speciesList.length}
                                 </Typography>
+                                {speciesList.length > 0 ? (
+                                    <Grid container>
+                                        {speciesList.map((species) => {
+                                            return (
+
+                                                <Grid item xs={12}>
+                                                    <Grid container>
+                                                        <Grid item xs={4}>
+                                                            <Image height={50} width={40} src={species.marker}></Image>
+                                                        </Grid>
+                                                        <Grid item xs={8}>
+                                                            <Typography variant="body2" color="text.secondary">
+                                                                {species.name.commonName}
+                                                            </Typography>
+                                                        </Grid>
+                                                    </Grid>
+                                                </Grid>
+
+                                            )
+                                        })}
+
+                                    </Grid>
+                                ):null}
+
                                 <Typography variant="body2" color="text.secondary">
                                     The full name of the genus or species can be inserted, or
                                     you can type the first four letters of the generic name
@@ -230,22 +220,6 @@ const Map = () => {
 
                     </div>
                     <div ref={mapContainer} className={styles.map_container}></div>
-                    {/* <MapGL
-            {...viewPort}
-            mapStyle="mapbox://styles/h-tech/cl7skv6tt001e14pn3keltoah"
-            onViewportChange={_updateViewport}
-            mapboxAccessToken={process.env.mapbox_key}
-          > </MapGL> */}
-                    {/* {CITIES.map(_renderCityMarker)}
-
-                    {_renderPopup()}
-
-                    <div className="fullscreen" style={fullscreenControlStyle}>
-                        <FullscreenControl />
-                    </div>
-                    <div className="nav" style={navStyle}>
-                        <NavigationControl />
-                    </div> */}
 
                 </Grid>
 
@@ -261,5 +235,7 @@ const Map = () => {
 
     );
 };
-
-export default Map;
+Distribution.getInitialProps = ({ query }) => {
+    return { query }
+}
+export default Distribution;

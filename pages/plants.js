@@ -44,7 +44,7 @@ import { drawerWidth } from "../store/constant";
 import { SET_MENU } from "../store/actions";
 import styles from "../styles/Home.module.css";
 import { styled, useTheme } from "@mui/material/styles";
-import callApi from "../utils/callApi";
+import callApi, { imageUrl } from "../utils/callApi";
 import Image from "next/image";
 import { useRouter } from "next/router";
 // import { kingdoms } from "../utils/kingdoms";
@@ -55,74 +55,12 @@ const orders = require("../utils/kingdoms");
 const families = require("../utils/kingdoms");
 const genuses = require("../utils/kingdoms");
 const species = require("../utils/kingdoms");
-const plants = require("../utils/plants");
 console.log(kingdoms);
 const Input = styled("input")({
    display: "none",
 });
-function createData(
-   number,
-   Species,
-   Family,
-   Locality,
-   Habitat,
-   Size,
-   GIS,
-   Additional
-) {
-   return { number, Species, Family, Locality, Habitat, Size, GIS, Additional };
-}
 
-const rows = [
-   createData(
-      1,
-      "Bryopsis indica Gepp & Gepp",
-      "Bryopsidaceae",
-      "St Martin’s Island (SMI)",
-      "rocks, corals",
-      "2-3",
-      "20.622990,92.320325"
-   ),
-   createData(
-      2,
-      "Bryopsis indica Gepp & Gepp",
-      "Bryopsidaceae",
-      "St Martin’s Island (SMI)",
-      "rocks, corals",
-      "2-3",
-      "20.622990,92.320325"
-   ),
 
-   createData(
-      3,
-      "Bryopsis indica Gepp & Gepp",
-      "Bryopsidaceae",
-      "St Martin’s Island (SMI)",
-      "rocks, corals",
-      "2-3",
-      "20.622990,92.320325"
-   ),
-
-   createData(
-      4,
-      "Bryopsis indica Gepp & Gepp",
-      "Bryopsidaceae",
-      "St Martin’s Island (SMI)",
-      "rocks, corals",
-      "2-3",
-      "20.622990,92.320325"
-   ),
-
-   createData(
-      5,
-      "Bryopsis indica Gepp & Gepp",
-      "Bryopsidaceae",
-      "St Martin’s Island (SMI)",
-      "rocks, corals",
-      "2-3",
-      "20.622990,92.320325"
-   ),
-];
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
    ({ theme, open }) => ({
       ...theme.typography.mainContent,
@@ -167,24 +105,12 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
       }),
    })
 );
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-   [`&.${tableCellClasses.head}`]: {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white
-   },
-   [`&.${tableCellClasses.body}`]: {
-      fontSize: 14
-   }
-}));
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-   "&:nth-of-type(odd)": {
-      backgroundColor: theme.palette.action.hover
-   },
-   // hide last border
-   "&:last-child td, &:last-child th": {
-      border: 0
-   }
-}));
+let imageProps = {
+   height: "100px",
+   width: "200px",
+}
+const imageLoader = ({ src }) => `${src}`
+
 const map = require("../assets/images/map.png");
 const Plants = () => {
    const [image, setImage] = useState(null);
@@ -196,8 +122,8 @@ const Plants = () => {
    const initialValues = {
       kingdom: null,
       phylum: null,
-      class: null,
-      order: null,
+      class_name: null,
+      order_name: null,
       family: null,
       genus: null,
       species: null,
@@ -208,7 +134,7 @@ const Plants = () => {
       clone: null,
       forma: null,
       type: null,
-      species: {
+      nameOfSpecies: {
          bangla: null,
          english: null,
          commonName: null,
@@ -226,6 +152,7 @@ const Plants = () => {
          setCatgory(response.data[0])
       }
    }
+
    useEffect(() => {
       fetchData()
 
@@ -265,17 +192,17 @@ const Plants = () => {
          <Formik
             initialValues={initialValues}
             validationSchema={Yup.object().shape({
-               species: Yup.object().shape({
-                  english: Yup.string().required(
-                     "Patient english name is required"
-                  ),
-                  bangla: Yup.string().required("patient bangla is required"),
-                  commonName: Yup.string().required("patient commonName is required"),
-                  synonym: Yup.string().required("patient commonName is required"),
+               // species: Yup.object().shape({
+               //    english: Yup.string().required(
+               //       "Patient english name is required"
+               //    ),
+               //    bangla: Yup.string().required("patient bangla is required"),
+               //    commonName: Yup.string().required("patient commonName is required"),
+               //    synonym: Yup.string().required("patient commonName is required"),
 
-                  // gender: Yup.string().required("patient gender is required"),
-                  // address: Yup.string().required("patient adressis required"),
-               }),
+               //    // gender: Yup.string().required("patient gender is required"),
+               //    // address: Yup.string().required("patient adressis required"),
+               // }),
                // serial: Yup.string("Add serial").required("Add serial"),
                // kingdom: Yup.string("Add kingdom").required("Add kingdom"),
                // phylum: Yup.string("Add phylum").required("Add phylum"),
@@ -358,8 +285,8 @@ const Plants = () => {
                               renderInput={(params) => (
                                  <TextField
                                     {...params}
-                                    error={Boolean(touched?.plant && errors?.plant)}
-                                    helperText={touched?.plant && errors?.plant}
+                                    error={Boolean(touched?.type && errors?.type)}
+                                    helperText={touched?.type && errors?.type}
                                     style={{ padding: "2px" }}
                                     label="---Select plants---"
                                     variant="outlined"
@@ -380,7 +307,7 @@ const Plants = () => {
                               getOptionLabel={(option) => option.name}
                               // sx={{ width: 300 }}
                               onChange={(e, value) => {
-                                 setFieldValue("kingdom", value);
+                                 setFieldValue("kingdom", value.name);
                               }}
                               renderInput={(params) => (
                                  <TextField
@@ -428,24 +355,24 @@ const Plants = () => {
                               size="small"
                               disablePortal
                               id="classes"
-                              name={values?.class}
+                              name={values?.class_name}
                               options={classes}
                               key="classes"
                               getOptionLabel={(option) => option.name}
                               // sx={{ width: 300 }}
                               onChange={(e, value) => {
-                                 setFieldValue("class", value);
+                                 setFieldValue("class_name", value.name);
                               }}
                               renderInput={(params) => (
                                  <TextField
                                     {...params}
-                                    error={Boolean(touched?.class && errors?.class)}
-                                    helperText={touched?.class && errors?.class}
+                                    error={Boolean(touched?.class_name && errors?.class_name)}
+                                    helperText={touched?.class_name && errors?.class_name}
                                     style={{ padding: "2px" }}
                                     label="---Select Class---"
                                     variant="outlined"
                                     placeholder="Select"
-                                    value={values?.class}
+                                    value={values?.class_name}
                                  />
                               )}
                            />
@@ -455,24 +382,24 @@ const Plants = () => {
                               size="small"
                               disablePortal
                               id="orders"
-                              name={values?.order}
+                              name={values?.order_name}
                               options={orders}
                               key="orders"
                               getOptionLabel={(option) => option.name}
                               // sx={{ width: 300 }}
                               onChange={(e, value) => {
-                                 setFieldValue("order", value);
+                                 setFieldValue("order_name", value.name);
                               }}
                               renderInput={(params) => (
                                  <TextField
                                     {...params}
-                                    error={Boolean(touched?.order && errors?.order)}
-                                    helperText={touched?.order && errors?.order}
+                                    error={Boolean(touched?.order_name && errors?.order_name)}
+                                    helperText={touched?.order_name && errors?.order_name}
                                     style={{ padding: "2px" }}
                                     label="---Select Order---"
                                     variant="outlined"
                                     placeholder="Select"
-                                    value={values?.order}
+                                    value={values?.order_name}
                                  />
                               )}
                            />
@@ -488,7 +415,7 @@ const Plants = () => {
                               getOptionLabel={(option) => option.name}
                               // sx={{ width: 300 }}
                               onChange={(e, value) => {
-                                 setFieldValue("family", value);
+                                 setFieldValue("family", value.name);
                               }}
                               renderInput={(params) => (
                                  <TextField
@@ -515,7 +442,7 @@ const Plants = () => {
                               getOptionLabel={(option) => option.name}
                               // sx={{ width: 300 }}
                               onChange={(e, value) => {
-                                 setFieldValue("genus", value);
+                                 setFieldValue("genus", value.name);
                               }}
                               renderInput={(params) => (
                                  <TextField
@@ -542,7 +469,7 @@ const Plants = () => {
                               getOptionLabel={(option) => option.name}
                               // sx={{ width: 300 }}
                               onChange={(e, value) => {
-                                 setFieldValue("species", value);
+                                 setFieldValue("species", value.name);
                               }}
                               renderInput={(params) => (
                                  <TextField
@@ -569,7 +496,7 @@ const Plants = () => {
                               getOptionLabel={(option) => option.name}
                               // sx={{ width: 300 }}
                               onChange={(e, value) => {
-                                 setFieldValue("subSpecies", value);
+                                 setFieldValue("subSpecies", value.name);
                               }}
                               renderInput={(params) => (
                                  <TextField
@@ -596,7 +523,7 @@ const Plants = () => {
                               getOptionLabel={(option) => option.name}
                               // sx={{ width: 300 }}
                               onChange={(e, value) => {
-                                 setFieldValue("variety", value);
+                                 setFieldValue("variety", value.name);
                               }}
                               renderInput={(params) => (
                                  <TextField
@@ -623,7 +550,7 @@ const Plants = () => {
                               getOptionLabel={(option) => option.name}
                               // sx={{ width: 300 }}
                               onChange={(e, value) => {
-                                 setFieldValue("subVariety", value);
+                                 setFieldValue("subVariety", value.name);
                               }}
                               renderInput={(params) => (
                                  <TextField
@@ -650,7 +577,7 @@ const Plants = () => {
                               getOptionLabel={(option) => option.name}
                               // sx={{ width: 300 }}
                               onChange={(e, value) => {
-                                 setFieldValue("clone", value);
+                                 setFieldValue("clone", value.name);
                               }}
                               renderInput={(params) => (
                                  <TextField
@@ -677,7 +604,7 @@ const Plants = () => {
                               getOptionLabel={(option) => option.name}
                               // sx={{ width: 300 }}
                               onChange={(e, value) => {
-                                 setFieldValue("forma", value);
+                                 setFieldValue("forma", value.name);
                               }}
                               renderInput={(params) => (
                                  <TextField
@@ -699,9 +626,9 @@ const Plants = () => {
 
                               <Grid item xs={3}>
                                  <TextField
-                                    required
+
                                     id="Species"
-                                    name="species.english"
+                                    name="nameOfSpecies.english"
                                     margin="normal"
                                     size="small"
                                     label="English Name"
@@ -713,9 +640,9 @@ const Plants = () => {
                               </Grid>
                               <Grid item xs={3}>
                                  <TextField
-                                    required
+
                                     id="banglaName"
-                                    name="species.bangla"
+                                    name="nameOfSpecies.bangla"
                                     margin="normal"
                                     size="small"
                                     label="Bangla Name"
@@ -727,9 +654,9 @@ const Plants = () => {
                               </Grid>
                               <Grid item xs={3}>
                                  <TextField
-                                    required
+
                                     id="commonName"
-                                    name="species.commonName"
+                                    name="nameOfSpecies.commonName"
                                     margin="normal"
                                     size="small"
                                     label="Common Name"
@@ -741,9 +668,9 @@ const Plants = () => {
                               </Grid>
                               <Grid item xs={3}>
                                  <TextField
-                                    required
+
                                     id="synonym"
-                                    name="species.synonym"
+                                    name="nameOfSpecies.synonym"
                                     margin="normal"
                                     size="small"
                                     label="Synonym"
@@ -920,62 +847,85 @@ const Plants = () => {
             )}
          </Formik>
 
-         <Grid item xs={12} style={{ borderRadius: "10px", paddingBottom: "100px" }} >
+         <Grid container style={{ borderRadius: "10px", padding: "50px" }} >
             {speciesList.length > 0 ? (
                <TableContainer component={Paper}    >
                   <Table sx={{ minWidth: 650 }} aria-label="customized table" >
                      <TableHead>
                         <TableRow>
-                           <StyledTableCell>SI</StyledTableCell>
-                           <StyledTableCell align="center">Species Name</StyledTableCell>
-                           <StyledTableCell align="center">Type</StyledTableCell>
-                           <StyledTableCell align="center">Family</StyledTableCell>
-                           <StyledTableCell align="center">Order name</StyledTableCell>
-                           <StyledTableCell align="center">Lng/Lat</StyledTableCell>
-                           <StyledTableCell align="center">Action</StyledTableCell>
+                           <TableCell>SI</TableCell>
+                           <TableCell align="center">Species Name</TableCell>
+                           <TableCell align="center">Type</TableCell>
+                           <TableCell align="center">Family</TableCell>
+                           <TableCell align="center">Order name</TableCell>
+                           <TableCell align="center">Lng/Lat</TableCell>
+                           <TableCell align="center">Action</TableCell>
                         </TableRow>
                      </TableHead>
                      <TableBody   >
                         {speciesList.map((row, index) => (
-                           <StyledTableRow
+                           <TableRow
                               key={row.index}
                               sx={{
                                  "&:last-child td, &:last-child th": { border: 0 },
                               }}
 
                            >
-                              <StyledTableCell component="th" scope="row">
+                              <TableCell component="th" scope="row">
                                  {index + 1}
-                              </StyledTableCell>
-                              <StyledTableCell align="center">{row.name.bangla}</StyledTableCell>
-                              <StyledTableCell align="center">{row.identificationFeatures.subCategory.name}</StyledTableCell>
-                              <StyledTableCell align="center">{row.family}</StyledTableCell>
-                              <StyledTableCell align="center">{row.order_name}</StyledTableCell>
-                              <StyledTableCell align="center">{row.lng} ,{row.lat}</StyledTableCell>
-                              <StyledTableCell align="center">
-                                 <Grid container spacing={1} width={300}>
+                              </TableCell>
+                              <TableCell align="center">
+                                 {row.profile_image ? (
+                                 <Grid container sx={{justifyContent:"center"}}>
+                                    <Grid item xs={4}>
+                                       <Image {...imageProps} objectFit="cover" loader={imageLoader} src={imageUrl + '/' + row.profile_image}></Image>
+                                    </Grid>
+                                    <Grid item xs={8}>
+                                       {row.name.bangla}
+
+                                    </Grid>
+                                 </Grid>) : (
+                                    row.name.bangla
+                                 )}
+
+                              </TableCell>
+                              <TableCell align="center">{row.identificationFeatures.subCategory.name}</TableCell>
+
+                              <TableCell align="center">{row.family}</TableCell>
+                              <TableCell align="center">{row.order_name}</TableCell>
+                              <TableCell align="center">{row.lng} ,{row.lat}</TableCell>
+                              <TableCell align="center">
+                                 <Grid container spacing={1} width={100}>
                                     <Grid item xs={12}>
                                        <Button
                                           style={{
-                                             maxWidth: "80px",
+                                             width: "130px",
                                              maxHeight: "80px",
                                              minWidth: "40px",
                                              minHeight: "40px"
                                           }}
                                           type="button"
-                                          onClick={() => router.push("/details")}
+                                          onClick={() => router.push({
+                                             pathname: "/details",
+                                             query: {
+                                                serial: row.serial,
+                                                category: 'Plants'
+                                             }
+                                          })}
                                           variant="outlined"
                                        >
-                                          details
+                                          View Details
                                        </Button>
                                     </Grid>
                                     <Grid item xs={12}>
                                        <Button
+                                          className={styles.bg_primary}
                                           style={{
-                                             maxWidth: "80px",
+                                             width: "130px",
                                              maxHeight: "80px",
                                              minWidth: "40px",
-                                             minHeight: "40px"
+                                             minHeight: "40px",
+                                             color: "white"
                                           }}
                                           type="button"
                                           onClick={() => router.push({
@@ -985,16 +935,16 @@ const Plants = () => {
                                                 category: 'Plants'
                                              }
                                           })}
-                                          variant="outlined"
+                                       // variant="outlined"
                                        >
-                                          View&nbsp;map
+                                          View on map
                                        </Button>
                                     </Grid>
 
                                  </Grid>
 
-                              </StyledTableCell>
-                           </StyledTableRow>
+                              </TableCell>
+                           </TableRow>
                         ))}
                      </TableBody>
                   </Table>
