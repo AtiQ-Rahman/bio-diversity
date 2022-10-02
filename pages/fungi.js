@@ -43,9 +43,10 @@ import { drawerWidth } from "../store/constant";
 import { SET_MENU } from "../store/actions";
 import styles from "../styles/Home.module.css";
 import { styled, useTheme } from "@mui/material/styles";
-import callApi from "../utils/callApi";
+import callApi, { imageUrl } from "../utils/callApi";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { imageLoader } from "../utils/utils";
 // import { kingdoms } from "../utils/kingdoms";
 const kingdoms = require("../utils/kingdoms");
 const phylums = require("../utils/kingdoms");
@@ -53,10 +54,6 @@ const classes = require("../utils/kingdoms");
 const orders = require("../utils/kingdoms");
 const families = require("../utils/kingdoms");
 const genuses = require("../utils/kingdoms");
-const species = require("../utils/kingdoms");
-const plants = require("../utils/plants");
-const animals = require("../utils/animals");
-const fungis = require("../utils/fungi");
 console.log(kingdoms);
 const Input = styled("input")({
    display: "none",
@@ -185,12 +182,17 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
       }),
    })
 );
+let imageProps = {
+   height: "100px",
+   width: "200px",
+}
 const map = require("../assets/images/map.png");
 const Fungi = () => {
    const [image, setImage] = useState(null);
    const [createObjectURL, setCreateObjectURL] = useState(null);
+   const [category, setCatgory] = React.useState()
    const theme = useTheme();
-   const [categoryList, setCatgoryList] = React.useState()
+   const [speciesList, setSpeciesList] = React.useState()
    const matchDownMd = useMediaQuery(theme.breakpoints.down("lg"));
    const initialValues = {
       serial: "",
@@ -221,9 +223,13 @@ const Fungi = () => {
       profileImage: "",
    };
    async function fetchData() {
-      let response = await callApi('/get-categories-list', {})
-      setCatgoryList(response.data)
+      let response = await callApi('/get-categories-by-name', { name: 'Fungi' })
+      if (response.data.length > 0) {
+         console.log(response.data)
+         setCatgory(response.data[0])
+      }
    }
+
    useEffect(() => {
       fetchData()
 
@@ -368,24 +374,24 @@ const Fungi = () => {
                                  size="small"
                                  disablePortal
                                  id="fungis"
-                                 name={values?.fungi}
-                                 options={fungis}
+                                 name={values?.type}
+                                 options={category}
                                  key="fungis"
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("fungi", value);
+                                    setFieldValue("type", value);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
                                        {...params}
-                                       error={Boolean(touched?.fungi && errors?.fungi)}
-                                       helperText={touched?.fungi && errors?.fungi}
+                                       error={Boolean(touched?.type && errors?.type)}
+                                       helperText={touched?.type && errors?.type}
                                        style={{ padding: "2px" }}
                                        label="fungis"
                                        variant="outlined"
                                        placeholder="Select"
-                                       value={values?.fungi}
+                                       value={values?.type}
                                     />
                                  )}
                               />

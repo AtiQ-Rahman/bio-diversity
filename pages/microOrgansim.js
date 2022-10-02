@@ -44,8 +44,9 @@ import { drawerWidth } from "../store/constant";
 import { SET_MENU } from "../store/actions";
 import styles from "../styles/Home.module.css";
 import { styled, useTheme } from "@mui/material/styles";
-import callApi from "../utils/callApi";
+import callApi, { imageUrl } from "../utils/callApi";
 import Image from "next/image";
+import { imageLoader } from "../utils/utils";
 // import { kingdoms } from "../utils/kingdoms";
 const kingdoms = require("../utils/kingdoms");
 const phylums = require("../utils/kingdoms");
@@ -53,11 +54,6 @@ const classes = require("../utils/kingdoms");
 const orders = require("../utils/kingdoms");
 const families = require("../utils/kingdoms");
 const genuses = require("../utils/kingdoms");
-const species = require("../utils/kingdoms");
-const plants = require("../utils/plants");
-const animals = require("../utils/animals");
-const fungis = require("../utils/fungi");
-const microOrgansims = require("../utils/microOrgansim");
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
    [`&.${tableCellClasses.head}`]: {
      backgroundColor: theme.palette.common.black,
@@ -187,12 +183,17 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
       }),
    })
 );
+let imageProps = {
+   height: "100px",
+   width: "200px",
+}
 const map = require("../assets/images/map.png");
 const MicroOrgansim = () => {
    const [image, setImage] = useState(null);
    const [createObjectURL, setCreateObjectURL] = useState(null);
+   const [category, setCatgory] = React.useState()
    const theme = useTheme();
-   const [categoryList, setCatgoryList] = React.useState()
+   const [speciesList, setSpeciesList] = React.useState()
    const matchDownMd = useMediaQuery(theme.breakpoints.down("lg"));
    const initialValues = {
       serial: "",
@@ -370,24 +371,24 @@ const MicroOrgansim = () => {
                                  size="small"
                                  disablePortal
                                  id="microOrgansims"
-                                 name={values?.microOrgansim}
-                                 options={microOrgansims}
+                                 name={values?.type}
+                                 options={category}
                                  key="microOrgansims"
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("microOrgansim", value);
+                                    setFieldValue("type", value);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
                                        {...params}
-                                       error={Boolean(touched?.microOrgansim && errors?.microOrgansim)}
-                                       helperText={touched?.microOrgansim && errors?.microOrgansim}
+                                       error={Boolean(touched?.type && errors?.type)}
+                                       helperText={touched?.type && errors?.type}
                                        style={{ padding: "2px" }}
                                        label="microOrgansims"
                                        variant="outlined"
                                        placeholder="Select"
-                                       value={values?.microOrgansim}
+                                       value={values?.type}
                                     />
                                  )}
                               />
@@ -871,85 +872,7 @@ const MicroOrgansim = () => {
                                        Add New Category
                                     </Button>
                                  </Grid> */}
-                                 <Grid item xs={12}>
-                                    <Grid container xs={12} spacing={2}>
-                                       <Grid item xs={2}>
-                                          <Autocomplete
-                                             size="small"
-                                             disablePortal
-                                             id="species"
-                                             name={values?.category}
-                                             options={categoryList}
-                                             key=""
-                                             getOptionLabel={(option) => option.name}
-                                             // sx={{ width: 300 }}
-                                             onChange={(e, value) => {
-                                                setFieldValue("category", value);
-                                             }}
-                                             renderInput={(params) => (
-                                                <TextField
-                                                   {...params}
-                                                   error={Boolean(touched?.category && errors?.category)}
-                                                   helperText={touched?.category && errors?.category}
-                                                   style={{ padding: "2px" }}
-                                                   label="Select Category"
-                                                   variant="outlined"
-                                                   placeholder="Select"
-                                                   value={values?.category}
-                                                />
-                                             )}
-                                          />
-                                       </Grid>
-                                       {values?.category?.type === 'Dropdown' ? (
-                                          <Grid item xs={2}>
-                                             <Autocomplete
-                                                size="small"
-                                                disablePortal
-                                                id="species"
-                                                name={values?.identificationFeatures?.subCategory}
-                                                options={values?.category.keyList}
-                                                isOptionEqualToValue={(option, value) => option.key === value.key}
-                                                getOptionLabel={(option) => option.name}
-                                                // sx={{ width: 300 }}
-                                                onChange={(e, value) => {
-                                                   setFieldValue("identificationFeatures.subCategory", value);
-                                                }}
-                                                renderInput={(params) => (
-                                                   <TextField
-                                                      {...params}
-                                                      error={Boolean(touched?.identificationFeatures?.subCategory && errors?.identificationFeatures?.subCategory)}
-                                                      helperText={touched?.identificationFeatures?.subCategory && errors?.identificationFeatures?.subCategory}
-                                                      style={{ padding: "2px" }}
-                                                      label="Select Sub Category"
-                                                      variant="outlined"
-                                                      placeholder="Select"
-                                                      value={values?.category}
-                                                   />
-                                                )}
-                                             />
-                                          </Grid>
-                                       ) :
-                                          values?.category?.keyList?.map((item, index) => {
-                                             return (
-                                                <Grid key={`identificationCate${index}`}item xs={2}>
-                                                   <TextField
-                                                      required
-                                                      id={`key${index}`}
-                                                      key={`key${index}`}
-                                                      name={`identificationFeatures.${item.key}`}
-                                                      // margin="normal"
-                                                      size="small"
-                                                      label={item.name}
-                                                      fullWidth
-                                                      onChange={handleChange}
-                                                      autoComplete={item.name}
-                                                      variant="outlined"
-                                                   />
-                                                </Grid>
-                                             )
-                                          })}
-                                    </Grid>
-                                 </Grid>
+
 
                                  <Grid item xs={3}>
                                     <TextField

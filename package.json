@@ -8,7 +8,7 @@
     "build": "next build",
     "preDeploy": "next export",
     "deploy": "node deploy.js",
-    "start": "next start",
+    "start": "node server/server.js",
     "lint": "next lint"
   },
   "dependencies": {

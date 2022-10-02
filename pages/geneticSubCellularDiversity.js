@@ -49,16 +49,6 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 // import { kingdoms } from "../utils/kingdoms";
 const kingdoms = require("../utils/kingdoms");
-const phylums = require("../utils/kingdoms");
-const classes = require("../utils/kingdoms");
-const orders = require("../utils/kingdoms");
-const families = require("../utils/kingdoms");
-const genuses = require("../utils/kingdoms");
-const species = require("../utils/kingdoms");
-const plants = require("../utils/plants");
-const animals = require("../utils/animals");
-const fungis = require("../utils/fungi");
-const microOrgansims = require("../utils/microOrgansim");
 function createData(
    number,
    Species,

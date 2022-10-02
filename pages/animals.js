@@ -55,7 +55,7 @@ const classes = require("../utils/kingdoms");
 const orders = require("../utils/kingdoms");
 const families = require("../utils/kingdoms");
 const genuses = require("../utils/kingdoms");
-const species = require("../utils/kingdoms");
+
 // const animals = require("../utils/animals");
 console.log(kingdoms);
 const Input = styled("input")({
