@@ -25,7 +25,7 @@ import { useRouter } from 'next/router'
 mapboxgl.accessToken = process.env.mapbox_key;
 import callApi, { imageUrl } from "../utils/callApi";
 import { styled } from '@mui/material/styles';
-
+console.log(process.env.mapbox_key)
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";

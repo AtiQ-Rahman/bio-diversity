@@ -7,7 +7,7 @@ exports.BIOGetCategoriesByName = async (req, res, next) => {
     let table = await getTable(tableTypes.categories)
     let searchQuery = `select * from ${table} where name = '${name}'`
     let response = await executeQuery(searchQuery)
-    console.log({response})
+    console.log({searchQuery})
     if (response?.length > 0) {
         let categories = []
         for (let item of response) {
