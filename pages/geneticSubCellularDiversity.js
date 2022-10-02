@@ -193,7 +193,7 @@ const geneticSubCellularDiversity = () => {
    const [image, setImage] = useState(null);
    const [createObjectURL, setCreateObjectURL] = useState(null);
    const theme = useTheme();
-   const [categoryList, setCatgoryList] = React.useState()
+   const [categoryList, setCatgoryList] = useState()
    const matchDownMd = useMediaQuery(theme.breakpoints.down("lg"));
    const initialValues = {
       serial: "",

@@ -177,12 +177,7 @@ const Map = () => {
                                         {speciesData.additionalFiles.map((speciesImage, index) => {
                                             return (
 
-
-                                                <div>
-                                                    <Image {...imageProps} loader={myLoader} src={imageUrl + '/' + speciesImage} />
-                                                </div>
-
-
+                                                    <Image key={`speciesAdditional${index}`}{...imageProps} loader={myLoader} src={imageUrl + '/' + speciesImage} />
                                             )
                                         })}
                                     </StyledSlider>

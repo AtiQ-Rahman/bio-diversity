@@ -651,7 +651,7 @@ const AddNewSpecies = () => {
                                  id="clone"
                                  name={values?.clone}
                                  options={genuses}
-                                 key=""
+                                 key="clone"
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
@@ -1135,7 +1135,7 @@ const AddNewSpecies = () => {
                                        ) :
                                           values?.category?.keyList?.map((item, index) => {
                                              return (
-                                                <Grid item xs={2}>
+                                                <Grid key={`identificationFeaturesCate${index}`}item xs={2}>
                                                    <TextField
                                                       required
                                                       id={`key${index}`}

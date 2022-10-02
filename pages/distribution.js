@@ -114,35 +114,6 @@ const Distribution = () => {
             })
         })
     }, []);
-    const _renderCityMarker = (city, index) => {
-        return (
-            <Marker
-                key={`marker-${index}`}
-                longitude={city.lng}
-                latitude={city.lat}
-            >
-                <CityPin size={20} onClick={() => setPopUpInfo(city)} />
-            </Marker>
-        );
-    };
-
-    const _renderPopup = () => {
-
-        return (
-            popupInfo && (
-                <Popup
-                    tipSize={5}
-                    anchor="top"
-                    longitude={popupInfo.longitude}
-                    latitude={popupInfo.latitude}
-                    closeOnClick={false}
-                    onClose={() => setPopUpInfo(null)}
-                >
-                    {/* <CityInfo info={popupInfo} /> */}
-                </Popup>
-            )
-        );
-    }
     return (
 
 
@@ -180,10 +151,10 @@ const Distribution = () => {
                                 </Typography>
                                 {speciesList.length > 0 ? (
                                     <Grid container>
-                                        {speciesList.map((species) => {
+                                        {speciesList.map((species,index) => {
                                             return (
 
-                                                <Grid item xs={12}>
+                                                <Grid key={`species${index}`} item xs={12}>
                                                     <Grid container>
                                                         <Grid item xs={4}>
                                                             <Image height={50} width={40} src={species.marker}></Image>

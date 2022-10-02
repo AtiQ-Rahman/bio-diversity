@@ -153,12 +153,7 @@ const Details = () => {
                   <StyledSlider {...settings}>
                     {speciesDetails.additionalFiles.map((speciesImage, index) => {
                       return (
-
-
-                        <div>
-                          <Image {...imageProps} loader={imageLoader} src={imageUrl + '/' + speciesImage} />
-                        </div>
-
+                          <Image key={`speciesAdditiona;${index}`} {...imageProps} loader={imageLoader} src={imageUrl + '/' + speciesImage} />
 
                       )
                     })}

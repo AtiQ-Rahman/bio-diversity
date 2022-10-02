@@ -931,7 +931,7 @@ const MicroOrgansim = () => {
                                        ) :
                                           values?.category?.keyList?.map((item, index) => {
                                              return (
-                                                <Grid item xs={2}>
+                                                <Grid key={`identificationCate${index}`}item xs={2}>
                                                    <TextField
                                                       required
                                                       id={`key${index}`}
