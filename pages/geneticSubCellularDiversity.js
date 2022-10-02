@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+
+import * as React from "react";
+
 // import Footer from '../components/Home/Footer/Footer';
 // import Header from "../components/Home/Header";
 import Footer from "../components/Home/Footer/Footer";
@@ -190,10 +192,10 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
 );
 const map = require("../assets/images/map.png");
 const geneticSubCellularDiversity = () => {
-   const [image, setImage] = useState(null);
-   const [createObjectURL, setCreateObjectURL] = useState(null);
+   const [image, setImage] = React.useState(null);
+   const [createObjectURL, setCreateObjectURL] = React.useState(null);
    const theme = useTheme();
-   const [categoryList, setCatgoryList] = useState()
+   const [categoryList, setCatgoryList] = React.useState()
    const matchDownMd = useMediaQuery(theme.breakpoints.down("lg"));
    const initialValues = {
       serial: "",
@@ -227,7 +229,7 @@ const geneticSubCellularDiversity = () => {
       let response = await callApi('/get-categories-list', {})
       setCatgoryList(response.data)
    }
-   useEffect(() => {
+   React.useEffect(() => {
       fetchData()
 
    }, [])

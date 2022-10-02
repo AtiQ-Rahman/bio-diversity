@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+
+import * as React from "react";
 // import Footer from '../components/Home/Footer/Footer';
 // import Header from "../components/Home/Header";
 import Footer from "../components/Home/Footer/Footer";
@@ -113,8 +114,8 @@ const imageLoader = ({ src }) => `${src}`
 
 const map = require("../assets/images/map.png");
 const Plants = () => {
-   const [image, setImage] = useState(null);
-   const [createObjectURL, setCreateObjectURL] = useState(null);
+   const [image, setImage] = React.useState(null);
+   const [createObjectURL, setCreateObjectURL] = React.useState(null);
    const theme = useTheme();
    const [category, setCatgory] = React.useState()
    const [speciesList, setSpeciesList] = React.useState([])
@@ -153,7 +154,7 @@ const Plants = () => {
       }
    }
 
-   useEffect(() => {
+   React.useEffect(() => {
       fetchData()
 
    }, [])
