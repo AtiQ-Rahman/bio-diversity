@@ -123,23 +123,6 @@ const Map = () => {
 
     }, [query]);
 
-    const _renderPopup = () => {
-
-        return (
-            popupInfo && (
-                <Popup
-                    tipSize={5}
-                    anchor="top"
-                    longitude={popupInfo.longitude}
-                    latitude={popupInfo.latitude}
-                    closeOnClick={false}
-                    onClose={() => setPopUpInfo(null)}
-                >
-                    {/* <CityInfo info={popupInfo} /> */}
-                </Popup>
-            )
-        );
-    }
     return (
 
 
