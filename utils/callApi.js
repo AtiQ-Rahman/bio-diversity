@@ -3,7 +3,7 @@ const mode = 'production' // 'dev' or 'production
 
 const config = {
   dev: "http://localhost:3000/api/v1",
-  production: "https://bio-diversity-nine.vercel.app:3000/api/v1"
+  production: "https://bio-diversity-nine.vercel.app/api/v1"
 }
 const axiosConfig = {
   baseURL: config[mode]
