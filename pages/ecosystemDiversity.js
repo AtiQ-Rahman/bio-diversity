@@ -405,7 +405,7 @@ const EcosystemDiversity = () => {
                               <TableCell align="center">{row.identificationFeatures.description}</TableCell>
 
                               <TableCell align="center">{row.family}</TableCell>
-                              <TableCell align="center">{row.cProduction}</TableCell>
+                              <TableCell align="center">{row.production}</TableCell>
                               <TableCell align="center">{row.lng} ,{row.lat}</TableCell>
                               <TableCell align="center">
                                  <Grid container spacing={1} width={100}>
