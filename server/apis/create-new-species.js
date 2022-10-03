@@ -25,7 +25,7 @@ exports.createNewSpecies = async (req, res, next) => {
             // keyList = JSON.stringify(keyList)
             let createdDatetimeStamp = moment().format("YYYY-MM-DD HH:mm:ss");
             let insertQuery = `insert into ${table} 
-                (serial, kingdom, phylum, class_name, category, order_name, family, genus, name, sub_species, variety, sub_variety, clone, forma, species, idenitificationFeatures, additional_files, profile_image, lng, lat,marker, createdDatetimeStamp,addtionalCategories)
+                (serial, kingdom, phylum, class_name, category, order_name, family, genus, name, sub_species, variety, sub_variety, clone, forma, species, identificationFeatures, additional_files, profile_image, lng, lat,marker, createdDatetimeStamp,addtionalCategories)
                 VALUES('${serial}','${kingdom}','${phylum}','${classes}','${category.name}','${order}','${family}','${genus}','${JSON.stringify(nameOfSpecies)}','${subSpecies}','${variety}','${subVariety}','${clone}','${forma}','${species}','${JSON.stringify(identificationFeatures)}','${fileNameOnServer}','${fileNameOnServer[profileIndex]}','${lng}','${lat}','${marker}','${createdDatetimeStamp}','${JSON.stringify(addtionalCategories)}')`
             // console.log(insertQuery)
             let response = await executeQuery(insertQuery)

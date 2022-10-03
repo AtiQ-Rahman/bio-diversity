@@ -95,14 +95,14 @@ const Distribution = () => {
                         <div className="popup">
                             <h3 className="route-name">${city.name.bangla}</h3>
                             <div className="route-metric-row">
-                                <h4 className="row-title">Route #</h4>
-                                <div className="row-value">${city.name.bangla}</div>
+                                <h4 className="row-title">Kingdom #</h4>
+                                <div className="row-value">${city.kingdom}</div>
                             </div>
                             <div className="route-metric-row">
-                                <h4 className="row-title">Route Type</h4>
-                                <div className="row-value">${city.name.bangla}</div>
+                                <h4 className="row-title">species</h4>
+                                <div className="row-value">${city.species}</div>
                             </div>
-                            <p className="route-city">Serves ${city.name.bangla}</p>
+                            <p className="route-city">Lng/Lat ${city.lng},${city.lng}</p>
                         </div>
                     </div>`
     
