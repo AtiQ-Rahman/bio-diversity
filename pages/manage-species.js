@@ -288,12 +288,21 @@ export default function ManageSpecies() {
   // Handle left drawer
   const leftDrawerOpened = useSelector((state) => state.customization.opened);
   const dispatch = useDispatch();
+  const [speciesList, setSpeciesList] = useState([])
+
   const handleLeftDrawerToggle = () => {
     dispatch({ type: SET_MENU, opened: !leftDrawerOpened });
   };
-
+  async function fetchData(cbfn) {
+    let response = await callApi('/get-species-list', {})
+    setSpeciesList(response.data)
+    let speciesList = response.data
+    console.log({ speciesList })
+    speciesList.length > 0 ? cbfn(speciesList) : cbfn([])
+}
   useEffect(() => {
     dispatch({ type: SET_MENU, opened: !matchDownMd });
+    fetchData((speciesList)=>{null})
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [matchDownMd]);
   return (

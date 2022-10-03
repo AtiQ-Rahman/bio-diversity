@@ -89,7 +89,8 @@ exports.executeQuery = async (query) => {
 
             if (err.code === 'ER_NO_SUCH_TABLE') {
                 let tableName = await this.getTableNameFromSql(err.sql)
-                let response = await createQueryForSpecies(tableName)
+                await createQueryForSpecies(tableName)
+                let response = await this.executeQuery(query)
                 return response
             }
             else if (err.sqlMessage.match('Unknown column')) {
