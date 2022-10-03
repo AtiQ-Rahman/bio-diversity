@@ -26,7 +26,7 @@ exports.addUpdateCategories = async (req, res, next) => {
         keyList = JSON.stringify(keyList)
         let createdDatetimeStamp = moment().format("YYYY-MM-DD HH:mm:ss");
         let insertQuery = `insert into ${table} 
-            (name, serial, type, keyList, createdDatetime)
+            (name, serial, type, keyList, createdDatetimeStamp)
             VALUES('${name}','${serial}','${type}','${keyList}','${createdDatetimeStamp}')`
         let response = await executeQuery(insertQuery)
         console.log(response)
