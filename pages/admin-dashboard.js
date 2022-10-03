@@ -96,11 +96,9 @@ export default function Home() {
         position="fixed"
         color="inherit"
         elevation={0}
-        style={}
         sx={{
           bgcolor: theme.palette.background.default,
           boxshadow: '1px 1px 10px #d9d5d5 !important',
-
           transition: leftDrawerOpened
             ? theme.transitions.create("width")
             : "none",
