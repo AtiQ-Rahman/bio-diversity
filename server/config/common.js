@@ -1,9 +1,8 @@
 const db = require("./connectToDatabase")
 const dbName = process.env.DATABASE
 
-const createQueryForSpecies = async (table) => {
-    console.log({ table })
-    let query = `CREATE TABLE ${table} (
+const speciesTable = (table) => {
+    return `CREATE TABLE ${table} (
         id int NOT NULL AUTO_INCREMENT,
         serial varchar(10),
         name varchar(255),
@@ -31,6 +30,30 @@ const createQueryForSpecies = async (table) => {
         marker longtext,
         PRIMARY KEY (id)
     );`
+}
+const categoryTable = (table) => {
+    return `CREATE TABLE ${table} (
+        id int NOT NULL AUTO_INCREMENT,
+        serial varchar(10),
+        name varchar(255),
+        type varchar(20),
+        keyList longtext,
+        meta longtext,
+        createdBy varchar(255),
+        createdDatetimeStamp datetime,
+        lastModified datetime,
+        PRIMARY KEY (id)
+    );`
+}
+const createQueryForSpecies = async (table) => {
+    console.log({ table })
+    let query;
+    if (table == 'bio_diversity_categories') {
+        query = categoryTable(table)
+    }
+    else {
+        query = speciesTable(table)
+    }
     let res = await this.executeQuery(query)
     return res
 }

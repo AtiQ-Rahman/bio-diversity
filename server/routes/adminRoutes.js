@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const CryptoJS = require("crypto-js");
+const path = require("path")
 const { createNewSpecies } = require('../apis/create-new-species');
 const { BIOGetAllCategories } = require('../apis/get-all-categories');
 const { addUpdateCategories } = require('../apis/add-update-categories');
