@@ -38,13 +38,13 @@ server.prepare().then(() => {
         console.log(`Server is working on http://localhost:${port}`)
     });
     process.on("uncaughtException", (err) => {
-        console.log(`Error: ${err.message}`);
+        console.log(`Error: ${err}`);
         console.log("Shutting down the server due to unhandle uncauht!");
         process.exit(1)
     })
 
 }).catch(err => {
-    console.log(`Error: ${err.message}`);
+    console.log(`Error: ${err}`);
     console.log("Shutting down the server due to unhandle promise rejection!");
     process.exit(1)
 
