@@ -196,37 +196,42 @@ const MicroOrgansim = () => {
    const [speciesList, setSpeciesList] = React.useState()
    const matchDownMd = useMediaQuery(theme.breakpoints.down("lg"));
    const initialValues = {
-      serial: "",
-      kingdom: "",
-      phylum: "",
-      animal:"",
-      class: "",
-      order: "",
-      fungi:"",
-      family: "",
-      genus: "",
-      species: "",
-      plants:"",
-      subSpecies: "",
-      variety: "",
-      subVariety: "",
-      clone: "",
-      forma: "",
-      species: {
-         bangla: "",
-         english: "",
-         commonName: "",
-         synonym: ""
+      kingdom: null,
+      phylum: null,
+      class_name: null,
+      order_name: null,
+      family: null,
+      genus: null,
+      species: null,
+      plants: null,
+      subSpecies: null,
+      variety: null,
+      subVariety: null,
+      clone: null,
+      forma: null,
+      type: null,
+      nameOfSpecies: {
+         bangla: null,
+         english: null,
+         commonName: null,
+         synonym: null
       },
       identificationFeatures: {},
       categories: [],
       additionalFiles: [],
-      profileImage: "",
+      profileImage: null,
    };
    async function fetchData() {
-      let response = await callApi('/get-categories-list', {})
-      setCatgoryList(response.data)
+      let response = await callApi('/get-categories-by-name', { name: 'Microorganisms' })
+      if (response.data.length > 0) {
+         console.log(response.data)
+         setCatgory(response.data[0])
+      }
+      else {
+         setCatgory({})
+      }
    }
+
    useEffect(() => {
       fetchData()
 
@@ -294,28 +299,14 @@ const MicroOrgansim = () => {
                   try {
                      console.log({ values });
                      // console.log(values.reportfile.name);
-                     let speciesData = values;
-                     speciesData.createdBy = {
-                        name: "test admin",
-                        userId: "blabla",
-                     };
-                     speciesData.createdAt = new Date().getTime();
+                     values.category = 'Microorganisms'
+
+                     let searchParameters = values;
                      // console.log({ loggedUser: loggedUser.userId });
-                     const data = new FormData();
-                     data.append("data", JSON.stringify(speciesData));
-                     let files = values.additionalFiles;
-                     if (files.length != 0) {
-                        for (const single_file of files) {
-                           data.append('additionalFiles', single_file)
-                        }
-                     }
                      // data.append("reportfile", values.reportfile);
-                     let res = await callApi("/create-new-species", data, {
-                        headers: {
-                           "Content-Type": "multipart/form-data"
-                        }
-                     })
+                     let res = await callApi("/search-species-by-field", { searchParameters })
                      console.log("response", res);
+                     setSpeciesList(res?.data)
                      // enqueueSnackbar("Report  Uploaded Successfully", {
                      //    variant: "success",
                      //    // action: <Button>See all</Button>
@@ -372,7 +363,7 @@ const MicroOrgansim = () => {
                                  disablePortal
                                  id="microOrgansims"
                                  name={values?.type}
-                                 options={category}
+                                 options={category?.keyList || []}
                                  key="microOrgansims"
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
@@ -404,7 +395,7 @@ const MicroOrgansim = () => {
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("kingdom", value);
+                                    setFieldValue("kingdom", value.name);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
@@ -452,24 +443,24 @@ const MicroOrgansim = () => {
                                  size="small"
                                  disablePortal
                                  id="classes"
-                                 name={values?.class}
+                                 name={values?.class_name}
                                  options={classes}
                                  key="classes"
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("class", value);
+                                    setFieldValue("class_name", value.name);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
                                        {...params}
-                                       error={Boolean(touched?.class && errors?.class)}
-                                       helperText={touched?.class && errors?.class}
+                                       error={Boolean(touched?.class_name && errors?.class_name)}
+                                       helperText={touched?.class_name && errors?.class_name}
                                        style={{ padding: "2px" }}
                                        label="---Select Class---"
                                        variant="outlined"
                                        placeholder="Select"
-                                       value={values?.class}
+                                       value={values?.class_name}
                                     />
                                  )}
                               />
@@ -479,24 +470,24 @@ const MicroOrgansim = () => {
                                  size="small"
                                  disablePortal
                                  id="orders"
-                                 name={values?.order}
+                                 name={values?.order_name}
                                  options={orders}
                                  key="orders"
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("order", value);
+                                    setFieldValue("order_name", value.name);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
                                        {...params}
-                                       error={Boolean(touched?.order && errors?.order)}
-                                       helperText={touched?.order && errors?.order}
+                                       error={Boolean(touched?.order_name && errors?.order_name)}
+                                       helperText={touched?.order_name && errors?.order_name}
                                        style={{ padding: "2px" }}
                                        label="---Select Order---"
                                        variant="outlined"
                                        placeholder="Select"
-                                       value={values?.order}
+                                       value={values?.order_name}
                                     />
                                  )}
                               />
@@ -512,7 +503,7 @@ const MicroOrgansim = () => {
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("family", value);
+                                    setFieldValue("family", value.name);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
@@ -539,7 +530,7 @@ const MicroOrgansim = () => {
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("genus", value);
+                                    setFieldValue("genus", value.name);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
@@ -566,7 +557,7 @@ const MicroOrgansim = () => {
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("species", value);
+                                    setFieldValue("species", value.name);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
@@ -593,7 +584,7 @@ const MicroOrgansim = () => {
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("subSpecies", value);
+                                    setFieldValue("subSpecies", value.name);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
@@ -620,7 +611,7 @@ const MicroOrgansim = () => {
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("variety", value);
+                                    setFieldValue("variety", value.name);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
@@ -647,7 +638,7 @@ const MicroOrgansim = () => {
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("subVariety", value);
+                                    setFieldValue("subVariety", value.name);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
@@ -674,7 +665,7 @@ const MicroOrgansim = () => {
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("clone", value);
+                                    setFieldValue("clone", value.name);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
@@ -701,7 +692,7 @@ const MicroOrgansim = () => {
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("forma", value);
+                                    setFieldValue("forma", value.name);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
@@ -723,9 +714,9 @@ const MicroOrgansim = () => {
 
                                  <Grid item xs={3}>
                                     <TextField
-                                       required
+                                       
                                        id="Species"
-                                       name="species.english"
+                                       name="nameOfSpecies.english"
                                        margin="normal"
                                        size="small"
                                        label="English Name"
@@ -737,9 +728,9 @@ const MicroOrgansim = () => {
                                  </Grid>
                                  <Grid item xs={3}>
                                     <TextField
-                                       required
+                                       
                                        id="banglaName"
-                                       name="species.bangla"
+                                       name="nameOfSpecies.bangla"
                                        margin="normal"
                                        size="small"
                                        label="Bangla Name"
@@ -751,9 +742,9 @@ const MicroOrgansim = () => {
                                  </Grid>
                                  <Grid item xs={3}>
                                     <TextField
-                                       required
+                                       
                                        id="commonName"
-                                       name="species.commonName"
+                                       name="nameOfSpecies.commonName"
                                        margin="normal"
                                        size="small"
                                        label="Common Name"
@@ -765,9 +756,9 @@ const MicroOrgansim = () => {
                                  </Grid>
                                  <Grid item xs={3}>
                                     <TextField
-                                       required
+                                       
                                        id="synonym"
-                                       name="species.synonym"
+                                       name="nameOfSpecies.synonym"
                                        margin="normal"
                                        size="small"
                                        label="Synonym"
@@ -1323,73 +1314,108 @@ const MicroOrgansim = () => {
                )}
             </Formik>
             <Grid item xs={12}      style={{ borderRadius: "10px",paddingBottom:"100px" }} >
-                <TableContainer component={Paper}    >
+            {speciesList?.length > 0 ? (
+               <TableContainer component={Paper}    >
                   <Table sx={{ minWidth: 650 }} aria-label="customized table" >
-                    <TableHead>
-                      <TableRow>
-                        <StyledTableCell>SI</StyledTableCell>
-                        <StyledTableCell align="center">Species</StyledTableCell>
-                        <StyledTableCell align="center">Family</StyledTableCell>
-                        <StyledTableCell align="center">Locality</StyledTableCell>
-                        <StyledTableCell align="center">Habitat</StyledTableCell>
-                        <StyledTableCell align="center">Size &nbsp;(cm)</StyledTableCell>
-                        <StyledTableCell align="center">GIS</StyledTableCell>
-                        <StyledTableCell align="center">Additional button</StyledTableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody   >
-                      {rows.map((row) => (
-                        <StyledTableRow
-                          key={row.name}
-                          sx={{
-                            "&:last-child td, &:last-child th": { border: 0 },
-                          }}
-                        
-                        >
-                          <StyledTableCell component="th" scope="row">
-                            {row.number}
-                          </StyledTableCell>
-                          <StyledTableCell align="center">{row.Species}</StyledTableCell>
-                          <StyledTableCell align="center">{row.Family}</StyledTableCell>
-                          <StyledTableCell align="center">{row.Locality}</StyledTableCell>
-                          <StyledTableCell align="center">{row.Habitat}</StyledTableCell>
-                          <StyledTableCell align="center">{row.Size}</StyledTableCell>
-                          <StyledTableCell align="center">{row.GIS}</StyledTableCell>
-                          <StyledTableCell align="center">
-                          <Button
-                             style={{ maxWidth: "80px",
-                             maxHeight: "80px",
-                             minWidth: "40px",
-                             minHeight: "40px"
-                    }}
-                              type="button"
-                              onClick={() => router.push("/details")}
-                              variant="outlined"
-                            >
-                              details
-                            </Button>
-                            {/* =======MODAL===== */}
+                     <TableHead>
+                        <TableRow>
+                           <TableCell>SI</TableCell>
+                           <TableCell align="center">Species Name</TableCell>
+                           <TableCell align="center">Type</TableCell>
+                           <TableCell align="center">Family</TableCell>
+                           <TableCell align="center">Order name</TableCell>
+                           <TableCell align="center">Lng/Lat</TableCell>
+                           <TableCell align="center">Action</TableCell>
+                        </TableRow>
+                     </TableHead>
+                     <TableBody   >
+                        {speciesList.map((row, index) => (
+                           <TableRow
+                              key={row.index}
+                              sx={{
+                                 "&:last-child td, &:last-child th": { border: 0 },
+                              }}
 
-                           
-                            <br />
-                            {/* <Button
-                             style={{ maxWidth: "80px",
-                             maxHeight: "80px",
-                             minWidth: "40px",
-                             minHeight: "40px"
-                    }}
-                              type="button"
-                              onClick={() => router.push("/map")}
-                              variant="outlined"
-                            >
-                              View&nbsp;map
-                            </Button> */}
-                          </StyledTableCell>
-                        </StyledTableRow>
-                      ))}
-                    </TableBody>
+                           >
+                              <TableCell component="th" scope="row">
+                                 {index + 1}
+                              </TableCell>
+                              <TableCell align="center">
+                                 {row.profile_image ? (
+                                 <Grid container sx={{justifyContent:"center"}}>
+                                    <Grid item xs={4}>
+                                       <Image {...imageProps} objectFit="cover" loader={imageLoader} src={imageUrl + '/' + row.profile_image}></Image>
+                                    </Grid>
+                                    <Grid item xs={8}>
+                                       {row.name.bangla}
+
+                                    </Grid>
+                                 </Grid>) : (
+                                    row.name.bangla
+                                 )}
+
+                              </TableCell>
+                              <TableCell align="center">{row.identificationFeatures.subCategory.name}</TableCell>
+
+                              <TableCell align="center">{row.family}</TableCell>
+                              <TableCell align="center">{row.order_name}</TableCell>
+                              <TableCell align="center">{row.lng} ,{row.lat}</TableCell>
+                              <TableCell align="center">
+                                 <Grid container spacing={1} width={100}>
+                                    <Grid item xs={12}>
+                                       <Button
+                                          style={{
+                                             width: "130px",
+                                             maxHeight: "80px",
+                                             minWidth: "40px",
+                                             minHeight: "40px"
+                                          }}
+                                          type="button"
+                                          onClick={() => router.push({
+                                             pathname: "/details",
+                                             query: {
+                                                serial: row.serial,
+                                                category: 'Microorganisms'
+                                             }
+                                          })}
+                                          variant="outlined"
+                                       >
+                                          View Details
+                                       </Button>
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                       <Button
+                                          className={styles.bg_primary}
+                                          style={{
+                                             width: "130px",
+                                             maxHeight: "80px",
+                                             minWidth: "40px",
+                                             minHeight: "40px",
+                                             color: "white"
+                                          }}
+                                          type="button"
+                                          onClick={() => router.push({
+                                             pathname: "/map",
+                                             query: {
+                                                serial: row.serial,
+                                                category: 'Microorganisms'
+                                             }
+                                          })}
+                                       // variant="outlined"
+                                       >
+                                          View on map
+                                       </Button>
+                                    </Grid>
+
+                                 </Grid>
+
+                              </TableCell>
+                           </TableRow>
+                        ))}
+                     </TableBody>
                   </Table>
-                </TableContainer>
+               </TableContainer>
+            ) : null}
                 {/* <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"

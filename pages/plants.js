@@ -152,6 +152,9 @@ const Plants = () => {
          console.log(response.data)
          setCatgory(response.data[0])
       }
+      else {
+         setCatgory({})
+      }
    }
 
    React.useEffect(() => {
@@ -275,7 +278,7 @@ const Plants = () => {
                               disablePortal
                               id="plants"
                               name={values?.type}
-                              options={category?.keyList}
+                              options={category?.keyList || []}
                               key="plants"
                               getOptionLabel={(option) => option.name}
                               // sx={{ width: 300 }}

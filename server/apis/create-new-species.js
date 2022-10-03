@@ -40,6 +40,10 @@ exports.createNewSpecies = async (req, res, next) => {
     }
     catch (err) {
         log(err)
+        res.status(500).json({
+            success: false,
+            data: err,
+        })
     }
 
 

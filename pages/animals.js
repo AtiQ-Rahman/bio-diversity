@@ -118,38 +118,39 @@ const Animals = () => {
    const [speciesList, setSpeciesList] = React.useState()
    const matchDownMd = useMediaQuery(theme.breakpoints.down("lg"));
    const initialValues = {
-      serial: "",
-      kingdom: "",
-      phylum: "",
-      animal:"",
-      class: "",
-      order: "",
-      family: "",
-      genus: "",
-      type: "",
-      species: "",
-      plants:"",
-      subSpecies: "",
-      variety: "",
-      subVariety: "",
-      clone: "",
-      forma: "",
-      species: {
-         bangla: "",
-         english: "",
-         commonName: "",
-         synonym: ""
+      kingdom: null,
+      phylum: null,
+      class_name: null,
+      order_name: null,
+      family: null,
+      genus: null,
+      species: null,
+      plants: null,
+      subSpecies: null,
+      variety: null,
+      subVariety: null,
+      clone: null,
+      forma: null,
+      type: null,
+      nameOfSpecies: {
+         bangla: null,
+         english: null,
+         commonName: null,
+         synonym: null
       },
       identificationFeatures: {},
       categories: [],
       additionalFiles: [],
-      profileImage: "",
+      profileImage: null,
    };
    async function fetchData() {
       let response = await callApi('/get-categories-by-name', { name: 'Animals' })
       if (response.data.length > 0) {
          console.log(response.data)
          setCatgory(response.data[0])
+      }
+      else {
+         setCatgory({})
       }
    }
 
@@ -269,7 +270,7 @@ const Animals = () => {
                                  disablePortal
                                  id="animals"
                                  name={values?.type}
-                                 options={category?.keyList}
+                                 options={category?.keyList  || []}
                                  key="animals"
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
@@ -301,7 +302,7 @@ const Animals = () => {
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("kingdom", value);
+                                    setFieldValue("kingdom", value.name);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
@@ -349,24 +350,24 @@ const Animals = () => {
                                  size="small"
                                  disablePortal
                                  id="classes"
-                                 name={values?.class}
+                                 name={values?.class_name}
                                  options={classes}
                                  key="classes"
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("class", value);
+                                    setFieldValue("class_name", value.name);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
                                        {...params}
-                                       error={Boolean(touched?.class && errors?.class)}
-                                       helperText={touched?.class && errors?.class}
+                                       error={Boolean(touched?.class_name && errors?.class_name)}
+                                       helperText={touched?.class_name && errors?.class_name}
                                        style={{ padding: "2px" }}
                                        label="---Select Class---"
                                        variant="outlined"
                                        placeholder="Select"
-                                       value={values?.class}
+                                       value={values?.class_name}
                                     />
                                  )}
                               />
@@ -376,24 +377,24 @@ const Animals = () => {
                                  size="small"
                                  disablePortal
                                  id="orders"
-                                 name={values?.order}
+                                 name={values?.order_name}
                                  options={orders}
                                  key="orders"
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("order", value);
+                                    setFieldValue("order_name", value.name);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
                                        {...params}
-                                       error={Boolean(touched?.order && errors?.order)}
-                                       helperText={touched?.order && errors?.order}
+                                       error={Boolean(touched?.order_name && errors?.order_name)}
+                                       helperText={touched?.order_name && errors?.order_name}
                                        style={{ padding: "2px" }}
                                        label="---Select Order---"
                                        variant="outlined"
                                        placeholder="Select"
-                                       value={values?.order}
+                                       value={values?.order_name}
                                     />
                                  )}
                               />
@@ -409,7 +410,7 @@ const Animals = () => {
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("family", value);
+                                    setFieldValue("family", value.name);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
@@ -463,7 +464,7 @@ const Animals = () => {
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("species", value);
+                                    setFieldValue("species", value.name);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
@@ -517,7 +518,7 @@ const Animals = () => {
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("variety", value);
+                                    setFieldValue("variety", value.name);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
@@ -544,7 +545,7 @@ const Animals = () => {
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("subVariety", value);
+                                    setFieldValue("subVariety", value.name);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
@@ -571,7 +572,7 @@ const Animals = () => {
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("clone", value);
+                                    setFieldValue("clone", value.name);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
@@ -598,7 +599,7 @@ const Animals = () => {
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("forma", value);
+                                    setFieldValue("forma", value.name);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
@@ -622,7 +623,7 @@ const Animals = () => {
                                     <TextField
                                        
                                        id="Species"
-                                       name="species.english"
+                                       name="nameOfSpecies.english"
                                        margin="normal"
                                        size="small"
                                        label="English Name"
@@ -636,7 +637,7 @@ const Animals = () => {
                                     <TextField
                                        
                                        id="banglaName"
-                                       name="species.bangla"
+                                       name="nameOfSpecies.bangla"
                                        margin="normal"
                                        size="small"
                                        label="Bangla Name"
@@ -650,7 +651,7 @@ const Animals = () => {
                                     <TextField
                                        
                                        id="commonName"
-                                       name="species.commonName"
+                                       name="nameOfSpecies.commonName"
                                        margin="normal"
                                        size="small"
                                        label="Common Name"
@@ -664,7 +665,7 @@ const Animals = () => {
                                     <TextField
                                        
                                        id="synonym"
-                                       name="species.synonym"
+                                       name="nameOfSpecies.synonym"
                                        margin="normal"
                                        size="small"
                                        label="Synonym"

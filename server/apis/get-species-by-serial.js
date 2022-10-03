@@ -28,7 +28,11 @@ exports.BIOGetSpeciesBySerial = async (req, res, next) => {
             data: modifiedResponse,
         })
     }
-
-
+    else {
+        res.status(200).json({
+            success: true,
+            data: []
+        })
+    }
 
 }

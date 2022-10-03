@@ -7,7 +7,7 @@ exports.BIOGetCategoriesByName = async (req, res, next) => {
     let table = await getTable(tableTypes.categories)
     let searchQuery = `select * from ${table} where name = '${name}'`
     let response = await executeQuery(searchQuery)
-    console.log({searchQuery})
+    console.log({ searchQuery })
     if (response?.length > 0) {
         let categories = []
         for (let item of response) {
@@ -21,6 +21,12 @@ exports.BIOGetCategoriesByName = async (req, res, next) => {
         res.status(200).json({
             success: true,
             data: categories,
+        })
+    }
+    else {
+        res.status(200).json({
+            success: true,
+            data: [],
         })
     }
 
