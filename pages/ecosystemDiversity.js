@@ -402,7 +402,7 @@ const EcosystemDiversity = () => {
                                  )}
 
                               </TableCell>
-                              <TableCell align="center">{row.identificationFeatures.subCategory.name}</TableCell>
+                              <TableCell align="center">{row.identificationFeatures.description}</TableCell>
 
                               <TableCell align="center">{row.family}</TableCell>
                               <TableCell align="center">{row.cProduction}</TableCell>
