@@ -23,6 +23,12 @@ exports.BIOGetAllCategories = async (req, res, next) => {
             data: categories,
         })
     }
+    else{
+        res.status(200).json({
+            success: true,
+            data: [],
+        })
+    }
 
 
 
