@@ -44,7 +44,7 @@ import { drawerWidth } from "../store/constant";
 import { SET_MENU } from "../store/actions";
 import styles from "../styles/Home.module.css";
 import { styled, useTheme } from "@mui/material/styles";
-import callApi from "../utils/callApi";
+import callApi, { imageUrl } from "../utils/callApi";
 import { imageLoader } from "../utils/utils";
 import Image from "next/image";
 import { useRouter } from "next/router";
