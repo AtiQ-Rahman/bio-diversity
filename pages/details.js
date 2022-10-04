@@ -6,8 +6,8 @@ import Carousel from "react-material-ui-carousel";
 import Footer from "../components/Home/Footer/Footer";
 import Header from "../components/Home/Header";
 import styles from "../styles/Home.module.css";
-import { styled } from '@mui/material/styles';
-import { useRouter } from 'next/router'
+import { styled } from "@mui/material/styles";
+import { useRouter } from "next/router";
 
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -17,20 +17,16 @@ import callApi, { imageUrl } from "../utils/callApi";
 let imageProps = {
   height: "300px",
   width: "400px",
-}
-const StyledSlider = styled((props) => (
-  <Slider
-    {...props}
-  />
-))({
-  '& .slick-dots li': {
+};
+const StyledSlider = styled((props) => <Slider {...props} />)({
+  "& .slick-dots li": {
     width: "70px",
     height: "70px",
-    margin: "0px 4px"
+    margin: "0px 4px",
   },
-  '& .slick-dots': {
+  "& .slick-dots": {
     display: "block",
-    position: "relative"
+    position: "relative",
   },
 });
 // import { Paper, Button } from '@material-ui/core';
@@ -38,28 +34,33 @@ const species8 = require("../assets/images/species8.jpg");
 const species9 = require("../assets/images/species9.jpg");
 const species10 = require("../assets/images/species10.jpg");
 const Details = () => {
-  const [speciesDetails, setSpeciesData] = useState({})
-  const [popupInfo, setPopUpInfo] = useState(null)
-  const router = useRouter()
-  const [query, setQuery] = useState(router.query)
+  const [speciesDetails, setSpeciesData] = useState({});
+  const [popupInfo, setPopUpInfo] = useState(null);
+  const router = useRouter();
+  const [query, setQuery] = useState(router.query);
   const fetchData = async (query, cbfn) => {
-    let searchParameters = query
-    let response = await callApi("/get-species-by-serial", { searchParameters })
+    let searchParameters = query;
+    let response = await callApi("/get-species-by-serial", {
+      searchParameters,
+    });
     if (response?.data?.length > 0) {
-      setSpeciesData(response.data[0])
-      cbfn(response.data[0])
+      setSpeciesData(response.data[0]);
+      cbfn(response.data[0]);
+    } else {
+      cbfn({});
     }
-    else {
-      cbfn({})
-    }
-  }
+  };
   const settings = {
     customPaging: function (i) {
       return (
         <Box height={400}>
-          <Image layout="fill" objectFit="cover" loader={imageLoader} src={`${imageUrl + '/' + speciesDetails?.additionalFiles[i]}`} />
+          <Image
+            layout="fill"
+            objectFit="cover"
+            loader={imageLoader}
+            src={`${imageUrl + "/" + speciesDetails?.additionalFiles[i]}`}
+          />
         </Box>
-
       );
     },
     dots: true,
@@ -70,11 +71,11 @@ const Details = () => {
     slidesToScroll: 1,
   };
   useEffect(() => {
-    if (!query) return
-    fetchData(query, (speciesDetails) => { null })
-
-  }, [query])
-
+    if (!query) return;
+    fetchData(query, (speciesDetails) => {
+      null;
+    });
+  }, [query]);
 
   return (
     <>
@@ -148,34 +149,48 @@ const Details = () => {
               </Grid>
             </Grid>
             <Grid item xs={12} md={4}>
-              {speciesDetails?.additionalFiles?.length > 0 ?
-                (<div>
+              {speciesDetails?.additionalFiles?.length > 0 ? (
+                <div>
                   <StyledSlider {...settings}>
-                    {speciesDetails.additionalFiles.map((speciesImage, index) => {
-                      return (
-                          <Image key={`speciesAdditiona;${index}`} {...imageProps} loader={imageLoader} src={imageUrl + '/' + speciesImage} />
-
-                      )
-                    })}
+                    {speciesDetails.additionalFiles.map(
+                      (speciesImage, index) => {
+                        return (
+                          <Image
+                            key={`speciesAdditiona;${index}`}
+                            {...imageProps}
+                            loader={imageLoader}
+                            src={imageUrl + "/" + speciesImage}
+                          />
+                        );
+                      }
+                    )}
                   </StyledSlider>
-                </div>) :
-
-                (<Image loader={imageLoader} src={imageUrl + '/' + speciesDetails?.profile_image} alt="species-image" width="345" height={200}></Image>)
-              }
+                </div>
+              ) : (
+                <Image
+                  loader={imageLoader}
+                  src={imageUrl + "/" + speciesDetails?.profile_image}
+                  alt="species-image"
+                  width="345"
+                  height={200}
+                ></Image>
+              )}
             </Grid>
           </Grid>
           <br />
         </Box>
       </Box>
-      <Footer style={{
-        position: "absolute",
-        bottom: 0,
-      }} />
+      <Footer
+        style={{
+          position: "absolute",
+          bottom: 0,
+        }}
+      />
     </>
   );
-}
+};
 
 Details.getInitialProps = ({ query }) => {
-  return { query }
-}
+  return { query };
+};
 export default Details;

@@ -179,57 +179,57 @@ const Map = () => {
                                 </Typography>
                                     <Grid item xs={6}>
                                         <Typography gutterBottom component="description" variant="div">
-                                            <b>Kindom</b>: {speciesData.kindom}
+                                            <b>Kindom</b>:{speciesData.kindom}
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={6}>
                                         <Typography gutterBottom component="description" variant="div">
-                                            <b>Phylum</b>: {speciesData.phylum}
+                                            <b>Phylum</b>:{speciesData.phylum}
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={6}>
                                         <Typography gutterBottom component="description" variant="div">
-                                            <b>class</b>: {speciesData.class}
+                                            <b>class</b>:{speciesData.class}
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={6}>
                                         <Typography gutterBottom component="description" variant="div">
-                                            <b>order</b>: {speciesData.order}
+                                            <b>order</b>:{speciesData.order}
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={6}>
                                         <Typography gutterBottom component="description" variant="div">
-                                            <b>family</b>: {speciesData.family}
+                                            <b>family</b>:{speciesData.family}
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={6}>
                                         <Typography gutterBottom component="description" variant="div">
-                                            <b>Genus</b>: {speciesData.genus}
+                                            <b>Genus</b>:{speciesData.genus}
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={6}>
                                         <Typography gutterBottom component="description" variant="div">
-                                            <b>Specis</b>: {speciesData.specis}
+                                            <b>Specis</b>:{speciesData.specis}
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={6}>
                                         <Typography gutterBottom component="description" variant="div">
-                                            <b>Variety</b>: {speciesData.variety}
+                                            <b>Variety</b>:{speciesData.variety}
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={6}>
                                         <Typography gutterBottom component="description" variant="div">
-                                            <b>Sub Variety</b>: {speciesData.subVariety}
+                                            <b>Sub Variety</b>:{speciesData.subVariety}
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={6}>
                                         <Typography gutterBottom component="description" variant="div">
-                                            <b>clone</b>: {speciesData.clone}
+                                            <b>clone</b>:{speciesData.clone}
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={6}>
                                         <Typography gutterBottom component="description" variant="div">
-                                            <b>forma</b>: {speciesData.forma}
+                                            <b>forma</b>:{speciesData.forma}
                                         </Typography>
                                     </Grid>
                          
