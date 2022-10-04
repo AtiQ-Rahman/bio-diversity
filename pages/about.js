@@ -3,7 +3,7 @@ import { Box, padding, textAlign } from '@mui/system';
 import React from 'react';
 import Footer from '../components/Home/Footer/Footer';
 import Header from "../components/Home/Header";
-const contact = () => {
+const about = () => {
     return (
         <Box>
               <Header index={7} />
@@ -15,7 +15,7 @@ const contact = () => {
                 paddingRight:"30px",
                 textAlign:"center"
                 // backgroundColor: "rgb(225, 253, 249)",
-              }}><h5>Contact</h5>
+              }}><h5>About</h5>
                 <h3>Under Development</h3></Card>
             </Grid>
             <Footer />
@@ -23,4 +23,4 @@ const contact = () => {
     );
 };
 
-export default contact;
+export default about;

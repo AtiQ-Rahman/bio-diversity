@@ -54,35 +54,35 @@ const options = [
  
   {
     name: "Contribute",
-    url: "/comingSoon"
+    url: "/contribute"
   },
   {
     name: "Team",
-    url: "/comingSoon"
+    url: "/team"
   },
   {
     name: "Links",
-    url: "/comingSoon"
+    url: "/links"
   },
   {
     name: "Contact",
-    url: "/comingSoon"
+    url: "/contact"
   },
   {
     name: "About",
-    url: "/comingSoon"
+    url: "/about"
   },
-  {
-    name:"Team",
-    url:"/comingSoon"
-   },
+  // {
+  //   name:"Team",
+  //   url:"/comingSoon"
+  //  },
    {
     name:"Help",
-    url:"/comingSoon"
+    url:"/help"
    },
    {
     name:"Content",
-    url:"/comingSoon"
+    url:"/content"
    },
    {
     name:"Mapping and Zoning",
@@ -90,15 +90,15 @@ const options = [
    },
    {
     name:"Database",
-    url:"/comingSoon"
+    url:"/database"
    },
    {
     name:"Biodiversity Policy Acts",
-    url:"/comingSoon"
+    url:"/BiodiversityPolicyActs"
    },
   {
     name: "FAQ",
-    url: "/comingSoon"
+    url: "/faq"
   },
 
   // {

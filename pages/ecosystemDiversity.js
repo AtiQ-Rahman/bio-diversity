@@ -360,7 +360,7 @@ const EcosystemDiversity = () => {
                </Form>
             )}
          </Formik>
-         <Grid item xs={12} style={{ borderRadius: "10px", paddingBottom: "100px" }} >
+         <Grid item xs={12} style={{ borderRadius: "10px", paddingBottom: "163px" }} >
             {speciesList?.length > 0 ? (
                <TableContainer component={Paper}    >
                   <Table sx={{ minWidth: 650 }} aria-label="customized table" >
