@@ -1,10 +1,19 @@
 import axios from "axios";
+const mode = 'dev' // 'dev' or 'production
+
+const config = {
+  dev: "http://localhost:8443/api/v1",
+  production: "https://bio-diversity-server.herokuapp.com/api/v1"
+}
 const axiosConfig = {
-  baseURL: "http://localhost:8443/api/v1",
-};
+  baseURL: config[mode]
+}
+
+export const imageUrl = axiosConfig.baseURL + '/uploads';
+
 const apiClient = axios.create(axiosConfig);
 
-const callApi = async (endPonint, data , config = {}) => {
+const callApi = async (endPonint, data, config = {}) => {
   let meta = {
     clientIdentifier: "bio-diversity",
     clientName: "htech",

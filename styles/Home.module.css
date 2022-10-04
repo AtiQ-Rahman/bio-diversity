@@ -32,6 +32,21 @@
   margin-top: 2%;
   height: 100%;
 }
+.main_box2 {
+  /* border: 1px solid var(--app-border); */
+  padding: 30px;
+  width: 70%;
+  background: var(--app-secondary-color);
+  margin: 0 auto;
+  margin-top: 5%;
+  height: 100%;
+}
+.main_background {
+  /* border: 1px solid var(--app-border); */
+  background: var(--app-border);
+  height: inherit;
+
+}
 .main_page {
   /* min-height: 100vh; */
   /* padding: 4rem 0; */
@@ -91,6 +106,10 @@
   height:1080px;
   width: 100%;
 }
+.map_container_2{
+  height:200px;
+  width: 100%;
+}
 .sidebar {
   background-color: rgba(35, 55, 75, 0.9);
   color: #fff;
@@ -99,7 +118,7 @@
   z-index: 1;
   position: absolute;
   top: 0;
-  left: 0;
+  left: 40px;
   margin: 12px;
   border-radius: 4px;
 }
@@ -132,7 +151,7 @@
 .marker {
   display: block;
   border: none;
-  border-radius: 50%;
+  /* border-radius: 50%; */
   cursor: pointer;
   padding: 0;
   }
@@ -410,4 +429,37 @@
   .logo img {
     filter: invert(1);
   }
+}
+
+/* details */
+.detailsCard{
+  background-color: whitesmoke;
+ margin: 5%;
+ margin-left: 7%;
+ margin-right: 7%;
+}
+.title1{
+  color: grey;
+  font-size: 30px;
+}
+.detailsSection{
+  /* height: 800px;
+  width: 1000px; */
+
+  background-color: white;
+}
+.details{
+/* margin: 5%; */
+/* padding-left: 10%; */
+/* height: 1000px; */
+padding-left: 25% ;
+padding-top: 7%;
+/* background-color: whitesmoke; */
+}
+.detailsCarousel{
+  /* width: 100px; */
+  margin-left: 5%;
+  margin-right: 4%;
+  /* background-color: whitesmoke; */
+
 }

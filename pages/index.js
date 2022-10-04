@@ -59,6 +59,16 @@ export default function Home() {
       author: "@helloimnik",
     },
   ];
+  const settings = {
+    dots: true,
+    dotsClass: "slick-dots slick-thumb",
+    infinite: true,
+    speed: 500,
+    autoplay: true,
+    autoplaySpeed: 2000,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
   const handleChange = (event) => {
     setSpacing(Number(event.target.value));
   };
@@ -159,7 +169,7 @@ export default function Home() {
                     </Grid>
                   </Grid>
                   <Grid item xs={12} md={12}>
-                    <Footer />
+                    {/* <Footer /> */}
 
                   </Grid>
                   {/* <h1 className={styles.title}>Getting started BIO-DIVERSITY!</h1> */}
@@ -172,7 +182,7 @@ export default function Home() {
 
       </Grid>
 
-
+      <Footer />
     </div>
   );
 }

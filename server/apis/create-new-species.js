@@ -1,41 +1,50 @@
-const { getTable, executeQuery, uniqueIdGenerator } = require('../config/common');
+const { getTable, executeQuery, uniqueIdGenerator, log } = require('../config/common');
 const DB = require("../config/connectToDatabase");
 const moment = require("moment/moment");
 
-exports.createNewSpecies = async(req, res, next) => {
-    console.log(req.body)
-    // let table = getTable(req.body.category)
+exports.createNewSpecies = async (req, res, next) => {
+    try {
+        // console.log(req.body.data)
+        // console.log(req.files)
+        let speciesData = JSON.parse(req.body.data)
+        let fileNameOnServer = []
+        let files = req.files
+        Promise.all(files.map((file) => {
+            fileNameOnServer.push(file.filename)
+        })
+        ).then(async () => {
+            let table = await getTable(speciesData.category.name)
 
-    // let { name, type, keyList, serial } = req.body
-    // if (!serial) {
-    //     serial = await uniqueIdGenerator(table , 5)
-    // }
-    // let searchQuery = `select * from ${table} where serial = '${serial}`
-    // let response = await executeQuery(searchQuery)
-    // DB.query(searchQuery, async (err, response) => {
+            let { serial,
+                kingdom, phylum, classes, order, family, genus, nameOfSpecies, subSpecies, variety, subVariety, clone, forma, species,
+                identificationFeatures, thumbnailImage, lng, lat, marker, category, profileIndex, addtionalCategories } = speciesData
+            if (!serial) {
+                serial = await uniqueIdGenerator(table, 5)
+            }
 
-    //     if (response?.length > 0) {
-    //         let modifiedDatetime = moment().format("YYYY-MM-DD HH:mm:ss");
-    //         let updateQuery = `update ${table} set name = '${name}', name = '${type}', name = '${keyList}', lastModified = '${modifiedDatetime}' where serial = ${response[0].serial}`
-    //         await executeQuery(updateQuery)
-    //         res.status(200).json({
-    //             success: true,
-    //             data: "Updated",
-    //         })
-    //     }
-    //     else {
-    //         keyList = JSON.stringify(keyList)
-    //         let createdDatetimeStamp = moment().format("YYYY-MM-DD HH:mm:ss");
-    //         let insertQuery = `insert into ${table} 
-    //         (name, serial, type, keyList, createdDatetime)
-    //         VALUES('${name}','${serial}','${type}','${keyList}','${createdDatetimeStamp}')`
-    //         let response = await executeQuery(insertQuery)
-    //         console.log(response)
-    //         res.status(200).json({
-    //             success: true,
-    //             data: "Inserted",
-    //         })
-    //     }
+            // keyList = JSON.stringify(keyList)
+            let createdDatetimeStamp = moment().format("YYYY-MM-DD HH:mm:ss");
+            let insertQuery = `insert into ${table} 
+                (serial, kingdom, phylum, class_name, category, order_name, family, genus, name, sub_species, variety, sub_variety, clone, forma, species, identificationFeatures, additional_files, profile_image, lng, lat,marker, createdDatetimeStamp,addtionalCategories)
+                VALUES('${serial}','${kingdom}','${phylum}','${classes}','${category.name}','${order}','${family}','${genus}','${JSON.stringify(nameOfSpecies)}','${subSpecies}','${variety}','${subVariety}','${clone}','${forma}','${species}','${JSON.stringify(identificationFeatures)}','${fileNameOnServer}','${fileNameOnServer[profileIndex]}','${lng}','${lat}','${marker}','${createdDatetimeStamp}','${JSON.stringify(addtionalCategories)}')`
+            // console.log(insertQuery)
+            let response = await executeQuery(insertQuery)
 
-    // })
+            res.status(200).json({
+                success: true,
+                data: response,
+            })
+
+
+        })
+    }
+    catch (err) {
+        log(err)
+        res.status(500).json({
+            success: false,
+            data: err,
+        })
+    }
+
+
 }

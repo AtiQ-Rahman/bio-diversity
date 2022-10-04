@@ -2,12 +2,12 @@ const { getTable, executeQuery, uniqueIdGenerator, tableTypes, log, createQueryF
 
 const DB = require("../config/connectToDatabase");
 
-exports.BIOGetAllCategories = async (req, res, next) => {
-
+exports.BIOGetCategoriesByName = async (req, res, next) => {
+    let name = req.body.name
     let table = await getTable(tableTypes.categories)
-    let searchQuery = `select * from ${table}`
+    let searchQuery = `select * from ${table} where name = '${name}'`
     let response = await executeQuery(searchQuery)
-    console.log({ response })
+    console.log({ searchQuery })
     if (response?.length > 0) {
         let categories = []
         for (let item of response) {

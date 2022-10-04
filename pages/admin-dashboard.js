@@ -98,12 +98,16 @@ export default function Home() {
         elevation={0}
         sx={{
           bgcolor: theme.palette.background.default,
+          boxshadow: '1px 1px 10px #d9d5d5 !important',
           transition: leftDrawerOpened
             ? theme.transitions.create("width")
             : "none",
         }}
       >
-        <Toolbar>
+        <Toolbar sx={{
+          boxShadow: '1px 1px 10px #d9d5d5',
+
+        }}>
           <Header handleLeftDrawerToggle={handleLeftDrawerToggle} />
         </Toolbar>
       </AppBar>

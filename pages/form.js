@@ -171,7 +171,7 @@ const RequestForm = () => {
         </Grid>
       </Grid>
       <br />
-      <Footer sx={{ m: 10 }} />
+      {/* <Footer sx={{ m: 10 }} /> */}
     </div>
   );
 };

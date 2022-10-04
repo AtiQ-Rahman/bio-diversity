@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Counters from "./counters";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
@@ -33,6 +33,38 @@ import { styled, useTheme } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
 import Image from "next/image";
 import blurImage from "../../assets/images/blur.jpg"
+import { useRouter } from 'next/router'
+
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import { imageLoader } from "../../utils/utils";
+import callApi, { imageUrl } from "../../utils/callApi";
+const StyledSlider = styled((props) => (
+    <Slider
+        {...props}
+    />
+))({
+    // '& .slick-dots li': {
+    //     width: "70px",
+    //     height: "70px",
+    //     margin: "0px 4px"
+    // },
+    '& .slick-dots': {
+        display: "block",
+        position: "relative",
+        zIndex: 1000,
+        top: "-20px"
+    },
+    '& .slick-slide div span': {
+        height: '800px !important'
+    },
+});
+let imageProps = {
+    height: "800px !important",
+    // layout: "fill",
+    objectFit: "cover"
+}
 const slideStyles = {
     width: "100%",
     height: "800px",
@@ -64,7 +96,7 @@ const leftArrowStyles = {
 
 const sliderStyles = {
     position: "relative",
-    height: "700px",
+    // height: "700px",
 };
 
 const dotsContainerStyles = {
@@ -82,6 +114,44 @@ const dotStyle = {
 };
 const ImageSlider = ({ slides }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
+    const slider = useRef()
+    const settings = {
+        dots: true,
+        dotsClass: "slick-dots slick-thumb",
+        infinite: true,
+        speed: 500,
+        autoplay: true,
+        autoplaySpeed: 3000,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        beforeChange: (current, next) => setCurrentIndex(next),
+        customPaging: i => (
+            <div style={dotsContainerStyles}>
+                {i === currentIndex ? (
+                    <div
+                        style={dotStyle}
+                        key={i}
+
+                    >
+                        <Icon icon="ci:dot-03-m" width="30" height="30" style={{ position: "relative", top: "4px", left: "-4px" }} />
+                    </div>
+                ) : (
+                    <div
+                        style={dotStyle}
+                        key={i}
+
+                    >
+                        <Icon color="gray" icon="ci:dot-03-m" />
+                    </div>
+
+                )
+                }
+            </div>
+        )
+
+
+
+    };
     var timer;
 
     function infiniteLoop() {
@@ -91,7 +161,7 @@ const ImageSlider = ({ slides }) => {
         }, 3000)
     }
 
-    infiniteLoop();
+    // infiniteLoop();
     const goToPrevious = () => {
         clearTimeout(timer)
         const isFirstSlide = currentIndex === 0;
@@ -106,6 +176,7 @@ const ImageSlider = ({ slides }) => {
     };
     const goToSlide = (slideIndex) => {
         clearTimeout(timer)
+        slider.current.slickGoTo(slideIndex)
         setCurrentIndex(slideIndex);
     };
     console.log(slides)
@@ -114,7 +185,7 @@ const ImageSlider = ({ slides }) => {
         transition: "all 1s ease-in-out",
         backgroundImage: `url(${slides[currentIndex].url.default.src})`,
         // src: slides[currentIndex].url,
-        
+
         // objectFit: "cover",
         // objectPoistion:"center"
 
@@ -122,27 +193,25 @@ const ImageSlider = ({ slides }) => {
     const [ready, setReady] = useState(false);
 
     const handleLoad = (event) => {
-            setReady(true);
+        setReady(true);
 
     };
     return (
         <div style={sliderStyles}>
-            {/* <div style={{
-                opacity: ready ? 1 : 0,
-                transition: "all .3s ease-in"
-            }}>
-                <Image
-                    {...slideStylesWidthBackground}
-                    placeholder="blur"
-                    style={{transition: "all 0.5s ease-out",}}
-                    blurDataURL={blurImage}
-                    onLoadingComplete={handleLoad}
-                    layout="fill"
-                    priority
-                ></Image>
-            </div> */}
 
-            <div style={slideStylesWidthBackground}></div>
+            {slides?.length > 0 ?
+                (<div>
+                    <StyledSlider {...settings} ref={slider}>
+                        {slides.map((speciesImage, index) => {
+                            return (
+                                <Image key={`slideImage${index}`}{...imageProps} loader={imageLoader} src={speciesImage.url} />
+                            )
+                        })}
+                    </StyledSlider>
+                </div>) :
+
+                null
+            }
             <Grid
                 className={styles.image_container}
                 container
@@ -153,14 +222,15 @@ const ImageSlider = ({ slides }) => {
 
             // style={{ minHeight: "50vh" }}
             >
-                <div>
+
+                {/* <div>
                     <div onClick={goToPrevious} style={leftArrowStyles}>
-                        <ArrowBackIosIcon/>
+                        <ArrowBackIosIcon />
                     </div>
                     <div onClick={goToNext} style={rightArrowStyles}>
-                      <ArrowForwardIosIcon/>
+                        <ArrowForwardIosIcon />
                     </div>
-                </div>
+                </div> */}
 
                 <Grid>
                     <Typography className={styles.font}>
@@ -201,34 +271,8 @@ const ImageSlider = ({ slides }) => {
                         <SearchIcon /> Search
                     </Button>
 
-                    {/* <IconButton color="primary" sx={{ p: '10px' }} aria-label="directions">
-        <DirectionsIcon />
-      </IconButton> */}
                 </Grid>
-                <div style={dotsContainerStyles}>
-                    {slides.map((slide, slideIndex) => {
-                        return (slideIndex === currentIndex ? (
-                            <div
-                                style={dotStyle}
-                                key={slideIndex}
-                                onClick={() => goToSlide(slideIndex)}
-                            >
-                                <Icon icon="ci:dot-03-m" width="30" height="30" style={{ position: "relative", top: -6 }} />
-                            </div>
-                        ) : (
-                            <div
-                                style={dotStyle}
-                                key={slideIndex}
-                                onClick={() => goToSlide(slideIndex)}
-                            >
-                                <Icon color="gray" icon="ci:dot-03-m" />
-                            </div>
 
-                        )
-                        )
-                    }
-                    )}
-                </div>
             </Grid>
 
         </div>

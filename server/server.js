@@ -1,14 +1,17 @@
 const yargs = require('yargs');
-const app = require("./app");
-
+const next = require("next")
 const dotenv = require("dotenv");
 dotenv.config()
+const port = process.env.PORT || '8443'
+const dev = process.env.NODE_ENV || 'production'
+const server = next({ dev })
+const handle = server.getRequestHandler()
+const shell = require('shelljs');
 
 var fs = require('fs'),
     http = require('http'),
     https = require('https')
-
-
+var dir = './uploads';
 // var options = {
 //     key: fs.readFileSync('./ssl-cert/pkey'),
 //     cert: fs.readFileSync('./ssl-cert/cert'),
@@ -16,39 +19,46 @@ var fs = require('fs'),
 // };
 
 // Handle uncauht error
-process.on("uncaughtException", (err) => {
-    console.log(`Error: ${err.message}`);
-    console.log("Shutting down the server due to unhandle uncauht!");
-    process.exit(1)
-})
-// config 
-dotenv.config()
-// connecting database
+const start = async () => {
 
-const argv = yargs.argv
-let server;
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir , { recursive: true });
+  }
 
-    server = app.listen(8443, () => {
-        console.log(`Server is working on http://localhost:8443`)
+//   server.prepare().then(() => {
+    const app = require("./app");
+    const argv = yargs.argv
+    // let server;
+    // else {
+    //     server = https.createServer(options, app).listen(process.env.PORT, function () {
+    //         console.log(`Server is working on http://localhost:${process.env.PORT}`);
+    //     });
+
+    // }
+    // app.get("*", (req, res) => {
+    //     return handle(req, res)
+    // })
+    app.listen(port, () => {
+        console.log(`Server is working on http://localhost:${port}`)
     });
-
-// else {
-//     server = https.createServer(options, app).listen(process.env.PORT, function () {
-//         console.log(`Server is working on http://localhost:${process.env.PORT}`);
-//     });
-
-// }
-
-
-
-// unhandle promise rejection
-process.on("unhandledRejection", err => {
-    // console.log("Error", err)
-    console.log(`Error: ${err.message}`);
-    console.log("Shutting down the server due to unhandle promise rejection!");
-
-    server.close(() => {
+    process.on("uncaughtException", (err) => {
+        console.log(`Error: ${err}`);
+        console.log("Shutting down the server due to unhandle uncauht!");
         process.exit(1)
     })
-});
+
+// }).catch(err => {
+//     console.log(`Error: ${err}`);
+//     console.log("Shutting down the server due to unhandle promise rejection!");
+//     process.exit(1)
+
+// })
+}
+
+start()
+
+
+
+
+
 
