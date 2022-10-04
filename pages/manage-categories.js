@@ -368,7 +368,10 @@ export default function ManageSpecies() {
                      : "none",
                }}
             >
-               <Toolbar>
+               <Toolbar sx={{
+          boxShadow: '1px 1px 10px #d9d5d5',
+             
+        }}>
                   <Header handleLeftDrawerToggle={handleLeftDrawerToggle} />
                </Toolbar>
             </AppBar>
@@ -380,7 +383,7 @@ export default function ManageSpecies() {
             />
 
             {/* main content */}
-            <Main theme={theme} open={leftDrawerOpened}>
+            <Main theme={theme} open={leftDrawerOpened} sx={{mt:5}}>
                <Breadcrumbs
                   separator={IconChevronRight}
                   navigation={navigation}

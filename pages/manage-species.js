@@ -320,10 +320,14 @@ export default function ManageSpecies() {
             transition: leftDrawerOpened
               ? theme.transitions.create("width")
               : "none",
+              
           }}
         >
-          <Toolbar>
-            <Header handleLeftDrawerToggle={handleLeftDrawerToggle} />
+          <Toolbar sx={{
+          boxShadow: '1px 1px 10px #d9d5d5',
+             
+        }}>
+            <Header handleLeftDrawerToggle={handleLeftDrawerToggle}  />
           </Toolbar>
         </AppBar>
 
@@ -331,16 +335,18 @@ export default function ManageSpecies() {
         <Sidebar
           drawerOpen={leftDrawerOpened}
           drawerToggle={handleLeftDrawerToggle}
+         
         />
 
         {/* main content */}
-        <Main theme={theme} open={leftDrawerOpened}>
+        <Main theme={theme} open={leftDrawerOpened}  sx={{mt:5}}>
           <Breadcrumbs
             separator={IconChevronRight}
             navigation={navigation}
             icon
             title
             rightAlign
+           
           />
           <div className={styles.main}>
             <Box component="section" className={styles.main_box}>

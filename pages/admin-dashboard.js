@@ -119,7 +119,7 @@ export default function Home() {
       />
 
       {/* main content */}
-      <Main theme={theme} open={leftDrawerOpened}>
+      <Main theme={theme} open={leftDrawerOpened} sx={{mt:5}}>
         {/* breadcrumb */}
         <Breadcrumbs
           separator={IconChevronRight}
@@ -128,13 +128,14 @@ export default function Home() {
           title
           rightAlign
         />
-        <div>
+        <div> 
           <Box component="section"  >
             <Box
               component="main"
               sx={{
                 flexGrow: 1,
                 py: 8,
+                
               }}
             >
               <Container maxWidth={false}>
