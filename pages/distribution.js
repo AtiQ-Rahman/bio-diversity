@@ -31,7 +31,7 @@ import Slider from "react-slick";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { imageLoader } from "../utils/utils";
+import { imageLoader, twoDecimal } from "../utils/utils";
 const imageSrc = require("../assets/images/species1.jpg");
 const map = require("../assets/images/map.png");
 const fullscreenControlStyle = {
@@ -168,67 +168,22 @@ const Distribution = () => {
                                                             "&:last-child td, &:last-child th": { border: 0 },
                                                         }}
                                                     >
-                                                        <TableCell component="td" scope="row" width={60}>
+                                                        <TableCell component="td" scope="row" width={50}>
                                                             <Image height={50} width={40} src={species.marker}></Image>
                                                         </TableCell>
-                                                        <TableCell align="center">
-                                                            <Typography variant="body2" color="text.secondary">
+                                                        <TableCell align="">
+                                                            <Typography variant="body2" color="text.primary">
                                                                 {species.name.commonName}
                                                             </Typography>
 
                                                         </TableCell>
-                                                    </TableRow>
-                                                    <TableRow
-                                                        key={index}
-                                                        sx={{
-                                                            "&:last-child td, &:last-child th": { border: 0 },
-                                                        }}
-
-                                                    >
-                                                        <TableCell component="td" scope="row">
-                                                            <Image height={50} width={40} src={species.marker}></Image>
-                                                        </TableCell>
-                                                        <TableCell align="center">
-                                                            <Typography variant="body2" color="text.secondary">
-                                                                {species.name.commonName}
+                                                        <TableCell>
+                                                            <Typography variant="caption">
+                                                                {twoDecimal(species.lng)} ,{twoDecimal(species.lat)}
                                                             </Typography>
-
                                                         </TableCell>
                                                     </TableRow>
-                                                    <TableRow
-                                                        key={index}
-                                                        sx={{
-                                                            "&:last-child td, &:last-child th": { border: 0 },
-                                                        }}
 
-                                                    >
-                                                        <TableCell component="td" scope="row">
-                                                            <Image height={50} width={40} src={species.marker}></Image>
-                                                        </TableCell>
-                                                        <TableCell align="center">
-                                                            <Typography variant="body2" color="text.secondary">
-                                                                {species.name.commonName}
-                                                            </Typography>
-
-                                                        </TableCell>
-                                                    </TableRow>
-                                                    <TableRow
-                                                        key={index}
-                                                        sx={{
-                                                            "&:last-child td, &:last-child th": { border: 0 },
-                                                        }}
-
-                                                    >
-                                                        <TableCell component="td" scope="row">
-                                                            <Image height={50} width={40} src={species.marker}></Image>
-                                                        </TableCell>
-                                                        <TableCell align="center">
-                                                            <Typography variant="body2" color="text.secondary">
-                                                                {species.name.commonName}
-                                                            </Typography>
-
-                                                        </TableCell>
-                                                    </TableRow>
                                                     </>
                                                     
                                                 ))}
