@@ -26,6 +26,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { IconChevronRight } from "@tabler/icons";
 import { Icon } from "@iconify/react";
 import navigation from "../components/Admin/menu-items";
+import { useSnackbar } from "notistack";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 
@@ -105,7 +106,8 @@ const AddNewSpecies = () => {
    const mapContainer = useRef(null);
    const map = useRef(null);
    const [lng, setLng] = useState(0);
-   const [lat, setLat] = useState(0);
+  const { enqueueSnackbar } = useSnackbar();
+  const [lat, setLat] = useState(0);
    const [zoom, setZoom] = useState(6.52);
    const [markerUrl, setMarkerUrl] = useState('');
    const [force, setForce] = useState(null);
@@ -325,7 +327,7 @@ const AddNewSpecies = () => {
                         }
                      })
                      console.log("response", res);
-                     enqueueSnackbar("Report  Uploaded Successfully", {
+                     enqueueSnackbar("Species Uploaded Successfully", {
                         variant: "success",
                         // action: <Button>See all</Button>
                      });
