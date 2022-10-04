@@ -4,11 +4,11 @@
   "private": true,
   "homepage": "http://AtiQ-Rahman.github.io/bio-diversity",
   "scripts": {
-    "dev": "nodemon start-app.js",
+    "dev": "next dev",
     "build": "next build",
     "preDeploy": "next export",
     "deploy": "node deploy.js",
-    "start": "node start-app.js",
+    "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {

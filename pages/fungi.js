@@ -343,20 +343,6 @@ const Fungi = () => {
                         </Typography>
                         <Grid container spacing={3}>
                            <Grid item xs={2}>
-                              <TextField
-                                 required
-                                 id="serial"
-                                 name="serial"
-                                 // margin="normal"
-                                 size="small"
-                                 label="Serial"
-                                 type="number"
-                                 fullWidth
-                                 autoComplete="Serial"
-                                 variant="outlined"
-                              />
-                           </Grid>
-                           <Grid item xs={2}>
                               <Autocomplete
                                  size="small"
                                  disablePortal
@@ -394,7 +380,7 @@ const Fungi = () => {
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("kingdom", value.name);
+                                    setFieldValue("kingdom", value?.name);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
@@ -421,7 +407,7 @@ const Fungi = () => {
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("phylum", value.name);
+                                    setFieldValue("phylum", value?.name);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
@@ -448,7 +434,7 @@ const Fungi = () => {
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("class_name", value.name);
+                                    setFieldValue("class_name", value?.name);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
@@ -475,7 +461,7 @@ const Fungi = () => {
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("order_name", value.name);
+                                    setFieldValue("order_name", value?.name);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
@@ -502,7 +488,7 @@ const Fungi = () => {
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("family", value.name);
+                                    setFieldValue("family", value?.name);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
@@ -529,7 +515,7 @@ const Fungi = () => {
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("genus", value.name);
+                                    setFieldValue("genus", value?.name);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
@@ -556,7 +542,7 @@ const Fungi = () => {
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("species", value.name);
+                                    setFieldValue("species", value?.name);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
@@ -583,7 +569,7 @@ const Fungi = () => {
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("subSpecies", value.name);
+                                    setFieldValue("subSpecies", value?.name);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
@@ -610,7 +596,7 @@ const Fungi = () => {
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("variety", value.name);
+                                    setFieldValue("variety", value?.name);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
@@ -637,7 +623,7 @@ const Fungi = () => {
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("subVariety", value.name);
+                                    setFieldValue("subVariety", value?.name);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
@@ -664,7 +650,7 @@ const Fungi = () => {
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("clone", value.name);
+                                    setFieldValue("clone", value?.name);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
@@ -691,7 +677,7 @@ const Fungi = () => {
                                  getOptionLabel={(option) => option.name}
                                  // sx={{ width: 300 }}
                                  onChange={(e, value) => {
-                                    setFieldValue("forma", value.name);
+                                    setFieldValue("forma", value?.name);
                                  }}
                                  renderInput={(params) => (
                                     <TextField
@@ -872,7 +858,7 @@ const Fungi = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures.physical"
                                        onChange={handleChange}
                                     />
@@ -887,7 +873,7 @@ const Fungi = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures.habitat"
                                        onChange={handleChange}
                                     />
@@ -902,7 +888,7 @@ const Fungi = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures.behavior"
                                        onChange={handleChange}
                                     />
@@ -917,7 +903,7 @@ const Fungi = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures.migration"
                                        onChange={handleChange}
                                     />
@@ -932,7 +918,7 @@ const Fungi = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures.breeding"
                                        onChange={handleChange}
                                     />
@@ -947,7 +933,7 @@ const Fungi = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures.chromosome"
                                        onChange={handleChange}
                                     />
@@ -962,7 +948,7 @@ const Fungi = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures.molecular"
                                        onChange={handleChange}
                                     />
@@ -977,7 +963,7 @@ const Fungi = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures.notes"
                                        onChange={handleChange}
                                     />
@@ -992,7 +978,7 @@ const Fungi = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures.distribution"
                                        onChange={handleChange}
                                     />
@@ -1007,7 +993,7 @@ const Fungi = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures.iucn"
                                        onChange={handleChange}
                                     />
@@ -1022,7 +1008,7 @@ const Fungi = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures.economic"
                                        onChange={handleChange}
                                     />
@@ -1037,7 +1023,7 @@ const Fungi = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures.medicinal"
                                        onChange={handleChange}
                                     />
@@ -1052,7 +1038,7 @@ const Fungi = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures."
                                        onChange={handleChange}
                                     />
@@ -1067,7 +1053,7 @@ const Fungi = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures.pharmaceuticals"
                                        onChange={handleChange}
                                     />
@@ -1082,7 +1068,7 @@ const Fungi = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures."
                                        onChange={handleChange}
                                     />
@@ -1097,7 +1083,7 @@ const Fungi = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures.otherInfo"
                                        onChange={handleChange}
                                     />
@@ -1112,7 +1098,7 @@ const Fungi = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures.otherUses"
                                        onChange={handleChange}
                                     />
@@ -1127,7 +1113,7 @@ const Fungi = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures.ecologicalIndicator"
                                        onChange={handleChange}
                                     />
@@ -1142,7 +1128,7 @@ const Fungi = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures."
                                        onChange={handleChange}
                                     />
@@ -1157,7 +1143,7 @@ const Fungi = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures.typeOfSpecies"
                                        onChange={handleChange}
                                     />
@@ -1172,7 +1158,7 @@ const Fungi = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures.fruitingTime"
                                        onChange={handleChange}
                                     />
@@ -1187,7 +1173,7 @@ const Fungi = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures."
                                        onChange={handleChange}
                                     />
@@ -1202,7 +1188,7 @@ const Fungi = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures."
                                        onChange={handleChange}
                                     />
@@ -1217,7 +1203,7 @@ const Fungi = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures.season"
                                        onChange={handleChange}
                                     />
@@ -1232,7 +1218,7 @@ const Fungi = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures.threats"
                                        onChange={handleChange}
                                     />
@@ -1247,7 +1233,7 @@ const Fungi = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures.conservation"
                                        onChange={handleChange}
                                     />
@@ -1262,7 +1248,7 @@ const Fungi = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures.measures"
                                        onChange={handleChange}
                                     />
@@ -1277,7 +1263,7 @@ const Fungi = () => {
                                        placeholder="Type your Descripton here"
                                        variant="outlined"
                                        fullWidth
-                                       required
+                                       
                                        name="identificationFeatures.miscellaneous"
                                        onChange={handleChange}
                                     />

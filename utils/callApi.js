@@ -2,7 +2,7 @@ import axios from "axios";
 const mode = 'dev' // 'dev' or 'production
 
 const config = {
-  dev: "http://localhost:3000/api/v1",
+  dev: "http://localhost:8443/api/v1",
   production: "https://bio-diversity-server.herokuapp.com/api/v1"
 }
 const axiosConfig = {

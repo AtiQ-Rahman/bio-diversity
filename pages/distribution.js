@@ -1,5 +1,4 @@
 import {
-    AppBar,
     Box,
     Button,
     Card,
@@ -10,6 +9,13 @@ import {
     Grid,
     Toolbar,
     Typography,
+    TableContainer,
+    Paper,
+    Table,
+    TableHead,
+    TableRow,
+    TableCell,
+    TableBody,
 } from "@mui/material";
 import React, { useState, useEffect, useRef } from "react";
 import ReactDOM from "react-dom"
@@ -22,6 +28,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 mapboxgl.accessToken = process.env.mapbox_key;
 import callApi, { imageUrl } from "../utils/callApi";
 import Slider from "react-slick";
+
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { imageLoader } from "../utils/utils";
@@ -58,7 +65,7 @@ const Distribution = () => {
         speciesList.length > 0 ? cbfn(speciesList) : cbfn([])
     }
     useEffect(() => {
-        fetchData((speciesList)=>{
+        fetchData((speciesList) => {
             map.current = new mapboxgl.Map({
                 container: mapContainer.current,
                 style: process.env.mapStyle,
@@ -91,7 +98,7 @@ const Distribution = () => {
                         .setLngLat(city)
                         .setPopup(new mapboxgl.Popup({ offset: 30 }).setHTML(`
                         <div >
-                        <div style="height: 150px; width:150px; background-image: url('${imageUrl + '/'+ city.profile_image}'); background-size : cover ; background-repeat : no-repeat"></div>
+                        <div style="height: 150px; width:150px; background-image: url('${imageUrl + '/' + city.profile_image}'); background-size : cover ; background-repeat : no-repeat"></div>
                         <div className="popup">
                             <h3 className="route-name">${city.name.bangla}</h3>
                             <div className="route-metric-row">
@@ -105,12 +112,12 @@ const Distribution = () => {
                             <p className="route-city">Lng/Lat ${city.lng},${city.lng}</p>
                         </div>
                     </div>`
-    
-    
+
+
                         ))
                         .addTo(map.current);
                 }
-    
+
             })
         })
     }, []);
@@ -142,7 +149,7 @@ const Distribution = () => {
                     <div className={styles.sidebar}>
                         Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
                     </div>
-                    <div className={styles.details_bar}>
+                    <Box className={styles.details_bar}>
 
                         <Card sx={{ maxWidth: 345, height: 1080 }}>
                             <CardContent>
@@ -150,28 +157,85 @@ const Distribution = () => {
                                     Total Species {speciesList.length}
                                 </Typography>
                                 {speciesList.length > 0 ? (
-                                    <Grid container>
-                                        {speciesList.map((species,index) => {
-                                            return (
-
-                                                <Grid key={`species${index}`} item xs={12}>
-                                                    <Grid container>
-                                                        <Grid item xs={4}>
+                                    <TableContainer component={Paper}   sx={{maxHeight: 440}}  >
+                                        <Table sx={{ maxWidth: 340 }} aria-label="customized table" >
+                                            <TableBody   >
+                                                {speciesList.map((species, index) => (
+                                                    <>
+                                                    <TableRow
+                                                        key={index}
+                                                        sx={{
+                                                            "&:last-child td, &:last-child th": { border: 0 },
+                                                        }}
+                                                    >
+                                                        <TableCell component="td" scope="row" width={60}>
                                                             <Image height={50} width={40} src={species.marker}></Image>
-                                                        </Grid>
-                                                        <Grid item xs={8}>
+                                                        </TableCell>
+                                                        <TableCell align="center">
                                                             <Typography variant="body2" color="text.secondary">
                                                                 {species.name.commonName}
                                                             </Typography>
-                                                        </Grid>
-                                                    </Grid>
-                                                </Grid>
 
-                                            )
-                                        })}
+                                                        </TableCell>
+                                                    </TableRow>
+                                                    <TableRow
+                                                        key={index}
+                                                        sx={{
+                                                            "&:last-child td, &:last-child th": { border: 0 },
+                                                        }}
 
-                                    </Grid>
-                                ):null}
+                                                    >
+                                                        <TableCell component="td" scope="row">
+                                                            <Image height={50} width={40} src={species.marker}></Image>
+                                                        </TableCell>
+                                                        <TableCell align="center">
+                                                            <Typography variant="body2" color="text.secondary">
+                                                                {species.name.commonName}
+                                                            </Typography>
+
+                                                        </TableCell>
+                                                    </TableRow>
+                                                    <TableRow
+                                                        key={index}
+                                                        sx={{
+                                                            "&:last-child td, &:last-child th": { border: 0 },
+                                                        }}
+
+                                                    >
+                                                        <TableCell component="td" scope="row">
+                                                            <Image height={50} width={40} src={species.marker}></Image>
+                                                        </TableCell>
+                                                        <TableCell align="center">
+                                                            <Typography variant="body2" color="text.secondary">
+                                                                {species.name.commonName}
+                                                            </Typography>
+
+                                                        </TableCell>
+                                                    </TableRow>
+                                                    <TableRow
+                                                        key={index}
+                                                        sx={{
+                                                            "&:last-child td, &:last-child th": { border: 0 },
+                                                        }}
+
+                                                    >
+                                                        <TableCell component="td" scope="row">
+                                                            <Image height={50} width={40} src={species.marker}></Image>
+                                                        </TableCell>
+                                                        <TableCell align="center">
+                                                            <Typography variant="body2" color="text.secondary">
+                                                                {species.name.commonName}
+                                                            </Typography>
+
+                                                        </TableCell>
+                                                    </TableRow>
+                                                    </>
+                                                    
+                                                ))}
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+                                ) : null}
 
                                 <Typography variant="body2" color="text.secondary">
                                     The full name of the genus or species can be inserted, or
@@ -189,7 +253,7 @@ const Distribution = () => {
                             </CardActions>
                         </Card>
 
-                    </div>
+                    </Box>
                     <div ref={mapContainer} className={styles.map_container}></div>
 
                 </Grid>

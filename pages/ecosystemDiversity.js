@@ -278,65 +278,65 @@ const EcosystemDiversity = () => {
                            })
                            : null}
 
+                        <Grid item xs={3}>
+                           <TextField
 
+                              id="Species"
+                              name="nameOfSpecies.english"
+                              margin="normal"
+                              size="small"
+                              label="English Name"
+                              fullWidth
+                              onChange={handleChange}
+                              autoComplete="English Name"
+                              variant="outlined"
+                           />
+                        </Grid>
+                        <Grid item xs={3}>
+                           <TextField
+
+                              id="banglaName"
+                              name="nameOfSpecies.bangla"
+                              margin="normal"
+                              size="small"
+                              label="Bangla Name"
+                              fullWidth
+                              onChange={handleChange}
+                              autoComplete="Bangla Name"
+                              variant="outlined"
+                           />
+                        </Grid>
+                        <Grid item xs={3}>
+                           <TextField
+
+                              id="commonName"
+                              name="nameOfSpecies.commonName"
+                              margin="normal"
+                              size="small"
+                              label="Common Name"
+                              fullWidth
+                              autoComplete="commonName"
+                              onChange={handleChange}
+                              variant="outlined"
+                           />
+                        </Grid>
+                        <Grid item xs={3}>
+                           <TextField
+
+                              id="synonym"
+                              name="nameOfSpecies.synonym"
+                              margin="normal"
+                              size="small"
+                              label="Synonym"
+                              fullWidth
+                              autoComplete="synonym"
+                              variant="outlined"
+                              onChange={handleChange}
+                           />
+                        </Grid>
 
                      </Grid>
-                     <Grid item xs={3}>
-                                    <TextField
-                                       
-                                       id="Species"
-                                       name="nameOfSpecies.english"
-                                       margin="normal"
-                                       size="small"
-                                       label="English Name"
-                                       fullWidth
-                                       onChange={handleChange}
-                                       autoComplete="English Name"
-                                       variant="outlined"
-                                    />
-                                 </Grid>
-                                 <Grid item xs={3}>
-                                    <TextField
-                                       
-                                       id="banglaName"
-                                       name="nameOfSpecies.bangla"
-                                       margin="normal"
-                                       size="small"
-                                       label="Bangla Name"
-                                       fullWidth
-                                       onChange={handleChange}
-                                       autoComplete="Bangla Name"
-                                       variant="outlined"
-                                    />
-                                 </Grid>
-                                 <Grid item xs={3}>
-                                    <TextField
-                                       
-                                       id="commonName"
-                                       name="nameOfSpecies.commonName"
-                                       margin="normal"
-                                       size="small"
-                                       label="Common Name"
-                                       fullWidth
-                                       autoComplete="commonName"
-                                       onChange={handleChange}
-                                       variant="outlined"
-                                    />
-                                 </Grid>
-                                 <Grid item xs={3}>
-                                    <TextField
-                                       
-                                       id="synonym"
-                                       name="nameOfSpecies.synonym"
-                                       margin="normal"
-                                       size="small"
-                                       label="Synonym"
-                                       fullWidth
-                                       autoComplete="synonym"
-                                       variant="outlined"
-                                       onChange={handleChange}
-                                    />
-                                 </Grid>
+
                      <br />
                      <Button
                         className={styles.bg_primary}
@@ -361,7 +361,7 @@ const EcosystemDiversity = () => {
             )}
          </Formik>
          <Grid item xs={12} style={{ borderRadius: "10px", paddingBottom: "100px" }} >
-         {speciesList?.length > 0 ? (
+            {speciesList?.length > 0 ? (
                <TableContainer component={Paper}    >
                   <Table sx={{ minWidth: 650 }} aria-label="customized table" >
                      <TableHead>
@@ -389,15 +389,15 @@ const EcosystemDiversity = () => {
                               </TableCell>
                               <TableCell align="center">
                                  {row.profile_image ? (
-                                 <Grid container sx={{justifyContent:"center"}}>
-                                    <Grid item xs={4}>
-                                       <Image {...imageProps} objectFit="cover" loader={imageLoader} src={imageUrl + '/' + row.profile_image}></Image>
-                                    </Grid>
-                                    <Grid item xs={8}>
-                                       {row.name.bangla}
+                                    <Grid container sx={{ justifyContent: "center" }}>
+                                       <Grid item xs={4}>
+                                          <Image {...imageProps} objectFit="cover" loader={imageLoader} src={imageUrl + '/' + row.profile_image}></Image>
+                                       </Grid>
+                                       <Grid item xs={8}>
+                                          {row.name.bangla}
 
-                                    </Grid>
-                                 </Grid>) : (
+                                       </Grid>
+                                    </Grid>) : (
                                     row.name.bangla
                                  )}
 

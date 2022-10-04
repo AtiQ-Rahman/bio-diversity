@@ -360,7 +360,7 @@ const AddNewSpecies = () => {
                            Add New Species
                         </Typography>
                         <Grid container spacing={3}>
-                           <Grid item xs={2}>
+                           {/* <Grid item xs={2}>
                               <TextField
                                  required
                                  id="serial"
@@ -373,7 +373,7 @@ const AddNewSpecies = () => {
                                  autoComplete="Serial"
                                  variant="outlined"
                               />
-                           </Grid>
+                           </Grid> */}
                            <Grid item xs={2}>
                               <Autocomplete
                                  size="small"

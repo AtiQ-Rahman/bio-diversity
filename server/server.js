@@ -2,14 +2,16 @@ const yargs = require('yargs');
 const next = require("next")
 const dotenv = require("dotenv");
 dotenv.config()
-const port = process.env.PORT || '3000'
+const port = process.env.PORT || '8443'
 const dev = process.env.NODE_ENV || 'production'
 const server = next({ dev })
 const handle = server.getRequestHandler()
+const shell = require('shelljs');
 
 var fs = require('fs'),
     http = require('http'),
     https = require('https')
+var dir = './uploads';
 // var options = {
 //     key: fs.readFileSync('./ssl-cert/pkey'),
 //     cert: fs.readFileSync('./ssl-cert/cert'),
@@ -17,12 +19,14 @@ var fs = require('fs'),
 // };
 
 // Handle uncauht error
-server.prepare().then(() => {
+const start = async () => {
+
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir , { recursive: true });
+  }
+
+//   server.prepare().then(() => {
     const app = require("./app");
-    // config 
-    // dotenv.config()
-    // connecting database
-    console.log(process.env.DATABASE)
     const argv = yargs.argv
     // let server;
     // else {
@@ -31,9 +35,9 @@ server.prepare().then(() => {
     //     });
 
     // }
-    app.get("*", (req, res) => {
-        return handle(req, res)
-    })
+    // app.get("*", (req, res) => {
+    //     return handle(req, res)
+    // })
     app.listen(port, () => {
         console.log(`Server is working on http://localhost:${port}`)
     });
@@ -43,12 +47,18 @@ server.prepare().then(() => {
         process.exit(1)
     })
 
-}).catch(err => {
-    console.log(`Error: ${err}`);
-    console.log("Shutting down the server due to unhandle promise rejection!");
-    process.exit(1)
+// }).catch(err => {
+//     console.log(`Error: ${err}`);
+//     console.log("Shutting down the server due to unhandle promise rejection!");
+//     process.exit(1)
 
-})
+// })
+}
+
+start()
+
+
+
 
 
 

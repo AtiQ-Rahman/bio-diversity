@@ -310,8 +310,9 @@ const Plants = () => {
                               key="kingdoms"
                               getOptionLabel={(option) => option.name}
                               // sx={{ width: 300 }}
+                              value={values?.kingdom}
                               onChange={(e, value) => {
-                                 setFieldValue("kingdom", value.name);
+                                 setFieldValue("kingdom", value?.name);
                               }}
                               renderInput={(params) => (
                                  <TextField
@@ -338,7 +339,7 @@ const Plants = () => {
                               getOptionLabel={(option) => option.name}
                               // sx={{ width: 300 }}
                               onChange={(e, value) => {
-                                 setFieldValue("phylum", value.name);
+                                 setFieldValue("phylum", value?.name);
                               }}
                               renderInput={(params) => (
                                  <TextField
@@ -365,7 +366,7 @@ const Plants = () => {
                               getOptionLabel={(option) => option.name}
                               // sx={{ width: 300 }}
                               onChange={(e, value) => {
-                                 setFieldValue("class_name", value.name);
+                                 setFieldValue("class_name", value?.name);
                               }}
                               renderInput={(params) => (
                                  <TextField
@@ -392,7 +393,7 @@ const Plants = () => {
                               getOptionLabel={(option) => option.name}
                               // sx={{ width: 300 }}
                               onChange={(e, value) => {
-                                 setFieldValue("order_name", value.name);
+                                 setFieldValue("order_name", value?.name);
                               }}
                               renderInput={(params) => (
                                  <TextField
@@ -419,7 +420,7 @@ const Plants = () => {
                               getOptionLabel={(option) => option.name}
                               // sx={{ width: 300 }}
                               onChange={(e, value) => {
-                                 setFieldValue("family", value.name);
+                                 setFieldValue("family", value?.name);
                               }}
                               renderInput={(params) => (
                                  <TextField
@@ -446,7 +447,7 @@ const Plants = () => {
                               getOptionLabel={(option) => option.name}
                               // sx={{ width: 300 }}
                               onChange={(e, value) => {
-                                 setFieldValue("genus", value.name);
+                                 setFieldValue("genus", value?.name);
                               }}
                               renderInput={(params) => (
                                  <TextField
@@ -473,7 +474,7 @@ const Plants = () => {
                               getOptionLabel={(option) => option.name}
                               // sx={{ width: 300 }}
                               onChange={(e, value) => {
-                                 setFieldValue("species", value.name);
+                                 setFieldValue("species", value?.name);
                               }}
                               renderInput={(params) => (
                                  <TextField
@@ -500,7 +501,7 @@ const Plants = () => {
                               getOptionLabel={(option) => option.name}
                               // sx={{ width: 300 }}
                               onChange={(e, value) => {
-                                 setFieldValue("subSpecies", value.name);
+                                 setFieldValue("subSpecies", value?.name);
                               }}
                               renderInput={(params) => (
                                  <TextField
@@ -527,7 +528,7 @@ const Plants = () => {
                               getOptionLabel={(option) => option.name}
                               // sx={{ width: 300 }}
                               onChange={(e, value) => {
-                                 setFieldValue("variety", value.name);
+                                 setFieldValue("variety", value?.name);
                               }}
                               renderInput={(params) => (
                                  <TextField
@@ -554,7 +555,7 @@ const Plants = () => {
                               getOptionLabel={(option) => option.name}
                               // sx={{ width: 300 }}
                               onChange={(e, value) => {
-                                 setFieldValue("subVariety", value.name);
+                                 setFieldValue("subVariety", value?.name);
                               }}
                               renderInput={(params) => (
                                  <TextField
@@ -581,7 +582,7 @@ const Plants = () => {
                               getOptionLabel={(option) => option.name}
                               // sx={{ width: 300 }}
                               onChange={(e, value) => {
-                                 setFieldValue("clone", value.name);
+                                 setFieldValue("clone", value?.name);
                               }}
                               renderInput={(params) => (
                                  <TextField
@@ -608,7 +609,7 @@ const Plants = () => {
                               getOptionLabel={(option) => option.name}
                               // sx={{ width: 300 }}
                               onChange={(e, value) => {
-                                 setFieldValue("forma", value.name);
+                                 setFieldValue("forma", value?.name);
                               }}
                               renderInput={(params) => (
                                  <TextField
