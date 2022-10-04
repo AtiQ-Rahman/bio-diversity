@@ -332,6 +332,7 @@ const AddNewSpecies = () => {
                         // action: <Button>See all</Button>
                      });
                      setErrors(false);
+                     resetForm()
 
                   } catch (error) {
                      console.log({ error });
