@@ -48,6 +48,7 @@ import {
   IconButton,
   Dialog,
   Autocomplete,
+  ListItem,
 } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Link from "next/link";
@@ -65,7 +66,13 @@ const families = require("../utils/kingdoms");
 const genuses = require("../utils/kingdoms");
 const species = require("../utils/kingdoms");
 const imageSrc = require("../assets/images/species1.jpg");
-
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: "center",
+  color: theme.palette.text.secondary,
+}));
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
     padding: theme.spacing(2),
@@ -134,7 +141,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 const columns = [
-//   { id: "subcategory", label: "Subcategory", minWidth: 100 },
+  //   { id: "subcategory", label: "Subcategory", minWidth: 100 },
   { id: "name", label: "Name", minWidth: 170 },
   { id: "type", label: "Key", minWidth: 100 },
   { id: "button", label: "Edit / Delete ", minWidth: 100 },
@@ -286,78 +293,87 @@ export default function SubCategories() {
     dispatch({ type: SET_MENU, opened: !leftDrawerOpened });
   };
   const changeCategory = (e) => {};
-  function Row(props) {
+  function FormRow(props) {
     const { row } = props;
     const [openCategory, setOpenCategory] = React.useState(false);
 
     return (
       <>
-        <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
-          {/* <TableCell>
-            <IconButton
-              aria-label="expand row"
-              size="small"
-              onClick={() => setOpenCategory(!openCategory)}
-            >
-              {openCategory ? (
-                <KeyboardArrowUpIcon />
-              ) : (
-                <KeyboardArrowDownIcon />
-              )}
-            </IconButton>
-          </TableCell> */}
-          {columns.map((column) => {
-            const value = row[column.id];
-            if ( column.id !== "button") {
-              return (
-                <TableCell key={column.id} align={column.align}>
-                  {value}
-                </TableCell>
-              );
-            }
-          })}
-          <TableCell>
-          <Box sx={{ flexGrow: 1, flexDirection: "row" }}>
-                                  <Button
-                                    className={styles.bg_primary}
-                                    style={{
-                                      width: "80px",
-                                      maxHeight: "80px",
-                                      minWidth: "40px",
-                                      minHeight: "40px",
-                                      color: "white",
-                                      boxShadow: "1px 1px 4px grey",
-                                    }}
-                                    onClick={handleClickOpen}
-                                    sx={{ mb: 1, mr: 0.5 }}
-                                  // variant="outlined"
-                                  >
-                                    <Icon icon="dashicons:edit-large" />
-                                    &nbsp; Edit
-                                  </Button>
+        <React.Fragment >
+          <Grid item xs={3} >
+            <Item >
+              <Card
+               sx={{
+                width: 300,
+                height: 300,
+                backgroundColor: '#e7e7e7',
+                // '&:hover': {
+                //   backgroundColor: '#e7e7e7',
+                //   opacity: [0.9, 0.8, 0.7],
+                // },
+              }}
+               >
+                <CardContent>
+                  <Typography variant="body2">
+                    {columns.map((column) => {
+                      const value = row[column.id];
+                      if (column.id !== "button") {
+                        return (
+                          <Box key={column.id} align={column.align}>
+                          
+                            <ListItem sx={{textAlign:'center'}}>
+                             <b>{column.label}</b>: {value}
+                            </ListItem>
+                          </Box>
+                        );
+                      }
+                    })}
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                  <Button
+                    className={styles.bg_primary}
+                    style={{
+                      width: "80px",
+                      maxHeight: "80px",
+                      minWidth: "40px",
+                      minHeight: "40px",
+                      color: "white",
+                      boxShadow: "1px 1px 4px grey",
+                    }}
+                    onClick={handleClickOpen}
+                    sx={{ mb: 1, mr: 0.5 }}
+                    // variant="outlined"
+                  >
+                    <Icon icon="dashicons:edit-large" />
+                    &nbsp; Edit
+                  </Button>
+                  <Button
+                
+                    style={{
+                      width: "100px",
+                      maxHeight: "80px",
+                      minWidth: "40px",
+                      minHeight: "40px",
+                      color: "white",
+                      boxShadow: "1px 1px 4px grey",
+                      color: "black",
+                      background:"white"
+                    }}
+                    onClick={handleClickOpen}
+                    sx={{ mb: 1, mr: 0.5 }}
+                    // variant="outlined"
+                  >
+                    <Icon icon="fluent:delete-16-filled" />
+                    &nbsp; Delete
+                  </Button>
+                </CardActions>
+              </Card>
+            </Item>
+          </Grid>
+        </React.Fragment>
 
-                                  {/* =======MODAL===== */}
-
-                                  <br />
-                                  <Button
-                                    style={{
-                                      boxShadow: "1px 1px 4px grey",
-                                      maxHeight: "80px",
-                                      width: "80px",
-                                      background: "white",
-                                      minHeight: "40px",
-                                      color: "#0f4c39",
-                                    }}
-                                    type="button"
-                                  // onClick={() => router.push("/map")}
-                                  >
-                                    <Icon icon="fluent:delete-16-filled" />
-                                    &nbsp; Delete
-                                  </Button>
-                                </Box>
-          </TableCell>
-        </TableRow>
-        <TableRow>
+        {/* <TableRow>
           <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
             <Collapse in={openCategory} timeout="auto" unmountOnExit>
               <Box sx={{ margin: 1 }}>
@@ -384,8 +400,8 @@ export default function SubCategories() {
                 </Table>
               </Box>
             </Collapse>
-          </TableCell>
-        </TableRow>
+          </TableCell> */}
+        {/* </TableRow> */}
       </>
     );
   }
@@ -445,9 +461,9 @@ export default function SubCategories() {
               <Grid container item xs={12} md={12} sx={{ mx: "auto" }}>
                 <Grid item xs={12} md={12}>
                   <Card sx={{ marginBottom: "10px" }}>
-                    <Typography gutterBottom component="h2" variant="h2">
+                    {/* <Typography gutterBottom component="h2" variant="h2">
                       Manage Category
-                    </Typography>
+                    </Typography> */}
                   </Card>
 
                   {/* TABLE */}
@@ -497,52 +513,28 @@ export default function SubCategories() {
                       sx={{ width: "100%", overflow: "hidden" }}
                       component={Paper}
                     >
-                      <TableContainer sx={{ maxHeight: 440 }}>
-                        <Table stickyHeader aria-label="sticky table">
-                          <TableHead>
-                            <TableRow>
-                              {columns.map((column) => (
-                                <TableCell
-                                  key={column.id}
-                                  align={column.align}
-                                  style={{ minWidth: column.minWidth }}
-                                >
-                                  {column.label}
-                                </TableCell>
-                              ))}
-                            </TableRow>
-                          </TableHead>
-                          <TableBody>
+                      <Box sx={{ flexGrow: 1 }}>
+                        <Grid container spacing={1}>
+                          <Grid container item spacing={3}>
+                            {/* {columns.map((column) => (
+                               
+                                  <Typography>{column.label}</Typography>
+                              
+                              ))}: */}
                             {categoryList
                               ?.slice(
                                 page * rowsPerPage,
                                 page * rowsPerPage + rowsPerPage
                               )
                               .map((row) => {
-                                return <Row key={row.name} row={row} />;
+                                return (
+                                  <FormRow key={row.name} row={row}></FormRow>
+                                );
                               })}
-                          </TableBody>
-                        </Table>
-                      </TableContainer>
-                      <TablePagination
-                        rowsPerPageOptions={[100, 50]}
-                        component="div"
-                        count={categoryList?.length}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        onPageChange={handleChangePage}
-                        onRowsPerPageChange={handleChangeRowsPerPage}
-                      />
+                          </Grid>
+                        </Grid>
+                      </Box>
                     </Paper>
-                    {/* <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      /> */}
                   </Grid>
                 </Grid>
               </Grid>
