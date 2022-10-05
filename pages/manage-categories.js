@@ -134,7 +134,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 const columns = [
-  { id: "subcategory", label: "Subcategory", minWidth: 100 },
+  // { id: "subcategory", label: "Subcategory", minWidth: 100 },
   { id: "name", label: "Name", minWidth: 170 },
   { id: "type", label: "Type", minWidth: 100 },
   { id: "button", label: "Add Sub category ", minWidth: 100 },
@@ -293,7 +293,7 @@ export default function ManageSpecies() {
     return (
       <>
         <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
-          <TableCell>
+          {/* <TableCell>
             <IconButton
               aria-label="expand row"
               size="small"
@@ -305,10 +305,10 @@ export default function ManageSpecies() {
                 <KeyboardArrowDownIcon />
               )}
             </IconButton>
-          </TableCell>
+          </TableCell> */}
           {columns.map((column) => {
             const value = row[column.id];
-            if (column.id !== "subcategory" && column.id !== "button") {
+            if ( column.id !== "button") {
               return (
                 <TableCell key={column.id} align={column.align}>
                   {value}
