@@ -16,6 +16,7 @@ import {
     TableRow,
     TableCell,
     TableBody,
+    TextField,
 } from "@mui/material";
 import React, { useState, useEffect, useRef } from "react";
 import ReactDOM from "react-dom"
@@ -56,47 +57,51 @@ const Distribution = () => {
     const [zoom, setZoom] = useState(6.52);
     const [popupInfo, setPopUpInfo] = useState(null)
     const [speciesList, setSpeciesList] = useState([])
+    const [modifiedList, setModifiedList] = useState([])
     const popUpRef = useRef(new mapboxgl.Popup({ offset: 15 }))
     async function fetchData(cbfn) {
         let response = await callApi('/get-species-list', {})
         setSpeciesList(response.data)
+        setModifiedList(response.data)
         let speciesList = response.data
         console.log({ speciesList })
         speciesList.length > 0 ? cbfn(speciesList) : cbfn([])
     }
     useEffect(() => {
-        fetchData((speciesList) => {
-            map.current = new mapboxgl.Map({
-                container: mapContainer.current,
-                style: process.env.mapStyle,
-                center: [lng, lat],
-                zoom: zoom
-            });
-            map.current.on('move', () => {
-                setLng(map.current.getCenter().lng.toFixed(4));
-                setLat(map.current.getCenter().lat.toFixed(4));
-                setZoom(map.current.getZoom().toFixed(2));
-            });
-            map.current.addControl(new mapboxgl.NavigationControl(), 'top-left');
-            speciesList.map((city) => {
-                if (city.marker && city.lng && city.lat) {
-                    console.log({ city })
-                    const el = document.createElement('div');
-                    const width = 50;
-                    const height = 50;
-                    el.className = styles.marker;
-                    el.style.backgroundImage = `url('${city.marker}')`;
-                    el.style.width = `50px`;
-                    el.style.backgroundStyle = 'cover'
-                    el.style.backgroundRepeat = 'no-repeat'
-                    el.style.backgroundPosition = 'center top'
-                    el.style.height = `50px`;
-                    // el.style.display = `block`;
-                    el.style.top = `-20px`;
-                    el.style.backgroundSize = 'contain';
-                    new mapboxgl.Marker(el)
-                        .setLngLat(city)
-                        .setPopup(new mapboxgl.Popup({ offset: 30 }).setHTML(`
+        fetchData((speciesList) => null)
+    }, []);
+    useEffect(() => {
+        map.current = new mapboxgl.Map({
+            container: mapContainer.current,
+            style: process.env.mapStyle,
+            center: [lng, lat],
+            zoom: zoom
+        });
+        map.current.on('move', () => {
+            setLng(map.current.getCenter().lng.toFixed(4));
+            setLat(map.current.getCenter().lat.toFixed(4));
+            setZoom(map.current.getZoom().toFixed(2));
+        });
+        map.current.addControl(new mapboxgl.NavigationControl(), 'top-left');
+        modifiedList.map((city) => {
+            if (city.marker && city.lng && city.lat) {
+                console.log({ city })
+                const el = document.createElement('div');
+                const width = 50;
+                const height = 50;
+                el.className = styles.marker;
+                el.style.backgroundImage = `url('${city.marker}')`;
+                el.style.width = `50px`;
+                el.style.backgroundStyle = 'cover'
+                el.style.backgroundRepeat = 'no-repeat'
+                el.style.backgroundPosition = 'center top'
+                el.style.height = `50px`;
+                // el.style.display = `block`;
+                el.style.top = `-20px`;
+                el.style.backgroundSize = 'contain';
+                new mapboxgl.Marker(el)
+                    .setLngLat(city)
+                    .setPopup(new mapboxgl.Popup({ offset: 30 }).setHTML(`
                         <div >
                         <div style="height: 150px; width:150px; background-image: url('${imageUrl + '/' + city.profile_image}'); background-size : cover ; background-repeat : no-repeat"></div>
                         <div className="popup">
@@ -114,13 +119,13 @@ const Distribution = () => {
                     </div>`
 
 
-                        ))
-                        .addTo(map.current);
-                }
+                    ))
+                    .addTo(map.current);
+            }
 
-            })
         })
-    }, []);
+
+    }, [modifiedList]);
     return (
 
 
@@ -154,38 +159,69 @@ const Distribution = () => {
                         <Card sx={{ maxWidth: 345, height: 1080 }}>
                             <CardContent>
                                 <Typography gutterBottom variant="h5" component="div">
-                                    Total Species {speciesList.length}
+                                    Total Species {modifiedList.length}
                                 </Typography>
-                                {speciesList.length > 0 ? (
-                                    <TableContainer component={Paper}   sx={{maxHeight: 440}}  >
+
+                                <Grid item xs={12}>
+                                    <TextField
+
+                                        id="Species"
+                                        name="name"
+                                        margin="normal"
+                                        size="small"
+                                        label="Search By Common Name"
+                                        fullWidth
+                                        onChange={(e) => {
+                                            let modifiedList = speciesList.filter((species) => {
+                                                let value = e.target.value.toLocaleLowerCase()
+                                                // if(species?.name?.commonName.toLocaleLowerCase().includes(value) 
+                                                // || species?.name?.bangla.toLocaleLowerCase().includes(value)
+                                                // || species?.name?.english.toLocaleLowerCase().includes(value)
+                                                // || species?.name?.synonym.toLocaleLowerCase().includes(value)) {
+                                                //     return species
+                                                // }
+                                                if (species?.name?.commonName.toLocaleLowerCase().includes(value)) {
+                                                    return species
+                                                }
+                                            })
+                                            setModifiedList(modifiedList)
+                                            console.log({ modifiedList })
+
+                                        }}
+                                        autoComplete="Search By Common Name"
+                                        variant="outlined"
+                                    />
+                                </Grid>
+                                {modifiedList.length > 0 ? (
+                                    <TableContainer component={Paper} sx={{ maxHeight: 440 }}  >
                                         <Table sx={{ maxWidth: 340 }} aria-label="customized table" >
                                             <TableBody   >
-                                                {speciesList.map((species, index) => (
+                                                {modifiedList.map((species, index) => (
                                                     <>
-                                                    <TableRow
-                                                        key={index}
-                                                        sx={{
-                                                            "&:last-child td, &:last-child th": { border: 0 },
-                                                        }}
-                                                    >
-                                                        <TableCell component="td" scope="row" width={50}>
-                                                            <Image height={50} width={40} src={species.marker}></Image>
-                                                        </TableCell>
-                                                        <TableCell align="">
-                                                            <Typography variant="body2" color="text.primary">
-                                                                {species.name.commonName}
-                                                            </Typography>
+                                                        <TableRow
+                                                            key={index}
+                                                            sx={{
+                                                                "&:last-child td, &:last-child th": { border: 0 },
+                                                            }}
+                                                        >
+                                                            <TableCell component="td" scope="row" width={50}>
+                                                                <Image height={50} width={40} src={species.marker}></Image>
+                                                            </TableCell>
+                                                            <TableCell align="">
+                                                                <Typography variant="body2" color="text.primary">
+                                                                    {species.name.commonName}
+                                                                </Typography>
 
-                                                        </TableCell>
-                                                        <TableCell>
-                                                            <Typography variant="caption">
-                                                                {twoDecimal(species.lng)} ,{twoDecimal(species.lat)}
-                                                            </Typography>
-                                                        </TableCell>
-                                                    </TableRow>
+                                                            </TableCell>
+                                                            <TableCell>
+                                                                <Typography variant="caption">
+                                                                    {twoDecimal(species.lng)} ,{twoDecimal(species.lat)}
+                                                                </Typography>
+                                                            </TableCell>
+                                                        </TableRow>
 
                                                     </>
-                                                    
+
                                                 ))}
                                             </TableBody>
                                         </Table>

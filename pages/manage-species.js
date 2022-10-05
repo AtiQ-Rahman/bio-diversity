@@ -299,10 +299,10 @@ export default function ManageSpecies() {
     let speciesList = response.data
     console.log({ speciesList })
     speciesList.length > 0 ? cbfn(speciesList) : cbfn([])
-}
+  }
   useEffect(() => {
     dispatch({ type: SET_MENU, opened: !matchDownMd });
-    fetchData((speciesList)=>{null})
+    fetchData((speciesList) => { null })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [matchDownMd]);
   return (
@@ -606,7 +606,7 @@ export default function ManageSpecies() {
                               boxShadow: "1px 1px 4px grey",
                               margin: "10px",
                             }}
-                            onClick={(e)=>{
+                            onClick={(e) => {
                               router.push('/add-new-species')
                             }}
                           >
@@ -668,7 +668,7 @@ export default function ManageSpecies() {
                       </TableRow>
                     </TableHead> */}
                         <TableBody>
-                          {speciesList?.map((row ,index) => (
+                          {speciesList?.map((row, index) => (
                             <StyledTableRow
                               key={`species${row.index}`}
                               sx={{
@@ -712,7 +712,15 @@ export default function ManageSpecies() {
                                       color: "white",
                                       boxShadow: "1px 1px 4px grey",
                                     }}
-                                    onClick={handleClickOpen}
+                                    onClick={(e) => {
+                                      router.push({
+                                        pathname: '/add-new-species',
+                                        query: {
+                                          serial: row.serial,
+                                          category: row.category
+                                        }
+                                      })
+                                    }}
                                     sx={{ mb: 1, mr: 0.5 }}
                                   // variant="outlined"
                                   >

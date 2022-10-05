@@ -316,6 +316,7 @@ const GeneticSubCellularDiversity = () => {
                      <TableHead>
                         <TableRow>
                            <TableCell>SI</TableCell>
+                           <TableCell></TableCell>
                            <TableCell align="center">Species Name</TableCell>
                            <TableCell align="center">Type</TableCell>
                            <TableCell align="center">Family</TableCell>
@@ -336,20 +337,11 @@ const GeneticSubCellularDiversity = () => {
                               <TableCell component="th" scope="row">
                                  {index + 1}
                               </TableCell>
+                              <TableCell component="td" scope="row" width={200}>
+                                 <Image {...imageProps} objectFit="cover" loader={imageLoader} src={imageUrl + '/' + row.profile_image}></Image>
+                              </TableCell>
                               <TableCell align="center">
-                                 {row.profile_image ? (
-                                    <Grid container sx={{ justifyContent: "center" }}>
-                                       <Grid item xs={4}>
-                                          <Image {...imageProps} objectFit="cover" loader={imageLoader} src={imageUrl + '/' + row.profile_image}></Image>
-                                       </Grid>
-                                       <Grid item xs={8}>
-                                          {row.name.bangla}
-
-                                       </Grid>
-                                    </Grid>) : (
-                                    row.name.bangla
-                                 )}
-
+                                 {row.name.commonName}
                               </TableCell>
                               <TableCell align="center">{row.identificationFeatures.description}</TableCell>
 

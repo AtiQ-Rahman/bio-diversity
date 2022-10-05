@@ -5,7 +5,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import themes from '../theme';
 import { CssBaseline } from "@mui/material";
 import '../styles/mapPopUp.css'
-
+import { SnackbarProvider } from "notistack";
 // import { BrowserRouter } from "react-router-dom";
 import Footer from "../components/Home/Footer/Footer";
 function MyApp({ Component, pageProps }) {
@@ -13,10 +13,13 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <Provider store={store}>
-        {/* <BrowserRouter> */}
-      <ThemeProvider theme={themes({ fontFamily: 'Raleway, Arial'})}>
-      <CssBaseline/>
-        <Component {...pageProps} />
+      {/* <BrowserRouter> */}
+      <ThemeProvider theme={themes({ fontFamily: 'Raleway, Arial' })}>
+        <SnackbarProvider>
+          <CssBaseline />
+          <Component {...pageProps} />
+        </SnackbarProvider>
+
         {/* <Footer /> */}
       </ThemeProvider>
       {/* </BrowserRouter> */}

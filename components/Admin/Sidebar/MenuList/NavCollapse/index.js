@@ -104,7 +104,7 @@ const NavCollapse = ({ menu, level }) => {
              
               >
                 {" "}
-                {menu.icon}   {menu.title}
+                {menu.icon()}   {menu.title}
                 {" "}
               </Grid>
               {/* <Grid display={flex}>
