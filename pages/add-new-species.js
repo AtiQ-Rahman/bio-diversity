@@ -315,7 +315,13 @@ const AddNewSpecies = () => {
                         // gender: Yup.string().required("patient gender is required"),
                         // address: Yup.string().required("patient adressis required"),
                      }),
-                     // serial: Yup.string("Add serial").required("Add serial"),
+                     category: Yup.object().shape({
+                        serial: Yup.string().required("category serial is required"),
+                        name: Yup.string().required("name is required"),
+                        type: Yup.string().required("type is required"),
+                        // gender: Yup.string().required("patient gender is required"),
+                        // address: Yup.string().required("patient adressis required"),
+                     })
                      // kingdom: Yup.string("Add kingdom").required("Add kingdom"),
                      // phylum: Yup.string("Add phylum").required("Add phylum"),
                      // class: Yup.string("Add class").required("Add class"),
@@ -1145,7 +1151,7 @@ const AddNewSpecies = () => {
                                                 key="categorySpecies"
                                                 getOptionLabel={(option) => option.name || option}
                                                 isOptionEqualToValue={(option, value) => option.serial === value.serial}
-
+                                                required
                                                 // sx={{ width: 300 }}
                                                 onChange={(e, value) => {
                                                    setFieldValue("category", value);
@@ -1159,6 +1165,7 @@ const AddNewSpecies = () => {
                                                       label="Select Category"
                                                       variant="outlined"
                                                       placeholder="Select"
+                                                      required
                                                       value={values?.category}
                                                    />
                                                 )}
@@ -1187,6 +1194,7 @@ const AddNewSpecies = () => {
                                                          label="Select Sub Category"
                                                          variant="outlined"
                                                          placeholder="Select"
+                                                         required
                                                          value={values?.category}
                                                       />
                                                    )}
