@@ -143,7 +143,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 const columns = [
   //   { id: "subcategory", label: "Subcategory", minWidth: 100 },
   { id: "name", label: "Name", minWidth: 170 },
-  { id: "type", label: "Key", minWidth: 100 },
+  { id: "key", label: "Key", minWidth: 100 },
   { id: "button", label: "Edit / Delete ", minWidth: 100 },
 ];
 
@@ -170,23 +170,7 @@ function createData(name, code, population, size) {
   };
 }
 
-const rows = [
-  createData("India", "IN", 1324171354, 3287263),
-  createData("China", "CN", 1403500365, 9596961),
-  createData("Italy", "IT", 60483973, 301340),
-  createData("United States", "US", 327167434, 9833520),
-  createData("Canada", "CA", 37602103, 9984670),
-  createData("Australia", "AU", 25475400, 7692024),
-  createData("Germany", "DE", 83019200, 357578),
-  createData("Ireland", "IE", 4857000, 70273),
-  createData("Mexico", "MX", 126577691, 1972550),
-  createData("Japan", "JP", 126317000, 377973),
-  createData("France", "FR", 67022000, 640679),
-  createData("United Kingdom", "GB", 67545757, 242495),
-  createData("Russia", "RU", 146793744, 17098246),
-  createData("Nigeria", "NG", 200962417, 923768),
-  createData("Brazil", "BR", 210147125, 8515767),
-];
+
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
   ({ theme, open }) => ({
     ...theme.typography.mainContent,
@@ -231,18 +215,21 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
     }),
   })
 );
-export default function SubCategories() {
+const SubCategories = () => {
   const theme = useTheme();
   const matchDownMd = useMediaQuery(theme.breakpoints.down("lg"));
   // const classes = useStyles();
+  const router = useRouter();
+
   const [open, setOpen] = React.useState(false);
   const [openUpload, setOpenUpload] = React.useState(false);
   // const handleOpen = () => setOpen(true);
   // const handleClose = () => setOpen(false);
   const [page, setPage] = React.useState(0);
+  const query = router.query
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [force, setForce] = React.useState(false);
-  const [categoryList, setCatgoryList] = React.useState();
+  const [subCategoryList, setSubCategoryList] = React.useState();
   const initialValues = {
     name: "",
     serial: null,
@@ -273,7 +260,6 @@ export default function SubCategories() {
       setCreateObjectURL(URL.createObjectURL(i));
     }
   };
-  const router = useRouter();
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -292,7 +278,7 @@ export default function SubCategories() {
   const handleLeftDrawerToggle = () => {
     dispatch({ type: SET_MENU, opened: !leftDrawerOpened });
   };
-  const changeCategory = (e) => {};
+  const changeCategory = (e) => { };
   function FormRow(props) {
     const { row } = props;
     const [openCategory, setOpenCategory] = React.useState(false);
@@ -303,16 +289,17 @@ export default function SubCategories() {
           <Grid item xs={3} >
             <Item >
               <Card
-               sx={{
-                width: 300,
-                height: 300,
-                backgroundColor: '#e7e7e7',
-                // '&:hover': {
-                //   backgroundColor: '#e7e7e7',
-                //   opacity: [0.9, 0.8, 0.7],
-                // },
-              }}
-               >
+                sx={{
+
+                  backgroundColor: '#ff907838',
+                  boxShadow: '3px 1px 10px #f1f1f1',
+                  border: '1px solid #f3c4b8',
+                  // '&:hover': {
+                  //   backgroundColor: '#e7e7e7',
+                  //   opacity: [0.9, 0.8, 0.7],
+                  // },
+                }}
+              >
                 <CardContent>
                   <Typography variant="body2">
                     {columns.map((column) => {
@@ -320,9 +307,9 @@ export default function SubCategories() {
                       if (column.id !== "button") {
                         return (
                           <Box key={column.id} align={column.align}>
-                          
-                            <ListItem sx={{textAlign:'center'}}>
-                             <b>{column.label}</b>: {value}
+
+                            <ListItem sx={{ textAlign: 'center' }}>
+                              <b>{column.label}</b>: {value}
                             </ListItem>
                           </Box>
                         );
@@ -343,13 +330,13 @@ export default function SubCategories() {
                     }}
                     onClick={handleClickOpen}
                     sx={{ mb: 1, mr: 0.5 }}
-                    // variant="outlined"
+                  // variant="outlined"
                   >
                     <Icon icon="dashicons:edit-large" />
                     &nbsp; Edit
                   </Button>
                   <Button
-                
+
                     style={{
                       width: "100px",
                       maxHeight: "80px",
@@ -358,11 +345,11 @@ export default function SubCategories() {
                       color: "white",
                       boxShadow: "1px 1px 4px grey",
                       color: "black",
-                      background:"white"
+                      background: "white"
                     }}
                     onClick={handleClickOpen}
                     sx={{ mb: 1, mr: 0.5 }}
-                    // variant="outlined"
+                  // variant="outlined"
                   >
                     <Icon icon="fluent:delete-16-filled" />
                     &nbsp; Delete
@@ -405,13 +392,14 @@ export default function SubCategories() {
       </>
     );
   }
-  async function fetchData() {
-    let response = await callApi("/get-categories-list", {});
-    setCatgoryList(response.data);
+  async function fetchData(query) {
+    let response = await callApi("/get-categories-by-name", { name: query.name });
+    setSubCategoryList(response.data[0].keyList);
   }
   useEffect(() => {
+    if (!query) return
     dispatch({ type: SET_MENU, opened: !matchDownMd });
-    fetchData();
+    fetchData(query);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [matchDownMd]);
   return (
@@ -470,7 +458,7 @@ export default function SubCategories() {
                   <Divider></Divider>
                   <Grid container xs={12}>
                     <Grid item xs={12} md={5}>
-                      <h1>Total Table Found ({rows.length})</h1>
+                      <h2>Selected Category ({query.name})</h2>
                     </Grid>
 
                     <Grid item xs={12} md={7}>
@@ -521,7 +509,7 @@ export default function SubCategories() {
                                   <Typography>{column.label}</Typography>
                               
                               ))}: */}
-                            {categoryList
+                            {subCategoryList
                               ?.slice(
                                 page * rowsPerPage,
                                 page * rowsPerPage + rowsPerPage
@@ -858,3 +846,7 @@ export default function SubCategories() {
     </div>
   );
 }
+SubCategories.getInitialProps = ({ query }) => {
+  return { query }
+}
+export default SubCategories

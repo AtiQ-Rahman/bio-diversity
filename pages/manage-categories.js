@@ -331,10 +331,9 @@ export default function ManageSpecies() {
               onClick={() =>
                 router.push({
                   pathname: "/subCategories",
-                  // query: {
-                  //   serial: row.serial,
-                  //   category: "Plants",
-                  // },
+                  query: {
+                    name: row.name,
+                  },
                 })
               }
               // variant="outlined"
