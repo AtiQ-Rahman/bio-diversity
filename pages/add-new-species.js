@@ -427,7 +427,7 @@ const AddNewSpecies = () => {
                                     value = {values?.kingdom}
                                     // sx={{ width: 300 }}
                                     onChange={(e, value) => {
-                                       setFieldValue("kingdom", value.name);
+                                       setFieldValue("kingdom", value?.name);
                                     }}
                                     renderInput={(params) => (
                                        <TextField
@@ -455,7 +455,7 @@ const AddNewSpecies = () => {
                                     value = {values?.phylum}
                                     // sx={{ width: 300 }}
                                     onChange={(e, value) => {
-                                       setFieldValue("phylum", value.name);
+                                       setFieldValue("phylum", value?.name);
                                     }}
                                     renderInput={(params) => (
                                        <TextField
@@ -483,7 +483,7 @@ const AddNewSpecies = () => {
                                     value = {values?.class_name}
                                     // sx={{ width: 300 }}
                                     onChange={(e, value) => {
-                                       setFieldValue("class_name", value.name);
+                                       setFieldValue("class_name", value?.name);
                                     }}
                                     renderInput={(params) => (
                                        <TextField
@@ -511,7 +511,7 @@ const AddNewSpecies = () => {
                                     value = {values?.order_name}
                                     // sx={{ width: 300 }}
                                     onChange={(e, value) => {
-                                       setFieldValue("order_name", value.name);
+                                       setFieldValue("order_name", value?.name);
                                     }}
                                     renderInput={(params) => (
                                        <TextField
@@ -535,11 +535,11 @@ const AddNewSpecies = () => {
                                     name={values?.family}
                                     options={families}
                                     key="families"
-                                    ggetOptionLabel={(option) => option?.name || option}
+                                    getOptionLabel={(option) => option?.name || option}
                                     value = {values?.family}
                                     // sx={{ width: 300 }}
                                     onChange={(e, value) => {
-                                       setFieldValue("family", value.name);
+                                       setFieldValue("family", value?.name);
                                     }}
                                     renderInput={(params) => (
                                        <TextField
@@ -567,7 +567,7 @@ const AddNewSpecies = () => {
                                     value = {values?.genus}
                                     // sx={{ width: 300 }}
                                     onChange={(e, value) => {
-                                       setFieldValue("genus", value.name);
+                                       setFieldValue("genus", value?.name);
                                     }}
                                     renderInput={(params) => (
                                        <TextField
@@ -595,7 +595,7 @@ const AddNewSpecies = () => {
                                     value = {values?.species}
                                     // sx={{ width: 300 }}
                                     onChange={(e, value) => {
-                                       setFieldValue("species", value.name);
+                                       setFieldValue("species", value?.name);
                                     }}
                                     renderInput={(params) => (
                                        <TextField
@@ -623,7 +623,7 @@ const AddNewSpecies = () => {
                                     value = {values?.sub_species}
                                     // sx={{ width: 300 }}
                                     onChange={(e, value) => {
-                                       setFieldValue("sub_species", value.name);
+                                       setFieldValue("sub_species", value?.name);
                                     }}
                                     renderInput={(params) => (
                                        <TextField
@@ -651,7 +651,7 @@ const AddNewSpecies = () => {
                                     value = {values?.variety}
                                     // sx={{ width: 300 }}
                                     onChange={(e, value) => {
-                                       setFieldValue("variety", value.name);
+                                       setFieldValue("variety", value?.name);
                                     }}
                                     renderInput={(params) => (
                                        <TextField
@@ -679,7 +679,7 @@ const AddNewSpecies = () => {
                                     value = {values?.sub_variety}
                                     // sx={{ width: 300 }}
                                     onChange={(e, value) => {
-                                       setFieldValue("sub_variety", value.name);
+                                       setFieldValue("sub_variety", value?.name);
                                     }}
                                     renderInput={(params) => (
                                        <TextField
@@ -708,7 +708,7 @@ const AddNewSpecies = () => {
                                     
                                     // sx={{ width: 300 }}
                                     onChange={(e, value) => {
-                                       setFieldValue("clone", value.name);
+                                       setFieldValue("clone", value?.name);
                                     }}
                                     renderInput={(params) => (
                                        <TextField
@@ -736,7 +736,7 @@ const AddNewSpecies = () => {
                                     value = {values?.forma}
                                     // sx={{ width: 300 }}
                                     onChange={(e, value) => {
-                                       setFieldValue("forma", value.name);
+                                       setFieldValue("forma", value?.name);
                                     }}
                                     renderInput={(params) => (
                                        <TextField
