@@ -5,6 +5,7 @@ import ListAltIcon from '@mui/icons-material/ListAlt';
 import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
 import CenterFocusWeakIcon from '@mui/icons-material/CenterFocusWeak';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
+import { Icon } from '@iconify/react';
 // constant
 const icons = { IconDashboard };
 
@@ -20,8 +21,8 @@ const dashboard = {
             title: 'Dashboard',
             type: 'collapse',
             url: '/admin-dashboard',
-            icon: icons.IconDashboard,
-            icon:<DashboardIcon sx={{ fontSize: 15 , mr : 1 }}/>,
+            // icon: icons.IconDashboard,
+            icon: ()=><DashboardIcon sx={{ fontSize: 15 , mr : 1 }}/>,
             breadcrumbs: false
         },
         {
@@ -30,7 +31,7 @@ const dashboard = {
             type: 'collapse',
             url: '/manage-species',
             target: true,
-            icon:<ManageSearchIcon  sx={{ fontSize: 15 , mr : 1 }}/>
+            icon: ()=><ManageSearchIcon  sx={{ fontSize: 15 , mr : 1 }}/>
           
         },
         {
@@ -39,7 +40,7 @@ const dashboard = {
             type: 'collapse',
             url: '/manage-categories',
             target: true,
-            icon:<ManageSearchIcon  sx={{ fontSize: 15 , mr : 1 }}/>
+            icon: ()=><ManageSearchIcon  sx={{ fontSize: 15 , mr : 1 }}/>
           
         },
         {
@@ -47,7 +48,7 @@ const dashboard = {
             title: 'Requested Species',
             type: 'collapse',
             url: '/manage-requested-species',
-            icon:<ListAltIcon  sx={{ fontSize: 15 , mr : 1 }}/>,
+            icon: ()=><ListAltIcon  sx={{ fontSize: 15 , mr : 1 }}/>,
             target: true
         },
         {
@@ -56,7 +57,7 @@ const dashboard = {
             type: 'collapse',
             url: '/admin-zoning',
             target: true,
-            icon:<CenterFocusWeakIcon  sx={{ fontSize: 15 , mr : 1 }}/>
+            icon: ()=><CenterFocusWeakIcon  sx={{ fontSize: 15 , mr : 1 }}/>
         },
         {
             id: 'distribution',
@@ -64,7 +65,7 @@ const dashboard = {
             type: 'collapse',
             url: '/distribution',
             target: true,
-            icon:<AddLocationAltIcon  sx={{ fontSize: 15 , mr : 1 }}/>
+            icon: ()=><AddLocationAltIcon  sx={{ fontSize: 15 , mr : 1 }}/>
         }
     ]
 };
