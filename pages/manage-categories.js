@@ -18,6 +18,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import PropTypes from "prop-types";
 import { Icon } from "@iconify/react";
 import Collapse from "@mui/material/Collapse";
+import AddIcon from '@mui/icons-material/Add';
 import {
   AppBar,
   Box,
@@ -320,7 +321,7 @@ export default function ManageSpecies() {
             <Button
               className={styles.bg_primary}
               style={{
-                width: "130px",
+                width: "80px",
                 maxHeight: "80px",
                 minWidth: "40px",
                 minHeight: "40px",
@@ -338,7 +339,7 @@ export default function ManageSpecies() {
               }
               // variant="outlined"
             >
-              Add subCategories
+            <AddIcon></AddIcon>Add 
             </Button>
           </TableCell>
         </TableRow>
