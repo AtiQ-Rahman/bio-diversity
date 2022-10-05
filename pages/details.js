@@ -133,13 +133,13 @@ const Details = () => {
                       component="h2"
                       variant="h2"
                       // className={styles.title1}
-                      sx={{ paddingTop: "70px", paddingBottom: "30px" }}
+                      sx={{ paddingTop: "70px", paddingBottom: "50px" }}
                     >
                       {speciesDetails?.name?.commonName}
                     </Typography>
                   </Grid>
                 </Item>
-                <CardContent>
+                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} pl={30}>
                                
                                 
                                     <Grid item xs={6}>
@@ -198,7 +198,7 @@ const Details = () => {
                                         </Typography>
                                     </Grid>
                          
-                            </CardContent>
+                            </Grid>
                 
               </Grid>
             </Grid>
