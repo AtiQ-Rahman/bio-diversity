@@ -134,10 +134,10 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 const columns = [
-  { id: "subcategory", label: "Subcategory", minWidth: 100 },
+//   { id: "subcategory", label: "Subcategory", minWidth: 100 },
   { id: "name", label: "Name", minWidth: 170 },
-  { id: "type", label: "Type", minWidth: 100 },
-  { id: "button", label: "Add Sub category ", minWidth: 100 },
+  { id: "type", label: "Key", minWidth: 100 },
+  { id: "button", label: "Edit / Delete ", minWidth: 100 },
 ];
 
 function createData(name, code, population, size) {
@@ -224,7 +224,7 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
     }),
   })
 );
-export default function ManageSpecies() {
+export default function SubCategories() {
   const theme = useTheme();
   const matchDownMd = useMediaQuery(theme.breakpoints.down("lg"));
   // const classes = useStyles();
@@ -293,7 +293,7 @@ export default function ManageSpecies() {
     return (
       <>
         <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
-          <TableCell>
+          {/* <TableCell>
             <IconButton
               aria-label="expand row"
               size="small"
@@ -305,10 +305,10 @@ export default function ManageSpecies() {
                 <KeyboardArrowDownIcon />
               )}
             </IconButton>
-          </TableCell>
+          </TableCell> */}
           {columns.map((column) => {
             const value = row[column.id];
-            if (column.id !== "subcategory" && column.id !== "button") {
+            if ( column.id !== "button") {
               return (
                 <TableCell key={column.id} align={column.align}>
                   {value}
@@ -317,29 +317,44 @@ export default function ManageSpecies() {
             }
           })}
           <TableCell>
-            <Button
-              className={styles.bg_primary}
-              style={{
-                width: "130px",
-                maxHeight: "80px",
-                minWidth: "40px",
-                minHeight: "40px",
-                color: "white",
-              }}
-              type="button"
-              onClick={() =>
-                router.push({
-                  pathname: "/subCategories",
-                  // query: {
-                  //   serial: row.serial,
-                  //   category: "Plants",
-                  // },
-                })
-              }
-              // variant="outlined"
-            >
-              Add subCategories
-            </Button>
+          <Box sx={{ flexGrow: 1, flexDirection: "row" }}>
+                                  <Button
+                                    className={styles.bg_primary}
+                                    style={{
+                                      width: "80px",
+                                      maxHeight: "80px",
+                                      minWidth: "40px",
+                                      minHeight: "40px",
+                                      color: "white",
+                                      boxShadow: "1px 1px 4px grey",
+                                    }}
+                                    onClick={handleClickOpen}
+                                    sx={{ mb: 1, mr: 0.5 }}
+                                  // variant="outlined"
+                                  >
+                                    <Icon icon="dashicons:edit-large" />
+                                    &nbsp; Edit
+                                  </Button>
+
+                                  {/* =======MODAL===== */}
+
+                                  <br />
+                                  <Button
+                                    style={{
+                                      boxShadow: "1px 1px 4px grey",
+                                      maxHeight: "80px",
+                                      width: "80px",
+                                      background: "white",
+                                      minHeight: "40px",
+                                      color: "#0f4c39",
+                                    }}
+                                    type="button"
+                                  // onClick={() => router.push("/map")}
+                                  >
+                                    <Icon icon="fluent:delete-16-filled" />
+                                    &nbsp; Delete
+                                  </Button>
+                                </Box>
           </TableCell>
         </TableRow>
         <TableRow>
@@ -465,7 +480,7 @@ export default function ManageSpecies() {
                             }}
                             onClick={handleClickUpload}
                           >
-                            Add New Category
+                            Add New Sub Category
                           </Button>
                         </Grid>
                       </Grid>
