@@ -47,16 +47,16 @@ exports.BIOGSearchParamsByField = async (req, res, next) => {
         searchQuery += ` and forma = '${searchParameters.forma}'`
     }
     if (searchParameters.nameOfSpecies.english) {
-        searchQuery += ` and JSON_EXTRACT(name, "$.english") like '%${searchParameters.nameOfSpecies.english}%'`
+        searchQuery += ` and JSON_EXTRACT(name, "$.english") REGEXP '${searchParameters.nameOfSpecies.english}?'`
     }
     if (searchParameters.nameOfSpecies.bangla) {
-        searchQuery += ` and JSON_EXTRACT(name, "$.bangla") like '%${searchParameters.nameOfSpecies.bangla}%'`
+        searchQuery += ` and JSON_EXTRACT(name, "$.bangla") REGEXP '${searchParameters.nameOfSpecies.bangla}?'`
     }
     if (searchParameters.nameOfSpecies.commonName) {
-        searchQuery += ` and JSON_EXTRACT(name, "$.commonName") like '%${searchParameters.nameOfSpecies.commonName}%'`
+        searchQuery += ` and JSON_EXTRACT(name, "$.commonName") REGEXP '${searchParameters.nameOfSpecies.commonName}?'`
     }
     if (searchParameters.nameOfSpecies.synonym) {
-        searchQuery += ` and JSON_EXTRACT(name, "$.synonym") like '%${searchParameters.nameOfSpecies.synonym}%'`
+        searchQuery += ` and JSON_EXTRACT(name, "$.synonym") REGEXP '${searchParameters.nameOfSpecies.synonym}?'`
     }
     
     let response = await executeQuery(searchQuery)
