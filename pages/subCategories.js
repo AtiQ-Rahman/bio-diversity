@@ -58,6 +58,7 @@ import callApi from "../utils/callApi";
 import Slide from "@mui/material/Slide";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import { useSnackbar } from "notistack";
 const kingdoms = require("../utils/kingdoms");
 const phylums = require("../utils/kingdoms");
 const classes = require("../utils/kingdoms");
@@ -277,6 +278,8 @@ const SubCategories = () => {
   // Handle left drawer
   const leftDrawerOpened = useSelector((state) => state.customization.opened);
   const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
+
   const handleLeftDrawerToggle = () => {
     dispatch({ type: SET_MENU, opened: !leftDrawerOpened });
   };
@@ -613,6 +616,10 @@ const SubCategories = () => {
                       "/add-update-categories",
                       categoryData
                     );
+                    enqueueSnackbar("Sub Caategory Updated", {
+                      variant: "success",
+                      // action: <Button>See all</Button>
+                    });
                     handleClose()
                     // window.location.reload()
                     resetForm();
