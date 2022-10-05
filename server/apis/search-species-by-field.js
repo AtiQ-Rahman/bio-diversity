@@ -74,12 +74,14 @@ exports.BIOGSearchParamsByField = async (req, res, next) => {
             })
         }
         res.status(200).json({
+            message:"Found",
             success: true,
             data: modifiedResponse,
         })
     }
     else {
         res.status(200).json({
+            message:"No Species Found",
             success: true,
             data: [],
         })

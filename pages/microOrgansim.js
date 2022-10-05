@@ -193,6 +193,7 @@ const MicroOrgansim = () => {
    const [createObjectURL, setCreateObjectURL] = useState(null);
    const [category, setCatgory] = React.useState()
    const theme = useTheme();
+   const [searchMessage , setSearchMessage] = React.useState('')
    const [speciesList, setSpeciesList] = React.useState()
    const matchDownMd = useMediaQuery(theme.breakpoints.down("lg"));
    const initialValues = {
@@ -307,7 +308,8 @@ const MicroOrgansim = () => {
                      let res = await callApi("/search-species-by-field", { searchParameters })
                      console.log("response", res);
                      setSpeciesList(res?.data)
-                     // enqueueSnackbar("Report  Uploaded Successfully", {
+                     setSearchMessage(res?.message)
+                  // enqueueSnackbar("Report  Uploaded Successfully", {
                      //    variant: "success",
                      //    // action: <Button>See all</Button>
                      // });
@@ -1299,102 +1301,109 @@ const MicroOrgansim = () => {
                   </Form>
                )}
             </Formik>
-            <Grid item xs={12}      style={{ borderRadius: "10px",paddingBottom:"100px" }} >
-            {speciesList?.length > 0 ? (
-               <TableContainer component={Paper}    >
-                  <Table sx={{ minWidth: 650 }} aria-label="customized table" >
-                     <TableHead>
-                        <TableRow>
-                           <TableCell>SI</TableCell>
-                           <TableCell></TableCell>
-                           <TableCell align="center">Species Name</TableCell>
-                           <TableCell align="center">Type</TableCell>
-                           <TableCell align="center">Family</TableCell>
-                           <TableCell align="center">Order name</TableCell>
-                           <TableCell align="center">Lng/Lat</TableCell>
-                           <TableCell align="center">Action</TableCell>
-                        </TableRow>
-                     </TableHead>
-                     <TableBody   >
-                        {speciesList.map((row, index) => (
-                           <TableRow
-                              key={row.index}
-                              sx={{
-                                 "&:last-child td, &:last-child th": { border: 0 },
-                              }}
+            <Grid container sx={{ borderRadius: "10px", px: 10 }} >
+            <Grid item xs={12}>
+               {speciesList?.length > 0 ? (
+                  <><Typography variant="h2" component="h2" align="center" gutterBottom>
+                     Total Species Found : {speciesList.length}
+                  </Typography>
+                     <TableContainer component={Paper}    >
+                        <Table sx={{ minWidth: 650 }} aria-label="customized table" >
+                           <TableHead>
+                              <TableRow>
+                                 <TableCell>SI</TableCell>
+                                 <TableCell></TableCell>
+                                 <TableCell align="center">Species Name</TableCell>
+                                 <TableCell align="center">Type</TableCell>
+                                 <TableCell align="center">Family</TableCell>
+                                 <TableCell align="center">Order name</TableCell>
+                                 <TableCell align="center">Lng/Lat</TableCell>
+                                 <TableCell align="center">Action</TableCell>
+                              </TableRow>
+                           </TableHead>
+                           <TableBody   >
+                              {speciesList.map((row, index) => (
+                                 <TableRow
+                                    key={row.index}
+                                    sx={{
+                                       "&:last-child td, &:last-child th": { border: 0 },
+                                    }}
 
-                           >
-                              <TableCell component="th" scope="row">
-                                 {index + 1}
-                              </TableCell>
-                              <TableCell component="td" scope="row" width={200}>
-                                 <Image {...imageProps} objectFit="cover" loader={imageLoader} src={imageUrl + '/' + row.profile_image}></Image>
-                              </TableCell>
-                              <TableCell align="center">
-                                 {row.name.commonName}
-                              </TableCell>
-                              <TableCell align="center">{row.identificationFeatures.subCategory.name}</TableCell>
+                                 >
+                                    <TableCell component="th" scope="row">
+                                       {index + 1}
+                                    </TableCell>
+                                    <TableCell component="td" scope="row" width={200}>
+                                       <Image {...imageProps} objectFit="cover" loader={imageLoader} src={imageUrl + '/' + row.profile_image}></Image>
+                                    </TableCell>
+                                    <TableCell align="center">
+                                       {row.name.commonName}
+                                    </TableCell>
+                                    <TableCell align="center">{row.identificationFeatures.subCategory.name}</TableCell>
 
-                              <TableCell align="center">{row.family}</TableCell>
-                              <TableCell align="center">{row.order_name}</TableCell>
-                              <TableCell align="center">{row.lng} ,{row.lat}</TableCell>
-                              <TableCell align="center">
-                                 <Grid container spacing={1} width={100}>
-                                    <Grid item xs={12}>
-                                       <Button
-                                          style={{
-                                             width: "130px",
-                                             maxHeight: "80px",
-                                             minWidth: "40px",
-                                             minHeight: "40px"
-                                          }}
-                                          type="button"
-                                          onClick={() => router.push({
-                                             pathname: "/details",
-                                             query: {
-                                                serial: row.serial,
-                                                category: 'Microorganisms'
-                                             }
-                                          })}
-                                          variant="outlined"
-                                       >
-                                          View Details
-                                       </Button>
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                       <Button
-                                          className={styles.bg_primary}
-                                          style={{
-                                             width: "130px",
-                                             maxHeight: "80px",
-                                             minWidth: "40px",
-                                             minHeight: "40px",
-                                             color: "white"
-                                          }}
-                                          type="button"
-                                          onClick={() => router.push({
-                                             pathname: "/map",
-                                             query: {
-                                                serial: row.serial,
-                                                category: 'Microorganisms'
-                                             }
-                                          })}
-                                       // variant="outlined"
-                                       >
-                                          View on map
-                                       </Button>
-                                    </Grid>
+                                    <TableCell align="center">{row.family}</TableCell>
+                                    <TableCell align="center">{row.order_name}</TableCell>
+                                    <TableCell align="center">{row.lng} ,{row.lat}</TableCell>
+                                    <TableCell align="center">
+                                       <Grid container spacing={1} width={100}>
+                                          <Grid item xs={12}>
+                                             <Button
+                                                style={{
+                                                   width: "130px",
+                                                   maxHeight: "80px",
+                                                   minWidth: "40px",
+                                                   minHeight: "40px"
+                                                }}
+                                                type="button"
+                                                onClick={() => router.push({
+                                                   pathname: "/details",
+                                                   query: {
+                                                      serial: row.serial,
+                                                      category: 'Plants'
+                                                   }
+                                                })}
+                                                variant="outlined"
+                                             >
+                                                View Details
+                                             </Button>
+                                          </Grid>
+                                          <Grid item xs={12}>
+                                             <Button
+                                                className={styles.bg_primary}
+                                                style={{
+                                                   width: "130px",
+                                                   maxHeight: "80px",
+                                                   minWidth: "40px",
+                                                   minHeight: "40px",
+                                                   color: "white"
+                                                }}
+                                                type="button"
+                                                onClick={() => router.push({
+                                                   pathname: "/map",
+                                                   query: {
+                                                      serial: row.serial,
+                                                      category: 'Plants'
+                                                   }
+                                                })}
+                                             // variant="outlined"
+                                             >
+                                                View on map
+                                             </Button>
+                                          </Grid>
 
-                                 </Grid>
+                                       </Grid>
 
-                              </TableCell>
-                           </TableRow>
-                        ))}
-                     </TableBody>
-                  </Table>
-               </TableContainer>
-            ) : null}
-                {/* <TablePagination
+                                    </TableCell>
+                                 </TableRow>
+                              ))}
+                           </TableBody>
+                        </Table>
+                     </TableContainer></>
+               ) : <Typography variant="h1" component="h1" align="center">
+                  {searchMessage ?? ''}
+               </Typography>}
+            </Grid>
+            {/* <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
         count={rows.length}
@@ -1403,7 +1412,7 @@ const MicroOrgansim = () => {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       /> */}
-              </Grid>
+         </Grid>
             <Footer  style={{ padding: "100px" }} />
       </Box>
    );
