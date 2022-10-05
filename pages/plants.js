@@ -310,7 +310,6 @@ const Plants = () => {
                               key="kingdoms"
                               getOptionLabel={(option) => option.name}
                               // sx={{ width: 300 }}
-                              value={values?.kingdom}
                               onChange={(e, value) => {
                                  setFieldValue("kingdom", value?.name);
                               }}
