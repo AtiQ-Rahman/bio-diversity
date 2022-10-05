@@ -229,13 +229,14 @@ const SubCategories = () => {
   const query = router.query
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [force, setForce] = React.useState(false);
+  const [category, setCategory] = React.useState();
   const [subCategoryList, setSubCategoryList] = React.useState();
+  const [keyIndex, setKeyIndex] = useState(-1)
   const initialValues = {
     name: "",
-    serial: null,
-    type: "",
-    keyList: [],
+    key: "",
   };
+  const [subCategoryValues, setSubCategoriesValues] = useState(initialValues)
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -264,6 +265,7 @@ const SubCategories = () => {
     setOpen(true);
   };
   const handleClose = () => {
+    setKeyIndex(-1)
     setOpen(false);
   };
   const handleClickUpload = () => {
@@ -280,7 +282,7 @@ const SubCategories = () => {
   };
   const changeCategory = (e) => { };
   function FormRow(props) {
-    const { row } = props;
+    const { row , index} = props;
     const [openCategory, setOpenCategory] = React.useState(false);
 
     return (
@@ -328,7 +330,15 @@ const SubCategories = () => {
                       color: "white",
                       boxShadow: "1px 1px 4px grey",
                     }}
-                    onClick={handleClickOpen}
+                    onClick={(e) => {
+                      setSubCategoriesValues({
+                        name: row.name,
+                        key: row.key,
+                      })
+                      setKeyIndex(index)
+                      console.log(row.name, index)
+                      handleClickOpen()
+                    }}
                     sx={{ mb: 1, mr: 0.5 }}
                   // variant="outlined"
                   >
@@ -394,6 +404,7 @@ const SubCategories = () => {
   }
   async function fetchData(query) {
     let response = await callApi("/get-categories-by-name", { name: query.name });
+    setCategory(response.data[0])
     setSubCategoryList(response.data[0].keyList);
   }
   useEffect(() => {
@@ -482,7 +493,7 @@ const SubCategories = () => {
                               boxShadow: "1px 1px 4px grey",
                               margin: "10px",
                             }}
-                            onClick={handleClickUpload}
+                            onClick={handleClickOpen}
                           >
                             Add New Sub Category
                           </Button>
@@ -514,9 +525,9 @@ const SubCategories = () => {
                                 page * rowsPerPage,
                                 page * rowsPerPage + rowsPerPage
                               )
-                              .map((row) => {
+                              .map((row , index) => {
                                 return (
-                                  <FormRow key={row.name} row={row}></FormRow>
+                                  <FormRow key={row.name} index={index} row={row}></FormRow>
                                 );
                               })}
                           </Grid>
@@ -530,13 +541,13 @@ const SubCategories = () => {
           </div>
 
           <BootstrapDialog
-            onClose={handleCloseUpload}
+            onClose={handleClickOpen}
             aria-labelledby="customized-dialog-title"
-            open={openUpload}
+            open={open}
           >
             <BootstrapDialogTitle
               id="customized-dialog-title"
-              onClose={handleCloseUpload}
+              onClose={handleClose}
               style={{
                 fontWeight: 600,
                 fontSize: 20,
@@ -548,7 +559,7 @@ const SubCategories = () => {
             </BootstrapDialogTitle>
             <DialogContent dividers>
               <Formik
-                initialValues={initialValues}
+                initialValues={subCategoryValues}
                 // validationSchema={Yup.object().shape({
                 //    species: Yup.object().shape({
                 //       english: Yup.string().required(
@@ -580,22 +591,30 @@ const SubCategories = () => {
                     console.log(values);
                     if (
                       !values.name ||
-                      !values.type ||
-                      values.keyList.length == 0
+                      !values.key
                     ) {
                       return;
                     }
-
-                    let data = {
-                      name: values.name,
-                      serial: values.serial,
-                      type: values.type,
-                      keyList: values.keyList,
-                    };
+                    let categoryData = category
+                    if (keyIndex > -1) {
+                      categoryData.keyList[keyIndex] = {
+                        name: values.name,
+                        key: values.key
+                      }
+                    }
+                    else {
+                      categoryData.keyList.push({
+                        name: values.name,
+                        key: values.key
+                      });
+                    }
+                    console.log({ keyIndex })
                     let response = await callApi(
                       "/add-update-categories",
-                      data
+                      categoryData
                     );
+                    handleClose()
+                    // window.location.reload()
                     resetForm();
                   } catch (error) {
                     console.log({ error });
@@ -624,31 +643,19 @@ const SubCategories = () => {
                             type="text"
                             name="name"
                             value={values?.name || ""}
-                            label="Category Name"
+                            label="Name"
+                            sx={{ mr: 5 }}
+                            onChange={handleChange}
+                          />
+                          <TextField
+                            type="text"
+                            name="key"
+                            value={values?.key || ""}
+                            label="Key"
                             sx={{ mr: 5 }}
                             onChange={handleChange}
                           />
 
-                          <Autocomplete
-                            options={["Field", "Dropdown"]}
-                            getOptionLabel={(option) => option}
-                            // value={values?.type}
-                            id="category-type"
-                            name="type"
-                            sx={{ width: 200 }}
-                            onChange={(e, val) => {
-                              console.log(val);
-                              setFieldValue("type", val);
-                            }}
-                            renderInput={(params) => (
-                              <TextField
-                                {...params}
-                                label="Type"
-                                variant="standard"
-                                value={values?.type}
-                              />
-                            )}
-                          />
                           {/* <Button
                             size="small"
                             className={styles.bg_primary}
@@ -669,57 +676,6 @@ const SubCategories = () => {
                         </Grid>
                       </Grid>
                       <Divider />
-                      <Grid container xs={12} md={12}>
-                        {values?.keyList.map((item, index) => {
-                          return (
-                            <Grid
-                              item
-                              xs={12}
-                              key={`keyList${index}`}
-                              md={12}
-                              sx={{ display: "flex", mb: 2 }}
-                            >
-                              <TextField
-                                type="text"
-                                size="small"
-                                name="subcategory-name"
-                                value={values?.keyList[index].name}
-                                label="Name"
-                                sx={{ mr: 5 }}
-                                onChange={(e, value) => {
-                                  values.keyList[index].name = e.target.value;
-                                  setFieldValue("keyList", values.keyList);
-                                  console.log(e.target.value);
-                                }}
-                              />
-
-                              <TextField
-                                type="text"
-                                value={values?.keyList[index].key}
-                                size="small"
-                                name="subcategory-key"
-                                label="Key"
-                                sx={{ mr: 5 }}
-                                onChange={(e) => {
-                                  values.keyList[index].key = e.target.value;
-                                  setFieldValue("keyList", values.keyList);
-                                }}
-                              />
-                              <Icon
-                                icon="fluent:delete-28-filled"
-                                width={30}
-                                color="red"
-                                onClick={(e) => {
-                                  values.keyList.splice(index, 1);
-                                  setFieldValue("keyList", values.keyList);
-                                  // setCategoryObject(category)
-                                  setForce(!force);
-                                }}
-                              />
-                            </Grid>
-                          );
-                        })}
-                      </Grid>
                     </Box>
                     <DialogActions>
                       <Button

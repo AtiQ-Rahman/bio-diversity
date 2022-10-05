@@ -4,18 +4,19 @@ const DB = require("../config/connectToDatabase");
 
 exports.addUpdateCategories = async (req, res, next) => {
     console.log(req.body)
-    let table = getTable(tableTypes.categories)
+    let table = await getTable(tableTypes.categories)
 
     let { name, type, keyList, serial } = req.body
     if (!serial) {
         serial = await uniqueIdGenerator(table, 5)
     }
-    let searchQuery = `select * from ${table} where serial = '${serial}`
+    let searchQuery = `select * from ${table} where serial = '${serial}'`
     // let response = await executeQuery(searchQuery)
-    let response = await executeQuery(insertQuery)
+    let response = await executeQuery(searchQuery)
+    console.log({response , searchQuery})
     if (response?.length > 0) {
         let modifiedDatetime = moment().format("YYYY-MM-DD HH:mm:ss");
-        let updateQuery = `update ${table} set name = '${name}', name = '${type}', name = '${keyList}', lastModified = '${modifiedDatetime}' where serial = ${response[0].serial}`
+        let updateQuery = `update ${table} set name = '${name}', type = '${type}', keyList = '${JSON.stringify(keyList)}', lastModified = '${modifiedDatetime}' where serial = '${response[0].serial}'`
         await executeQuery(updateQuery)
         res.status(200).json({
             success: true,
