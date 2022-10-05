@@ -149,61 +149,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     border: 0,
   },
 }));
-const rows = [
-  createData(
-    1,
 
-    "Bryopsis indica Gepp & Gepp",
-    "Bryopsidaceae",
-    "St Martin’s Island (SMI)",
-    "rocks, corals",
-    "2-3",
-    "20.622990,92.320325"
-  ),
-  createData(
-    2,
-
-    "Bryopsis indica Gepp & Gepp",
-    "Bryopsidaceae",
-    "St Martin’s Island (SMI)",
-    "rocks, corals",
-    "2-3",
-    "20.622990,92.320325"
-  ),
-
-  createData(
-    3,
-
-    "Bryopsis indica Gepp & Gepp",
-    "Bryopsidaceae",
-    "St Martin’s Island (SMI)",
-    "rocks, corals",
-    "2-3",
-    "20.622990,92.320325"
-  ),
-
-  createData(
-    4,
-
-    "Bryopsis indica Gepp & Gepp",
-    "Bryopsidaceae",
-    "St Martin’s Island (SMI)",
-    "rocks, corals",
-    "2-3",
-    "20.622990,92.320325"
-  ),
-
-  createData(
-    5,
-
-    "Bryopsis indica Gepp & Gepp",
-    "Bryopsidaceae",
-    "St Martin’s Island (SMI)",
-    "rocks, corals",
-    "2-3",
-    "20.622990,92.320325"
-  ),
-];
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
   ({ theme, open }) => ({
     ...theme.typography.mainContent,
@@ -297,6 +243,11 @@ export default function ManageSpecies() {
     let response = await callApi('/get-species-list', {})
     setSpeciesList(response.data)
     let speciesList = response.data
+    speciesList = speciesList.sort((a, b) => {
+      if (a.createdDatetimeStamp > b.createdDatetimeStamp) return -1;
+      if (a.createdDatetimeStamp < b.createdDatetimeStamp) return 1;
+      return 0;
+    });
     console.log({ speciesList })
     speciesList.length > 0 ? cbfn(speciesList) : cbfn([])
   }

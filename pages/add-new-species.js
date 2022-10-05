@@ -535,7 +535,7 @@ const AddNewSpecies = () => {
                                     name={values?.family}
                                     options={families}
                                     key="families"
-                                    ggetOptionLabel={(option) => option?.name || option}
+                                    getOptionLabel={(option) => option?.name || option}
                                     value = {values?.family}
                                     // sx={{ width: 300 }}
                                     onChange={(e, value) => {
