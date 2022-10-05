@@ -1,4 +1,4 @@
-import { Button, Card, Grid, Paper, Typography } from "@mui/material";
+import { Button, Card, CardContent, Grid, Paper, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
@@ -14,6 +14,14 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { imageLoader } from "../utils/utils";
 import callApi, { imageUrl } from "../utils/callApi";
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: "center",
+  color: theme.palette.text.secondary,
+}));
+
 let imageProps = {
   height: "300px",
   width: "400px",
@@ -83,109 +91,121 @@ const Details = () => {
         <Header index={1} />
         <Box className={styles.main_box2}>
           <Grid container>
-            <Grid item xs={12} md={8}>
-              <Typography
-                gutterBottom
-                component="h2"
-                variant="h2"
-                className={styles.title1}
-              >
-                {speciesDetails?.name?.commonName}
-              </Typography>
-              <Grid item xs={6}>
-                <Typography gutterBottom component="description" variant="div">
-                  <b>Kindom</b>: {speciesDetails.kindom}
-                </Typography>
-              </Grid>
-              <Grid item xs={6}>
-                <Typography gutterBottom component="description" variant="div">
-                  <b>Phylum</b>: {speciesDetails.phylum}
-                </Typography>
-              </Grid>
-              <Grid item xs={6}>
-                <Typography gutterBottom component="description" variant="div">
-                  <b>class</b>: {speciesDetails.class}
-                </Typography>
-              </Grid>
-              <Grid item xs={6}>
-                <Typography gutterBottom component="description" variant="div">
-                  <b>order</b>: {speciesDetails.order}
-                </Typography>
-              </Grid>
-              <Grid item xs={6}>
-                <Typography gutterBottom component="description" variant="div">
-                  <b>family</b>: {speciesDetails.family}
-                </Typography>
-              </Grid>
-              <Grid item xs={6}>
-                <Typography gutterBottom component="description" variant="div">
-                  <b>Genus</b>: {speciesDetails.genus}
-                </Typography>
-              </Grid>
-              <Grid item xs={6}>
-                <Typography gutterBottom component="description" variant="div">
-                  <b>Specis</b>: {speciesDetails.specis}
-                </Typography>
-              </Grid>
-              <Grid item xs={6}>
-                <Typography gutterBottom component="description" variant="div">
-                  <b>Variety</b>: {speciesDetails.variety}
-                </Typography>
-              </Grid>
-              <Grid item xs={6}>
-                <Typography gutterBottom component="description" variant="div">
-                  <b>Sub Variety</b>: {speciesDetails.subVariety}
-                </Typography>
-              </Grid>
-              <Grid item xs={6}>
-                <Typography gutterBottom component="description" variant="div">
-                  <b>clone</b>: {speciesDetails.clone}
-                </Typography>
-              </Grid>
-              <Grid item xs={6}>
-                <Typography gutterBottom component="description" variant="div">
-                  <b>forma</b>: {speciesDetails.forma}
-                </Typography>
-              </Grid>
-            </Grid>
-            <Grid item xs={12} md={4}>
-              {speciesDetails?.additionalFiles?.length > 0 ? (
-                <div>
-                  <StyledSlider {...settings}>
-                    {speciesDetails.additionalFiles.map(
-                      (speciesImage, index) => {
-                        return (
-                          <Image
-                            key={`speciesAdditiona;${index}`}
-                            {...imageProps}
-                            loader={imageLoader}
-                            src={imageUrl + "/" + speciesImage}
-                          />
-                        );
-                      }
+            <Grid container spacing={2} columns={16}>
+              <Grid item xs={16}>
+                <Item>
+                  <Grid>
+                    {speciesDetails?.additionalFiles?.length > 0 ? (
+                      <div>
+                        <StyledSlider {...settings}>
+                          {speciesDetails.additionalFiles.map(
+                            (speciesImage, index) => {
+                              return (
+                                <Image
+                                  key={`speciesAdditiona;${index}`}
+                                  {...imageProps}
+                                  loader={imageLoader}
+                                  src={imageUrl + "/" + speciesImage}
+                                />
+                              );
+                            }
+                          )}
+                        </StyledSlider>
+                      </div>
+                    ) : (
+                      <Image
+                        loader={imageLoader}
+                        src={imageUrl + "/" + speciesDetails?.profile_image}
+                        alt="species-image"
+                        width="345"
+                        height={200}
+                      ></Image>
                     )}
-                  </StyledSlider>
-                </div>
-              ) : (
-                <Image
-                  loader={imageLoader}
-                  src={imageUrl + "/" + speciesDetails?.profile_image}
-                  alt="species-image"
-                  width="345"
-                  height={200}
-                ></Image>
-              )}
+                  </Grid>
+                </Item>
+              </Grid>
+              <br />
+              <Grid item xs={16}>
+                <Item>
+                  <Grid item>
+                    <Typography
+                      gutterBottom
+                      component="h2"
+                      variant="h2"
+                      // className={styles.title1}
+                      sx={{ paddingTop: "70px", paddingBottom: "30px" }}
+                    >
+                      {speciesDetails?.name?.commonName}
+                    </Typography>
+                  </Grid>
+                </Item>
+                <CardContent>
+                               
+                                
+                                    <Grid item xs={6}>
+                                        <Typography gutterBottom component="description" variant="div">
+                                        <b>Kindom</b>: {speciesDetails.kindom}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <Typography gutterBottom component="description" variant="div">
+                                            <b>Phylum</b>:{speciesDetails.phylum}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <Typography gutterBottom component="description" variant="div">
+                                            <b>class</b>:{speciesDetails.class}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <Typography gutterBottom component="description" variant="div">
+                                            <b>order</b>:{speciesDetails.order}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <Typography gutterBottom component="description" variant="div">
+                                            <b>family</b>:{speciesDetails.family}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <Typography gutterBottom component="description" variant="div">
+                                            <b>Genus</b>:{speciesDetails.genus}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <Typography gutterBottom component="description" variant="div">
+                                            <b>Specis</b>:{speciesDetails.specis}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <Typography gutterBottom component="description" variant="div">
+                                            <b>Variety</b>:{speciesDetails.variety}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <Typography gutterBottom component="description" variant="div">
+                                            <b>Sub Variety</b>:{speciesDetails.subVariety}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <Typography gutterBottom component="description" variant="div">
+                                            <b>clone</b>:{speciesDetails.clone}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <Typography gutterBottom component="description" variant="div">
+                                            <b>forma</b>:{speciesDetails.forma}
+                                        </Typography>
+                                    </Grid>
+                         
+                            </CardContent>
+                
+              </Grid>
             </Grid>
           </Grid>
-          <br />
         </Box>
       </Box>
-      <Footer
-        style={{
-          position: "absolute",
-          bottom: 0,
-        }}
-      />
+      <Footer style={{}} />
     </>
   );
 };
