@@ -1378,7 +1378,7 @@ const Fungi = () => {
                                                    pathname: "/map",
                                                    query: {
                                                       serial: row.serial,
-                                                      category: 'Plants'
+                                                      category: 'Fungi'
                                                    }
                                                 })}
                                              // variant="outlined"

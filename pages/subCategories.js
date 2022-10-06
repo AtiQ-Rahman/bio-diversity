@@ -285,18 +285,18 @@ const SubCategories = () => {
   };
   const changeCategory = (e) => { };
   function FormRow(props) {
-    const { row , index} = props;
+    const { row, index } = props;
     const [openCategory, setOpenCategory] = React.useState(false);
 
     return (
       <>
         <React.Fragment >
-          <Grid item xs={3} >
+          <Grid item xs={6} md={4} >
             <Item >
               <Card
                 sx={{
 
-                  backgroundColor: '#ff907838',
+                  // backgroundColor: '#ff907838',
                   boxShadow: '3px 1px 10px #f1f1f1',
                   border: '1px solid #f3c4b8',
                   // '&:hover': {
@@ -305,27 +305,27 @@ const SubCategories = () => {
                   // },
                 }}
               >
-                <CardContent>
-                  <Typography variant="body2">
+                <CardContent >
+                  <Grid container spacing={2}>
                     {columns.map((column) => {
                       const value = row[column.id];
                       if (column.id !== "button") {
                         return (
-                          <Box key={column.id} align={column.align}>
+                          <Grid item xs={12} key={column.id} align="center">
 
-                            <ListItem sx={{ textAlign: 'center' }}>
-                              <b>{column.label}</b>: {value}
-                            </ListItem>
-                          </Box>
+                              <b>{column.label}</b>: <span className={styles.bg_primary} style={{color:"white" , padding:"5px" , borderRadius:"6px" , marginLeft:"10px"}}>{value}</span> 
+
+                          </Grid>
                         );
                       }
                     })}
-                  </Typography>
+                  </Grid>
                 </CardContent>
-                <CardActions>
+                <CardActions sx={{ p: 1 , justifyContent:"center"}}>
                   <Button
                     className={styles.bg_primary}
                     style={{
+
                       width: "80px",
                       maxHeight: "80px",
                       minWidth: "40px",
@@ -488,7 +488,7 @@ const SubCategories = () => {
                           <Button
                             className={styles.bg_primary}
                             style={{
-                              width: "150px",
+                              width: "200px",
                               maxHeight: "80px",
                               minWidth: "40px",
                               minHeight: "40px",
@@ -528,7 +528,7 @@ const SubCategories = () => {
                                 page * rowsPerPage,
                                 page * rowsPerPage + rowsPerPage
                               )
-                              .map((row , index) => {
+                              .map((row, index) => {
                                 return (
                                   <FormRow key={row.name} index={index} row={row}></FormRow>
                                 );

@@ -443,7 +443,7 @@ const EcosystemDiversity = () => {
                                                    pathname: "/map",
                                                    query: {
                                                       serial: row.serial,
-                                                      category: 'Plants'
+                                                      category: 'Ecosystem Diversity'
                                                    }
                                                 })}
                                              // variant="outlined"

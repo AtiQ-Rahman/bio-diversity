@@ -269,17 +269,17 @@ const MicroOrgansim = () => {
             <Formik
                initialValues={initialValues}
                validationSchema={Yup.object().shape({
-                  species: Yup.object().shape({
-                     english: Yup.string().required(
-                        "Patient english name is required"
-                     ),
-                     bangla: Yup.string().required("patient bangla is required"),
-                     commonName: Yup.string().required("patient commonName is required"),
-                     synonym: Yup.string().required("patient commonName is required"),
+                  // species: Yup.object().shape({
+                  //    english: Yup.string().required(
+                  //       "Patient english name is required"
+                  //    ),
+                  //    bangla: Yup.string().required("patient bangla is required"),
+                  //    commonName: Yup.string().required("patient commonName is required"),
+                  //    synonym: Yup.string().required("patient commonName is required"),
 
-                     // gender: Yup.string().required("patient gender is required"),
-                     // address: Yup.string().required("patient adressis required"),
-                  }),
+                  //    // gender: Yup.string().required("patient gender is required"),
+                  //    // address: Yup.string().required("patient adressis required"),
+                  // }),
                   // serial: Yup.string("Add serial").required("Add serial"),
                   // kingdom: Yup.string("Add kingdom").required("Add kingdom"),
                   // phylum: Yup.string("Add phylum").required("Add phylum"),
@@ -1382,7 +1382,7 @@ const MicroOrgansim = () => {
                                                    pathname: "/map",
                                                    query: {
                                                       serial: row.serial,
-                                                      category: 'Plants'
+                                                      category: 'Microorganisms'
                                                    }
                                                 })}
                                              // variant="outlined"

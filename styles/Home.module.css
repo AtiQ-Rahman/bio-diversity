@@ -157,7 +157,7 @@
   }
 .bg_primary {
   background: var(--app-primary-color);
-  color: "white";
+  color: "white" !important;
 }
 .bg_secondary {
   background: var(--app-secondary-color);

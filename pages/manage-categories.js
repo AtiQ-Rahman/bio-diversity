@@ -138,7 +138,7 @@ const columns = [
   // { id: "subcategory", label: "Subcategory", minWidth: 100 },
   { id: "name", label: "Name", minWidth: 170 },
   { id: "type", label: "Type", minWidth: 100 },
-  { id: "button", label: "Add Sub category ", minWidth: 100 },
+  { id: "button", label: "Action ", width: 100 },
 ];
 
 function createData(name, code, population, size) {
@@ -317,7 +317,7 @@ export default function ManageSpecies() {
               );
             }
           })}
-          <TableCell>
+          <TableCell align="end" width={100}>
             <Button
               className={styles.bg_primary}
               style={{
@@ -340,35 +340,6 @@ export default function ManageSpecies() {
             >
             <AddIcon></AddIcon>Add 
             </Button>
-          </TableCell>
-        </TableRow>
-        <TableRow>
-          <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-            <Collapse in={openCategory} timeout="auto" unmountOnExit>
-              <Box sx={{ margin: 1 }}>
-                <Typography variant="h6" gutterBottom component="div">
-                  Sub Categories
-                </Typography>
-                <Table size="small" aria-label="purchases">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Name</TableCell>
-                      <TableCell>Key</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {row.keyList.map((historyRow) => (
-                      <TableRow key={historyRow.date}>
-                        <TableCell component="th" scope="row">
-                          {historyRow.name}
-                        </TableCell>
-                        <TableCell>{historyRow.key}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </Box>
-            </Collapse>
           </TableCell>
         </TableRow>
       </>
@@ -482,7 +453,7 @@ export default function ManageSpecies() {
                       sx={{ width: "100%", overflow: "hidden" }}
                       component={Paper}
                     >
-                      <TableContainer sx={{ maxHeight: 440 }}>
+                      <TableContainer sx={{ maxHeight: 640 }}>
                         <Table stickyHeader aria-label="sticky table">
                           <TableHead>
                             <TableRow>
