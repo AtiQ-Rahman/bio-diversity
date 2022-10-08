@@ -36,6 +36,15 @@ const dashboard = {
         },
         {
             id: 'categories',
+            title: 'Manage Home Page',
+            type: 'collapse',
+            url: '/manageHome',
+            target: true,
+            icon: () => <ManageSearchIcon sx={{ fontSize: 15, mr: 1 }} />
+
+        },
+        {
+            id: 'categories',
             title: 'Manage Category',
             type: 'collapse',
             url: '/manage-categories',

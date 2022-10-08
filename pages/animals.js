@@ -191,29 +191,7 @@ const Animals = () => {
          <Formik
             initialValues={initialValues}
             validationSchema={Yup.object().shape({
-               // species: Yup.object().shape({
-               //    english: Yup.string().required(
-               //       "Patient english name is required"
-               //    ),
-               //    bangla: Yup.string().required("patient bangla is required"),
-               //    commonName: Yup.string().required("patient commonName is required"),
-               //    synonym: Yup.string().required("patient commonName is required"),
-
-               //    // gender: Yup.string().required("patient gender is required"),
-               //    // address: Yup.string().required("patient adressis required"),
-               // }),
-               // serial: Yup.string("Add serial").required("Add serial"),
-               // kingdom: Yup.string("Add kingdom").required("Add kingdom"),
-               // phylum: Yup.string("Add phylum").required("Add phylum"),
-               // class: Yup.string("Add class").required("Add class"),
-               // order: Yup.string("Add order").required("Add order"),
-               // genus: Yup.string("Add genus").required("Add genus"),
-               // species: Yup.string("Add species").required("Add species"),
-               // subSpecies: Yup.string("Add subSpecies").required("Add subSpecies"),
-               // variety: Yup.string("Add variety").required("Add variety"),
-               // subVariety: Yup.string("Add subVariety").required("Add subVariety"),
-               // clone: Yup.string("Add clone").required("Add clone"),
-               // forma: Yup.string("Add forma").required("Add forma"),
+              
             })}
             onSubmit={async (
                values,

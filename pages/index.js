@@ -4,13 +4,10 @@ import Image from "next/image";
 import { speciesList } from "../utils/speciesList";
 import {
   Box,
-
   Grid,
   Typography,
-
   ImageList,
   ImageListItem,
-
   ImageListItemBar,
 } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
@@ -32,7 +29,7 @@ const species8 = require("../assets/images/species8.jpg");
 const species9 = require("../assets/images/species9.jpg");
 const species10 = require("../assets/images/species10.jpg");
 const species12 = require("../assets/images/species12.jpg");
-import blurImage from "../assets/images/blur.jpg"
+import blurImage from "../assets/images/blur.jpg";
 const species3 = require("../assets/images/species3.jpg");
 import { Icon } from "@iconify/react";
 import { height, width } from "@mui/system";
@@ -46,7 +43,6 @@ export default function Home() {
       title: "Butterfly",
       author: "@bkristastucchio",
       featured: true,
-
     },
     {
       img: species10,
@@ -85,9 +81,9 @@ export default function Home() {
   const handleLoad = (event) => {
     event.persist();
     if (event.target.srcset) {
-        setReady(true);
+      setReady(true);
     }
-};
+  };
   const containerStyles = {
     width: "500px",
     height: "280px",
@@ -104,12 +100,11 @@ export default function Home() {
                   item
                   xs={12}
                   md={12}
-                // style={{ borderRadius: "20px", paddingRight: "10px" }}
+                  // style={{ borderRadius: "20px", paddingRight: "10px" }}
                 >
                   <Grid className={styles.featuredContainer}>
                     <Header index={0} />
                     <CuroselCard slides={slides} />
-
                   </Grid>
                   <Grid className={styles.secondContainer}>
                     <Grid
@@ -120,7 +115,7 @@ export default function Home() {
                       alignItems="center"
                       justifyContent="center"
 
-                    // style={{ minHeight: "100vh" }}
+                      // style={{ minHeight: "100vh" }}
                     >
                       <Typography
                         paddingRight={107}
@@ -133,16 +128,20 @@ export default function Home() {
 
                       <ImageList
                         gap={40}
-                        sx={{ width: 1100, }}
+                        sx={{ width: 1100 }}
                         cols={3}
                         rowHeight={250}
                         className={styles.imageList}
                       >
                         {itemData.map((item) => (
-                          <ImageListItem className={styles.overlay} key={item.img} style={{
-                            opacity: ready ? 1 : 0,
-                            transition: "all .3s ease-in"
-                        }} >
+                          <ImageListItem
+                            className={styles.overlay}
+                            key={item.img}
+                            style={{
+                              opacity: ready ? 1 : 0,
+                              transition: "all .3s ease-in",
+                            }}
+                          >
                             <Image
                               src={item.img}
                               layout="fill"
@@ -151,7 +150,7 @@ export default function Home() {
                               onLoad={handleLoad}
                               // srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
                               alt={item.title}
-                            // loading="lazy"
+                              // loading="lazy"
                             />
                             <ImageListItemBar
                               title={item.title}
@@ -170,20 +169,16 @@ export default function Home() {
                   </Grid>
                   <Grid item xs={12} md={12}>
                     {/* <Footer /> */}
-
                   </Grid>
                   {/* <h1 className={styles.title}>Getting started BIO-DIVERSITY!</h1> */}
                 </Grid>
               </Grid>
-
             </Box>
           </div>
         </Grid>
-
       </Grid>
 
       <Footer />
     </div>
   );
 }
-
