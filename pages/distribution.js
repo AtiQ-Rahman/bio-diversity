@@ -82,6 +82,7 @@ const Distribution = () => {
             setLat(map.current.getCenter().lat.toFixed(4));
             setZoom(map.current.getZoom().toFixed(2));
         });
+
         map.current.addControl(new mapboxgl.NavigationControl(), 'top-left');
         modifiedList.map((city) => {
             if (city.marker && city.lng && city.lat) {
@@ -99,7 +100,7 @@ const Distribution = () => {
                 // el.style.display = `block`;
                 el.style.top = `-20px`;
                 el.style.backgroundSize = 'contain';
-                new mapboxgl.Marker(el)
+                let marker = new mapboxgl.Marker(el)
                     .setLngLat(city)
                     .setPopup(new mapboxgl.Popup({ offset: 30 }).setHTML(`
                         <div >
@@ -121,6 +122,12 @@ const Distribution = () => {
 
                     ))
                     .addTo(map.current);
+                map.current.on('zoom', () => {
+                    const scalePercent = 1 + (map.current.getZoom() - 8) * 0.4;
+                    const svgElement = marker.getElement().children[0];
+                    // svgElement.style.transform = `scale(${scalePercent})`;
+                    // svgElement.style.transformOrigin = 'bottom';
+                });
             }
 
         })

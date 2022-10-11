@@ -42,14 +42,14 @@ import { teal } from "@mui/material/colors";
 import { useRouter } from "next/router";
 mapboxgl.accessToken = process.env.mapbox_key;
 // import { kingdoms } from "../utils/kingdoms";
-const kingdoms = require("../utils/kingdoms");
-const phylums = require("../utils/kingdoms");
-const classes = require("../utils/kingdoms");
-const orders = require("../utils/kingdoms");
-const families = require("../utils/kingdoms");
-const genuses = require("../utils/kingdoms");
-const species = require("../utils/kingdoms");
-console.log(kingdoms);
+// const kingdoms = require("../utils/kingdoms");
+// const phylums = require("../utils/kingdoms");
+// const classes = require("../utils/kingdoms");
+// const orders = require("../utils/kingdoms");
+// const families = require("../utils/kingdoms");
+// const genuses = require("../utils/kingdoms");
+// const species = require("../utils/kingdoms");
+
 const Input = styled("input")({
   display: "none",
 });
@@ -145,7 +145,25 @@ const AddNewSpecies = () => {
     additionalFiles: [],
     profileImage: "",
   };
+  const [allTypesOfSpecies, setAllTypesOfSpecies] = useState([])
+  const [kingdoms, setKingdoms] = useState([])
+  const [phylums, setPhylums] = useState([])
+  const [classes, setClassNames] = useState([])
+  const [orders, setOrderNames] = useState([])
+  const [families, setFamilies] = useState([])
+  const [genuses, setGenuses] = useState([])
+  const [speciesListFromServer, setSpeciesListFromServer] = useState([])
+  const [subSpeciesList, setSubSpeciesList] = useState([])
+  const [varieties, setVarieties] = useState([])
+  const [subVarieties, setSubVarieties] = useState([])
+  const [clones, setClones] = useState([])
+  const [formas, setFormas] = useState([])
   async function fetchData(query, cbfn) {
+    let allTypesOfSpecies = await callApi("/get-unique-types-of-species", {});
+    setAllTypesOfSpecies(allTypesOfSpecies.data)
+    setKingdoms(allTypesOfSpecies.data.kingdoms)
+    console.log({ allTypesOfSpecies })
+
     let response = await callApi("/get-categories-list", {});
     console.log({ query });
     if (query?.category) {
@@ -422,6 +440,7 @@ const AddNewSpecies = () => {
                                        </Grid> */}
                     <Grid item xs={2}>
                       <Autocomplete
+                        freeSolo
                         size="small"
                         disablePortal
                         id="kingdoms"
@@ -429,11 +448,13 @@ const AddNewSpecies = () => {
                         options={kingdoms}
                         key="kingdoms"
                         // value={values?.kingdom}
-                        getOptionLabel={(option) => option?.name || option}
+                        getOptionLabel={(option) => option?.kingdom || option}
                         value={values?.kingdom}
                         // sx={{ width: 300 }}
                         onChange={(e, value) => {
-                          setFieldValue("kingdom", value?.name);
+                          setFieldValue("kingdom", value?.kingdom || value);
+                          let phylums = allTypesOfSpecies.phylums.filter((item) => item.kingdom == (value?.kingdom || value))
+                          setPhylums(phylums)
                         }}
                         renderInput={(params) => (
                           <TextField
@@ -451,17 +472,22 @@ const AddNewSpecies = () => {
                     </Grid>
                     <Grid item xs={2}>
                       <Autocomplete
+                        freeSolo
                         size="small"
                         disablePortal
                         id="phylums"
                         name={values?.phylum}
                         options={phylums}
                         key="phylums"
-                        getOptionLabel={(option) => option?.name || option}
+                        getOptionLabel={(option) => option?.phylum || option}
                         value={values?.phylum}
                         // sx={{ width: 300 }}
-                        onChange={(e, value) => {
-                          setFieldValue("phylum", value?.name);
+                        onInputChange={(e ,value)=>{
+                          console.log(value)
+                          setFieldValue("phylum", value?.phylum || value);
+                          let classes = allTypesOfSpecies.classes.filter((item) => item.phylum == (value?.phylum || value))
+                          setClassNames(classes)
+
                         }}
                         renderInput={(params) => (
                           <TextField
@@ -485,11 +511,13 @@ const AddNewSpecies = () => {
                         name={values?.class_name}
                         options={classes}
                         key="classes"
-                        getOptionLabel={(option) => option?.name || option}
+                        getOptionLabel={(option) => option?.class_name || option}
                         value={values?.class_name}
                         // sx={{ width: 300 }}
                         onChange={(e, value) => {
-                          setFieldValue("class_name", value?.name);
+                          setFieldValue("class_name", value?.class_name || value);
+                          let orders = allTypesOfSpecies.orders.filter((item) => item.class_name == (value?.class_name || value))
+                          setOrderNames(orders)
                         }}
                         renderInput={(params) => (
                           <TextField
@@ -517,7 +545,7 @@ const AddNewSpecies = () => {
                         name={values?.order_name}
                         options={orders}
                         key="orders"
-                        getOptionLabel={(option) => option?.name || option}
+                        getOptionLabel={(option) => option?.order_name || option}
                         value={values?.order_name}
                         // sx={{ width: 300 }}
                         onChange={(e, value) => {
@@ -884,7 +912,7 @@ const AddNewSpecies = () => {
                                 accept=".png, */png, .jpg, */jpg"
                                 error={Boolean(
                                   touched.additionalFiles &&
-                                    errors.additionalFiles
+                                  errors.additionalFiles
                                 )}
                                 helpertext={
                                   touched.additionalFiles &&
@@ -902,9 +930,9 @@ const AddNewSpecies = () => {
                                   console.log(e.target.files);
                                   // setFileName(e.target.files[0].name);
                                 }}
-                                // onChange={(event, values) => {
-                                //   setFieldValue("file", event.currentTarget.files[0]);
-                                // }}
+                              // onChange={(event, values) => {
+                              //   setFieldValue("file", event.currentTarget.files[0]);
+                              // }}
                               />
 
                               <div> </div>
@@ -1235,8 +1263,8 @@ const AddNewSpecies = () => {
                                       error={Boolean(
                                         touched?.identificationFeatures
                                           ?.subCategory &&
-                                          errors?.identificationFeatures
-                                            ?.subCategory
+                                        errors?.identificationFeatures
+                                          ?.subCategory
                                       )}
                                       helperText={
                                         touched?.identificationFeatures

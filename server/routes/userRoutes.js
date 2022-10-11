@@ -9,11 +9,13 @@ const { getAllSpecies } = require('../apis/get-all-species');
 const { BIOGetCategoriesByName } = require("../apis/get-categories-by-name");
 const { BIOGSearchParamsByField } = require("../apis/search-species-by-field");
 const { BIOGetSpeciesBySerial } = require("../apis/get-species-by-serial");
+const { getUniqueTypes } = require("../apis/get-unique-types-of-species");
 
 // creat a admin
 router.post("/get-species-list", getAllSpecies);
 router.post("/get-categories-by-name", BIOGetCategoriesByName);
 router.post("/search-species-by-field", BIOGSearchParamsByField);
 router.post("/get-species-by-serial", BIOGetSpeciesBySerial);
+router.post("/get-unique-types-of-species", getUniqueTypes);
 
 module.exports = router;
