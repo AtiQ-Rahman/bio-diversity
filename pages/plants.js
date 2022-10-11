@@ -62,7 +62,26 @@ const Input = styled("input")({
    display: "none",
 });
 
-
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+   [`&.${tableCellClasses.head}`]: {
+     backgroundColor: "#c44d34",
+     color: theme.palette.common.white,
+   },
+   [`&.${tableCellClasses.body}`]: {
+     fontSize: 20,
+     fontFamily:"Times New Roman"
+   },
+ }));
+ 
+ const StyledTableRow = styled(TableRow)(({ theme }) => ({
+   '&:nth-of-type(odd)': {
+     backgroundColor: theme.palette.action.hover,
+   },
+   // hide last border
+   '&:last-child td, &:last-child th': {
+     border: 0,
+   },
+ }));
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
    ({ theme, open }) => ({
       ...theme.typography.mainContent,
@@ -329,55 +348,56 @@ const Plants = () => {
             )}
          </Formik>
 
-         <Grid container sx={{ borderRadius: "10px", px: 10 }} >
+         <Grid container sx={{ borderRadius: "10px", px: 10 }}  paddingBottom={25} >
             <Grid item xs={12}>
                {speciesList.length > 0 ? (
                   <><Typography variant="h2" component="h2" align="center" gutterBottom>
                      Total Species Found : {speciesList.length}
                   </Typography>
-                     <TableContainer component={Paper}    >
-                        <Table sx={{ minWidth: 650 }} aria-label="customized table" >
+                  <br/>
+                     <TableContainer component={Paper}  >
+                     <Table sx={{ minWidth: 700 }} aria-label="customized table">
                            <TableHead>
                               <TableRow>
-                                 <TableCell>SI</TableCell>
-                                 <TableCell></TableCell>
-                                 <TableCell align="center">Species Name</TableCell>
-                                 <TableCell align="center">Type</TableCell>
-                                 <TableCell align="center">Family</TableCell>
-                                 <TableCell align="center">Order name</TableCell>
-                                 <TableCell align="center">Lng/Lat</TableCell>
-                                 <TableCell align="center">Action</TableCell>
+                                 <StyledTableCell  sx={{pl:4}}><b>SI</b></StyledTableCell>
+                                 <StyledTableCell></StyledTableCell>
+                                 <StyledTableCell align="center"><b>Species Name</b></StyledTableCell>
+                                 <StyledTableCell align="center"><b>Type</b></StyledTableCell>
+                                 <StyledTableCell align="center"><b>Family</b></StyledTableCell>
+                                 <StyledTableCell align="center"><b>Order name</b></StyledTableCell>
+                                 <StyledTableCell align="center"><b>Lng/Lat</b></StyledTableCell>
+                                 <StyledTableCell align="center"><b>Action</b></StyledTableCell>
                               </TableRow>
                            </TableHead>
                            <TableBody   >
                               {speciesList.map((row, index) => (
-                                 <TableRow
+                                 <StyledTableRow  
                                     key={row.index}
                                     sx={{
                                        "&:last-child td, &:last-child th": { border: 0 },
                                     }}
 
                                  >
-                                    <TableCell component="th" scope="row">
+                                    <StyledTableCell  component="th" scope="row" sx={{pl:4}}>
                                        {index + 1}
-                                    </TableCell>
-                                    <TableCell component="td" scope="row" width={200}>
+                                    </StyledTableCell >
+                                    <StyledTableCell  component="td" scope="row" width={200}>
                                        <Image {...imageProps} objectFit="cover" loader={imageLoader} src={imageUrl + '/' + row.profile_image}></Image>
-                                    </TableCell>
-                                    <TableCell align="center">
+                                    </StyledTableCell >
+                                    <StyledTableCell  align="center">
                                        {row.name.commonName}
-                                    </TableCell>
-                                    <TableCell align="center">{row.identificationFeatures.subCategory.name}</TableCell>
+                                    </StyledTableCell >
+                                    <StyledTableCell  align="center">{row.identificationFeatures.subCategory.name}</StyledTableCell >
 
-                                    <TableCell align="center">{row.family}</TableCell>
-                                    <TableCell align="center">{row.order_name}</TableCell>
-                                    <TableCell align="center">{row.lng} ,{row.lat}</TableCell>
-                                    <TableCell align="center">
-                                       <Grid container spacing={1} width={100}>
-                                          <Grid item xs={12}>
+                                    <StyledTableCell  align="center">{row.family}</StyledTableCell >
+                                    <StyledTableCell  align="center">{row.order_name}</StyledTableCell >
+                                    <StyledTableCell  align="center">{row.lng},<br/>{row.lat}</StyledTableCell >
+                                    <StyledTableCell  align="center">
+                                       <Grid container spacing={1}  sx={{pl:10}} >
+                                          {/* <Grid item xs={12}> */}
                                              <Button
                                                 style={{
-                                                   width: "130px",
+                                                   width: "110px",
                                                    maxHeight: "80px",
                                                    minWidth: "40px",
                                                    minHeight: "40px"
@@ -392,20 +412,22 @@ const Plants = () => {
                                                 })}
                                                 variant="outlined"
                                              >
-                                                View Details
+                                                 Details
                                              </Button>
-                                          </Grid>
-                                          <Grid item xs={12}>
+                                          {/* </Grid> */}
+                                          {/* <Grid item xs={12}> */}
                                              <Button
+                                                
                                                 className={styles.bg_primary}
                                                 style={{
-                                                   width: "130px",
+                                                   width: "110px",
                                                    maxHeight: "80px",
                                                    minWidth: "40px",
                                                    minHeight: "40px",
                                                    color: "white"
                                                 }}
                                                 type="button"
+                                               
                                                 onClick={() => router.push({
                                                    pathname: "/map",
                                                    query: {
@@ -414,20 +436,21 @@ const Plants = () => {
                                                    }
                                                 })}
                                              // variant="outlined"
+                                         
                                              >
-                                                View on map
+                                                View map
                                              </Button>
-                                          </Grid>
+                                          {/* </Grid> */}
 
                                        </Grid>
 
-                                    </TableCell>
-                                 </TableRow>
+                                    </StyledTableCell >
+                                 </StyledTableRow >
                               ))}
                            </TableBody>
                         </Table>
                      </TableContainer></>
-               ) : <Typography variant="h1" component="h1" align="center">
+               ) : <Typography variant="h1" component="h1" align="center" padding={25}>
                   {searchMessage ?? ''}
                </Typography>}
             </Grid>
@@ -443,7 +466,7 @@ const Plants = () => {
         onRowsPerPageChange={handleChangeRowsPerPage}
       /> */}
          </Grid>
-         <Footer style={{ padding: "100px" }} />
+         <Footer  />
       </Box>
 
    );
