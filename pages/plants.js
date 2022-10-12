@@ -49,6 +49,7 @@ import callApi, { imageUrl } from "../utils/callApi";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import CommonDropDowns from "../components/CommonDropDowns";
+import TableData from "./TableData";
 // import { kingdoms } from "../utils/kingdoms";
 const kingdoms = require("../utils/kingdoms");
 const phylums = require("../utils/kingdoms");
@@ -348,123 +349,15 @@ const Plants = () => {
             )}
          </Formik>
 
-         <Grid container sx={{ borderRadius: "10px", px: 10 }}  paddingBottom={25} >
+         <Grid container sx={{ borderRadius: "10px", px: 10 }}  paddingBottom={15} >
             <Grid item xs={12}>
-               {speciesList.length > 0 ? (
-                  <><Typography variant="h2" component="h2" align="center" gutterBottom>
-                     Total Species Found : {speciesList.length}
-                  </Typography>
-                  <br/>
-                     <TableContainer component={Paper}  >
-                     <Table sx={{ minWidth: 700 }} aria-label="customized table">
-                           <TableHead>
-                              <TableRow>
-                                 <StyledTableCell  sx={{pl:4}}><b>SI</b></StyledTableCell>
-                                 <StyledTableCell></StyledTableCell>
-                                 <StyledTableCell align="center"><b>Species Name</b></StyledTableCell>
-                                 <StyledTableCell align="center"><b>Type</b></StyledTableCell>
-                                 <StyledTableCell align="center"><b>Family</b></StyledTableCell>
-                                 <StyledTableCell align="center"><b>Order name</b></StyledTableCell>
-                                 <StyledTableCell align="center"><b>Lng/Lat</b></StyledTableCell>
-                                 <StyledTableCell align="center"><b>Action</b></StyledTableCell>
-                              </TableRow>
-                           </TableHead>
-                           <TableBody   >
-                              {speciesList.map((row, index) => (
-                                 <StyledTableRow  
-                                    key={row.index}
-                                    sx={{
-                                       "&:last-child td, &:last-child th": { border: 0 },
-                                    }}
-
-                                 >
-                                    <StyledTableCell  component="th" scope="row" sx={{pl:4}}>
-                                       {index + 1}
-                                    </StyledTableCell >
-                                    <StyledTableCell  component="td" scope="row" width={200}>
-                                       <Image {...imageProps} objectFit="cover" loader={imageLoader} src={imageUrl + '/' + row.profile_image}></Image>
-                                    </StyledTableCell >
-                                    <StyledTableCell  align="center">
-                                       {row.name.commonName}
-                                    </StyledTableCell >
-                                    <StyledTableCell  align="center">{row.identificationFeatures.subCategory.name}</StyledTableCell >
-
-                                    <StyledTableCell  align="center">{row.family}</StyledTableCell >
-                                    <StyledTableCell  align="center">{row.order_name}</StyledTableCell >
-                                    <StyledTableCell  align="center">{row.lng},<br/>{row.lat}</StyledTableCell >
-                                    <StyledTableCell  align="center">
-                                       <Grid container spacing={1}  sx={{pl:10}} >
-                                          {/* <Grid item xs={12}> */}
-                                             <Button
-                                                style={{
-                                                   width: "110px",
-                                                   maxHeight: "80px",
-                                                   minWidth: "40px",
-                                                   minHeight: "40px"
-                                                }}
-                                                type="button"
-                                                onClick={() => router.push({
-                                                   pathname: "/details",
-                                                   query: {
-                                                      serial: row.serial,
-                                                      category: 'Plants'
-                                                   }
-                                                })}
-                                                variant="outlined"
-                                             >
-                                                 Details
-                                             </Button>
-                                          {/* </Grid> */}
-                                          {/* <Grid item xs={12}> */}
-                                             <Button
-                                                
-                                                className={styles.bg_primary}
-                                                style={{
-                                                   width: "110px",
-                                                   maxHeight: "80px",
-                                                   minWidth: "40px",
-                                                   minHeight: "40px",
-                                                   color: "white"
-                                                }}
-                                                type="button"
-                                               
-                                                onClick={() => router.push({
-                                                   pathname: "/map",
-                                                   query: {
-                                                      serial: row.serial,
-                                                      category: 'Plants'
-                                                   }
-                                                })}
-                                             // variant="outlined"
-                                         
-                                             >
-                                                View map
-                                             </Button>
-                                          {/* </Grid> */}
-
-                                       </Grid>
-
-                                    </StyledTableCell >
-                                 </StyledTableRow >
-                              ))}
-                           </TableBody>
-                        </Table>
-                     </TableContainer></>
+               {speciesList?.length > 0 ? (
+                 <TableData speciesList={speciesList}></TableData>
                ) : <Typography variant="h1" component="h1" align="center" padding={25}>
                   {searchMessage ?? ''}
                </Typography>}
             </Grid>
 
-
-            {/* <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      /> */}
          </Grid>
          <Footer  />
       </Box>
