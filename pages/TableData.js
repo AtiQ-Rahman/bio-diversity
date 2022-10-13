@@ -69,7 +69,7 @@ const TableData = (props) => {
                                        {index + 1}
                                     </StyledTableCell >
                                     <StyledTableCell  component="td" scope="row" width={200}>
-                                       <Image {...imageProps} objectFit="cover" loader={imageLoader} src={imageUrl + '/' + row.profile_image}></Image>
+                                       <Image {...imageProps} objectFit="cover" loader={imageLoader} src={imageUrl + '/' + row.profile_image} alt= {row.name.commonName}></Image>
                                     </StyledTableCell >
                                     <StyledTableCell  align="center">
                                        {row.name.commonName}
