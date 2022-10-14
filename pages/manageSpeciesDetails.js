@@ -348,11 +348,11 @@ export default function ManageSpeciesDetails() {
               <Grid container item xs={12} md={12} sx={{ mx: "auto" }}>
                 <Grid item xs={12} md={12}>
                   <Card sx={{ marginBottom: "10px" }}>
-                    <Typography gutterBottom component="h2" variant="h2" textAlign="end">
+                    <Typography gutterBottom component="h2" variant="h2" textAlign="end" padding={2}>
                     <Button
                                     className={styles.bg_primary}
                                     style={{
-                                      width: "120px",
+                                      width: "80px",
                                       maxHeight: "80px",
                                       minWidth: "40px",
                                       minHeight: "40px",
@@ -361,18 +361,33 @@ export default function ManageSpeciesDetails() {
                                     }}
                                     onClick={(e) => {
                                       router.push({
-                                        pathname: '/addNewSpecies',
+                                        pathname: '/add-new-species',
                                         // query: {
                                         //   serial: row.serial,
                                         //   category: "row.category"
                                         // }
                                       })
                                     }}
-                                    sx={{ mb: 1, mr: 0.5 }}
+                                    sx={{ mr: 0.5 }}
                                   // variant="outlined"
                                   >
                                     {/* <DetailsIcon></DetailsIcon> */}
-                                    &nbsp; Edit
+                                    Edit
+                                  </Button>
+                                  <Button
+                                    style={{
+                                      boxShadow: "1px 1px 4px grey",
+                                      maxHeight: "80px",
+                                      width: "80px",
+                                      background: "white",
+                                      minHeight: "40px",
+                                      color: "#0f4c39",
+                                    }}
+                                    type="button"
+                                  // onClick={() => router.push("/map")}
+                                  >
+                                    <Icon icon="fluent:delete-16-filled" />
+                                    &nbsp; Delete
                                   </Button>
                     </Typography>
                   </Card>
