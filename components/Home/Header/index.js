@@ -51,7 +51,7 @@ const useStyles = makeStyles({
 });
 
 const options = [
- 
+
   {
     name: "Contribute",
     url: "/contribute"
@@ -76,26 +76,26 @@ const options = [
   //   name:"Team",
   //   url:"/comingSoon"
   //  },
-   {
-    name:"Help",
-    url:"/help"
-   },
-   {
-    name:"Content",
-    url:"/content"
-   },
-   {
-    name:"Mapping and Zoning",
-    url:"/distribution"
-   },
-   {
-    name:"Database",
-    url:"/database"
-   },
-   {
-    name:"Biodiversity Policy Acts",
-    url:"/BiodiversityPolicyActs"
-   },
+  {
+    name: "Help",
+    url: "/help"
+  },
+  {
+    name: "Content",
+    url: "/content"
+  },
+  {
+    name: "Mapping and Zoning",
+    url: "/distribution"
+  },
+  {
+    name: "Database",
+    url: "/database"
+  },
+  {
+    name: "Biodiversity Policy Acts",
+    url: "/BiodiversityPolicyActs"
+  },
   {
     name: "FAQ",
     url: "/faq"
@@ -152,7 +152,7 @@ export default function PrimarySearchAppBar(props) {
       PaperProps={{
         style: {
           // maxHeight: ITEM_HEIGHT * 4.5,
-          maxHeight:"80ch",
+          maxHeight: "80ch",
           width: "30ch",
         },
       }}
@@ -380,7 +380,7 @@ export default function PrimarySearchAppBar(props) {
   );
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1, zIndex: 1301 }}>
       <AppBar
         enableColorOnDark
         position="fixed"
@@ -391,44 +391,45 @@ export default function PrimarySearchAppBar(props) {
           height: 90,
           // backgroundColor: "rgba(0,0,0,.5)",
           backgroundColor: navBg,
+          zIndex: 1301
           // opacity: 0.5,
           // backgroundColor: "transparent"
         }}
       >
         <Toolbar>
           <Box
-           component="span" sx={{ display: { xs: 'none', md: 'block' }, flexGrow: 1 }}
-           >
-        
-            <Grid
-                container
-                direction="row"
-                // justifyContent="center"
-                alignItems="center"
-             
-              >
-                  <Box> <LogoSection /></Box>
-                  <Box  container
-                direction="colum"
-                // justifyContent="center"
-              ><Box><span style={{
-                fontFamily:"Comic Sans MS",
-              fontSize: "30px",
-              color: "white",
-              padding: "10px"
-            }}> <>Biodiversity of <span style={{
-              fontWeight:'800',
+            component="span" sx={{ display: { xs: 'none', md: 'block' }, flexGrow: 1 }}
+          >
 
-              color: "#c44d34",
-            
-            }}>Bangladesh</span></></span></Box>  <Box ><span style={{
-              fontFamily:"Gabriola",
-              fontSize: "20px",
-              color: "white",
-              padding: "10px"
-            }}>Database and Mapping</span></Box></Box>
-              </Grid>
-       
+            <Grid
+              container
+              direction="row"
+              // justifyContent="center"
+              alignItems="center"
+
+            >
+              <Box> <LogoSection /></Box>
+              <Box container
+                direction="colum"
+              // justifyContent="center"
+              ><Box><span style={{
+                fontFamily: "Comic Sans MS",
+                fontSize: "30px",
+                color: "white",
+                padding: "10px"
+              }}> <>Biodiversity of <span style={{
+                fontWeight: '800',
+
+                color: "#c44d34",
+
+              }}>Bangladesh</span></></span></Box>  <Box ><span style={{
+                fontFamily: "Gabriola",
+                fontSize: "20px",
+                color: "white",
+                padding: "10px"
+              }}>Database and Mapping</span></Box></Box>
+            </Grid>
+
 
 
           </Box>

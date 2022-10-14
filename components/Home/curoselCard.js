@@ -55,34 +55,10 @@ var items = [
 export default function MediaCard({ slides }) {
   const [title, setTitle] = React.useState(items[0].title);
   const [description, setDescription] = React.useState(items[0].description);
-  function Item(props) {
-    return (
-      <Box
-        style={{
-          justifyContent: "center",
-
-          // border: "1px  solid #d9d7d7",
-          // boxShadow:"1px 1px 1px 1px",
-          // borderRadius: "20px",
-        }}>
-        <Grid container xs={12} md={12}>
-          <Image
-            layout="fill"
-            src={props.item.imageSrc}
-            alt="Live from space album cover"
-          />
-
-        </Grid>
-      </Box>
-    );
-  }
-
   return (
-    <Box
-      height={500}
-    >
+
       <ImageSlider slides={slides}></ImageSlider>
-    </Box>
+
 
   );
 }
