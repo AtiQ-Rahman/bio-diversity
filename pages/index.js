@@ -84,18 +84,12 @@ export default function Home() {
       setReady(true);
     }
   };
-  const containerStyles = {
-    width: "500px",
-    height: "280px",
-    margin: "0 auto",
-  };
+
   return (
     <div className={styles.body}>
-      <Grid Container xs={12} md={12}>
+      <Grid container xs={12} md={12}>
         <Grid item xs={12} md={12}>
-          <div className={styles.main}>
-            <Box component="section" className={styles.main_page}>
-              <Grid container item xs={12} md={12} sx={{ mx: "auto" }}>
+              <Grid container>
                 <Grid
                   item
                   xs={12}
@@ -173,11 +167,8 @@ export default function Home() {
                   {/* <h1 className={styles.title}>Getting started BIO-DIVERSITY!</h1> */}
                 </Grid>
               </Grid>
-            </Box>
-          </div>
         </Grid>
       </Grid>
-
       <Footer />
     </div>
   );

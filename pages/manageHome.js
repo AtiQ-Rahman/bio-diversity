@@ -54,24 +54,14 @@ import {
   Dialog,
   Autocomplete,
   CardActionArea,
-  CardMedia,
+  CardMedia,MenuItem,FormControl,Select,InputLabel
 } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Link from "next/link";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import callApi from "../utils/callApi";
-import Slide from "@mui/material/Slide";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-const kingdoms = require("../utils/kingdoms");
-const phylums = require("../utils/kingdoms");
-const classes = require("../utils/kingdoms");
-const orders = require("../utils/kingdoms");
-const families = require("../utils/kingdoms");
-const genuses = require("../utils/kingdoms");
-const species = require("../utils/kingdoms");
-const imageSrc = require("../assets/images/species1.jpg");
+
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -242,8 +232,8 @@ export default function ManageHome() {
   const initialValues = {
     name: "",
     serial: null,
-    type: "",
-    keyList: [],
+    sliderImages: "",
+    recentSighting: '',
   };
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -288,7 +278,7 @@ export default function ManageHome() {
   const handleLeftDrawerToggle = () => {
     dispatch({ type: SET_MENU, opened: !leftDrawerOpened });
   };
-  const changeCategory = (e) => {};
+  const changeCategory = (e) => { };
 
   async function fetchData() {
     let response = await callApi("/get-categories-list", {});
@@ -417,7 +407,7 @@ export default function ManageHome() {
                                         placeholder="blur"
                                         // srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
                                         alt={item.title}
-                                        // loading="lazy"
+                                      // loading="lazy"
                                       />
                                     </CardActionArea>
                                   ))}
@@ -485,10 +475,10 @@ export default function ManageHome() {
                                   <Card sx={{ maxWidth: 345 }}>
                                     <CardActionArea>
                                       <CardMedia
-                                         component="img"
-                                         height="140"
-                                         image={item.img2}
-                                         alt="green iguana"
+                                        component="img"
+                                        height="140"
+                                        image={item.img2}
+                                        alt="green iguana"
                                       />
 
                                       <CardContent>
@@ -553,24 +543,28 @@ export default function ManageHome() {
                 ) => {
                   try {
                     console.log(values);
-                    if (
-                      !values.name ||
-                      !values.type ||
-                      values.keyList.length == 0
-                    ) {
-                      return;
+                    let homePageData = values
+                    const data = new FormData();
+                    data.append("data", JSON.stringify(homePageData));
+                    let files = homePageData.additionalFiles;
+                    if (files.length != 0) {
+                      for (const single_file of files) {
+                        data.append("sliderImages", single_file);
+                      }
                     }
+                    console.log(homePageData);
 
-                    let data = {
-                      name: values.name,
-                      serial: values.serial,
-                      type: values.type,
-                      keyList: values.keyList,
-                    };
-                    let response = await callApi(
-                      "/add-update-categories",
-                      data
-                    );
+                    let res = await callApi("/create-new-template", data, {
+                      headers: {
+                        "Content-Type": "multipart/form-data",
+                      },
+                    });
+                    console.log("response", res);
+                    enqueueSnackbar("Species Uploaded Successfully", {
+                      variant: "success",
+                      // action: <Button>See all</Button>
+                    });
+                    setErrors(false);
                     resetForm();
                   } catch (error) {
                     console.log({ error });
@@ -592,92 +586,65 @@ export default function ManageHome() {
                   setFieldValue,
                 }) => (
                   <Form onSubmit={handleSubmit}>
-                    <Box sx={{ p: 5, background: "#eee" }}>
+                    <Box sx={{ p: 5, background: "#white" }}>
                       <Grid container xs={12} md={12} sx={{ mb: 5 }}>
                         <Grid item xs={12} md={12} sx={{ display: "flex" }}>
                           <TextField
                             type="text"
                             name="name"
                             value={values?.name || ""}
-                            label="Category Name"
+                            label="Template Name"
                             sx={{ mr: 5 }}
                             onChange={handleChange}
                           />
+                          <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+                            <InputLabel id="demo-select-small">Select Sights</InputLabel>
+                            <Select
+                              labelId="demo-select-small"
+                              id="demo-select-small"
+                              value={values?.recentSighting || "None"}
+                              label="Select Sights"
+                              name ="recentSighting"
+                              onChange={handleChange}
+                            >
+                              <MenuItem value="">
+                                <em>None</em>
+                              </MenuItem>
+                              <MenuItem value={3}>last 3 sights</MenuItem>
+                              <MenuItem value={5}>last 5 sights</MenuItem>
+                              <MenuItem value={6}>last 6 sights</MenuItem>
+                              <MenuItem value={7}>last 7 sights</MenuItem>
+                              <MenuItem value={8}>last 8 sights</MenuItem>
+                              <MenuItem value={9}>last 9 sights</MenuItem>
+                              <MenuItem value={10}>last 10 sights</MenuItem>
+                            </Select>
+                          </FormControl>
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            sx={{
+                              flexGrow: 1,
+                              mt: 2,
 
-                          <Autocomplete
-                            options={["Field", "Dropdown"]}
-                            getOptionLabel={(option) => option}
-                            // value={values?.type}
-                            id="category-type"
-                            name="type"
-                            sx={{ width: 200 }}
-                            onChange={(e, val) => {
-                              console.log(val);
-                              setFieldValue("type", val);
                             }}
-                            renderInput={(params) => (
-                              <TextField
-                                {...params}
-                                label="Type"
-                                variant="standard"
-                                value={values?.type}
-                              />
-                            )}
+                            type="file"
+                            name="profileImage"
+                            onChange={(e) => {
+                              for (let file of e.target.files) {
+                                values.sliderImages.push(file);
+                              }
+                              setFieldValue(
+                                "sliderImages",
+                                values.sliderImages
+                              );
+                              console.log(e.target.files);
+                              // setFileName(e.target.files[0].name);
+                            }}
                           />
                         </Grid>
                       </Grid>
                       <Divider />
-                      <Grid container xs={12} md={12}>
-                        {values?.keyList.map((item, index) => {
-                          return (
-                            <Grid
-                              item
-                              xs={12}
-                              key={`keyList${index}`}
-                              md={12}
-                              sx={{ display: "flex", mb: 2 }}
-                            >
-                              <TextField
-                                type="text"
-                                size="small"
-                                name="subcategory-name"
-                                value={values?.keyList[index].name}
-                                label="Name"
-                                sx={{ mr: 5 }}
-                                onChange={(e, value) => {
-                                  values.keyList[index].name = e.target.value;
-                                  setFieldValue("keyList", values.keyList);
-                                  console.log(e.target.value);
-                                }}
-                              />
 
-                              <TextField
-                                type="text"
-                                value={values?.keyList[index].key}
-                                size="small"
-                                name="subcategory-key"
-                                label="Key"
-                                sx={{ mr: 5 }}
-                                onChange={(e) => {
-                                  values.keyList[index].key = e.target.value;
-                                  setFieldValue("keyList", values.keyList);
-                                }}
-                              />
-                              <Icon
-                                icon="fluent:delete-28-filled"
-                                width={30}
-                                color="red"
-                                onClick={(e) => {
-                                  values.keyList.splice(index, 1);
-                                  setFieldValue("keyList", values.keyList);
-                                  // setCategoryObject(category)
-                                  setForce(!force);
-                                }}
-                              />
-                            </Grid>
-                          );
-                        })}
-                      </Grid>
                     </Box>
                     <DialogActions>
                       <Button

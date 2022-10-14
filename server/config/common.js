@@ -45,11 +45,28 @@ const categoryTable = (table) => {
         PRIMARY KEY (id)
     );`
 }
+const homepageTable = (table) => {
+    return `CREATE TABLE ${table} (
+        id int NOT NULL AUTO_INCREMENT,
+        serial varchar(10),
+        name varchar(255),
+        selected boolean,
+        sliderImages longtext,
+        meta longtext,
+        recentSighting varchar(255),
+        createdDatetimeStamp datetime,
+        lastModified datetime,
+        PRIMARY KEY (id)
+    );`
+}
 const createQueryForSpecies = async (table) => {
     console.log({ table })
     let query;
-    if (table == 'bio_diversity_categories') {
+    if (table == await processTableName(this.tableTypes.categories)) {
         query = categoryTable(table)
+    }
+    else if (table == await processTableName(this.tableTypes.homepage)) {
+        query = homepageTable(table)
     }
     else {
         query = speciesTable(table)
@@ -71,6 +88,7 @@ exports.speciesTableTypes = {
 }
 exports.tableTypes = {
     categories: 'categories',
+    homepage: 'homepage',
 }
 exports.getTableNameFromSql = async (sql) => {
     let matchIndex = sql.match(/bio_diversity/i).index
@@ -85,8 +103,6 @@ exports.getColumnNameFromSql = async (message) => {
 exports.executeQuery = async (query) => {
     let res = await db.query(query).catch(async err => {
         if (err) {
-
-
             if (err.code === 'ER_NO_SUCH_TABLE') {
                 let tableName = await this.getTableNameFromSql(err.sql)
                 await createQueryForSpecies(tableName)
