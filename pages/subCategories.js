@@ -59,6 +59,7 @@ import Slide from "@mui/material/Slide";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { useSnackbar } from "notistack";
+import { display } from "@mui/system";
 const kingdoms = require("../utils/kingdoms");
 const phylums = require("../utils/kingdoms");
 const classes = require("../utils/kingdoms");
@@ -304,19 +305,20 @@ const SubCategories = () => {
                 }}
               >
                 <CardContent sx={{ pb: 30, justifyContent: "center" }}>
-                  <Grid  sx={{ pl: 30, justifyContent: "center" }}>
-                    <Icon
+                  <Grid  sx={{ pl: 30, justifyContent: "center" ,display:"flex"}}>
+                   <Box  sx={{ pr: 2, justifyContent: "center" }}> <Icon
                       fontSize="large"
                       icon="dashicons:edit-large"
                       color="#c44d34"
-                    />
+                    
+                    /></Box>
 
-                    <Icon
+                   <Box > <Icon
                       fontSize="large"
                       icon="fluent:delete-16-filled"
                       color="#c44d34"
                       
-                    />
+                    /></Box>
                   </Grid>
                   <Grid container spacing={2}>
                     {columns.map((column) => {
