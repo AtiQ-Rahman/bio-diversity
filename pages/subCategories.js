@@ -171,7 +171,6 @@ function createData(name, code, population, size) {
   };
 }
 
-
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
   ({ theme, open }) => ({
     ...theme.typography.mainContent,
@@ -227,17 +226,17 @@ const SubCategories = () => {
   // const handleOpen = () => setOpen(true);
   // const handleClose = () => setOpen(false);
   const [page, setPage] = React.useState(0);
-  const query = router.query
+  const query = router.query;
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [force, setForce] = React.useState(false);
   const [category, setCategory] = React.useState();
   const [subCategoryList, setSubCategoryList] = React.useState();
-  const [keyIndex, setKeyIndex] = useState(-1)
+  const [keyIndex, setKeyIndex] = useState(-1);
   const initialValues = {
     name: "",
     key: "",
   };
-  const [subCategoryValues, setSubCategoriesValues] = useState(initialValues)
+  const [subCategoryValues, setSubCategoriesValues] = useState(initialValues);
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -266,7 +265,7 @@ const SubCategories = () => {
     setOpen(true);
   };
   const handleClose = () => {
-    setKeyIndex(-1)
+    setKeyIndex(-1);
     setOpen(false);
   };
   const handleClickUpload = () => {
@@ -283,91 +282,64 @@ const SubCategories = () => {
   const handleLeftDrawerToggle = () => {
     dispatch({ type: SET_MENU, opened: !leftDrawerOpened });
   };
-  const changeCategory = (e) => { };
+  const changeCategory = (e) => {};
   function FormRow(props) {
     const { row, index } = props;
     const [openCategory, setOpenCategory] = React.useState(false);
 
     return (
       <>
-        <React.Fragment >
-          <Grid item xs={6} md={4} >
-            <Item >
+        <React.Fragment>
+          <Grid item xs={6} md={4}>
+            <Item>
               <Card
                 sx={{
-
                   // backgroundColor: '#ff907838',
-                  boxShadow: '3px 1px 10px #f1f1f1',
-                  border: '1px solid #f3c4b8',
+                  boxShadow: "3px 1px 10px #f1f1f1",
+                  border: "1px solid #f3c4b8",
                   // '&:hover': {
                   //   backgroundColor: '#e7e7e7',
                   //   opacity: [0.9, 0.8, 0.7],
                   // },
                 }}
               >
-                <CardContent >
+                <CardContent sx={{ pb: 30, justifyContent: "center" }}>
+                  <Grid  sx={{ pl: 30, justifyContent: "center" }}>
+                    <Icon
+                      fontSize="large"
+                      icon="dashicons:edit-large"
+                      color="#c44d34"
+                    />
+
+                    <Icon
+                      fontSize="large"
+                      icon="fluent:delete-16-filled"
+                      color="#c44d34"
+                      
+                    />
+                  </Grid>
                   <Grid container spacing={2}>
                     {columns.map((column) => {
                       const value = row[column.id];
                       if (column.id !== "button") {
                         return (
                           <Grid item xs={12} key={column.id} align="center">
-
-                              <b>{column.label}</b>: <span className={styles.bg_primary} style={{color:"white" , padding:"5px" , borderRadius:"6px" , marginLeft:"10px"}}>{value}</span> 
-
+                            <b>{column.label}</b>:{" "}
+                            <span
+                              style={{
+                                padding: "5px",
+                                borderRadius: "6px",
+                                marginLeft: "10px",
+                              }}
+                            >
+                              {value}
+                            </span>
                           </Grid>
                         );
                       }
                     })}
                   </Grid>
                 </CardContent>
-                <CardActions sx={{ p: 1 , justifyContent:"center"}}>
-                  <Button
-                    className={styles.bg_primary}
-                    style={{
-
-                      width: "80px",
-                      maxHeight: "80px",
-                      minWidth: "40px",
-                      minHeight: "40px",
-                      color: "white",
-                      boxShadow: "1px 1px 4px grey",
-                    }}
-                    onClick={(e) => {
-                      setSubCategoriesValues({
-                        name: row.name,
-                        key: row.key,
-                      })
-                      setKeyIndex(index)
-                      console.log(row.name, index)
-                      handleClickOpen()
-                    }}
-                    sx={{ mb: 1, mr: 0.5 }}
-                  // variant="outlined"
-                  >
-                    <Icon icon="dashicons:edit-large" />
-                    &nbsp; Edit
-                  </Button>
-                  <Button
-
-                    style={{
-                      width: "100px",
-                      maxHeight: "80px",
-                      minWidth: "40px",
-                      minHeight: "40px",
-                      color: "white",
-                      boxShadow: "1px 1px 4px grey",
-                      color: "black",
-                      background: "white"
-                    }}
-                    onClick={handleClickOpen}
-                    sx={{ mb: 1, mr: 0.5 }}
-                  // variant="outlined"
-                  >
-                    <Icon icon="fluent:delete-16-filled" />
-                    &nbsp; Delete
-                  </Button>
-                </CardActions>
               </Card>
             </Item>
           </Grid>
@@ -406,12 +378,14 @@ const SubCategories = () => {
     );
   }
   async function fetchData(query) {
-    let response = await callApi("/get-categories-by-name", { name: query.name });
-    setCategory(response.data[0])
+    let response = await callApi("/get-categories-by-name", {
+      name: query.name,
+    });
+    setCategory(response.data[0]);
     setSubCategoryList(response.data[0].keyList);
   }
   useEffect(() => {
-    if (!query) return
+    if (!query) return;
     dispatch({ type: SET_MENU, opened: !matchDownMd });
     fetchData(query);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -512,7 +486,7 @@ const SubCategories = () => {
                     style={{ borderRadius: "10px" }}
                   >
                     <Paper
-                      sx={{ width: "100%", overflow: "hidden" }}
+                      sx={{ width: "80%", overflow: "hidden" }}
                       component={Paper}
                     >
                       <Box sx={{ flexGrow: 1 }}>
@@ -530,7 +504,11 @@ const SubCategories = () => {
                               )
                               .map((row, index) => {
                                 return (
-                                  <FormRow key={row.name} index={index} row={row}></FormRow>
+                                  <FormRow
+                                    key={row.name}
+                                    index={index}
+                                    row={row}
+                                  ></FormRow>
                                 );
                               })}
                           </Grid>
@@ -592,26 +570,22 @@ const SubCategories = () => {
                 ) => {
                   try {
                     console.log(values);
-                    if (
-                      !values.name ||
-                      !values.key
-                    ) {
+                    if (!values.name || !values.key) {
                       return;
                     }
-                    let categoryData = category
+                    let categoryData = category;
                     if (keyIndex > -1) {
                       categoryData.keyList[keyIndex] = {
                         name: values.name,
-                        key: values.key
-                      }
-                    }
-                    else {
+                        key: values.key,
+                      };
+                    } else {
                       categoryData.keyList.push({
                         name: values.name,
-                        key: values.key
+                        key: values.key,
                       });
                     }
-                    console.log({ keyIndex })
+                    console.log({ keyIndex });
                     let response = await callApi(
                       "/add-update-categories",
                       categoryData
@@ -620,7 +594,7 @@ const SubCategories = () => {
                       variant: "success",
                       // action: <Button>See all</Button>
                     });
-                    handleClose()
+                    handleClose();
                     // window.location.reload()
                     resetForm();
                   } catch (error) {
@@ -808,8 +782,8 @@ const SubCategories = () => {
       </Box>
     </div>
   );
-}
+};
 SubCategories.getInitialProps = ({ query }) => {
-  return { query }
-}
-export default SubCategories
+  return { query };
+};
+export default SubCategories;
