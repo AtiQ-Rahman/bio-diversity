@@ -57,7 +57,6 @@ import {
   CardMedia,
 } from "@mui/material";
 import Paper from "@mui/material/Paper";
-// import { useRouter } from "next/router";
 import Link from "next/link";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
@@ -65,6 +64,8 @@ import callApi from "../utils/callApi";
 import Slide from "@mui/material/Slide";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import Details from "./details";
+import AllDetailsPage from "./AllDetailsPage";
 const kingdoms = require("../utils/kingdoms");
 const phylums = require("../utils/kingdoms");
 const classes = require("../utils/kingdoms");
@@ -73,7 +74,7 @@ const families = require("../utils/kingdoms");
 const genuses = require("../utils/kingdoms");
 const species = require("../utils/kingdoms");
 const imageSrc = require("../assets/images/species1.jpg");
-const Items = styled(Paper)(({ theme }) => ({
+const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -153,25 +154,35 @@ const columns = [
   { id: "type", label: "Type", minWidth: 100 },
   { id: "button", label: "Action ", width: 100 },
 ];
-const dummySpecies = [
+const itemData = [
   {
-    title: "Plants",
+    img1: species8,
+    title: "Butterfly",
+    author: "@bkristastucchio",
+    featured: true,
   },
+  // {
+  //   img2: species10,
+  //   title: "Turtle",
+  //   author: "@rollelflex_graphy726",
+  // },
+  // {
+  //   img3: species7,
+  //   title: "Deer",
+  //   author: "@helloimnik",
+  // },
+];
+const sightingsData = [
   {
-    title: "Animals",
+    img2: species10,
+    title: "Turtle",
+    author: "@rollelflex_graphy726",
   },
-  {
-    title: "Fungi",
-  },
-  {
-    title: "Ecosystem Diversity",
-  },
-  {
-    title: "Micro-Organism",
-  },
-  {
-    title: "Genetic and Sub-Cellular Diversity",
-  },
+  // {
+  //   img3: species7,
+  //   title: "Deer",
+  //   author: "@helloimnik",
+  // },
 ];
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
@@ -218,72 +229,7 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
     }),
   })
 );
-const Item = styled(Paper)(({ theme }) => ({
-  // backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  // ...theme.typography.body2,
-  // padding: theme.spacing(1),
-  // backgroundColor:"red",
-  paddingTop: 10,
-  textAlign: "center",
-  paddingBottom: 30,
-  // color: theme.palette.text.secondary,
-  // border: "1px solid",
-  // boxShadow:"1px 1px 1px 1px black",
-  // width: "300px",
-  // height: "200px",
-}));
-function FormRow() {
-  const router = useRouter();
-  const noPointer = {cursor: 'default'};
-  return (
-    <React.Fragment>
-      {dummySpecies.map(({ title }) => (
-        <Grid item xs={4}>
-          <Item>
-            <Box
-              sx={{
-                width: 350,
-                height: 200,
-                backgroundColor: "whitesmoke",
-                // "&:hover": {
-                //   backgroundColor: "tomato",
-                //   opacity: [0.9, 0.8, 0.7],
-                // },
-                // boxShadow:"1px 1px gray"
-              }}
-              onClick={() =>
-                router.push({
-                  pathname: "/manageSpeciesTable",
-                })
-              }
-            ><Typography
-            gutterBottom
-            variant="h1"
-            component="div"
-            sx={{
-              fontSize: 25,
-              fontFamily: "Times New Roman",
-              color: "#c44d34",
-              paddingTop:8
-            }}
-            style={noPointer}
-          >
-           {title}
-          </Typography></Box>
-           
-          </Item>
-        </Grid>
-      ))}
-      {/* <Grid item xs={4}>
-        <Item>Item</Item>
-      </Grid> */}
-      {/* <Grid item xs={4}>
-        <Item>Item</Item>
-      </Grid> */}
-    </React.Fragment>
-  );
-}
-export default function ManageSpecies() {
+export default function ManageSpeciesDetails() {
   const theme = useTheme();
   const matchDownMd = useMediaQuery(theme.breakpoints.down("lg"));
   // const classes = useStyles();
@@ -402,59 +348,37 @@ export default function ManageSpecies() {
               <Grid container item xs={12} md={12} sx={{ mx: "auto" }}>
                 <Grid item xs={12} md={12}>
                   <Card sx={{ marginBottom: "10px" }}>
-                    <Typography gutterBottom component="h2" variant="h2">
-                      Manage Species
+                    <Typography gutterBottom component="h2" variant="h2" textAlign="end">
+                    <Button
+                                    className={styles.bg_primary}
+                                    style={{
+                                      width: "120px",
+                                      maxHeight: "80px",
+                                      minWidth: "40px",
+                                      minHeight: "40px",
+                                      color: "white",
+                                      boxShadow: "1px 1px 4px grey",
+                                    }}
+                                    onClick={(e) => {
+                                      router.push({
+                                        pathname: '/addNewSpecies',
+                                        // query: {
+                                        //   serial: row.serial,
+                                        //   category: "row.category"
+                                        // }
+                                      })
+                                    }}
+                                    sx={{ mb: 1, mr: 0.5 }}
+                                  // variant="outlined"
+                                  >
+                                    {/* <DetailsIcon></DetailsIcon> */}
+                                    &nbsp; Edit
+                                  </Button>
                     </Typography>
                   </Card>
 
                   <Divider></Divider>
-                  <Grid container xs={12}>
-                    <Grid item xs={12} md={5}>
-                      <h1>Total Species (6)</h1>
-                    </Grid>
-
-                    <Grid item xs={12} md={7}>
-                      <Grid container xs={12} md={12}>
-                        <Grid
-                          item
-                          xs={12}
-                          style={{
-                            display: "flex",
-                            justifyContent: "end",
-                          }}
-                        >
-                          {/* <Button
-                            className={styles.bg_primary}
-                            style={{
-                              width: "150px",
-                              maxHeight: "80px",
-                              minWidth: "40px",
-                              minHeight: "40px",
-                              color: "white",
-                              boxShadow: "1px 1px 4px grey",
-                              margin: "10px",
-                            }}
-                            onClick={handleClickUpload}
-                          >
-                            Add New Image
-                          </Button> */}
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                  <br />
-                  <Grid>
-                    <Box sx={{ flexGrow: 1 }}>
-                      <Grid container spacing={1}>
-                        <Grid container item spacing={3}>
-                          <FormRow />
-                        </Grid>
-                      </Grid>
-                    </Box>
-                  </Grid>
-                  {/* <Divider></Divider> */}
-
-                  <br />
+                  <Grid><AllDetailsPage></AllDetailsPage></Grid>
                 </Grid>
               </Grid>
             </Box>

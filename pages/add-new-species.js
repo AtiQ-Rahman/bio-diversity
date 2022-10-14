@@ -1095,7 +1095,7 @@ const AddNewSpecies = () => {
                                     variant="outlined"
                                   />
                                 </Grid>
-                                <Grid item md={12}>
+                                {/* <Grid item md={12}>
                                   <TextField
                                     id="address"
                                     name="adress"
@@ -1108,7 +1108,7 @@ const AddNewSpecies = () => {
                                     onChange={handleChange}
                                     variant="outlined"
                                   />
-                                </Grid>
+                                </Grid> */}
                               </Grid>
                             </Grid>
                             <Grid item md={6}>

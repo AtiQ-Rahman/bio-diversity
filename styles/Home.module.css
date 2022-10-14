@@ -41,11 +41,34 @@
   margin-top: 5%;
   height: 100%;
 }
+.bgBox {
+  /* border: 1px solid var(--app-border); */
+  padding: 70px;
+  /* width: 96%; */
+
+  background:rgb(221, 221, 221);
+  margin: 0 auto;
+  padding-top: 6%;
+
+}
+.detailsSlider {
+  /* border: 1px solid var(--app-border); */
+  padding: 100px;
+ width: 100%;
+
+  background:#fcfcfc;
+  margin: 0 auto;
+  padding-top: 2%;
+
+}
 .main_background {
   /* border: 1px solid var(--app-border); */
   background: var(--app-border);
   height: inherit;
 
+}
+.bgDetails{
+ background: #d9e8f4;
 }
 .main_page {
   /* min-height: 100vh; */
