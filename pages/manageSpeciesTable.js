@@ -648,7 +648,7 @@ export default function ManageSpeciesTable() {
                                         pathname: '/manageSpeciesDetails',
                                         query: {
                                           serial: row.serial,
-                                          category: "row.category"
+                                          category: row.category
                                         }
                                       })
                                     }}
