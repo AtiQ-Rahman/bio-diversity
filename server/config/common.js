@@ -103,6 +103,7 @@ exports.getColumnNameFromSql = async (message) => {
 exports.executeQuery = async (query) => {
     let res = await db.query(query).catch(async err => {
         if (err) {
+            console.log(err)
             if (err.code === 'ER_NO_SUCH_TABLE') {
                 let tableName = await this.getTableNameFromSql(err.sql)
                 await createQueryForSpecies(tableName)
@@ -114,8 +115,10 @@ exports.executeQuery = async (query) => {
                 let columnName = await this.getColumnNameFromSql(err.sqlMessage)
                 console.log(columnName)
 
-                let query = `ALTER table ${tableName} add column (${columnName} varchar(1000));`
+                let columnQuery = `ALTER table ${tableName} add column (${columnName} longtext);`
+                await this.executeQuery(columnQuery)
                 let res = await this.executeQuery(query)
+
                 return res;
             }
             else {
