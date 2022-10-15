@@ -43,24 +43,36 @@
 }
 .bgBox {
   /* border: 1px solid var(--app-border); */
-  padding: 70px;
+  /* padding: 70px; */
   /* width: 96%; */
 
-  background:rgb(221, 221, 221);
+  background:#989fa8;
   margin: 0 auto;
-  padding-top: 6%;
+  /* padding-top: 3%; */
+  padding:2.7%
 
+
+}
+.boxSlider{
+  background:#ffffff;
+  padding-left: 10%;
+ 
 }
 .detailsSlider {
   /* border: 1px solid var(--app-border); */
-  padding: 100px;
- width: 100%;
+  padding: 30px;
+ width: 90%;
+ 
+ background-color: white;
+ 
 
-  background:#fcfcfc;
-  margin: 0 auto;
-  padding-top: 2%;
+  /* background:#fcfcfc; */
+  /* margin: 0 auto; */
+  /* padding-top: 2%; */
 
 }
+
+
 .main_background {
   /* border: 1px solid var(--app-border); */
   background: var(--app-border);

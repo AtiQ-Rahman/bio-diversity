@@ -55,6 +55,7 @@ import {
   Autocomplete,
   CardActionArea,
   CardMedia,
+  Tooltip,
 } from "@mui/material";
 import Paper from "@mui/material/Paper";
 // import { useRouter } from "next/router";
@@ -176,13 +177,13 @@ const Item = styled(Paper)(({ theme }) => ({
   paddingTop: 10,
   textAlign: "center",
   paddingBottom: 30,
+ 
   // color: theme.palette.text.secondary,
   // border: "1px solid",
   // boxShadow:"1px 1px 1px 1px black",
   // width: "300px",
   // height: "200px",
 }));
-
 export default function ManageSpecies() {
   const theme = useTheme();
   const matchDownMd = useMediaQuery(theme.breakpoints.down("lg"));
