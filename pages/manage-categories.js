@@ -118,11 +118,13 @@ const style = {
 };
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
+    backgroundColor:"#c44d34",
     color: theme.palette.common.white,
+    fontSize:17
   },
   [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
+    fontSize: 17,
+    
   },
 }));
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
@@ -293,7 +295,7 @@ export default function ManageSpecies() {
 
     return (
       <>
-        <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
+        <StyledTableRow  hover role="checkbox" tabIndex={-1} key={row.id}>
           {/* <TableCell>
             <IconButton
               aria-label="expand row"
@@ -311,13 +313,13 @@ export default function ManageSpecies() {
             const value = row[column.id];
             if ( column.id !== "button") {
               return (
-                <TableCell key={column.id} align={column.align}>
+                <StyledTableCell  key={column.id} align={column.align}>
                   {value}
-                </TableCell>
+                </StyledTableCell >
               );
             }
           })}
-          <TableCell align="end" width={100}>
+          <StyledTableCell  align="end" width={100}>
             <Button
               className={styles.bg_primary}
               style={{
@@ -340,8 +342,8 @@ export default function ManageSpecies() {
             >
             <AddIcon></AddIcon>Add 
             </Button>
-          </TableCell>
-        </TableRow>
+          </StyledTableCell >
+        </StyledTableRow >
       </>
     );
   }
@@ -458,13 +460,14 @@ export default function ManageSpecies() {
                           <TableHead>
                             <TableRow>
                               {columns.map((column) => (
-                                <TableCell
+                                <StyledTableCell
                                   key={column.id}
                                   align={column.align}
                                   style={{ minWidth: column.minWidth }}
+                                  
                                 >
                                   {column.label}
-                                </TableCell>
+                                </StyledTableCell>
                               ))}
                             </TableRow>
                           </TableHead>

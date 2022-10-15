@@ -287,7 +287,7 @@ const SubCategories = () => {
   function FormRow(props) {
     const { row, index } = props;
     const [openCategory, setOpenCategory] = React.useState(false);
-
+    const pointer = {cursor: 'pointer'};
     return (
       <>
         <React.Fragment>
@@ -306,15 +306,15 @@ const SubCategories = () => {
               >
                 <CardContent sx={{ pb: 30, justifyContent: "center" }}>
                   <Grid  sx={{ pl: 30, justifyContent: "center" ,display:"flex"}}>
-                   <Box  sx={{ pr: 2, justifyContent: "center" }}> <Icon
-                      fontSize="large"
+                   <Box  sx={{ pr: 2, justifyContent: "center" }} style={pointer}> <Icon
+                      fontSize="25"
                       icon="dashicons:edit-large"
                       color="#c44d34"
-                    
+                      
                     /></Box>
 
-                   <Box > <Icon
-                      fontSize="large"
+                   <Box style={pointer}> <Icon
+                      fontSize="25"
                       icon="fluent:delete-16-filled"
                       color="#c44d34"
                       
@@ -325,7 +325,7 @@ const SubCategories = () => {
                       const value = row[column.id];
                       if (column.id !== "button") {
                         return (
-                          <Grid item xs={12} key={column.id} align="center">
+                          <Grid item xs={12} key={column.id} align="center" fontSize={17}>
                             <b>{column.label}</b>:{" "}
                             <span
                               style={{

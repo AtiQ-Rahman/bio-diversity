@@ -55,6 +55,7 @@ import {
   Autocomplete,
   CardActionArea,
   CardMedia,
+  Tooltip,
 } from "@mui/material";
 import Paper from "@mui/material/Paper";
 // import { useRouter } from "next/router";
@@ -129,6 +130,7 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
+
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -226,6 +228,7 @@ const Item = styled(Paper)(({ theme }) => ({
   paddingTop: 10,
   textAlign: "center",
   paddingBottom: 30,
+ 
   // color: theme.palette.text.secondary,
   // border: "1px solid",
   // boxShadow:"1px 1px 1px 1px black",
@@ -234,21 +237,22 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 function FormRow() {
   const router = useRouter();
-  const noPointer = {cursor: 'default'};
+  const pointer = {cursor: 'pointer'};
   return (
     <React.Fragment>
       {dummySpecies.map(({ title }) => (
         <Grid item xs={4}>
-          <Item>
+          <Item >
             <Box
               sx={{
-                width: 350,
-                height: 200,
-                backgroundColor: "whitesmoke",
-                // "&:hover": {
-                //   backgroundColor: "tomato",
-                //   opacity: [0.9, 0.8, 0.7],
-                // },
+                width: 300,
+                height: 190,
+                backgroundColor: "white",
+                boxShadow: "1px 1px 10px 10px #f1f1f1",
+                "&:hover": {
+                  boxShadow: "1px 1px 10px red",
+                  opacity: [0.0, 0.0, 0.9],
+                },
                 // boxShadow:"1px 1px gray"
               }}
               onClick={() =>
@@ -256,6 +260,7 @@ function FormRow() {
                   pathname: "/manageSpeciesTable",
                 })
               }
+              style={pointer}
             ><Typography
             gutterBottom
             variant="h1"
@@ -264,9 +269,9 @@ function FormRow() {
               fontSize: 25,
               fontFamily: "Times New Roman",
               color: "#c44d34",
-              paddingTop:8
+              paddingTop:9
             }}
-            style={noPointer}
+          
           >
            {title}
           </Typography></Box>
