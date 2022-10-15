@@ -69,7 +69,7 @@ exports.BIOGSearchParamsByField = async (req, res, next) => {
             modifiedResponse.push({
                 ...item,
                 identificationFeatures: item?.identificationFeatures ? JSON.parse(item.identificationFeatures) : {},
-                additionalFiles: item?.additionaL_files?.split(',') || '',
+                additionalFiles: item?.additional_files?.split(',') || '',
                 name: item?.name ? JSON.parse(item.name) : {},
             })
         }

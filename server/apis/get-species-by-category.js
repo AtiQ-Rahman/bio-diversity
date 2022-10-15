@@ -27,7 +27,7 @@ exports.BIOGetSpeciesByCategory = async (req, res, next) => {
                     ...item,
                     identificationFeatures: item?.identificationFeatures ? JSON.parse(item.identificationFeatures) : {},
                     addtionalCategories: item?.addtionalCategories ? JSON.parse(item.addtionalCategories) : {},
-                    additionalFiles: item?.additionaL_files?.split(',') || '',
+                    additionalFiles: item?.additional_files?.split(',') || '',
                     name: item?.name ? JSON.parse(item.name) : {},
                 })
             }

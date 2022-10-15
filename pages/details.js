@@ -53,52 +53,12 @@ const Details = () => {
   const [speciesDetails, setSpeciesData] = useState({});
   const [popupInfo, setPopUpInfo] = useState(null);
   const router = useRouter();
-  const [query, setQuery] = useState(router.query);
-  const fetchData = async (query, cbfn) => {
-    let searchParameters = query;
-    let response = await callApi("/get-species-by-serial", {
-      searchParameters,
-    });
-    if (response?.data?.length > 0) {
-      setSpeciesData(response.data[0]);
-      cbfn(response.data[0]);
-    } else {
-      cbfn({});
-    }
-  };
-  const settings = {
-    customPaging: function (i) {
-      return (
-        <Box height={400}>
-          <Image
-            layout="fill"
-            objectFit="cover"
-            loader={imageLoader}
-            src={`${imageUrl + "/" + speciesDetails?.additionalFiles[i]}`}
-          />
-        </Box>
-      );
-    },
-    dots: true,
-    dotsClass: "slick-dots slick-thumb",
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-  };
-  useEffect(() => {
-    if (!query) return;
-    fetchData(query, (speciesDetails) => {
-      null;
-    });
-  }, [query]);
-
   return (
     <>
       <Box className={styles.bgDetails}>
         <Header index={1} />
         <Box className={styles.bgBox}>
-          <AllDetailsPage></AllDetailsPage>
+        <AllDetailsPage></AllDetailsPage>
         </Box>
       </Box>
       <Footer style={{}} />

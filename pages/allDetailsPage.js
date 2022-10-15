@@ -19,7 +19,7 @@ import { useRouter } from "next/router";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { imageLoader } from "../utils/utils";
+import { imageLoader, processKeys, processSpeciesObject } from "../utils/utils";
 import callApi, { imageUrl } from "../utils/callApi";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
@@ -32,7 +32,6 @@ import TableRow from "@mui/material/TableRow";
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
-  padding: theme.spacing(1),
   textAlign: "center",
   color: theme.palette.text.secondary,
 }));
@@ -40,7 +39,9 @@ const Item = styled(Paper)(({ theme }) => ({
 let imageProps = {
   height: "300px",
   width: "1000px",
-};
+  objectFit: "cover",
+  borderRadius: "0px 0px 40px 40px"
+}
 const StyledSlider = styled((props) => <Slider {...props} />)({
   "& .slick-dots li": {
     width: "100px",
@@ -51,25 +52,30 @@ const StyledSlider = styled((props) => <Slider {...props} />)({
     // display: "block",
     position: "relative",
   },
+  "& .slick-slide span": {
+    // display: "block",
+    width: "100% !important",
+    height: "400px !important"
+  },
 });
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
-    width:30,
-    
-    
+    width: 30,
+
+
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 18,
-   
+
   },
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(odd)": {
     backgroundColor: theme.palette.action.hover,
-   
+
   },
   // hide last border
   "&:last-child td, &:last-child th": {
@@ -89,6 +95,7 @@ const rows = [
 ];
 const AllDetailsPage = () => {
   const [speciesDetails, setSpeciesData] = useState({});
+  const [modifiedSpeciesDetails, setModifiedSpeciesDetails] = useState({});
   const [popupInfo, setPopUpInfo] = useState(null);
   const router = useRouter();
   const [query, setQuery] = useState(router.query);
@@ -123,114 +130,112 @@ const AllDetailsPage = () => {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+    arrows: false
   };
   useEffect(() => {
     if (!query) return;
-    fetchData(query, (speciesDetails) => {
-      null;
+    fetchData(query, async (speciesDetails) => {
+      let modifiedSpeciesDetails = await processSpeciesObject(speciesDetails)
+      setModifiedSpeciesDetails(modifiedSpeciesDetails)
     });
   }, [query]);
 
   return (
     <>
-      <Box >
-        <Box className={styles.bgBox}>
-          <Grid container>
-            <Grid container spacing={2} columns={16}>
-              <Grid item xs={16}>
-                <Item className={styles.boxSlider}>
-                  <Grid className={styles.detailsSlider}>
-                    {speciesDetails?.additionalFiles?.length > 0 ? (
-                      <div>
-                        <StyledSlider {...settings} >
-                          {speciesDetails.additionalFiles.map(
-                            (speciesImage, index) => {
-                              return (
-                                <Image
-                                  key={`speciesAdditiona;${index}`}
-                                  {...imageProps}
-                                  loader={imageLoader}
-                                  src={imageUrl + "/" + speciesImage}
-                                 
-                                />
-                              );
-                            }
-                          )}
-                        </StyledSlider>
-                      </div>
-                    ) : (
-                      <Image
-                        loader={imageLoader}
-                        src={imageUrl + "/" + speciesDetails?.profile_image}
-                        alt="species-image"
-                        // width="345"
-                        // height={200}
-                        layout='fill'
-                      ></Image>
-                    )}
-                  </Grid>
-                </Item>
-              </Grid>
-              <br />
+      <Grid container sx={{ mt: 10 }} >
+        <Grid item xs={2}></Grid>
+        <Grid item xs={8} style={{ background: "white", margin: '0 auto' }}>
+          <Item>
+            {speciesDetails?.additionalFiles?.length > 0 ? (
+              <div>
+                <StyledSlider {...settings} >
+                  {speciesDetails.additionalFiles.map(
+                    (speciesImage, index) => {
+                      return (
+                        <Image
+                          key={`speciesAdditiona;${index}`}
+                          {...imageProps}
+                          loader={imageLoader}
+                          src={imageUrl + "/" + speciesImage}
 
-              <Grid
-                item
-                xs={16}
-                sx={{
-                  backgroundColor: "white",
-                  // paddingBottom: "70px",
-                  // marginTop: "20px",
-                  marginLeft: "17px",
-                }}
-              >
-                <Grid item>
-                  <Typography
-                    gutterBottom
-                    component="h2"
-                    variant="h2"
-                    // className={styles.title1}
-                    sx={{
-                      paddingTop: "70px",
-                      paddingBottom: "50px",
-                      textAlign: "center",
-                      color: "#c44d34",
-                      
-                    }}
-                  >
-                    {speciesDetails?.name?.commonName}
-                  </Typography>
-                </Grid>
+                        />
+                      );
+                    }
+                  )}
+                </StyledSlider>
+              </div>
+            ) : (
+              <Image
+                loader={imageLoader}
+                src={imageUrl + "/" + speciesDetails?.profile_image}
+                alt="species-image"
+                // width="345"
+                // height={200}
+                layout='fill'
+              ></Image>
+            )}
+          </Item>
 
-                <Grid
-                  container
-                  rowSpacing={1}
-                  columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-                  // pl={50}
-                  sx={{
-                    
-                    paddingBottom: "50px",
-                    
-                    paddingLeft:"370px"
-                  }}
-                >
-                  <TableContainer component={Paper}>
-                    <Table style={{ width: 1000}} className={styles.table} aria-label="customized table">
-                      <TableBody>
-                        {rows.map((row) => (
-                          <StyledTableRow key={row.name}>
-                            <StyledTableCell component="th" scope="row">
-                             <b> {row.name}</b>
-                            </StyledTableCell>
-                            <StyledTableCell align="left">
-                              {row.calories}
-                            </StyledTableCell>
-                           
-                          </StyledTableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                  {/* <Grid item xs={6}>
+
+          <Typography
+            gutterBottom
+            component="h2"
+            variant="h2"
+            // className={styles.title1}
+            sx={{
+              paddingTop: "70px",
+              paddingBottom: "50px",
+              textAlign: "center",
+              color: "#c44d34",
+
+            }}
+          >
+            {speciesDetails?.name?.commonName}
+          </Typography>
+
+          <TableContainer component={Paper}>
+            <Table style={{ width: 1000 }} className={styles.table} aria-label="customized table">
+              <TableBody>
+                {Object.keys(modifiedSpeciesDetails).map((row) => {
+                  if (typeof modifiedSpeciesDetails[row] === 'object' && modifiedSpeciesDetails[row]) {
+
+                    Object?.keys(modifiedSpeciesDetails[row])?.map((objKey) => {
+                      let title = processKeys(`${modifiedSpeciesDetails[row]}.${objKey}`)
+                      console.log(modifiedSpeciesDetails[row][objKey])
+
+                      return (
+                        <StyledTableRow key={row}>
+                          <StyledTableCell component="th" scope="row">
+                            <b> {title}</b>
+                          </StyledTableCell>
+                          <StyledTableCell align="left">
+                            {modifiedSpeciesDetails[row][objKey]?.name || modifiedSpeciesDetails[row][objKey]}
+                          </StyledTableCell>
+
+                        </StyledTableRow>
+                      )
+                    })
+
+                  }
+                  else {
+                    let title = processKeys(row)
+                    return (
+                      <StyledTableRow key={row}>
+                        <StyledTableCell component="th" scope="row">
+                          <b> {title}</b>
+                        </StyledTableCell>
+                        <StyledTableCell align="left">
+                          {modifiedSpeciesDetails[row]}
+                        </StyledTableCell>
+
+                      </StyledTableRow>
+                    )
+                  }
+                })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          {/* <Grid item xs={6}>
                     <Typography
                       gutterBottom
                       component="description"
@@ -340,12 +345,15 @@ const AllDetailsPage = () => {
                       <b>forma</b>:{speciesDetails.forma}
                     </Typography>
                   </Grid> */}
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Box>
-      </Box>
+
+        </Grid>
+
+        <Grid item xs={2}></Grid>
+
+
+      </Grid>
+
+
     </>
   );
 };

@@ -9,7 +9,7 @@ const speciesTable = (table) => {
         profile_image longtext,
         category varchar(255),
         identificationFeatures longtext,
-        additionaL_files longtext,
+        additional_files longtext,
         kingdom varchar(255),
         phylum varchar(255),
         class_name varchar(255),

@@ -61,7 +61,7 @@
 .detailsSlider {
   /* border: 1px solid var(--app-border); */
   padding: 30px;
- width: 90%;
+  width: 100%;
  
  background-color: white;
  
@@ -80,7 +80,7 @@
 
 }
 .bgDetails{
- background: #d9e8f4;
+ background: #bdc1c4;
 }
 .main_page {
   /* min-height: 100vh; */
@@ -110,6 +110,7 @@
 .textContainer {
   white-space: normal;
   word-wrap: break-word;
+  border-collapse: collapse;
 }
 .custom_input {
   height: 10px;
