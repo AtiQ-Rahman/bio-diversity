@@ -10,7 +10,7 @@ export const processSpeciesObject = (speciesDetails) => {
     priorityKeys.map((key) => {
         mainObject[key] = speciesDetails[key]
     })
-    let skippedKeys = ['id', 'additional_files', 'additionaL_files','marker', 'serial', 'idenitificationFeatures' ,'profile_image','createdDatetimeStamp']
+    let skippedKeys = ['id', 'additional_files', 'additionaL_files','marker', 'serial', 'idenitificationFeatures' ,'profile_image','createdDatetimeStamp', 'district']
     skippedKeys = skippedKeys.concat(priorityKeys)
     skippedKeys.map((key) => {
         delete skippedObject[key]
