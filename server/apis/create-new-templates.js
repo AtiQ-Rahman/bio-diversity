@@ -59,7 +59,7 @@ exports.updateSelectedTemplate = async (req, res, next) => {
         console.log(templateData)
         // keyList = JSON.stringify(keyList)
         let lastModified = moment().format("YYYY-MM-DD HH:mm:ss");
-        let updateQuery = `update ${table} set selected = true , lastModified = '${lastModified}'  where selected`
+        let updateQuery = `update ${table} set selected = false , lastModified = '${lastModified}'  where selected`
         // console.log(insertQuery)
         let response = await executeQuery(updateQuery)
         let updateQuery2 = `update ${table} set selected = true , lastModified = '${lastModified}'  where serial = '${serial}'`
