@@ -40,6 +40,8 @@ import mapboxgl from "mapbox-gl"; // eslint-disable-line import/no-webpack-loade
 import "mapbox-gl/dist/mapbox-gl.css";
 import { teal } from "@mui/material/colors";
 import { useRouter } from "next/router";
+import Geocoder from 'react-mapbox-gl-geocoder'
+import Geocode from "react-geocode";
 mapboxgl.accessToken = process.env.mapbox_key;
 // import { kingdoms } from "../utils/kingdoms";
 // const kingdoms = require("../utils/kingdoms");
@@ -53,6 +55,12 @@ mapboxgl.accessToken = process.env.mapbox_key;
 const Input = styled("input")({
   display: "none",
 });
+const mapAccess = {
+  mapboxApiAccessToken: process.env.mapbox_key
+}
+const queryParams = {
+  country: 'bd'
+}
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
   ({ theme, open }) => ({
     ...theme.typography.mainContent,
@@ -112,10 +120,11 @@ const AddNewSpecies = () => {
   const [lng, setLng] = useState(0);
   const { enqueueSnackbar } = useSnackbar();
   const [lat, setLat] = useState(0);
-  const [zoom, setZoom] = useState(6.52);
+  const [zoom, setZoom] = useState(5.52);
   const [markerUrl, setMarkerUrl] = useState("");
   const [force, setForce] = useState(null);
   const [profileIndex, setProfileIndex] = useState();
+
   const initialValues = {
     serial: "",
     kingdom: "",
@@ -158,6 +167,20 @@ const AddNewSpecies = () => {
   const [subVarieties, setSubVarieties] = useState([])
   const [clones, setClones] = useState([])
   const [formas, setFormas] = useState([])
+  const [geocodeSearchResult, setGeocodeSearchResult] = useState([])
+  const [selectedDistricts, setSelectedDistricts] = useState([])
+  const onSelected = (viewport, item) => {
+    setViewPort({ viewport });
+    console.log('Selected: ', item)
+  }
+  const callGecoderApi = (value) => {
+    let url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${value}.json?access_token=${process.env.mapbox_key}&bbox=88.007207%2C20.4817039%2C92.679485%2C26.638142`
+    fetch(url)           //api for the get request
+      .then(response => response.json())
+      .then(data => {
+        setGeocodeSearchResult(data?.features || [])
+      });
+  }
   async function fetchData(query, cbfn) {
     let allTypesOfSpecies = await callApi("/get-unique-types-of-species", {});
     setAllTypesOfSpecies(allTypesOfSpecies.data)
@@ -199,7 +222,7 @@ const AddNewSpecies = () => {
   useEffect(() => {
     // if (!map.current) return; // initialize map only once
 
-    if (!markerUrl) {
+    if (selectedDistricts.length == 0) {
       setLng(0);
       setLat(0);
     } // initialize map only once
@@ -216,16 +239,24 @@ const AddNewSpecies = () => {
     //    setZoom(map.current.getZoom().toFixed(2));
     // });
     console.log("markerUrl", markerUrl);
-    const el = document.createElement("div");
-    const width = 50;
-    const height = 50;
-    el.className = styles.marker;
-    el.style.backgroundImage = `url('${markerUrl}')`;
-    el.style.width = `${width}px`;
-    el.style.height = `${height}px`;
-    el.style.backgroundSize = "cover";
-    let marker = new mapboxgl.Marker(el);
-    marker.setLngLat([lng, lat]).addTo(map.current);
+    selectedDistricts?.map((district) => {
+      const el = document.createElement('div');
+      const width = 50;
+      const height = 50;
+      el.className = styles.marker;
+      el.style.backgroundImage = `url('${markerUrl}')`;
+      el.style.width = `50px`;
+      el.style.backgroundStyle = 'cover'
+      el.style.backgroundRepeat = 'no-repeat'
+      el.style.backgroundPosition = 'center top'
+      el.style.height = `50px`;
+      // el.style.display = `block`;
+      el.style.top = `-20px`;
+      el.style.backgroundSize = 'contain';
+      let marker = new mapboxgl.Marker(el);
+      marker.setLngLat([district.center[0], district.center[1]]).addTo(map.current);
+    })
+
 
     map.current.on("click", function (event) {
       var coordinates = event.lngLat;
@@ -239,7 +270,7 @@ const AddNewSpecies = () => {
     // new mapboxgl.Marker()
     //    .setLngLat([lng, lat])
     //    .addTo(map.current);
-  }, [markerUrl, speciesData]);
+  }, [selectedDistricts, speciesData]);
   // Handle left drawer
   const leftDrawerOpened = useSelector((state) => state.customization.opened);
   const dispatch = useDispatch();
@@ -365,6 +396,14 @@ const AddNewSpecies = () => {
                 console.log({ values });
                 // console.log(values.reportfile.name);
                 let speciesData = values;
+                let districts = []
+                selectedDistricts.map((district)=>{
+                  districts.push({
+                    place_name,
+                    center
+                  })
+                })
+                speciesData.district = districts
                 speciesData.createdBy = {
                   name: "test admin",
                   userId: "blabla",
@@ -451,7 +490,7 @@ const AddNewSpecies = () => {
                         getOptionLabel={(option) => option?.kingdom || option}
                         value={values?.kingdom}
                         // sx={{ width: 300 }}
-                        onChange={(e, value) => {
+                        onInputChange={(e, value) => {
                           setFieldValue("kingdom", value?.kingdom || value);
                           let phylums = allTypesOfSpecies.phylums.filter((item) => item.kingdom == (value?.kingdom || value))
                           setPhylums(phylums)
@@ -482,7 +521,7 @@ const AddNewSpecies = () => {
                         getOptionLabel={(option) => option?.phylum || option}
                         value={values?.phylum}
                         // sx={{ width: 300 }}
-                        onInputChange={(e ,value)=>{
+                        onInputChange={(e, value) => {
                           console.log(value)
                           setFieldValue("phylum", value?.phylum || value);
                           let classes = allTypesOfSpecies.classes.filter((item) => item.phylum == (value?.phylum || value))
@@ -505,6 +544,7 @@ const AddNewSpecies = () => {
                     </Grid>
                     <Grid item xs={2}>
                       <Autocomplete
+                        freeSolo
                         size="small"
                         disablePortal
                         id="classes"
@@ -514,7 +554,7 @@ const AddNewSpecies = () => {
                         getOptionLabel={(option) => option?.class_name || option}
                         value={values?.class_name}
                         // sx={{ width: 300 }}
-                        onChange={(e, value) => {
+                        onInputChange={(e, value) => {
                           setFieldValue("class_name", value?.class_name || value);
                           let orders = allTypesOfSpecies.orders.filter((item) => item.class_name == (value?.class_name || value))
                           setOrderNames(orders)
@@ -539,6 +579,7 @@ const AddNewSpecies = () => {
                     </Grid>
                     <Grid item xs={2}>
                       <Autocomplete
+                        freeSolo
                         size="small"
                         disablePortal
                         id="orders"
@@ -548,8 +589,10 @@ const AddNewSpecies = () => {
                         getOptionLabel={(option) => option?.order_name || option}
                         value={values?.order_name}
                         // sx={{ width: 300 }}
-                        onChange={(e, value) => {
-                          setFieldValue("order_name", value?.name);
+                        onInputChange={(e, value) => {
+                          setFieldValue("order_name", value?.order_name || value);
+                          let families = allTypesOfSpecies.families.filter((item) => item.order_name == (value?.order_name || value))
+                          setFamilies(families)
                         }}
                         renderInput={(params) => (
                           <TextField
@@ -571,17 +614,20 @@ const AddNewSpecies = () => {
                     </Grid>
                     <Grid item xs={2}>
                       <Autocomplete
+                        freeSolo
                         size="small"
                         disablePortal
                         id="families"
                         name={values?.family}
                         options={families}
                         key="families"
-                        getOptionLabel={(option) => option?.name || option}
+                        getOptionLabel={(option) => option?.family || option}
                         value={values?.family}
                         // sx={{ width: 300 }}
-                        onChange={(e, value) => {
-                          setFieldValue("family", value?.name);
+                        onInputChange={(e, value) => {
+                          setFieldValue("family", value?.family || value);
+                          let genuses = allTypesOfSpecies.genuses.filter((item) => item.family == (value?.family || value))
+                          setGenuses(genuses)
                         }}
                         renderInput={(params) => (
                           <TextField
@@ -599,17 +645,20 @@ const AddNewSpecies = () => {
                     </Grid>
                     <Grid item xs={2}>
                       <Autocomplete
+                        freeSolo
                         size="small"
                         disablePortal
                         id="genuses"
                         name={values?.genus}
                         options={genuses}
                         key="genuses"
-                        getOptionLabel={(option) => option?.name || option}
+                        getOptionLabel={(option) => option?.genus || option}
                         value={values?.genus}
                         // sx={{ width: 300 }}
-                        onChange={(e, value) => {
-                          setFieldValue("genus", value?.name);
+                        onInputChange={(e, value) => {
+                          setFieldValue("genus", value?.genus || value);
+                          let species = allTypesOfSpecies.speciesListFromServer.filter((item) => item.genus == (value?.genus || value))
+                          setSpeciesListFromServer(species)
                         }}
                         renderInput={(params) => (
                           <TextField
@@ -627,17 +676,20 @@ const AddNewSpecies = () => {
                     </Grid>
                     <Grid item xs={2}>
                       <Autocomplete
+                        freeSolo
                         size="small"
                         disablePortal
                         id="species"
                         name={values?.species}
-                        options={genuses}
+                        options={speciesListFromServer}
                         key=""
-                        getOptionLabel={(option) => option?.name || option}
+                        getOptionLabel={(option) => option?.species || option}
                         value={values?.species}
                         // sx={{ width: 300 }}
-                        onChange={(e, value) => {
-                          setFieldValue("species", value?.name);
+                        onInputChange={(e, value) => {
+                          setFieldValue("species", value?.species || value);
+                          let subSpeciesList = allTypesOfSpecies.subSpeciesList.filter((item) => item.species == (value?.species || value))
+                          setSubSpeciesList(subSpeciesList)
                         }}
                         renderInput={(params) => (
                           <TextField
@@ -655,17 +707,20 @@ const AddNewSpecies = () => {
                     </Grid>
                     <Grid item xs={2}>
                       <Autocomplete
+                        freeSolo
                         size="small"
                         disablePortal
                         id="sub_species"
                         name={values?.sub_species}
-                        options={genuses}
+                        options={subSpeciesList}
                         key=""
-                        getOptionLabel={(option) => option?.name || option}
+                        getOptionLabel={(option) => option?.sub_species || option}
                         value={values?.sub_species}
                         // sx={{ width: 300 }}
-                        onChange={(e, value) => {
-                          setFieldValue("sub_species", value?.name);
+                        onInputChange={(e, value) => {
+                          setFieldValue("sub_species", value?.sub_species || value);
+                          let varieties = allTypesOfSpecies.varieties
+                          setVarieties(varieties)
                         }}
                         renderInput={(params) => (
                           <TextField
@@ -687,17 +742,20 @@ const AddNewSpecies = () => {
                     </Grid>
                     <Grid item xs={2}>
                       <Autocomplete
+                        freeSolo
                         size="small"
                         disablePortal
                         id="variety"
                         name={values?.variety}
-                        options={genuses}
+                        options={varieties}
                         key=""
-                        getOptionLabel={(option) => option?.name || option}
+                        getOptionLabel={(option) => option?.variety || option}
                         value={values?.variety}
                         // sx={{ width: 300 }}
-                        onChange={(e, value) => {
-                          setFieldValue("variety", value?.name);
+                        onInputChange={(e, value) => {
+                          setFieldValue("variety", value?.variety || value);
+                          let subVarieties = allTypesOfSpecies.subVarieties.filter((item) => item.variety == (value?.variety || value))
+                          setSubVarieties(subVarieties)
                         }}
                         renderInput={(params) => (
                           <TextField
@@ -715,17 +773,20 @@ const AddNewSpecies = () => {
                     </Grid>
                     <Grid item xs={2}>
                       <Autocomplete
+                        freeSolo
                         size="small"
                         disablePortal
                         id="sub_variety"
                         name={values?.sub_variety}
-                        options={genuses}
+                        options={subVarieties}
                         key=""
-                        getOptionLabel={(option) => option?.name || option}
+                        getOptionLabel={(option) => option?.sub_variety || option}
                         value={values?.sub_variety}
                         // sx={{ width: 300 }}
-                        onChange={(e, value) => {
-                          setFieldValue("sub_variety", value?.name);
+                        onInputChange={(e, value) => {
+                          setFieldValue("sub_variety", value?.sub_variety || value);
+                          let clones = allTypesOfSpecies.clones
+                          setClones(clones)
                         }}
                         renderInput={(params) => (
                           <TextField
@@ -747,17 +808,20 @@ const AddNewSpecies = () => {
                     </Grid>
                     <Grid item xs={2}>
                       <Autocomplete
+                        freeSolo
                         size="small"
                         disablePortal
                         id="clone"
                         name={values?.clone}
-                        options={genuses}
+                        options={clones}
                         key="clone"
-                        getOptionLabel={(option) => option?.name || option}
+                        getOptionLabel={(option) => option?.clone || option}
                         value={values?.clone}
                         // sx={{ width: 300 }}
-                        onChange={(e, value) => {
-                          setFieldValue("clone", value?.name);
+                        onInputChange={(e, value) => {
+                          setFieldValue("clone", value?.clone || value);
+                          let formas = allTypesOfSpecies.formas.filter((item) => item.clone == (value?.clone || value))
+                          setFormas(formas)
                         }}
                         renderInput={(params) => (
                           <TextField
@@ -775,17 +839,18 @@ const AddNewSpecies = () => {
                     </Grid>
                     <Grid item xs={2}>
                       <Autocomplete
+                        freeSolo
                         size="small"
                         disablePortal
                         id="forma"
                         name={values?.forma}
-                        options={genuses}
+                        options={formas}
                         key=""
-                        getOptionLabel={(option) => option?.name || option}
+                        getOptionLabel={(option) => option?.forma || option}
                         value={values?.forma}
                         // sx={{ width: 300 }}
-                        onChange={(e, value) => {
-                          setFieldValue("forma", value?.name);
+                        onInputChange={(e, value) => {
+                          setFieldValue("forma", value?.forma || value);
                         }}
                         renderInput={(params) => (
                           <TextField
@@ -803,17 +868,17 @@ const AddNewSpecies = () => {
                     </Grid>
 
                     <Grid item xs={12}>
-                      <Grid container spacing={2}>
+                      <Grid container item xs={12} spacing={2}>
+
                         <Grid item xs={3}>
                           <TextField
-                            required
+
                             id="Species"
                             name="nameOfSpecies.english"
                             margin="normal"
                             size="small"
                             label="English Name"
                             fullWidth
-                            value={values?.nameOfSpecies?.english}
                             onChange={handleChange}
                             autoComplete="English Name"
                             variant="outlined"
@@ -821,10 +886,9 @@ const AddNewSpecies = () => {
                         </Grid>
                         <Grid item xs={3}>
                           <TextField
-                            required
+
                             id="banglaName"
                             name="nameOfSpecies.bangla"
-                            value={values?.nameOfSpecies?.bangla}
                             margin="normal"
                             size="small"
                             label="Bangla Name"
@@ -836,9 +900,8 @@ const AddNewSpecies = () => {
                         </Grid>
                         <Grid item xs={3}>
                           <TextField
-                            required
+
                             id="commonName"
-                            value={values?.nameOfSpecies?.commonName}
                             name="nameOfSpecies.commonName"
                             margin="normal"
                             size="small"
@@ -851,8 +914,7 @@ const AddNewSpecies = () => {
                         </Grid>
                         <Grid item xs={3}>
                           <TextField
-                            required
-                            value={values?.nameOfSpecies?.synonym}
+
                             id="synonym"
                             name="nameOfSpecies.synonym"
                             margin="normal"
@@ -1058,58 +1120,38 @@ const AddNewSpecies = () => {
                                 name="marker"
                                 onChange={getMarkerUrl}
                               />
-                              <Grid container spacing={2}>
-                                <Grid item md={6}>
-                                  <TextField
-                                    required
-                                    id="longitude"
-                                    name="longitude"
-                                    margin="normal"
-                                    size="small"
-                                    label="Longitude"
-                                    value={lng ?? 0}
-                                    type="number"
-                                    fullWidth
-                                    autoComplete="longitude"
-                                    onChange={(e) => {
-                                      setLng(parseFloat(e.target.value));
-                                    }}
-                                    variant="outlined"
-                                  />
-                                </Grid>
-                                <Grid item md={6}>
-                                  <TextField
-                                    required
-                                    id="lattitude"
-                                    name="lattitude"
-                                    margin="normal"
-                                    size="small"
-                                    type="number"
-                                    label="Lattitude"
-                                    value={lat ? lat : 0}
-                                    fullWidth
-                                    autoComplete="lattitude"
-                                    onChange={(e) => {
-                                      setLat(parseFloat(e.target.value));
-                                    }}
-                                    variant="outlined"
-                                  />
-                                </Grid>
-                                {/* <Grid item md={12}>
-                                  <TextField
-                                    id="address"
-                                    name="adress"
-                                    // margin="normal"
-                                    size="small"
-                                    type="address"
-                                    label="Address"
-                                    fullWidth
-                                    autoComplete="lattitude"
-                                    onChange={handleChange}
-                                    variant="outlined"
-                                  />
-                                </Grid> */}
-                              </Grid>
+                              <Box>
+                                {/* <Geocoder
+                              style={{ background: "white" }}
+                              {...mapAccess} onSelected={onSelected} viewport={viewport} hideOnSelect={true}
+                              queryParams={queryParams}
+                            /> */}
+                                <Autocomplete
+                                  multiple
+                                  disabled ={markerUrl ? false : true}
+                                  id="tags-standard"
+                                  options={geocodeSearchResult}
+                                  getOptionLabel={(option) => option.place_name || option}
+                                  defaultValue={[]}
+                                  onInputChange={(e, value) => {
+                                    callGecoderApi(value)
+                                  }}
+                                  onChange={(e, value) => {
+                                    console.log(value)
+                                    setSelectedDistricts(value);
+                                  }}
+                                  renderInput={(params) => (
+                                    <TextField
+                                      {...params}
+                                      style={{ padding: "2px" }}
+                                      label="Select District"
+                                      variant="outlined"
+                                      placeholder="Select"
+                                    // value={values?.district}
+                                    />
+                                  )}
+                                />
+                              </Box>
                             </Grid>
                             <Grid item md={6}>
                               <div

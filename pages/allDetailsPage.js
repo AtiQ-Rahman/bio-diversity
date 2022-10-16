@@ -9,7 +9,6 @@ import {
 import { Box } from "@mui/system";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import Carousel from "react-material-ui-carousel";
 import Footer from "../components/Home/Footer/Footer";
 import Header from "../components/Home/Header";
 import styles from "../styles/Home.module.css";
@@ -142,7 +141,7 @@ const AllDetailsPage = () => {
 
   return (
     <>
-      <Grid container sx={{ mt: 10 }} >
+      <Grid container  >
         <Grid item xs={2}></Grid>
         <Grid item xs={8} style={{ background: "white", margin: '0 auto' }}>
           <Item>
@@ -194,7 +193,7 @@ const AllDetailsPage = () => {
           </Typography>
 
           <TableContainer component={Paper}>
-            <Table style={{ width: 1000 }} className={styles.table} aria-label="customized table">
+            <Table style={{ width: '100%' }} className={styles.table} aria-label="customized table">
               <TableBody>
                 {Object.keys(modifiedSpeciesDetails).map((row) => {
                   if (typeof modifiedSpeciesDetails[row] === 'object' && modifiedSpeciesDetails[row]) {
