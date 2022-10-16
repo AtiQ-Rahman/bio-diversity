@@ -2,59 +2,16 @@ import React from "react";
 import styles from "../styles/Home.module.css";
 import { styled } from "@mui/material/styles";
 import { useRouter } from "next/router";
-import CloseIcon from "@mui/icons-material/Close";
-import PropTypes from "prop-types";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-const imageSrc = require("../assets/images/species1.jpg");
 
 import {
-    AppBar,
-    Box,
-    CssBaseline,
-    Toolbar,
-    Container,
-    useMediaQuery,
     Grid,
-    Typography,
     TextField,
-    TableCell,
-    TableRow,
-    TableBody,
-    TableHead,
-    Table,
-    TableContainer,
-    Button,
-    Modal,
-    Divider,
-    Card,
-    CardActions,
-    CardContent,
-    tableCellClasses,
-    TablePagination,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
-    IconButton,
     Autocomplete,
     Dialog,
 } from "@mui/material";
-import Header from "../components/Home/Header";
-import CollapseCard from "../components/Home/collapseCard";
-import SearchSection from "../components/Home/Header/SearchSection";
-import Paper from "@mui/material/Paper";
-import { Link, Router } from "react-router-dom";
-import Image from "next/image";
-import Footer from "../components/Home/Footer/Footer";
-import Counters from "../components/Home/counters";
-import { fontSize, fontWeight, height } from "@mui/system";
 import { useState } from "react";
 import { useEffect } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
 import callApi from "../utils/callApi";
-import { Details } from "@mui/icons-material";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     "& .MuiDialogContent-root": {
@@ -64,8 +21,6 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
         padding: theme.spacing(1),
     },
 }));
-
-
 
 const CommonDropDowns = ({
     values,

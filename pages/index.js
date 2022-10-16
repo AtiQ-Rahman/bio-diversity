@@ -38,25 +38,6 @@ import callApi, { imageUrl } from "../utils/callApi";
 import { imageLoader } from "../utils/utils";
 
 export default function Home() {
-  const [spacing, setSpacing] = React.useState(2);
-  const itemData = [
-    {
-      img: species8,
-      title: "Butterfly",
-      author: "@bkristastucchio",
-      featured: true,
-    },
-    {
-      img: species10,
-      title: "Turtle",
-      author: "@rollelflex_graphy726",
-    },
-    {
-      img: species7,
-      title: "Deer",
-      author: "@helloimnik",
-    },
-  ];
   const [slides, setSlides] = React.useState([]);
   const [ready, setReady] = React.useState(false);
   const [selectedTemplate, setSelectedTemplate] = React.useState({});
@@ -65,12 +46,16 @@ export default function Home() {
     let response = await callApi("/get-selected-template", {});
     if (response.data.length > 0) {
       let sliderImages = response.data[0].sliderImages.split(',')
-      sliderImages.map((item) => {
-        slides.push({
-          url: imageUrl + '/' + item,
-          title: item
+      if(slides.length == 0) {
+        sliderImages.map((item) => {
+          slides.push({
+            url: imageUrl + '/' + item,
+            title: item
+          })
         })
-      })
+      }
+
+      console.log
       let allSpecies = await callApi("/get-species-list", {});
       if (allSpecies.data.length > 0) {
         console.log(allSpecies.data)
