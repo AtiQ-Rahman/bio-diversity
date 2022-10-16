@@ -37,12 +37,13 @@ const StyledSlider = styled((props) => (
     },
     '& .slick-slide div span': {
         height: '800px !important',
+        width:'100% !important'
 
     },
 });
 let imageProps = {
-    // height: "800px !important",
-    layout:"fill",
+    height: "800px !important",
+    width:"100%",
     // width:"auto",
     // width:"1500px",
     objectFit: "cover"
@@ -74,10 +75,11 @@ const ImageSlider = ({ slides }) => {
         dotsClass: "slick-dots slick-thumb",
         infinite: true,
         speed: 500,
-        autoplay: false,
+        autoplay: true,
         autoplaySpeed: 3000,
         slidesToShow: 1,
         slidesToScroll: 1,
+        arrows:false,
         beforeChange: (current, next) => setCurrentIndex(next),
         customPaging: i => (
             <div style={dotsContainerStyles}>
@@ -123,7 +125,6 @@ const ImageSlider = ({ slides }) => {
                         ))}
                     </StyledSlider>
                 </div>) :
-
                 null
             }
             <Grid
