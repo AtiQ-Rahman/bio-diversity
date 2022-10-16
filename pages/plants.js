@@ -220,7 +220,7 @@ const Plants = () => {
         )}
       </Formik>
 
-      <Grid container sx={{ borderRadius: "10px", px: 10 }} paddingBottom={15}>
+      <Grid container sx={{ borderRadius: "10px", px: 10 }} paddingBottom={1}>
         <Grid item xs={12}>
           {speciesList?.length > 0 ? (
             <TableData speciesList={speciesList}></TableData>

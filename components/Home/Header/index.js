@@ -372,7 +372,7 @@ export default function PrimarySearchAppBar(props) {
       {pages.map((page, index) => (
         <Link key={`page${index}`} href={page.path}>
           <MenuItem key={page} onClick={handleCloseNavMenu}>
-            <Box textAlign="center">{page.name}</Box>
+            <Box  textAlign="center">{page.name}</Box>
           </MenuItem>
         </Link>
       ))}
@@ -391,7 +391,7 @@ export default function PrimarySearchAppBar(props) {
           height: 90,
           // backgroundColor: "rgba(0,0,0,.5)",
           backgroundColor: navBg,
-          zIndex: 1301
+          // zIndex: 1301
           // opacity: 0.5,
           // backgroundColor: "transparent"
         }}
