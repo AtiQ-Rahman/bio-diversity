@@ -9,8 +9,7 @@ import {
 import { Box } from "@mui/system";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import Footer from "../components/Home/Footer/Footer";
-import Header from "../components/Home/Header";
+
 import styles from "../styles/Home.module.css";
 
 import { useRouter } from "next/router";
@@ -144,7 +143,7 @@ const AllDetailsPage = () => {
       <Grid container  >
         <Grid item xs={2}></Grid>
         <Grid item xs={8} style={{ background: "white", margin: '0 auto' }}>
-          <Item>
+          <Item sx={{pt:10}}>
             {speciesDetails?.additionalFiles?.length > 0 ? (
               <div>
                 <StyledSlider {...settings} >
@@ -234,116 +233,7 @@ const AllDetailsPage = () => {
               </TableBody>
             </Table>
           </TableContainer>
-          {/* <Grid item xs={6}>
-                    <Typography
-                      gutterBottom
-                      component="description"
-                      variant="div"
-                      fontSize={20}
-                    >
-                      <b>Kindom</b>: {speciesDetails.kindom}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Typography
-                      gutterBottom
-                      component="description"
-                      variant="div"
-                      fontSize={20}
-                    >
-                      <b>Phylum</b>:{speciesDetails.phylum}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Typography
-                      gutterBottom
-                      component="description"
-                      variant="div"
-                      fontSize={20}
-                    >
-                      <b>class</b>:{speciesDetails.class}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Typography
-                      gutterBottom
-                      component="description"
-                      variant="div"
-                      fontSize={20}
-                    >
-                      <b>order</b>:{speciesDetails.order}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Typography
-                      gutterBottom
-                      component="description"
-                      variant="div"
-                      fontSize={20}
-                    >
-                      <b>family</b>:{speciesDetails.family}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Typography
-                      gutterBottom
-                      component="description"
-                      variant="div"
-                      fontSize={20}
-                    >
-                      <b>Genus</b>:{speciesDetails.genus}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Typography
-                      gutterBottom
-                      component="description"
-                      variant="div"
-                      fontSize={20}
-                    >
-                      <b>Specis</b>:{speciesDetails.specis}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Typography
-                      gutterBottom
-                      component="description"
-                      variant="div"
-                      fontSize={20}
-                    >
-                      <b>Variety</b>:{speciesDetails.variety}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Typography
-                      gutterBottom
-                      component="description"
-                      variant="div"
-                      fontSize={20}
-                    >
-                      <b>Sub Variety</b>:{speciesDetails.subVariety}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Typography
-                      gutterBottom
-                      component="description"
-                      variant="div"
-                      fontSize={20}
-                    >
-                      <b>clone</b>:{speciesDetails.clone}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Typography
-                      gutterBottom
-                      component="description"
-                      variant="div"
-                      fontSize={20}
-                    >
-                      <b>forma</b>:{speciesDetails.forma}
-                    </Typography>
-                  </Grid> */}
+          
 
         </Grid>
 
