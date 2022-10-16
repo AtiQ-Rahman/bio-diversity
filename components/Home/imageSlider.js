@@ -6,6 +6,7 @@ import {
     Button,
     FormControl,
     OutlinedInput,
+    filledInputClasses,
 } from "@mui/material";
 import { Icon } from '@iconify/react';
 import styles from '../../styles/Home.module.css'
@@ -41,13 +42,15 @@ const StyledSlider = styled((props) => (
 });
 let imageProps = {
     // height: "800px !important",
-    // layout: "fill",
+    layout:"fill",
+    // width:"auto",
+    // width:"1500px",
     objectFit: "cover"
 }
 
 const sliderStyles = {
     position: "relative",
-    // height: "700px",
+    // height: 500,
 };
 
 const dotsContainerStyles = {
@@ -110,16 +113,16 @@ const ImageSlider = ({ slides }) => {
     //     setCurrentIndex(newIndex);
     // };
     return (
-        <Box style={sliderStyles}>
+        <div style={sliderStyles}>
 
             {slides?.length > 0 ?
-                (<Box>
+                (<div>
                     <StyledSlider {...settings} ref={slider}>
                         {slides.map((speciesImage, index) => (
                             <Image key={`slideImage${index}`}{...imageProps} loader={imageLoader} src={speciesImage.url} />
                         ))}
                     </StyledSlider>
-                </Box>) :
+                </div>) :
 
                 null
             }
@@ -186,7 +189,7 @@ const ImageSlider = ({ slides }) => {
 
             </Grid>
 
-        </Box>
+        </div>
 
     );
 };

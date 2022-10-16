@@ -49,15 +49,6 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import CommonDropDowns from "../components/CommonDropDowns";
 import TableData from "./TableData";
-// import { kingdoms } from "../utils/kingdoms";
-const kingdoms = require("../utils/kingdoms");
-const phylums = require("../utils/kingdoms");
-const classes = require("../utils/kingdoms");
-const orders = require("../utils/kingdoms");
-const families = require("../utils/kingdoms");
-const genuses = require("../utils/kingdoms");
-const species = require("../utils/kingdoms");
-console.log(kingdoms);
 const Input = styled("input")({
   display: "none",
 });

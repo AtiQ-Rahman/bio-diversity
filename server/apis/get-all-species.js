@@ -16,6 +16,8 @@ exports.getAllSpecies = async (req, res, next) => {
                     identificationFeatures: item?.identificationFeatures ? JSON.parse(item.identificationFeatures) : {},
                     additionalFiles: item?.additional_files?.split(',') || '',
                     name: item?.name ? JSON.parse(item.name) : {},
+                    districts: item?.district ? JSON.parse(item.district) : {},
+
                 })
             }
             modifiedList = modifiedList.concat(modifiedResponse)

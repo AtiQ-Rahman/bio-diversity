@@ -5,7 +5,11 @@ const speciesTable = (table) => {
     return `CREATE TABLE ${table} (
         id int NOT NULL AUTO_INCREMENT,
         serial varchar(10),
-        name varchar(255),
+        bangla varchar(255),
+        english varchar(255),
+        common varchar(255),
+        synonym varchar(255),
+        district varchar(1000),
         profile_image longtext,
         category varchar(255),
         identificationFeatures longtext,
@@ -37,7 +41,6 @@ const categoryTable = (table) => {
         serial varchar(10),
         name varchar(255),
         type varchar(20),
-        keyList longtext,
         meta longtext,
         createdBy varchar(255),
         createdDatetimeStamp datetime,
@@ -59,6 +62,18 @@ const homepageTable = (table) => {
         PRIMARY KEY (id)
     );`
 }
+const subcategoriesTable = (table) =>{
+    let createQuery = `CREATE TABLE ${table} (
+        id int NOT NULL AUTO_INCREMENT,
+        name varchar(1000) NOT NULL,
+        linkID varchar(255),
+        createdDatetimeStamp datetime,
+        lastModified datetime,
+        PRIMARY KEY (id),
+        FOREIGN KEY (linkID) REFERENCES bio_diversity_${this.tableTypes.categories}(serial)
+    )`
+    return createQuery
+}
 const createQueryForSpecies = async (table) => {
     console.log({ table })
     let query;
@@ -67,6 +82,9 @@ const createQueryForSpecies = async (table) => {
     }
     else if (table == await processTableName(this.tableTypes.homepage)) {
         query = homepageTable(table)
+    }
+    else if (table == await processTableName(this.tableTypes.subcategories)) {
+        query = subcategoriesTable(table)
     }
     else {
         query = speciesTable(table)
@@ -88,6 +106,7 @@ exports.speciesTableTypes = {
 }
 exports.tableTypes = {
     categories: 'categories',
+    subcategories: 'subcategories',
     homepage: 'homepage',
 }
 exports.getTableNameFromSql = async (sql) => {

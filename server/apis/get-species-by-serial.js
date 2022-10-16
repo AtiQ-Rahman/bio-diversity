@@ -28,6 +28,8 @@ exports.BIOGetSpeciesBySerial = async (req, res, next) => {
                     addtionalCategories: item?.addtionalCategories ? JSON.parse(item.addtionalCategories) : {},
                     additionalFiles: item?.additional_files?.split(',') || '',
                     name: item?.name ? JSON.parse(item.name) : {},
+                    districts: item?.district ? JSON.parse(item.district) : {},
+
                 })
             }
             res.status(200).json({

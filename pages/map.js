@@ -54,9 +54,9 @@ const Map = () => {
     const [query, setQuery] = useState(router.query)
     const mapContainer = useRef(null);
     const map = useRef(null);
-    const [zoom, setZoom] = useState(10);
-    const [lng, setLng] = useState()
-    const [lat, setLat] = useState()
+    const [lng, setLng] = useState(90.399452);
+    const [lat, setLat] = useState(23.777176);
+    const [zoom, setZoom] = useState(6.52);
     const [speciesData, setSpeciesData] = useState({})
     const [popupInfo, setPopUpInfo] = useState(null)
     const fetchData = async (query, cbfn) => {
@@ -94,7 +94,7 @@ const Map = () => {
             map.current = new mapboxgl.Map({
                 container: mapContainer.current,
                 style: process.env.mapStyle,
-                center: [speciesData.lng, speciesData.lat],
+                center: [lng, lat],
                 zoom: zoom
             });
             map.current.on('move', () => {
@@ -102,22 +102,42 @@ const Map = () => {
                 setLat(map.current.getCenter().lat.toFixed(4));
                 setZoom(map.current.getZoom().toFixed(2));
             });
-            const el = document.createElement('div');
-            // const width = "auto";
-            const height = 150;
-            el.className = styles.marker;
-            el.style.backgroundImage = `url('${speciesData.marker}')`;
-            el.style.width = `50px`;
-            el.style.backgroundStyle = 'cover'
-            el.style.backgroundRepeat = 'no-repeat'
-            el.style.backgroundPosition = 'center top'
-            el.style.height = `50px`;
-            // el.style.display = `block`;
-            el.style.top = `-20px`;
-            el.style.backgroundSize = 'contain';
-            new mapboxgl.Marker(el)
-                .setLngLat([speciesData.lng, speciesData.lat])
-                .addTo(map.current);
+            speciesData.districts.map((district)=>{
+                const el = document.createElement('div');
+                // const width = "auto";
+                const height = 150;
+                el.className = styles.marker;
+                el.style.backgroundImage = `url('${speciesData.marker}')`;
+                el.style.width = `50px`;
+                el.style.backgroundStyle = 'cover'
+                el.style.backgroundRepeat = 'no-repeat'
+                el.style.backgroundPosition = 'center top'
+                el.style.height = `50px`;
+                // el.style.display = `block`;
+                el.style.top = `-20px`;
+                el.style.backgroundSize = 'contain';
+                new mapboxgl.Marker(el)
+                    .setLngLat([district.center[0], district.center[1]])
+                    .addTo(map.current)
+                    .setPopup(new mapboxgl.Popup({ offset: 30 }).setHTML(`
+                        <div >
+                       <div className="popup">
+                            <h3 className="route-name">${district.place_name}</h3>
+                            <div className="route-metric-row">
+                                <h4 className="row-title">Lng:</h4>
+                                <div className="row-value">${district.center[1]}</div>
+                            </div>
+                            <div className="route-metric-row">
+                                <h4 className="row-title">Lat :</h4>
+                                <div className="row-value">${district.center[1]}</div>
+                            </div>
+                        </div>
+                    </div>`
+
+
+                    ));
+            })
+
         })
 
 

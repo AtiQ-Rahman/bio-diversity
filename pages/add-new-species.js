@@ -399,8 +399,8 @@ const AddNewSpecies = () => {
                 let districts = []
                 selectedDistricts.map((district)=>{
                   districts.push({
-                    place_name,
-                    center
+                    place_name :district.place_name,
+                    center:district.center
                   })
                 })
                 speciesData.district = districts
