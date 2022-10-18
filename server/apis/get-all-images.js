@@ -10,7 +10,7 @@ exports.getAllSpecies = async (req, res, next) => {
         let response = await executeQuery(searchQuery)
         if (response?.length > 0) {
             for (let item of response) {
-                let files = item?.additionaL_files?.split(',') || []
+                let files = item?.additional_files?.split(',') || []
                 for(let imageItem of files){
                     modifiedList.push(imageItem)
                 }

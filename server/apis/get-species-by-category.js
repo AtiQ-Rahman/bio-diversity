@@ -2,7 +2,7 @@ const { getTable, executeQuery, uniqueIdGenerator, tableTypes, log, createQueryF
 
 const DB = require("../config/connectToDatabase");
 
-exports.BIOGetSpeciesBySerial = async (req, res, next) => {
+exports.BIOGetSpeciesByCategory = async (req, res, next) => {
     let searchParameters = req.body.searchParameters
     // console.log({searchParameters})
     console.log('response', JSON.stringify(searchParameters))
@@ -13,8 +13,9 @@ exports.BIOGetSpeciesBySerial = async (req, res, next) => {
         })
     }
     else {
+        console.log(searchParameters.category)
         let table = await getTable(searchParameters.category)
-        let searchQuery = `select * from ${table} where serial = '${searchParameters.serial}'`
+        let searchQuery = `select * from ${table}`
 
         let response = await executeQuery(searchQuery)
         console.log(JSON.stringify(searchParameters.type))
@@ -22,30 +23,12 @@ exports.BIOGetSpeciesBySerial = async (req, res, next) => {
         if (response?.length > 0) {
             let modifiedResponse = []
             for (let item of response) {
-                let districts = []
-                if (item.district.includes('+')) {
-                    let splittedValue = item.district.split('+')
-                    splittedValue.map((item) => {
-                        districts.push({
-                            place_name: item,
-                            center: null
-                        })
-                    })
-                }
-                else {
-                    if (item.district.includes('{'))
-                        districts = item?.district ? JSON.parse(item.district) : []
-                    else
-                        districts = [] || []
-                }
                 modifiedResponse.push({
                     ...item,
                     identificationFeatures: item?.identificationFeatures ? JSON.parse(item.identificationFeatures) : {},
                     addtionalCategories: item?.addtionalCategories ? JSON.parse(item.addtionalCategories) : {},
                     additionalFiles: item?.additional_files?.split(',') || '',
                     name: item?.name ? JSON.parse(item.name) : {},
-                    districts: districts,
-
                 })
             }
             res.status(200).json({

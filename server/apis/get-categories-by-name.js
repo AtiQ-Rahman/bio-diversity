@@ -11,11 +11,20 @@ exports.BIOGetCategoriesByName = async (req, res, next) => {
     if (response?.length > 0) {
         let categories = []
         for (let item of response) {
+            let sub_table = await getTable(tableTypes.subcategories)
+            let searchQuery = `select * from ${sub_table} where linkID = '${item.serial}'`
+            let result = await executeQuery(searchQuery)
+            let subCategoryList = result.map((res)=>{
+                return {
+                    name : res.name,
+                    key : res.id
+                }
+            })
             categories.push({
                 name: item.name,
                 serial: item.serial,
                 type: item.type,
-                keyList: JSON.parse(item.keyList),
+                keyList: subCategoryList,
             })
         }
         res.status(200).json({

@@ -6,144 +6,144 @@ import styles from "../styles/Home.module.css";
 import Image from 'next/image';
 import { useRouter } from "next/router";
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
-   [`&.${tableCellClasses.head}`]: {
-     backgroundColor: "#c44d34",
-     color: theme.palette.common.white,
-   },
-   [`&.${tableCellClasses.body}`]: {
-     fontSize: 20,
-     fontFamily:"Times New Roman"
-   },
- }));
- 
- const StyledTableRow = styled(TableRow)(({ theme }) => ({
-   '&:nth-of-type(odd)': {
-     backgroundColor: theme.palette.action.hover,
-   },
-   // hide last border
-   '&:last-child td, &:last-child th': {
-     border: 0,
-   },
- }));
+    [`&.${tableCellClasses.head}`]: {
+        backgroundColor: "#c44d34",
+        color: theme.palette.common.white,
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 20,
+        fontFamily: "Times New Roman"
+    },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(odd)': {
+        backgroundColor: theme.palette.action.hover,
+    },
+    // hide last border
+    '&:last-child td, &:last-child th': {
+        border: 0,
+    },
+}));
 const TableData = (props) => {
-   //  const [speciesList, setSpeciesList] = React.useState([]);
-   //  const [searchMessage, setSearchMessage] = React.useState('');
+    //  const [speciesList, setSpeciesList] = React.useState([]);
+    //  const [searchMessage, setSearchMessage] = React.useState('');
     let imageProps = {
-      height: "100px",
-      width: "200px",
-   }
-   const imageLoader = ({ src }) => `${src}`
-   const router = useRouter();
+        height: "100px",
+        width: "200px",
+    }
+    const imageLoader = ({ src }) => `${src}`
+    const router = useRouter();
     return (
 
         <Grid item xs={12}>
-               {/* {props.length > 0 ? ( */}
-                  <><Typography variant="h2" component="h2" align="center" gutterBottom>
-                     Total Species Found : {props.speciesList.length}
-                  </Typography>
-                  <br/>
-                     <TableContainer component={Paper}  >
-                     <Table sx={{ minWidth: 700 }} aria-label="customized table">
-                           <TableHead>
-                              <TableRow>
-                                 <StyledTableCell  sx={{pl:4}}><b>SI</b></StyledTableCell>
-                                 <StyledTableCell sx={{pl:7}}><b>Images</b></StyledTableCell>
-                                 <StyledTableCell align="center"><b>Species Name</b></StyledTableCell>
-                                 <StyledTableCell align="center"><b>Type</b></StyledTableCell>
-                                 <StyledTableCell align="center"><b>Family</b></StyledTableCell>
-                                 <StyledTableCell align="center"><b>Order name</b></StyledTableCell>
-                                 <StyledTableCell align="center"><b>Lng/Lat</b></StyledTableCell>
-                                 <StyledTableCell align="center"><b>Action</b></StyledTableCell>
-                              </TableRow>
-                           </TableHead>
-                           <TableBody   >
-                              {props.speciesList.map((row, index) => (
-                                 <StyledTableRow  
+            {/* {props.length > 0 ? ( */}
+            <><Typography variant="h2" component="h2" align="center" gutterBottom>
+                Total Species Found : {props.speciesList.length}
+            </Typography>
+                <br />
+                <TableContainer component={Paper}  >
+                    <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                        <TableHead>
+                            <TableRow>
+                                <StyledTableCell sx={{ pl: 4 }}><b>SI</b></StyledTableCell>
+                                <StyledTableCell sx={{ pl: 7 }}><b>Images</b></StyledTableCell>
+                                <StyledTableCell align="center"><b>Species Name</b></StyledTableCell>
+                                <StyledTableCell align="center"><b>Type</b></StyledTableCell>
+                                <StyledTableCell align="center"><b>Family</b></StyledTableCell>
+                                <StyledTableCell align="center"><b>Order name</b></StyledTableCell>
+                                <StyledTableCell align="center"><b>Lng/Lat</b></StyledTableCell>
+                                <StyledTableCell align="center"><b>Action</b></StyledTableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody   >
+                            {props.speciesList.map((row, index) => (
+                                <StyledTableRow
                                     key={row.index}
                                     sx={{
-                                       "&:last-child td, &:last-child th": { border: 0 },
+                                        "&:last-child td, &:last-child th": { border: 0 },
                                     }}
 
-                                 >
-                                    <StyledTableCell  component="th" scope="row" sx={{pl:4}}>
-                                       {index + 1}
+                                >
+                                    <StyledTableCell component="th" scope="row" sx={{ pl: 4 }}>
+                                        {index + 1}
                                     </StyledTableCell >
-                                    <StyledTableCell  component="td" scope="row" width={200}>
-                                       <Image {...imageProps} objectFit="cover" loader={imageLoader} src={imageUrl + '/' + row.profile_image} alt= {row.name.commonName}></Image>
+                                    <StyledTableCell component="td" scope="row" width={200}>
+                                        <Image {...imageProps} objectFit="cover" loader={imageLoader} src={imageUrl + '/' + row.profile_image} alt={row.name.commonName}></Image>
                                     </StyledTableCell >
-                                    <StyledTableCell  align="center">
-                                       {row.name.commonName}
+                                    <StyledTableCell align="center">
+                                        {row.name.commonName}
                                     </StyledTableCell >
-                                    <StyledTableCell  align="center">{row.identificationFeatures.subCategory.name}</StyledTableCell >
+                                    <StyledTableCell align="center">{row.identificationFeatures.subCategory.name}</StyledTableCell >
 
-                                    <StyledTableCell  align="center">{row.family}</StyledTableCell >
-                                    <StyledTableCell  align="center">{row.order_name}</StyledTableCell >
-                                    <StyledTableCell  align="center">{row.lng},<br/>{row.lat}</StyledTableCell >
-                                    <StyledTableCell  align="center">
-                                       <Grid container spacing={1}  sx={{pl:10}} >
-                                          {/* <Grid item xs={12}> */}
-                                             <Button
+                                    <StyledTableCell align="center">{row.family}</StyledTableCell >
+                                    <StyledTableCell align="center">{row.order_name}</StyledTableCell >
+                                    <StyledTableCell align="center">{row.lng},<br />{row.lat}</StyledTableCell >
+                                    <StyledTableCell align="center">
+                                        <Grid container spacing={1} sx={{ pl: 10 }} >
+                                            {/* <Grid item xs={12}> */}
+                                            <Button
                                                 style={{
-                                                   width: "110px",
-                                                   maxHeight: "80px",
-                                                   minWidth: "40px",
-                                                   minHeight: "40px"
+                                                    width: "110px",
+                                                    maxHeight: "80px",
+                                                    minWidth: "40px",
+                                                    minHeight: "40px"
                                                 }}
                                                 type="button"
                                                 onClick={() => router.push({
-                                                   pathname: "/details",
-                                                   query: {
-                                                      serial: row.serial,
-                                                      category: 'Plants'
-                                                   }
+                                                    pathname: "/details",
+                                                    query: {
+                                                        serial: row.serial,
+                                                        category: 'Plants'
+                                                    }
                                                 })}
                                                 variant="outlined"
-                                             >
-                                                 Details
-                                             </Button>
-                                          {/* </Grid> */}
-                                          {/* <Grid item xs={12}> */}
-                                          
-                                             <Button
-                                                
+                                            >
+                                                Details
+                                            </Button>
+                                            {/* </Grid> */}
+                                            {/* <Grid item xs={12}> */}
+
+                                            <Button
+
                                                 className={styles.bg_primary}
                                                 style={{
-                                                   width: "110px",
-                                                   maxHeight: "80px",
-                                                   minWidth: "40px",
-                                                   minHeight: "40px",
-                                                   color: "white"
+                                                    width: "110px",
+                                                    maxHeight: "80px",
+                                                    minWidth: "40px",
+                                                    minHeight: "40px",
+                                                    color: "white"
                                                 }}
                                                 type="button"
-                                               
-                                                onClick={() => router.push({
-                                                   pathname: "/map",
-                                                   query: {
-                                                      serial: row.serial,
-                                                      category: 'Plants'
-                                                   }
-                                                })}
-                                             // variant="outlined"
-                                                sx={{ml:1}}
-                                             >
-                                                View map
-                                             </Button>
-                                          {/* </Grid> */}
 
-                                       </Grid>
+                                                onClick={() => router.push({
+                                                    pathname: "/map",
+                                                    query: {
+                                                        serial: row.serial,
+                                                        category: 'Plants'
+                                                    }
+                                                })}
+                                                // variant="outlined"
+                                                sx={{ ml: 1 }}
+                                            >
+                                                View map
+                                            </Button>
+                                            {/* </Grid> */}
+
+                                        </Grid>
 
                                     </StyledTableCell >
-                                 </StyledTableRow >
-                              ))}
-                           </TableBody>
-                        </Table>
-                     </TableContainer></>
-               {/* ) : <Typography variant="h1" component="h1" align="center" padding={25}>
+                                </StyledTableRow >
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer></>
+            {/* ) : <Typography variant="h1" component="h1" align="center" padding={25}>
                   {searchMessage ?? ''}
                </Typography>} */}
-            </Grid>
+        </Grid>
 
-     
+
     );
 };
 

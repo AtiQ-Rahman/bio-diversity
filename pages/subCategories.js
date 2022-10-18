@@ -145,7 +145,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 const columns = [
   //   { id: "subcategory", label: "Subcategory", minWidth: 100 },
   { id: "name", label: "Name", minWidth: 170 },
-  { id: "key", label: "Key", minWidth: 100 },
   { id: "button", label: "Edit / Delete ", minWidth: 100 },
 ];
 
@@ -231,7 +230,7 @@ const SubCategories = () => {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [force, setForce] = React.useState(false);
   const [category, setCategory] = React.useState();
-  const [subCategoryList, setSubCategoryList] = React.useState();
+  const [subCategoryList, setSubCategoryList] = React.useState([]);
   const [keyIndex, setKeyIndex] = useState(-1);
   const initialValues = {
     name: "",
@@ -279,15 +278,16 @@ const SubCategories = () => {
   const leftDrawerOpened = useSelector((state) => state.customization.opened);
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
+  const pointer = { cursor: 'pointer' };
 
   const handleLeftDrawerToggle = () => {
     dispatch({ type: SET_MENU, opened: !leftDrawerOpened });
   };
-  const changeCategory = (e) => {};
+  const changeCategory = (e) => { };
   function FormRow(props) {
     const { row, index } = props;
     const [openCategory, setOpenCategory] = React.useState(false);
-    const pointer = {cursor: 'pointer'};
+    const pointer = { cursor: 'pointer' };
     return (
       <>
         <React.Fragment>
@@ -305,21 +305,27 @@ const SubCategories = () => {
                 }}
               >
                 <CardContent sx={{ pb: 30, justifyContent: "center" }}>
-                  <Grid  sx={{ pl: 30, justifyContent: "center" ,display:"flex"}}>
-                   <Box  sx={{ pr: 2, justifyContent: "center" }} style={pointer}> <Icon
-                      fontSize="25"
+                  <Box sx={{ pr: 2, justifyContent: "center" }} style={pointer}>
+
+                    <Icon
+
                       icon="dashicons:edit-large"
                       color="#c44d34"
-                      
-                    /></Box>
+                      onClick={(e) => {
+                        setSubCategoriesValues(row)
+                        handleClickOpen()
+                      }}
 
-                   <Box style={pointer}> <Icon
-                      fontSize="25"
-                      icon="fluent:delete-16-filled"
-                      color="#c44d34"
-                      
-                    /></Box>
-                  </Grid>
+                    />
+                  </Box>
+
+                  <Box style={pointer}> <Icon
+
+                    icon="fluent:delete-16-filled"
+                    color="#c44d34"
+
+                  /></Box>
+
                   <Grid container spacing={2}>
                     {columns.map((column) => {
                       const value = row[column.id];
@@ -446,13 +452,13 @@ const SubCategories = () => {
 
                   {/* TABLE */}
                   <Divider></Divider>
-                  <Grid container xs={12}>
+                  <Grid container xs={12} spacing={2}>
                     <Grid item xs={12} md={5}>
                       <h2>Selected Category ({query.name})</h2>
                     </Grid>
 
                     <Grid item xs={12} md={7}>
-                      <Grid container xs={12} md={12}>
+                      <Grid container>
                         <Grid
                           item
                           xs={12}
@@ -485,38 +491,67 @@ const SubCategories = () => {
                     item
                     xs={12}
                     sx={{ b: 1, mb: 3 }}
-                    style={{ borderRadius: "10px" }}
-                  >
-                    <Paper
-                      sx={{ width: "80%", overflow: "hidden" }}
-                      component={Paper}
-                    >
-                      <Box sx={{ flexGrow: 1 }}>
-                        <Grid container spacing={1}>
-                          <Grid container item spacing={3}>
-                            {/* {columns.map((column) => (
+                    style={{ borderRadius: "10px" }} >
+                    <Grid container spacing={3}>
+                      {/* {columns.map((column) => (
                                
                                   <Typography>{column.label}</Typography>
                               
                               ))}: */}
-                            {subCategoryList
-                              ?.slice(
-                                page * rowsPerPage,
-                                page * rowsPerPage + rowsPerPage
-                              )
-                              .map((row, index) => {
-                                return (
-                                  <FormRow
-                                    key={row.name}
-                                    index={index}
-                                    row={row}
-                                  ></FormRow>
-                                );
-                              })}
+                      {subCategoryList.map((row, index) => {
+                        return (
+                          <Grid item xs={3} md={2}  sx={{
+                            boxShadow: "3px 1px 10px #f1f1f1",
+                            border: "1px solid #f3c4b8",
+                            px: 5,
+                            py: 2,
+                            m:1
+                          }}>
+                            <Grid container>
+                              <Grid item xs={12} md={10}>
+                                <Typography component="h4">
+                                  {row.name}
+                                </Typography></Grid>
+                              <Grid item xs={12} md={2}>
+                                <Box style={{...pointer ,justifyContent: "end", display: "flex"  }} >
+
+                                  <Icon
+
+                                    icon="dashicons:edit-large"
+                                    color="#c44d34"
+                                    onClick={(e) => {
+                                      setSubCategoriesValues(row)
+                                      handleClickOpen()
+                                    }}
+
+                                  />
+                                  <Icon
+
+                                    icon="fluent:delete-16-filled"
+                                    color="#c44d34"
+
+                                  />
+                                </Box>
+
+
+                              </Grid>
+                            </Grid>
+
+
+
                           </Grid>
-                        </Grid>
-                      </Box>
-                    </Paper>
+
+                          // <FormRow
+                          //   key={row.name}
+                          //   index={index}
+                          //   row={row}
+                          // ></FormRow>
+                        );
+                      })}
+                    </Grid>
+
+
+
                   </Grid>
                 </Grid>
               </Grid>
@@ -572,33 +607,22 @@ const SubCategories = () => {
                 ) => {
                   try {
                     console.log(values);
-                    if (!values.name || !values.key) {
+                    if (!values.name) {
                       return;
                     }
-                    let categoryData = category;
-                    if (keyIndex > -1) {
-                      categoryData.keyList[keyIndex] = {
-                        name: values.name,
-                        key: values.key,
-                      };
-                    } else {
-                      categoryData.keyList.push({
-                        name: values.name,
-                        key: values.key,
-                      });
-                    }
-                    console.log({ keyIndex });
+                    values.serial = category.serial;
+                    console.log({ values });
                     let response = await callApi(
-                      "/add-update-categories",
-                      categoryData
+                      "/add-update-subcategories",
+                      values
                     );
                     enqueueSnackbar("Sub Caategory Updated", {
                       variant: "success",
                       // action: <Button>See all</Button>
                     });
-                    handleClose();
+                    // handleClose();
                     // window.location.reload()
-                    resetForm();
+                    // resetForm();
                   } catch (error) {
                     console.log({ error });
 
@@ -627,14 +651,6 @@ const SubCategories = () => {
                             name="name"
                             value={values?.name || ""}
                             label="Name"
-                            sx={{ mr: 5 }}
-                            onChange={handleChange}
-                          />
-                          <TextField
-                            type="text"
-                            name="key"
-                            value={values?.key || ""}
-                            label="Key"
                             sx={{ mr: 5 }}
                             onChange={handleChange}
                           />

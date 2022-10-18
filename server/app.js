@@ -14,11 +14,11 @@ app.use(logger);
 // import routes
 const adminRoutes = require("./routes/adminRoutes");
 const userRoutes = require("./routes/userRoutes");
-
+let dir = path.join(__dirname, "uploads").replace("server","public")
 // route 
 app.use("/api/v1", adminRoutes);
 app.use("/api/v1", userRoutes);
-app.use("/api/v1/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/api/v1/uploads", express.static(dir));
 
 // Middleware for error
 

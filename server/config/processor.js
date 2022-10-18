@@ -1,35 +1,15 @@
-export const imageLoader = ({ src }) => `${src}`
-export const twoDecimal = (num) => {
-    console.log(parseFloat(num))
-    return (Math.round(parseFloat(num) * 100000) / 100000).toFixed(5);
-}
-export const processSpeciesObject = (speciesDetails) => {
-    let mainObject = {}
-    let skippedObject = speciesDetails
-    let priorityKeys = ['kingdom', 'phylum', 'class_name', 'order_name', 'species', 'family', 'genus', 'clone', 'forma', 'sub_species', 'variety', 'sub_variety']
-    priorityKeys.map((key) => {
-        mainObject[key] = speciesDetails[key]
-    })
-    let skippedKeys = ['id', 'additional_files', 'additionaL_files','marker', 'serial', 'idenitificationFeatures' ,'profile_image','createdDatetimeStamp', 'district']
-    skippedKeys = skippedKeys.concat(priorityKeys)
-    skippedKeys.map((key) => {
-        delete skippedObject[key]
-    })
-    Object.assign(mainObject, skippedObject)
-    return mainObject
-}
-export const processKeys = (key) => {
-    let list = matchKey()
+exports.processKeys = async (label) => {
+    let list = await matchKey()
     for (let item of list) {
-        if (key.trim() == item.key.trim()) {
-            return item.label
+        if (label.trim() == item.label.trim()) {
+            return item.key
         }
     }
-    return key
+    return label
 
 
 }
-function matchKey() {
+async function matchKey() {
     let list = [
         {
             label: 'Category Name',

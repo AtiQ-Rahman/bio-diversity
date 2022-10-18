@@ -6,6 +6,7 @@ import {
     Button,
     FormControl,
     OutlinedInput,
+    filledInputClasses,
 } from "@mui/material";
 import { Icon } from '@iconify/react';
 import styles from '../../styles/Home.module.css'
@@ -36,18 +37,21 @@ const StyledSlider = styled((props) => (
     },
     '& .slick-slide div span': {
         height: '800px !important',
+        width:'100% !important'
 
     },
 });
 let imageProps = {
-    // height: "800px !important",
-    // layout: "fill",
+    height: "800px !important",
+    width:"100%",
+    // width:"auto",
+    // width:"1500px",
     objectFit: "cover"
 }
 
 const sliderStyles = {
     position: "relative",
-    // height: "700px",
+    // height: 500,
 };
 
 const dotsContainerStyles = {
@@ -71,10 +75,11 @@ const ImageSlider = ({ slides }) => {
         dotsClass: "slick-dots slick-thumb",
         infinite: true,
         speed: 500,
-        autoplay: false,
+        autoplay: true,
         autoplaySpeed: 3000,
         slidesToShow: 1,
         slidesToScroll: 1,
+        arrows:false,
         beforeChange: (current, next) => setCurrentIndex(next),
         customPaging: i => (
             <div style={dotsContainerStyles}>
@@ -110,17 +115,16 @@ const ImageSlider = ({ slides }) => {
     //     setCurrentIndex(newIndex);
     // };
     return (
-        <Box style={sliderStyles}>
+        <div style={sliderStyles}>
 
             {slides?.length > 0 ?
-                (<Box>
+                (<div>
                     <StyledSlider {...settings} ref={slider}>
                         {slides.map((speciesImage, index) => (
                             <Image key={`slideImage${index}`}{...imageProps} loader={imageLoader} src={speciesImage.url} />
                         ))}
                     </StyledSlider>
-                </Box>) :
-
+                </div>) :
                 null
             }
             <Grid
@@ -186,7 +190,7 @@ const ImageSlider = ({ slides }) => {
 
             </Grid>
 
-        </Box>
+        </div>
 
     );
 };

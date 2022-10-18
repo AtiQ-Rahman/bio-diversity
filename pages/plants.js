@@ -9,138 +9,28 @@ import {
   Grid,
   TextField,
   Button,
-  Card,
-  CardContent,
-  FormControlLabel,
-  Checkbox,
   Box,
-  AppBar,
-  Toolbar,
-  useMediaQuery,
-  CssBaseline,
   Autocomplete,
-  Divider,
-  TableContainer,
-  Paper,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  tableCellClasses,
 } from "@mui/material";
 // import ImageUpload from "./ImageUpload";
 
-import Sidebar from "../components/Admin/Sidebar";
-import Breadcrumbs from "../components/Home/ui-component/extended/Breadcrumbs";
-import { useDispatch, useSelector } from "react-redux";
-import { IconChevronRight } from "@tabler/icons";
-import { Icon } from "@iconify/react";
-import navigation from "../components/Admin/menu-items";
+
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 
-import { drawerWidth } from "../store/constant";
-import { SET_MENU } from "../store/actions";
+
 import styles from "../styles/Home.module.css";
 import { styled, useTheme } from "@mui/material/styles";
 import callApi, { imageUrl } from "../utils/callApi";
-import Image from "next/image";
-import { useRouter } from "next/router";
+
 import CommonDropDowns from "../components/CommonDropDowns";
 import TableData from "./TableData";
-// import { kingdoms } from "../utils/kingdoms";
-const kingdoms = require("../utils/kingdoms");
-const phylums = require("../utils/kingdoms");
-const classes = require("../utils/kingdoms");
-const orders = require("../utils/kingdoms");
-const families = require("../utils/kingdoms");
-const genuses = require("../utils/kingdoms");
-const species = require("../utils/kingdoms");
-console.log(kingdoms);
-const Input = styled("input")({
-  display: "none",
-});
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: "#c44d34",
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 20,
-    fontFamily: "Times New Roman",
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  "&:last-child td, &:last-child th": {
-    border: 0,
-  },
-}));
-const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
-  ({ theme, open }) => ({
-    ...theme.typography.mainContent,
-    ...(!open && {
-      borderBottomLeftRadius: 0,
-      borderBottomRightRadius: 0,
-      transition: theme.transitions.create("margin", {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      [theme.breakpoints.up("md")]: {
-        marginLeft: -(drawerWidth - 20),
-        width: `calc(100% - ${drawerWidth}px)`,
-      },
-      [theme.breakpoints.down("md")]: {
-        marginLeft: "20px",
-        width: `calc(100% - ${drawerWidth}px)`,
-        padding: "16px",
-      },
-      [theme.breakpoints.down("sm")]: {
-        marginLeft: "10px",
-        width: `calc(100% - ${drawerWidth}px)`,
-        padding: "16px",
-        marginRight: "10px",
-      },
-    }),
-    ...(open && {
-      transition: theme.transitions.create("margin", {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-      marginLeft: 0,
-      borderBottomLeftRadius: 0,
-      borderBottomRightRadius: 0,
-      width: `calc(100% - ${drawerWidth}px)`,
-      [theme.breakpoints.down("md")]: {
-        marginLeft: "20px",
-      },
-      [theme.breakpoints.down("sm")]: {
-        marginLeft: "10px",
-      },
-    }),
-  })
-);
-let imageProps = {
-  height: "100px",
-  width: "200px",
-};
-const imageLoader = ({ src }) => `${src}`;
-
-const map = require("../assets/images/map.png");
 const Plants = () => {
-  const [image, setImage] = React.useState(null);
-  const [createObjectURL, setCreateObjectURL] = React.useState(null);
   const theme = useTheme();
   const [category, setCatgory] = React.useState();
   const [speciesList, setSpeciesList] = React.useState([]);
   const [searchMessage, setSearchMessage] = React.useState("");
-  const matchDownMd = useMediaQuery(theme.breakpoints.down("lg"));
   const initialValues = {
     kingdom: null,
     phylum: null,
@@ -181,24 +71,7 @@ const Plants = () => {
     fetchData();
   }, []);
   // Handle left drawer
-  const leftDrawerOpened = useSelector((state) => state.customization.opened);
-  const dispatch = useDispatch();
-  const handleLeftDrawerToggle = () => {
-    dispatch({ type: SET_MENU, opened: !leftDrawerOpened });
-  };
 
-  const uploadToClient = (event) => {
-    if (event.target.files[0]) {
-      const i = event.target.files[0];
-
-      setImage(i);
-      setCreateObjectURL(URL.createObjectURL(i));
-    }
-  };
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  const router = useRouter();
   return (
     <Box height={800}>
       {/* header */}
@@ -347,7 +220,7 @@ const Plants = () => {
         )}
       </Formik>
 
-      <Grid container sx={{ borderRadius: "10px", px: 10 }} paddingBottom={15}>
+      <Grid container sx={{ borderRadius: "10px", px: 10 }} paddingBottom={1}>
         <Grid item xs={12}>
           {speciesList?.length > 0 ? (
             <TableData speciesList={speciesList}></TableData>

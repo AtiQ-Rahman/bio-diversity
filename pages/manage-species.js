@@ -59,28 +59,12 @@ import {
 } from "@mui/material";
 import Paper from "@mui/material/Paper";
 // import { useRouter } from "next/router";
-import Link from "next/link";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
+
 import callApi from "../utils/callApi";
-import Slide from "@mui/material/Slide";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-const kingdoms = require("../utils/kingdoms");
-const phylums = require("../utils/kingdoms");
-const classes = require("../utils/kingdoms");
-const orders = require("../utils/kingdoms");
-const families = require("../utils/kingdoms");
-const genuses = require("../utils/kingdoms");
-const species = require("../utils/kingdoms");
-const imageSrc = require("../assets/images/species1.jpg");
-const Items = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-}));
+import { useSnackbar } from "notistack";
+
+import * as XLSX from 'xlsx';
+
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
     padding: theme.spacing(2),
@@ -119,42 +103,6 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  "&:last-child td, &:last-child th": {
-    border: 0,
-  },
-}));
-const columns = [
-  // { id: "subcategory", label: "Subcategory", minWidth: 100 },
-  { id: "name", label: "Name", minWidth: 170 },
-  { id: "type", label: "Type", minWidth: 100 },
-  { id: "button", label: "Action ", width: 100 },
-];
 const dummySpecies = [
   {
     title: "Plants",
@@ -225,6 +173,7 @@ const Item = styled(Paper)(({ theme }) => ({
   // ...theme.typography.body2,
   // padding: theme.spacing(1),
   // backgroundColor:"red",
+
   paddingTop: 10,
   textAlign: "center",
   paddingBottom: 30,
@@ -235,59 +184,6 @@ const Item = styled(Paper)(({ theme }) => ({
   // width: "300px",
   // height: "200px",
 }));
-function FormRow() {
-  const router = useRouter();
-  const pointer = {cursor: 'pointer'};
-  return (
-    <React.Fragment>
-      {dummySpecies.map(({ title }) => (
-        <Grid item xs={4}>
-          <Item >
-            <Box
-              sx={{
-                width: 300,
-                height: 190,
-                backgroundColor: "white",
-                boxShadow: "1px 1px 10px 10px #f1f1f1",
-                "&:hover": {
-                  boxShadow: "1px 1px 10px red",
-                  opacity: [0.0, 0.0, 0.9],
-                },
-                // boxShadow:"1px 1px gray"
-              }}
-              onClick={() =>
-                router.push({
-                  pathname: "/manageSpeciesTable",
-                })
-              }
-              style={pointer}
-            ><Typography
-            gutterBottom
-            variant="h1"
-            component="div"
-            sx={{
-              fontSize: 25,
-              fontFamily: "Times New Roman",
-              color: "#c44d34",
-              paddingTop:9
-            }}
-          
-          >
-           {title}
-          </Typography></Box>
-           
-          </Item>
-        </Grid>
-      ))}
-      {/* <Grid item xs={4}>
-        <Item>Item</Item>
-      </Grid> */}
-      {/* <Grid item xs={4}>
-        <Item>Item</Item>
-      </Grid> */}
-    </React.Fragment>
-  );
-}
 export default function ManageSpecies() {
   const theme = useTheme();
   const matchDownMd = useMediaQuery(theme.breakpoints.down("lg"));
@@ -299,7 +195,64 @@ export default function ManageSpecies() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [force, setForce] = React.useState(false);
-  const [categoryList, setCatgoryList] = React.useState();
+  const [uploadedSpecies, setUploadedSpecies] = React.useState([]);
+  const { enqueueSnackbar } = useSnackbar();
+
+  const [categoryList, setCatgoryList] = React.useState([]);
+  function FormRow() {
+    const router = useRouter();
+    const noPointer = { cursor: 'default' };
+    return (
+      <React.Fragment>
+        {categoryList?.map((row) => (
+          <Grid item xs={4}>
+            <Item>
+              <Box
+                sx={{
+                  width: 350,
+                  height: 200,
+                  backgroundColor: "whitesmoke",
+                  // "&:hover": {
+                  //   backgroundColor: "tomato",
+                  //   opacity: [0.9, 0.8, 0.7],
+                  // },
+                  // boxShadow:"1px 1px gray"
+                }}
+                onClick={() =>
+                  router.push({
+                    pathname: "/manageSpeciesTable",
+                    query: {
+                      category: row.name
+                    }
+                  })
+                }
+              ><Typography
+                gutterBottom
+                variant="h1"
+                component="div"
+                sx={{
+                  fontSize: 25,
+                  fontFamily: "Times New Roman",
+                  color: "#c44d34",
+                  paddingTop: 8
+                }}
+                style={noPointer}
+              >
+                  {row.name}
+                </Typography></Box>
+
+            </Item>
+          </Grid>
+        ))}
+        {/* <Grid item xs={4}>
+          <Item>Item</Item>
+        </Grid> */}
+        {/* <Grid item xs={4}>
+          <Item>Item</Item>
+        </Grid> */}
+      </React.Fragment>
+    );
+  }
   const initialValues = {
     name: "",
     serial: null,
@@ -322,14 +275,55 @@ export default function ManageSpecies() {
       setCreateObjectURL(URL.createObjectURL(i));
     }
   };
-  const uploadCSV = (event) => {
-    if (event.target.files && event.target.files[0]) {
-      const i = event.target.files[0];
+  const uploadCSV = (evt) => {
+    if (evt.target.files && evt.target.files[0]) {
+      const f = evt.target.files[0];
+      var name = f.name;
+      const reader = new FileReader();
+      reader.addEventListener("loadend", async (evt) => {
+        // (B1) GET THE FIRST WORKSHEET
+        var workbook = XLSX.read(evt.target.result, { type: "binary" }),
+          worksheet = workbook.Sheets[workbook.SheetNames[0]],
+          range = XLSX.utils.decode_range(worksheet["!ref"]);
 
-      setImage(i);
-      setCreateObjectURL(URL.createObjectURL(i));
+        // (B2) READ CELLS IN ARRAY
+        var data = [];
+        for (let row = range.s.r; row <= range.e.r; row++) {
+          let i = data.length;
+          console.log(i)
+          data.push([]);
+          for (let col = range.s.c; col <= range.e.c; col++) {
+            let cell = worksheet[XLSX.utils.encode_cell({ r: row, c: col })];
+            data[i].push(cell?.v || '');
+          }
+        }
+        setUploadedSpecies(data)
+
+      });
+
+      // (C) START - READ SELECTED EXCEL FILE
+      reader.readAsArrayBuffer(evt.target.files[0]);
+
     }
   };
+  async function uploadSpeciesTapped() {
+    if (uploadedSpecies.length > 0) {
+      let data = {
+        uploadedSpecies,
+        type: 'xlsx'
+      }
+      let res = await callApi('upload-species-by-excel', data)
+      console.log("response", res);
+      if (res.success) {
+        enqueueSnackbar("Species Uploaded Successfully", {
+          variant: "success",
+          // action: <Button>See all</Button>
+        });
+        window.location.reload()
+      }
+    }
+
+  }
   const router = useRouter();
   const handleClickOpen = () => {
     setOpen(true);
@@ -349,17 +343,16 @@ export default function ManageSpecies() {
   const handleLeftDrawerToggle = () => {
     dispatch({ type: SET_MENU, opened: !leftDrawerOpened });
   };
-  const changeCategory = (e) => {};
+  const changeCategory = (e) => { };
 
   async function fetchData() {
     let response = await callApi("/get-categories-list", {});
     setCatgoryList(response.data);
   }
   useEffect(() => {
-    dispatch({ type: SET_MENU, opened: !matchDownMd });
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [matchDownMd]);
+  }, []);
   return (
     <div className={styles.body}>
       <Box sx={{ display: "flex" }}>
@@ -428,7 +421,7 @@ export default function ManageSpecies() {
                             justifyContent: "end",
                           }}
                         >
-                          {/* <Button
+                          <Button
                             className={styles.bg_primary}
                             style={{
                               width: "150px",
@@ -441,8 +434,8 @@ export default function ManageSpecies() {
                             }}
                             onClick={handleClickUpload}
                           >
-                            Add New Image
-                          </Button> */}
+                            Upload Species
+                          </Button>
                         </Grid>
                       </Grid>
                     </Grid>
@@ -480,171 +473,49 @@ export default function ManageSpecies() {
                 color: "#0f4c39",
               }}
             >
-              Add
+              Upload Excel
             </BootstrapDialogTitle>
             <DialogContent dividers>
-              <Formik
-                initialValues={initialValues}
-                onSubmit={async (
-                  values,
-                  {
-                    resetForm,
-                    setErrors,
-                    setStatus,
-                    setSubmitting,
-                    setFieldValue,
-                  }
-                ) => {
-                  try {
-                    console.log(values);
-                    if (
-                      !values.name ||
-                      !values.type ||
-                      values.keyList.length == 0
-                    ) {
-                      return;
-                    }
+              <Grid container spacing={3}>
+                <Grid>
+                  <TextField
+                    sx={{
+                      flexGrow: 1,
 
-                    let data = {
-                      name: values.name,
-                      serial: values.serial,
-                      type: values.type,
-                      keyList: values.keyList,
-                    };
-                    let response = await callApi(
-                      "/add-update-categories",
-                      data
-                    );
-                    resetForm();
-                  } catch (error) {
-                    console.log({ error });
+                      mt: 2,
+                      ml: 3,
+                    }}
+                    type="file"
+                    name="myImage"
+                    onChange={uploadCSV}
+                  />
+                </Grid>
+              </Grid>
+              <br />
 
-                    setStatus({ success: false });
-                    setErrors({ submit: error.message });
-                    setSubmitting(false);
-                  }
-                }}
-              >
-                {({
-                  errors,
-                  handleBlur,
-                  handleChange,
-                  handleSubmit,
-                  isSubmitting,
-                  touched,
-                  values,
-                  setFieldValue,
-                }) => (
-                  <Form onSubmit={handleSubmit}>
-                    <Box sx={{ p: 5, background: "#eee" }}>
-                      <Grid container xs={12} md={12} sx={{ mb: 5 }}>
-                        <Grid item xs={12} md={12} sx={{ display: "flex" }}>
-                          <TextField
-                            type="text"
-                            name="name"
-                            value={values?.name || ""}
-                            label="Category Name"
-                            sx={{ mr: 5 }}
-                            onChange={handleChange}
-                          />
-
-                          <Autocomplete
-                            options={["Field", "Dropdown"]}
-                            getOptionLabel={(option) => option}
-                            // value={values?.type}
-                            id="category-type"
-                            name="type"
-                            sx={{ width: 200 }}
-                            onChange={(e, val) => {
-                              console.log(val);
-                              setFieldValue("type", val);
-                            }}
-                            renderInput={(params) => (
-                              <TextField
-                                {...params}
-                                label="Type"
-                                variant="standard"
-                                value={values?.type}
-                              />
-                            )}
-                          />
-                        </Grid>
-                      </Grid>
-                      <Divider />
-                      <Grid container xs={12} md={12}>
-                        {values?.keyList.map((item, index) => {
-                          return (
-                            <Grid
-                              item
-                              xs={12}
-                              key={`keyList${index}`}
-                              md={12}
-                              sx={{ display: "flex", mb: 2 }}
-                            >
-                              <TextField
-                                type="text"
-                                size="small"
-                                name="subcategory-name"
-                                value={values?.keyList[index].name}
-                                label="Name"
-                                sx={{ mr: 5 }}
-                                onChange={(e, value) => {
-                                  values.keyList[index].name = e.target.value;
-                                  setFieldValue("keyList", values.keyList);
-                                  console.log(e.target.value);
-                                }}
-                              />
-
-                              <TextField
-                                type="text"
-                                value={values?.keyList[index].key}
-                                size="small"
-                                name="subcategory-key"
-                                label="Key"
-                                sx={{ mr: 5 }}
-                                onChange={(e) => {
-                                  values.keyList[index].key = e.target.value;
-                                  setFieldValue("keyList", values.keyList);
-                                }}
-                              />
-                              <Icon
-                                icon="fluent:delete-28-filled"
-                                width={30}
-                                color="red"
-                                onClick={(e) => {
-                                  values.keyList.splice(index, 1);
-                                  setFieldValue("keyList", values.keyList);
-                                  // setCategoryObject(category)
-                                  setForce(!force);
-                                }}
-                              />
-                            </Grid>
-                          );
-                        })}
-                      </Grid>
-                    </Box>
-                    <DialogActions>
-                      <Button
-                        disabled={isSubmitting}
-                        type="submit"
-                        size="small"
-                        className={styles.bg_primary}
-                        sx={{ color: "white" }}
-                      >
-                        Save
-                      </Button>
-                      <Button
-                        size="small"
-                        className={styles.bg_primary}
-                        sx={{ color: "white" }}
-                      >
-                        Cancel
-                      </Button>
-                    </DialogActions>
-                  </Form>
-                )}
-              </Formik>
             </DialogContent>
+            <DialogActions>
+              <Button
+                className={styles.bg_primary}
+                size="small"
+                style={{
+
+                  color: "white",
+
+                }}
+                onClick={uploadSpeciesTapped}
+              >
+                Upload
+              </Button>
+              <Button
+                size="small"
+                className={styles.bg_primary}
+                sx={{ color: "white" }}
+                onClick={handleCloseUpload}
+              >
+                Cancel
+              </Button>
+            </DialogActions>
           </BootstrapDialog>
         </Main>
       </Box>

@@ -5,11 +5,15 @@ const speciesTable = (table) => {
     return `CREATE TABLE ${table} (
         id int NOT NULL AUTO_INCREMENT,
         serial varchar(10),
-        name varchar(255),
+        bangla varchar(255),
+        english varchar(255),
+        common varchar(255),
+        synonym varchar(255),
+        district varchar(1000),
         profile_image longtext,
         category varchar(255),
         identificationFeatures longtext,
-        additionaL_files longtext,
+        additional_files longtext,
         kingdom varchar(255),
         phylum varchar(255),
         class_name varchar(255),
@@ -37,7 +41,6 @@ const categoryTable = (table) => {
         serial varchar(10),
         name varchar(255),
         type varchar(20),
-        keyList longtext,
         meta longtext,
         createdBy varchar(255),
         createdDatetimeStamp datetime,
@@ -59,6 +62,18 @@ const homepageTable = (table) => {
         PRIMARY KEY (id)
     );`
 }
+const subcategoriesTable = (table) =>{
+    let createQuery = `CREATE TABLE ${table} (
+        id int NOT NULL AUTO_INCREMENT,
+        name varchar(1000) NOT NULL,
+        linkID varchar(255),
+        createdDatetimeStamp datetime,
+        lastModified datetime,
+        PRIMARY KEY (id),
+        FOREIGN KEY (linkID) REFERENCES bio_diversity_${this.tableTypes.categories}(serial)
+    )`
+    return createQuery
+}
 const createQueryForSpecies = async (table) => {
     console.log({ table })
     let query;
@@ -67,6 +82,9 @@ const createQueryForSpecies = async (table) => {
     }
     else if (table == await processTableName(this.tableTypes.homepage)) {
         query = homepageTable(table)
+    }
+    else if (table == await processTableName(this.tableTypes.subcategories)) {
+        query = subcategoriesTable(table)
     }
     else {
         query = speciesTable(table)
@@ -88,6 +106,7 @@ exports.speciesTableTypes = {
 }
 exports.tableTypes = {
     categories: 'categories',
+    subcategories: 'subcategories',
     homepage: 'homepage',
 }
 exports.getTableNameFromSql = async (sql) => {
@@ -103,6 +122,7 @@ exports.getColumnNameFromSql = async (message) => {
 exports.executeQuery = async (query) => {
     let res = await db.query(query).catch(async err => {
         if (err) {
+            console.log(err)
             if (err.code === 'ER_NO_SUCH_TABLE') {
                 let tableName = await this.getTableNameFromSql(err.sql)
                 await createQueryForSpecies(tableName)
@@ -114,8 +134,10 @@ exports.executeQuery = async (query) => {
                 let columnName = await this.getColumnNameFromSql(err.sqlMessage)
                 console.log(columnName)
 
-                let query = `ALTER table ${tableName} add column (${columnName} varchar(1000));`
+                let columnQuery = `ALTER table ${tableName} add column (${columnName} longtext);`
+                await this.executeQuery(columnQuery)
                 let res = await this.executeQuery(query)
+
                 return res;
             }
             else {

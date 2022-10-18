@@ -193,7 +193,7 @@ const Animals = () => {
          <Formik
             initialValues={initialValues}
             validationSchema={Yup.object().shape({
-              
+
             })}
             onSubmit={async (
                values,
@@ -275,7 +275,7 @@ const Animals = () => {
                         </Grid>
 
                         <CommonDropDowns values={values} setFieldValue={setFieldValue} touched={touched} handleChange={handleChange} errors={errors}></CommonDropDowns>
-                     
+
                      </Grid>
                      <br />
                      <Button
@@ -300,16 +300,16 @@ const Animals = () => {
                </Form>
             )}
          </Formik>
-         <Grid container sx={{ borderRadius: "10px", px: 10 }}  paddingBottom={15}>
-         <Grid item xs={12}>
+         <Grid container sx={{ borderRadius: "10px", px: 10 }} paddingBottom={15}>
+            <Grid item xs={12}>
                {speciesList?.length > 0 ? (
-                 <TableData speciesList={speciesList}></TableData>
+                  <TableData speciesList={speciesList}></TableData>
                ) : <Typography variant="h1" component="h1" align="center" padding={25}>
                   {searchMessage ?? ''}
                </Typography>}
             </Grid>
          </Grid>
-         <Footer  />
+         <Footer />
       </Box>
    );
 };

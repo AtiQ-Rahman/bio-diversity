@@ -85,7 +85,7 @@ const Distribution = () => {
 
         map.current.addControl(new mapboxgl.NavigationControl(), 'top-left');
         modifiedList.map((city) => {
-            if (city.marker && city.lng && city.lat) {
+            if (city.marker && city.districts[0].center[0] && city.districts[0].center[1]) {
                 console.log({ city })
                 const el = document.createElement('div');
                 const width = 50;
@@ -101,7 +101,7 @@ const Distribution = () => {
                 el.style.top = `-20px`;
                 el.style.backgroundSize = 'contain';
                 let marker = new mapboxgl.Marker(el)
-                    .setLngLat(city)
+                    .setLngLat([city.districts[0].center[0] , city.districts[0].center[1]])
                     .setPopup(new mapboxgl.Popup({ offset: 30 }).setHTML(`
                         <div >
                         <div style="height: 150px; width:150px; background-image: url('${imageUrl + '/' + city.profile_image}'); background-size : cover ; background-repeat : no-repeat"></div>
@@ -115,7 +115,7 @@ const Distribution = () => {
                                 <h4 className="row-title">species</h4>
                                 <div className="row-value">${city.species}</div>
                             </div>
-                            <p className="route-city">Lng/Lat ${city.lng},${city.lng}</p>
+                            <p className="route-city">Lng/Lat ${city.districts[0].center[0] },${city.districts[0].center[1]}</p>
                         </div>
                     </div>`
 
@@ -176,7 +176,7 @@ const Distribution = () => {
                                         name="name"
                                         margin="normal"
                                         size="small"
-                                        label="Search By Common Name"
+                                        label="Search By English Name"
                                         fullWidth
                                         onChange={(e) => {
                                             let modifiedList = speciesList.filter((species) => {
@@ -187,7 +187,7 @@ const Distribution = () => {
                                                 // || species?.name?.synonym.toLocaleLowerCase().includes(value)) {
                                                 //     return species
                                                 // }
-                                                if (species?.name?.commonName.toLocaleLowerCase().includes(value)) {
+                                                if (species?.english.toLocaleLowerCase().includes(value)) {
                                                     return species
                                                 }
                                             })
@@ -216,13 +216,13 @@ const Distribution = () => {
                                                             </TableCell>
                                                             <TableCell align="">
                                                                 <Typography variant="body2" color="text.primary">
-                                                                    {species.name.commonName}
+                                                                    {species.english}
                                                                 </Typography>
 
                                                             </TableCell>
                                                             <TableCell>
                                                                 <Typography variant="caption">
-                                                                    {twoDecimal(species.lng)} ,{twoDecimal(species.lat)}
+                                                                    {twoDecimal(species.districts[0].center[0])} ,{twoDecimal(species.districts[0].center[1])}
                                                                 </Typography>
                                                             </TableCell>
                                                         </TableRow>

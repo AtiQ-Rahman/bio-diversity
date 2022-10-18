@@ -1,17 +1,17 @@
 const yargs = require('yargs');
-const next = require("next")
+// const next = require("next")
 const dotenv = require("dotenv");
 dotenv.config()
 const port = process.env.PORT || '8443'
 const dev = process.env.NODE_ENV || 'production'
-const server = next({ dev })
-const handle = server.getRequestHandler()
+// const server = next({ dev })
+// const handle = server.getRequestHandler()
 const shell = require('shelljs');
 
 var fs = require('fs'),
     http = require('http'),
     https = require('https')
-var dir = './uploads';
+var dir = '../public/uploads';
 // var options = {
 //     key: fs.readFileSync('./ssl-cert/pkey'),
 //     cert: fs.readFileSync('./ssl-cert/cert'),

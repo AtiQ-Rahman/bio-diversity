@@ -8,7 +8,7 @@ exports.BIOGSearchParamsByField = async (req, res, next) => {
     let table = await getTable(searchParameters.category)
     let searchQuery = `select * from ${table}`
     if (searchParameters.type) {
-        searchQuery += ` where JSON_EXTRACT(identificationFeatures, "$.subCategory.key") = '${searchParameters.type.key}'`
+        searchQuery += ` where JSON_EXTRACT(identificationFeatures, "$.subCategory") REGEXP '${searchParameters.type.name}?'`
     }
     if (searchParameters.kingdom) {
         searchQuery += ` and kingdom = '${searchParameters.kingdom}'`
@@ -47,18 +47,20 @@ exports.BIOGSearchParamsByField = async (req, res, next) => {
         searchQuery += ` and forma = '${searchParameters.forma}'`
     }
     if (searchParameters?.nameOfSpecies?.english) {
-        searchQuery += ` and JSON_EXTRACT(name, "$.english") REGEXP '${searchParameters.nameOfSpecies.english}?'`
+        searchQuery += ` and english REGEXP '${searchParameters.nameOfSpecies.english}?'`
     }
     if (searchParameters?.nameOfSpecies?.bangla) {
-        searchQuery += ` and JSON_EXTRACT(name, "$.bangla") REGEXP '${searchParameters.nameOfSpecies.bangla}?'`
+        searchQuery += ` and bangla REGEXP '${searchParameters.nameOfSpecies.bangla}?'`
     }
     if (searchParameters?.nameOfSpecies?.commonName) {
-        searchQuery += ` and JSON_EXTRACT(name, "$.commonName") REGEXP '${searchParameters.nameOfSpecies.commonName}?'`
+        searchQuery += ` and common REGEXP '${searchParameters.nameOfSpecies.commonName}?'`
     }
     if (searchParameters?.nameOfSpecies?.synonym) {
-        searchQuery += ` and JSON_EXTRACT(name, "$.synonym") REGEXP '${searchParameters.nameOfSpecies.synonym}?'`
+        searchQuery += ` and synonym REGEXP '${searchParameters.nameOfSpecies.synonym}?'`
     }
-    
+    if(!searchQuery.includes('where')){
+        searchQuery = searchQuery.replace('and' , 'where')
+    }
     let response = await executeQuery(searchQuery)
     console.log(JSON.stringify(searchParameters.nameOfSpecies))
     console.log(searchQuery)
@@ -69,7 +71,7 @@ exports.BIOGSearchParamsByField = async (req, res, next) => {
             modifiedResponse.push({
                 ...item,
                 identificationFeatures: item?.identificationFeatures ? JSON.parse(item.identificationFeatures) : {},
-                additionalFiles: item?.additionaL_files?.split(',') || '',
+                additionalFiles: item?.additional_files?.split(',') || '',
                 name: item?.name ? JSON.parse(item.name) : {},
             })
         }

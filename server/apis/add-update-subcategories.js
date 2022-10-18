@@ -2,21 +2,18 @@ const { getTable, executeQuery, uniqueIdGenerator, tableTypes } = require('../co
 const moment = require("moment/moment");
 const DB = require("../config/connectToDatabase");
 
-exports.addUpdateCategories = async (req, res, next) => {
+exports.addUpdateSubCategories = async (req, res, next) => {
     console.log(req.body)
-    let table = await getTable(tableTypes.categories)
+    let table = await getTable(tableTypes.subcategories)
+    let { name, key, serial } = req.body
 
-    let { name, type, keyList, serial } = req.body
-    if (!serial) {
-        serial = await uniqueIdGenerator(table, 5)
-    }
-    let searchQuery = `select * from ${table} where serial = '${serial}'`
+    let searchQuery = `select * from ${table} where id = ${key}`
     // let response = await executeQuery(searchQuery)
     let response = await executeQuery(searchQuery)
-    console.log({response , searchQuery})
+    console.log({ response, searchQuery })
     if (response?.length > 0) {
         let modifiedDatetime = moment().format("YYYY-MM-DD HH:mm:ss");
-        let updateQuery = `update ${table} set name = '${name}', type = '${type}', lastModified = '${modifiedDatetime}' where serial = '${response[0].serial}'`
+        let updateQuery = `update ${table} set name = '${name}' , lastModified = '${modifiedDatetime}' where id = ${response[0].id}`
         await executeQuery(updateQuery)
         res.status(200).json({
             success: true,
@@ -24,11 +21,11 @@ exports.addUpdateCategories = async (req, res, next) => {
         })
     }
     else {
-        keyList = JSON.stringify(keyList)
         let createdDatetimeStamp = moment().format("YYYY-MM-DD HH:mm:ss");
+        let linkID = serial
         let insertQuery = `insert into ${table} 
-            (name, serial, type, createdDatetimeStamp)
-            VALUES('${name}','${serial}','${type}','${createdDatetimeStamp}')`
+            (name, linkID, createdDatetimeStamp)
+            VALUES('${name}','${linkID}','${createdDatetimeStamp}')`
         let response = await executeQuery(insertQuery)
         console.log(response)
         res.status(200).json({
