@@ -59,6 +59,38 @@ const CommonDropDowns = ({
     }, []);
     return (
         <>
+         <Grid item xs={2}>
+                <Autocomplete
+                    freeSolo
+                    size="small"
+                    disablePortal
+                    id="kingdoms"
+                    name={values?.kingdom}
+                    options={kingdoms}
+                    key="kingdoms"
+                    // value={values?.kingdom}
+                    getOptionLabel={(option) => option?.kingdom || option}
+                    value={values?.kingdom}
+                    // sx={{ width: 300 }}
+                    onInputChange={(e, value) => {
+                        setFieldValue("kingdom", value?.kingdom || value);
+                        let phylums = allTypesOfSpecies.phylums.filter((item) => item.kingdom == (value?.kingdom || value))
+                        setPhylums(phylums)
+                    }}
+                    renderInput={(params) => (
+                        <TextField
+                            {...params}
+                            error={Boolean(touched?.kingdom && errors?.kingdom)}
+                            helperText={touched?.kingdom && errors?.kingdom}
+                            style={{ padding: "2px" }}
+                            label="Sub Group"
+                            variant="outlined"
+                            placeholder="Select"
+                            value={values?.kingdom}
+                        />
+                    )}
+                />
+            </Grid>
             <Grid item xs={2}>
                 <Autocomplete
                     freeSolo

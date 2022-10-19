@@ -366,7 +366,7 @@ const MicroOrgansim = () => {
                                        error={Boolean(touched?.type && errors?.type)}
                                        helperText={touched?.type && errors?.type}
                                        style={{ padding: "2px" }}
-                                       label="microOrgansims"
+                                       label="Biodiversity Group"
                                        variant="outlined"
                                        placeholder="Select"
                                        value={values?.type}
@@ -401,7 +401,7 @@ const MicroOrgansim = () => {
                   </Form>
                )}
             </Formik>
-            <Grid container sx={{ borderRadius: "10px", px: 10 }}  paddingBottom={15} >
+            <Grid container sx={{ borderRadius: "10px", px: 10 }}  paddingBottom={6} >
             <Grid item xs={12}>
                {speciesList?.length > 0 ? (
                  <TableData speciesList={speciesList}></TableData>
