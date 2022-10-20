@@ -8,195 +8,32 @@ import {
   Grid,
   TextField,
   Button,
-  Card,
-  CardContent,
-  FormControlLabel,
-  Checkbox,
   Box,
-  AppBar,
-  Toolbar,
   useMediaQuery,
-  CssBaseline,
   Autocomplete,
-  Divider,
-  TableContainer,
-  Paper,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  tableCellClasses,
-} from "@mui/material";
-// import ImageUpload from "./ImageUpload";
 
-import Sidebar from "../components/Admin/Sidebar";
-import Breadcrumbs from "../components/Home/ui-component/extended/Breadcrumbs";
+} from "@mui/material";
+
 import { useDispatch, useSelector } from "react-redux";
-import { IconChevronRight } from "@tabler/icons";
-import { Icon } from "@iconify/react";
-import navigation from "../components/Admin/menu-items";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 
-import { drawerWidth } from "../store/constant";
-import { SET_MENU } from "../store/actions";
 import styles from "../styles/Home.module.css";
 import { styled, useTheme } from "@mui/material/styles";
-import callApi, { imageUrl } from "../utils/callApi";
-import Image from "next/image";
+import callApi from "../utils/callApi";
+
 import { useRouter } from "next/router";
-import { imageLoader } from "../utils/utils";
+
 import CommonDropDowns from "../components/CommonDropDowns";
 import TableData from "./TableData";
-// import { kingdoms } from "../utils/kingdoms";
-const kingdoms = require("../utils/kingdoms");
-const phylums = require("../utils/kingdoms");
-const classes = require("../utils/kingdoms");
-const orders = require("../utils/kingdoms");
-const families = require("../utils/kingdoms");
-const genuses = require("../utils/kingdoms");
-console.log(kingdoms);
-const Input = styled("input")({
-  display: "none",
-});
-function createData(
-  number,
-  Species,
-  Family,
-  Locality,
-  Habitat,
-  Size,
-  GIS,
-  Additional
-) {
-  return { number, Species, Family, Locality, Habitat, Size, GIS, Additional };
-}
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  "&:last-child td, &:last-child th": {
-    border: 0,
-  },
-}));
-const rows = [
-  createData(
-    1,
-    "Bryopsis indica Gepp & Gepp",
-    "Bryopsidaceae",
-    "St Martin’s Island (SMI)",
-    "rocks, corals",
-    "2-3",
-    "20.622990,92.320325"
-  ),
-  createData(
-    2,
-    "Bryopsis indica Gepp & Gepp",
-    "Bryopsidaceae",
-    "St Martin’s Island (SMI)",
-    "rocks, corals",
-    "2-3",
-    "20.622990,92.320325"
-  ),
+import { pageGroups } from "../utils/utils";
 
-  createData(
-    3,
-    "Bryopsis indica Gepp & Gepp",
-    "Bryopsidaceae",
-    "St Martin’s Island (SMI)",
-    "rocks, corals",
-    "2-3",
-    "20.622990,92.320325"
-  ),
-
-  createData(
-    4,
-    "Bryopsis indica Gepp & Gepp",
-    "Bryopsidaceae",
-    "St Martin’s Island (SMI)",
-    "rocks, corals",
-    "2-3",
-    "20.622990,92.320325"
-  ),
-
-  createData(
-    5,
-    "Bryopsis indica Gepp & Gepp",
-    "Bryopsidaceae",
-    "St Martin’s Island (SMI)",
-    "rocks, corals",
-    "2-3",
-    "20.622990,92.320325"
-  ),
-];
-const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
-  ({ theme, open }) => ({
-    ...theme.typography.mainContent,
-    ...(!open && {
-      borderBottomLeftRadius: 0,
-      borderBottomRightRadius: 0,
-      transition: theme.transitions.create("margin", {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      [theme.breakpoints.up("md")]: {
-        marginLeft: -(drawerWidth - 20),
-        width: `calc(100% - ${drawerWidth}px)`,
-      },
-      [theme.breakpoints.down("md")]: {
-        marginLeft: "20px",
-        width: `calc(100% - ${drawerWidth}px)`,
-        padding: "16px",
-      },
-      [theme.breakpoints.down("sm")]: {
-        marginLeft: "10px",
-        width: `calc(100% - ${drawerWidth}px)`,
-        padding: "16px",
-        marginRight: "10px",
-      },
-    }),
-    ...(open && {
-      transition: theme.transitions.create("margin", {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-      marginLeft: 0,
-      borderBottomLeftRadius: 0,
-      borderBottomRightRadius: 0,
-      width: `calc(100% - ${drawerWidth}px)`,
-      [theme.breakpoints.down("md")]: {
-        marginLeft: "20px",
-      },
-      [theme.breakpoints.down("sm")]: {
-        marginLeft: "10px",
-      },
-    }),
-  })
-);
-let imageProps = {
-  height: "100px",
-  width: "200px",
-};
-const map = require("../assets/images/map.png");
 const Fungi = () => {
-  const [image, setImage] = useState(null);
-  const [createObjectURL, setCreateObjectURL] = useState(null);
+
   const [category, setCatgory] = React.useState();
   const [searchMessage, setSearchMessage] = React.useState("");
   const theme = useTheme();
   const [speciesList, setSpeciesList] = React.useState();
-  const matchDownMd = useMediaQuery(theme.breakpoints.down("lg"));
   const initialValues = {
     kingdom: null,
     phylum: null,
@@ -224,7 +61,25 @@ const Fungi = () => {
     profileImage: null,
   };
   async function fetchData() {
-    let response = await callApi("/get-categories-by-name", { name: "Fungi" });
+    let response = await callApi("/get-categories-by-name", { name: pageGroups.fungi });
+    let localData = localStorage.getItem(pageGroups.fungi)
+    let isAllowed = localStorage.getItem(`allowed${pageGroups.fungi}`)
+    console.log(router.query, localData)
+    // if (router?.query?.initial) {
+    //   localStorage.removeItem(category)
+    // }
+    if (localData && isAllowed) {
+      let searchParameters = JSON.parse(localData)
+      let res = await callApi("/search-species-by-field", {
+        searchParameters,
+      });
+      console.log("response", res);
+      setSpeciesList(res?.data);
+      localStorage.removeItem(`allowed${pageGroups.fungi}`)
+    }
+    else {
+      localStorage.removeItem(pageGroups.fungi)
+    }
     if (response.data.length > 0) {
       console.log(response.data);
       setCatgory(response.data[0]);
@@ -236,21 +91,8 @@ const Fungi = () => {
   useEffect(() => {
     fetchData();
   }, []);
-  // Handle left drawer
-  const leftDrawerOpened = useSelector((state) => state.customization.opened);
-  const dispatch = useDispatch();
-  const handleLeftDrawerToggle = () => {
-    dispatch({ type: SET_MENU, opened: !leftDrawerOpened });
-  };
 
-  const uploadToClient = (event) => {
-    if (event.target.files[0]) {
-      const i = event.target.files[0];
 
-      setImage(i);
-      setCreateObjectURL(URL.createObjectURL(i));
-    }
-  };
   const router = useRouter();
   return (
     <Box>
@@ -400,7 +242,7 @@ const Fungi = () => {
       <Grid container sx={{ borderRadius: "10px", px: 10 }} paddingBottom={15}>
         <Grid item xs={12}>
           {speciesList?.length > 0 ? (
-            <TableData speciesList={speciesList}></TableData>
+            <TableData speciesList={speciesList} category={pageGroups.fungi}></TableData>
           ) : (
             <Typography variant="h1" component="h1" align="center" padding={25}>
               {searchMessage ?? ""}

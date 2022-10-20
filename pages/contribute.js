@@ -6,7 +6,7 @@ import Header from "../components/Home/Header";
 const contribute = () => {
     return (
         <Box>
-              <Header index={7} />
+              <Header index={0} />
             <Grid sx={{ m: 15 }}>
             <Card style={{
                padding:"155px",

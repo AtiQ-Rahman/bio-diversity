@@ -36,7 +36,7 @@ exports.BIOGetSpeciesBySerial = async (req, res, next) => {
                     if (item.district.includes('{'))
                         districts = item?.district ? JSON.parse(item.district) : []
                     else
-                        districts = [] || []
+                        districts = item?.district || []
                 }
                 modifiedResponse.push({
                     ...item,

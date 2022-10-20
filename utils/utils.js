@@ -1,4 +1,16 @@
 export const imageLoader = ({ src }) => `${src}`
+
+
+export const pageGroups = {
+    plants: 'Plants',
+    animals: 'Animals',
+    fungi: 'Fungi',
+    micro: 'Microorganisms',
+    eco: 'Ecosystem Diversity',
+    genetic: 'Genetic & Sub-Cellular Diversity'
+}
+
+
 export const twoDecimal = (num) => {
     console.log(parseFloat(num))
     return (Math.round(parseFloat(num) * 100000) / 100000).toFixed(5);
@@ -10,7 +22,7 @@ export const processSpeciesObject = (speciesDetails) => {
     priorityKeys.map((key) => {
         mainObject[key] = speciesDetails[key]
     })
-    let skippedKeys = ['id', 'additional_files', 'additionaL_files','marker', 'serial', 'idenitificationFeatures' ,'profile_image','createdDatetimeStamp', 'district']
+    let skippedKeys = ['id', 'additional_files', 'additionaL_files', 'marker', 'serial', 'idenitificationFeatures', 'profile_image', 'createdDatetimeStamp', 'district']
     skippedKeys = skippedKeys.concat(priorityKeys)
     skippedKeys.map((key) => {
         delete skippedObject[key]
@@ -26,8 +38,6 @@ export const processKeys = (key) => {
         }
     }
     return key
-
-
 }
 function matchKey() {
     let list = [

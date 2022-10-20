@@ -20,14 +20,15 @@ import * as Yup from "yup";
 
 
 import styles from "../styles/Home.module.css";
-import { styled, useTheme } from "@mui/material/styles";
 import callApi, { imageUrl } from "../utils/callApi";
 
 import CommonDropDowns from "../components/CommonDropDowns";
 import TableData from "./TableData";
+import { useRouter } from "next/router";
+import { pageGroups } from "../utils/utils";
 
 const Plants = () => {
-  const theme = useTheme();
+  const router = useRouter();
   const [category, setCatgory] = React.useState();
   const [speciesList, setSpeciesList] = React.useState([]);
   const [searchMessage, setSearchMessage] = React.useState("");
@@ -58,7 +59,25 @@ const Plants = () => {
     profileImage: null,
   };
   async function fetchData() {
-    let response = await callApi("/get-categories-by-name", { name: "Plants" });
+    let response = await callApi("/get-categories-by-name", { name: pageGroups.plants });
+    let localData = localStorage.getItem(pageGroups.plants)
+    let isAllowed = localStorage.getItem(`allowed${pageGroups.plants}`)
+    console.log(router.query, localData)
+    // if (router?.query?.initial) {
+    //   localStorage.removeItem(category)
+    // }
+    if (localData && isAllowed) {
+      let searchParameters = JSON.parse(localData)
+      let res = await callApi("/search-species-by-field", {
+        searchParameters,
+      });
+      console.log("response", res);
+      setSpeciesList(res?.data);
+      localStorage.removeItem(`allowed${pageGroups.plants}`)
+    }
+    else {
+      localStorage.removeItem(pageGroups.plants)
+    }
     if (response.data.length > 0) {
       console.log(response.data);
       setCatgory(response.data[0]);
@@ -69,7 +88,7 @@ const Plants = () => {
 
   React.useEffect(() => {
     fetchData();
-  }, []);
+  }, [router.pathname]);
   // Handle left drawer
 
   return (
@@ -118,6 +137,7 @@ const Plants = () => {
             values.category = "Plants";
 
             let searchParameters = values;
+            localStorage.setItem(`${values.category}`, JSON.stringify(searchParameters))
             // console.log({ loggedUser: loggedUser.userId });
             // data.append("reportfile", values.reportfile);
             let res = await callApi("/search-species-by-field", {
@@ -220,20 +240,20 @@ const Plants = () => {
         )}
       </Formik>
 
-      <Grid container sx={{ borderRadius: "10px", px: 10 }} paddingBottom={1}>
-        <Grid item xs={12}>
-          {speciesList?.length > 0 ? (
-            <TableData speciesList={speciesList}></TableData>
-          ) : (
-            <Typography variant="h1" component="h1" align="center" padding={25}>
-              {searchMessage ?? ""}
-            </Typography>
-          )}
-        </Grid>
-      </Grid>
+
+      {speciesList?.length > 0 ? (
+        <TableData speciesList={speciesList} category={pageGroups.plants}></TableData>
+      ) : (
+        <Typography variant="h1" component="h1" align="center" padding={25}>
+          {searchMessage ?? ""}
+        </Typography>
+      )}
+
       <Footer />
     </Box>
   );
 };
-
+Plants.getInitialProps = ({ query }) => {
+  return query;
+}
 export default Plants;

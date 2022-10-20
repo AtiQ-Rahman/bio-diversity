@@ -46,80 +46,14 @@ import { styled, useTheme } from "@mui/material/styles";
 import callApi, { imageUrl } from "../utils/callApi";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { imageLoader } from "../utils/utils";
+import { imageLoader, pageGroups } from "../utils/utils";
 import CommonDropDowns from "../components/CommonDropDowns";
 import TableData from "./TableData";
-
-// import { kingdoms } from "../utils/kingdoms";
-const kingdoms = require("../utils/kingdoms");
-const phylums = require("../utils/kingdoms");
-const classes = require("../utils/kingdoms");
-const orders = require("../utils/kingdoms");
-const families = require("../utils/kingdoms");
-const genuses = require("../utils/kingdoms");
-
-// const animals = require("../utils/animals");
-console.log(kingdoms);
-const Input = styled("input")({
-   display: "none",
-});
-const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
-   ({ theme, open }) => ({
-      ...theme.typography.mainContent,
-      ...(!open && {
-         borderBottomLeftRadius: 0,
-         borderBottomRightRadius: 0,
-         transition: theme.transitions.create("margin", {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-         }),
-         [theme.breakpoints.up("md")]: {
-            marginLeft: -(drawerWidth - 20),
-            width: `calc(100% - ${drawerWidth}px)`,
-         },
-         [theme.breakpoints.down("md")]: {
-            marginLeft: "20px",
-            width: `calc(100% - ${drawerWidth}px)`,
-            padding: "16px",
-         },
-         [theme.breakpoints.down("sm")]: {
-            marginLeft: "10px",
-            width: `calc(100% - ${drawerWidth}px)`,
-            padding: "16px",
-            marginRight: "10px",
-         },
-      }),
-      ...(open && {
-         transition: theme.transitions.create("margin", {
-            easing: theme.transitions.easing.easeOut,
-            duration: theme.transitions.duration.enteringScreen,
-         }),
-         marginLeft: 0,
-         borderBottomLeftRadius: 0,
-         borderBottomRightRadius: 0,
-         width: `calc(100% - ${drawerWidth}px)`,
-         [theme.breakpoints.down("md")]: {
-            marginLeft: "20px",
-         },
-         [theme.breakpoints.down("sm")]: {
-            marginLeft: "10px",
-         },
-      }),
-   })
-);
-let imageProps = {
-   height: "100px",
-   width: "200px",
-}
-const map = require("../assets/images/map.png");
 const Animals = () => {
-   const [image, setImage] = useState(null);
-   const [createObjectURL, setCreateObjectURL] = useState(null);
    const [category, setCatgory] = React.useState()
    const theme = useTheme();
    const [searchMessage, setSearchMessage] = React.useState('')
    const [speciesList, setSpeciesList] = React.useState()
-   const matchDownMd = useMediaQuery(theme.breakpoints.down("lg"));
    const initialValues = {
       kingdom: null,
       phylum: null,
@@ -147,7 +81,25 @@ const Animals = () => {
       profileImage: null,
    };
    async function fetchData() {
-      let response = await callApi('/get-categories-by-name', { name: 'Animals' })
+      let response = await callApi("/get-categories-by-name", { name: pageGroups.animals });
+      let localData = localStorage.getItem(pageGroups.animals)
+      let isAllowed = localStorage.getItem(`allowed${pageGroups.animals}`)
+      console.log(router.query, localData)
+      // if (router?.query?.initial) {
+      //   localStorage.removeItem(category)
+      // }
+      if (localData && isAllowed) {
+        let searchParameters = JSON.parse(localData)
+        let res = await callApi("/search-species-by-field", {
+          searchParameters,
+        });
+        console.log("response", res);
+        setSpeciesList(res?.data);
+        localStorage.removeItem(`allowed${pageGroups.animals}`)
+      }
+      else {
+        localStorage.removeItem(pageGroups.animals)
+      }
       if (response.data.length > 0) {
          console.log(response.data)
          setCatgory(response.data[0])
@@ -161,21 +113,7 @@ const Animals = () => {
       fetchData()
 
    }, [])
-   // Handle left drawer
-   const leftDrawerOpened = useSelector((state) => state.customization.opened);
-   const dispatch = useDispatch();
-   const handleLeftDrawerToggle = () => {
-      dispatch({ type: SET_MENU, opened: !leftDrawerOpened });
-   };
 
-   const uploadToClient = (event) => {
-      if (event.target.files[0]) {
-         const i = event.target.files[0];
-
-         setImage(i);
-         setCreateObjectURL(URL.createObjectURL(i));
-      }
-   };
    const router = useRouter();
    return (
       <Box>
@@ -303,7 +241,7 @@ const Animals = () => {
          <Grid container sx={{ borderRadius: "10px", px: 10 }} paddingBottom={15}>
             <Grid item xs={12}>
                {speciesList?.length > 0 ? (
-                  <TableData speciesList={speciesList}></TableData>
+                  <TableData speciesList={speciesList} category={pageGroups.animals}></TableData>
                ) : <Typography variant="h1" component="h1" align="center" padding={25}>
                   {searchMessage ?? ''}
                </Typography>}

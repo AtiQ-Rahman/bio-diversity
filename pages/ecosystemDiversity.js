@@ -8,17 +8,8 @@ import {
    Grid,
    TextField,
    Button,
-   Card,
-   CardContent,
-   FormControlLabel,
-   Checkbox,
    Box,
-   AppBar,
-   Toolbar,
    useMediaQuery,
-   CssBaseline,
-   Autocomplete,
-   Divider,
    TableContainer,
    Paper,
    Table,
@@ -26,89 +17,24 @@ import {
    TableRow,
    TableCell,
    TableBody,
-   tableCellClasses
 } from "@mui/material";
-// import ImageUpload from "./ImageUpload";
 
-import Sidebar from "../components/Admin/Sidebar";
-import Breadcrumbs from "../components/Home/ui-component/extended/Breadcrumbs";
 import { useDispatch, useSelector } from "react-redux";
-import { IconChevronRight } from "@tabler/icons";
-import { Icon } from "@iconify/react";
-import navigation from "../components/Admin/menu-items";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-
-import { drawerWidth } from "../store/constant";
 import { SET_MENU } from "../store/actions";
 import styles from "../styles/Home.module.css";
 import { styled, useTheme } from "@mui/material/styles";
 import callApi, { imageUrl } from "../utils/callApi";
 import Image from "next/image";
-import { imageLoader } from "../utils/utils";
+import { imageLoader, pageGroups } from "../utils/utils";
 import { useRouter } from "next/router";
-// import { kingdoms } from "../utils/kingdoms";
-
-
-const Input = styled("input")({
-   display: "none",
-});
-const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
-   ({ theme, open }) => ({
-      ...theme.typography.mainContent,
-      ...(!open && {
-         borderBottomLeftRadius: 0,
-         borderBottomRightRadius: 0,
-         transition: theme.transitions.create("margin", {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-         }),
-         [theme.breakpoints.up("md")]: {
-            marginLeft: -(drawerWidth - 20),
-            width: `calc(100% - ${drawerWidth}px)`,
-         },
-         [theme.breakpoints.down("md")]: {
-            marginLeft: "20px",
-            width: `calc(100% - ${drawerWidth}px)`,
-            padding: "16px",
-         },
-         [theme.breakpoints.down("sm")]: {
-            marginLeft: "10px",
-            width: `calc(100% - ${drawerWidth}px)`,
-            padding: "16px",
-            marginRight: "10px",
-         },
-      }),
-      ...(open && {
-         transition: theme.transitions.create("margin", {
-            easing: theme.transitions.easing.easeOut,
-            duration: theme.transitions.duration.enteringScreen,
-         }),
-         marginLeft: 0,
-         borderBottomLeftRadius: 0,
-         borderBottomRightRadius: 0,
-         width: `calc(100% - ${drawerWidth}px)`,
-         [theme.breakpoints.down("md")]: {
-            marginLeft: "20px",
-         },
-         [theme.breakpoints.down("sm")]: {
-            marginLeft: "10px",
-         },
-      }),
-   })
-);
-let imageProps = {
-   height: "100px",
-   width: "200px",
-}
 const EcosystemDiversity = () => {
-   const [image, setImage] = useState(null);
-   const [createObjectURL, setCreateObjectURL] = useState(null);
+
    const [category, setCatgory] = React.useState()
    const [searchMessage, setSearchMessage] = React.useState('')
    const theme = useTheme();
    const [speciesList, setSpeciesList] = React.useState()
-   const matchDownMd = useMediaQuery(theme.breakpoints.down("lg"));
    const initialValues = {
       kingdom: null,
       phylum: null,
@@ -136,7 +62,25 @@ const EcosystemDiversity = () => {
       profileImage: null,
    };
    async function fetchData() {
-      let response = await callApi('/get-categories-by-name', { name: 'Ecosystem Diversity' })
+      let response = await callApi("/get-categories-by-name", { name: pageGroups.eco });
+      let localData = localStorage.getItem(pageGroups.eco)
+      let isAllowed = localStorage.getItem(`allowed${pageGroups.eco}`)
+      console.log(router.query, localData)
+      // if (router?.query?.initial) {
+      //   localStorage.removeItem(category)
+      // }
+      if (localData && isAllowed) {
+        let searchParameters = JSON.parse(localData)
+        let res = await callApi("/search-species-by-field", {
+          searchParameters,
+        });
+        console.log("response", res);
+        setSpeciesList(res?.data);
+        localStorage.removeItem(`allowed${pageGroups.eco}`)
+      }
+      else {
+        localStorage.removeItem(pageGroups.eco)
+      }
       if (response.data.length > 0) {
          console.log(response.data)
          setCatgory(response.data[0])
@@ -151,21 +95,6 @@ const EcosystemDiversity = () => {
 
    }, [])
    // Handle left drawer
-   const leftDrawerOpened = useSelector((state) => state.customization.opened);
-   const dispatch = useDispatch();
-   const handleLeftDrawerToggle = () => {
-      dispatch({ type: SET_MENU, opened: !leftDrawerOpened });
-   };
-
-   const uploadToClient = (event) => {
-      if (event.target.files[0]) {
-         const i = event.target.files[0];
-
-         setImage(i);
-         setCreateObjectURL(URL.createObjectURL(i));
-      }
-
-   };
    const router = useRouter();
    return (
       <Box>

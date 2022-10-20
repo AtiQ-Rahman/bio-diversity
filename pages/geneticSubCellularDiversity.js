@@ -9,17 +9,8 @@ import {
    Grid,
    TextField,
    Button,
-   Card,
-   CardContent,
-   FormControlLabel,
-   Checkbox,
    Box,
-   AppBar,
-   Toolbar,
    useMediaQuery,
-   CssBaseline,
-   Autocomplete,
-   Divider,
    TableContainer,
    Paper,
    Table,
@@ -27,25 +18,17 @@ import {
    TableRow,
    TableCell,
    TableBody,
-   tableCellClasses
 } from "@mui/material";
 // import ImageUpload from "./ImageUpload";
 
-import Sidebar from "../components/Admin/Sidebar";
-import Breadcrumbs from "../components/Home/ui-component/extended/Breadcrumbs";
 import { useDispatch, useSelector } from "react-redux";
-import { IconChevronRight } from "@tabler/icons";
-import { Icon } from "@iconify/react";
-import navigation from "../components/Admin/menu-items";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-
-import { drawerWidth } from "../store/constant";
 import { SET_MENU } from "../store/actions";
 import styles from "../styles/Home.module.css";
 import { styled, useTheme } from "@mui/material/styles";
 import callApi, { imageUrl } from "../utils/callApi";
-import { imageLoader } from "../utils/utils";
+import { imageLoader, pageGroups } from "../utils/utils";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
@@ -54,13 +37,10 @@ let imageProps = {
    width: "200px",
 }
 const GeneticSubCellularDiversity = () => {
-   const [image, setImage] = useState(null);
-   const [createObjectURL, setCreateObjectURL] = useState(null);
    const [category, setCatgory] = React.useState()
    const [searchMessage, setSearchMessage] = React.useState('')
    const theme = useTheme();
    const [speciesList, setSpeciesList] = React.useState()
-   const matchDownMd = useMediaQuery(theme.breakpoints.down("lg"));
    const initialValues = {
       serial: "",
       kingdom: "",
@@ -90,7 +70,25 @@ const GeneticSubCellularDiversity = () => {
       profileImage: "",
    };
    async function fetchData() {
-      let response = await callApi('/get-categories-by-name', { name: 'Genetic & Sub-Cellular Diversity' })
+      let response = await callApi("/get-categories-by-name", { name: pageGroups.genetic });
+      let localData = localStorage.getItem(pageGroups.genetic)
+      let isAllowed = localStorage.getItem(`allowed${pageGroups.genetic}`)
+      console.log(router.query, localData)
+      // if (router?.query?.initial) {
+      //   localStorage.removeItem(category)
+      // }
+      if (localData && isAllowed) {
+        let searchParameters = JSON.parse(localData)
+        let res = await callApi("/search-species-by-field", {
+          searchParameters,
+        });
+        console.log("response", res);
+        setSpeciesList(res?.data);
+        localStorage.removeItem(`allowed${pageGroups.genetic}`)
+      }
+      else {
+        localStorage.removeItem(pageGroups.genetic)
+      }
       if (response.data.length > 0) {
          console.log(response.data)
          setCatgory(response.data[0])
@@ -104,21 +102,7 @@ const GeneticSubCellularDiversity = () => {
       fetchData()
 
    }, [])
-   // Handle left drawer
-   const leftDrawerOpened = useSelector((state) => state.customization.opened);
-   const dispatch = useDispatch();
-   const handleLeftDrawerToggle = () => {
-      dispatch({ type: SET_MENU, opened: !leftDrawerOpened });
-   };
 
-   const uploadToClient = (event) => {
-      if (event.target.files[0]) {
-         const i = event.target.files[0];
-
-         setImage(i);
-         setCreateObjectURL(URL.createObjectURL(i));
-      }
-   };
    const router = useRouter();
    return (
       <Box>
