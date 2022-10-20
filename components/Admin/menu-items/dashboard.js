@@ -27,7 +27,7 @@ const dashboard = {
         },
         {
             id: 'species',
-            title: 'Manage Species',
+            title: 'Major Biodiversity',
             type: 'collapse',
             url: '/manage-species',
             target: true,

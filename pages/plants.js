@@ -215,9 +215,9 @@ const Plants = () => {
 
 
       {speciesList?.length > 0 ? (
-        <TableData speciesList={speciesList} category={pageGroups.plants}></TableData>
+        <TableData speciesList={speciesList} category={pageGroups.plants} ></TableData>
       ) : (
-        <Typography variant="h1" component="h1" align="center" padding={25}>
+        <Typography variant="h1" component="h1" align="center" padding={25} paddingBottom={6}>
           {searchMessage ?? ""}
         </Typography>
       )}
