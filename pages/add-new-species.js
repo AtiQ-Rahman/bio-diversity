@@ -1733,6 +1733,40 @@ const AddNewSpecies = () => {
                         </Grid>
                         <Grid item xs={3}>
                           <TextField
+                            label="Ecological Role"
+                            multiline
+                            rows={3}
+                            margin="normal"
+                            size="small"
+                            placeholder="Type your Descripton here"
+                            variant="outlined"
+                            fullWidth
+                            name="identificationFeatures.Ecological-Role"
+                            onChange={(e) => {
+                              values.identificationFeatures["Ecological-Role"] =
+                                e.target.value;
+                            }}
+                          />
+                        </Grid>
+                        <Grid item xs={3}>
+                          <TextField
+                            label="Value C-Sequester"
+                            multiline
+                            rows={3}
+                            margin="normal"
+                            size="small"
+                            placeholder="Type your Descripton here"
+                            variant="outlined"
+                            fullWidth
+                            name="identificationFeatures.Value-C-Sequester"
+                            onChange={(e) => {
+                              values.identificationFeatures["Value C-Sequester"] =
+                                e.target.value;
+                            }}
+                          />
+                        </Grid>
+                        <Grid item xs={3}>
+                          <TextField
                             label="Health Resource"
                             multiline
                             rows={3}
