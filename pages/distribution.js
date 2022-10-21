@@ -55,10 +55,9 @@ const Distribution = () => {
     const [lng, setLng] = useState(90.399452);
     const [lat, setLat] = useState(23.777176);
     const [zoom, setZoom] = useState(6.52);
-    const [popupInfo, setPopUpInfo] = useState(null)
+    const [elements, setElements] = useState([])
     const [speciesList, setSpeciesList] = useState([])
     const [modifiedList, setModifiedList] = useState([])
-    const popUpRef = useRef(new mapboxgl.Popup({ offset: 15 }))
     async function fetchData(cbfn) {
         let response = await callApi('/get-species-list', {})
         setSpeciesList(response.data)
@@ -88,20 +87,22 @@ const Distribution = () => {
             if (city.marker && city.districts[0].center[0] && city.districts[0].center[1]) {
                 console.log({ city })
                 const el = document.createElement('div');
-                const width = 50;
-                const height = 50;
                 el.className = styles.marker;
                 el.style.backgroundImage = `url('${city.marker}')`;
-                el.style.width = `50px`;
                 el.style.backgroundStyle = 'cover'
                 el.style.backgroundRepeat = 'no-repeat'
                 el.style.backgroundPosition = 'center top'
-                el.style.height = `50px`;
-                // el.style.display = `block`;
-                el.style.top = `-20px`;
+                const zoom = map.current.getZoom();
+                const scalePercent = 1 + (zoom - 8) * 0.4;
+                let top = scalePercent * 40
+                let height = scalePercent * 70
+                let width = scalePercent * 70
+                el.style.height = `${height}px`
+                el.style.width = `${width}px`
+                el.style.top = `-${top}px`;
                 el.style.backgroundSize = 'contain';
-                let marker = new mapboxgl.Marker(el)
-                    .setLngLat([city.districts[0].center[0] , city.districts[0].center[1]])
+                new mapboxgl.Marker(el)
+                    .setLngLat([city.districts[0].center[0], city.districts[0].center[1]])
                     .setPopup(new mapboxgl.Popup({ offset: 30 }).setHTML(`
                         <div >
                         <div style="height: 150px; width:150px; background-image: url('${imageUrl + '/' + city.profile_image}'); background-size : cover ; background-repeat : no-repeat"></div>
@@ -115,22 +116,30 @@ const Distribution = () => {
                                 <h4 className="row-title">species</h4>
                                 <div className="row-value">${city.species}</div>
                             </div>
-                            <p className="route-city">Lng/Lat ${city.districts[0].center[0] },${city.districts[0].center[1]}</p>
+                            <p className="route-city">Lng/Lat ${city.districts[0].center[0]},${city.districts[0].center[1]}</p>
                         </div>
                     </div>`
 
 
                     ))
                     .addTo(map.current);
-                map.current.on('zoom', () => {
-                    const scalePercent = 1 + (map.current.getZoom() - 8) * 0.4;
-                    const svgElement = marker.getElement().children[0];
-                    // svgElement.style.transform = `scale(${scalePercent})`;
-                    // svgElement.style.transformOrigin = 'bottom';
-                });
+                elements.push(el)
             }
 
         })
+        map.current.on('zoom', () => {
+            const zoom = map.current.getZoom();
+            for (const el of elements) {
+                const scalePercent = 1 + (zoom - 8) * 0.4;
+                // const el = marker.getElement()
+                let top = scalePercent * 40
+                let height = scalePercent * 70
+                let width = scalePercent * 70
+                el.style.height = `${height}px`
+                el.style.width = `${width}px`
+                el.style.top = `-${top}px`;
+            }
+        });
 
     }, [modifiedList]);
     return (

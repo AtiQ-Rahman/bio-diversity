@@ -58,7 +58,7 @@ const Map = () => {
     const [lat, setLat] = useState(23.777176);
     const [zoom, setZoom] = useState(6.52);
     const [speciesData, setSpeciesData] = useState({})
-    const [popupInfo, setPopUpInfo] = useState(null)
+    const [elements, setElements] = useState([])
     const fetchData = async (query, cbfn) => {
         let searchParameters = query
         if (!query.initial) {
@@ -106,6 +106,14 @@ const Map = () => {
                 setLat(map.current.getCenter().lat.toFixed(4));
                 setZoom(map.current.getZoom().toFixed(2));
             });
+            map.current.addControl(new mapboxgl.NavigationControl(), 'top-left');
+
+            // map.current.on('zoom', () => {
+            //     const scalePercent = 1 + (map.getZoom() - 8)  * 0.4;
+            //     const svgElement = marker.getElement().children[0];
+            //     svgElement.style.transform = `scale(${scalePercent})`;
+            //     svgElement.style.transformOrigin = 'bottom';
+            // });
             if (typeof speciesData.districts == 'string') {
                 let url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${speciesData.districts}.json?access_token=${process.env.mapbox_key}&bbox=88.007207%2C20.4817039%2C92.679485%2C26.638142`
                 fetch(url)           //api for the get request
@@ -115,18 +123,21 @@ const Map = () => {
                         let district = data.features[0]
                         const el = document.createElement('div');
                         // const width = "auto";
-                        const height = 150;
                         el.className = styles.marker;
                         el.style.backgroundImage = `url('${speciesData.marker}')`;
-                        el.style.width = `50px`;
                         el.style.backgroundStyle = 'cover'
                         el.style.backgroundRepeat = 'no-repeat'
                         el.style.backgroundPosition = 'center top'
-                        el.style.height = `50px`;
-                        // el.style.display = `block`;
-                        el.style.top = `-20px`;
+                        const zoom = map.current.getZoom();
+                        const scalePercent = 1 + (zoom - 8) * 0.4;
+                        let top = scalePercent * 20
+                        let height = scalePercent * 70
+                        let width = scalePercent * 70
+                        el.style.height = `${height}px`
+                        el.style.width = `${width}px`
+                        el.style.top = `-${top}px`;
                         el.style.backgroundSize = 'contain';
-                        new mapboxgl.Marker()
+                        let marker = new mapboxgl.Marker()
                             .setLngLat([district.center[0], district.center[1]])
                             .addTo(map.current)
                             .setPopup(new mapboxgl.Popup({ offset: 30 }).setHTML(`
@@ -146,23 +157,42 @@ const Map = () => {
 
 
                             ));
+                        map.current.on('zoom', () => {
+                            const zoom = map.current.getZoom();
+                            const scalePercent = 1 + (zoom - 8) * 0.4;
+                            let height = scalePercent * 70
+                            let width = scalePercent * 70
+                            const el = marker.getElement().children[0]
+                            el.style.height = `${height}px`
+                            el.style.width = `${width}px`
 
+                            //   if (zoom <= 10) { el.classList.remove('zoom-10'); } else { el.classList.add('zoom-10'); }
+                            //   if (zoom <= 11) { el.classList.remove('zoom-11'); } else { el.classList.add('zoom-11'); }
+                            //   if (zoom <= 12) { el.classList.remove('zoom-12'); } else { el.classList.add('zoom-12'); }
+                            //   if (zoom <= 13) { el.classList.remove('zoom-13'); } else { el.classList.add('zoom-13'); }
+                            //   if (zoom <= 14) { el.classList.remove('zoom-14'); } else { el.classList.add('zoom-14'); }
+                            //   if (zoom <= 15) { el.classList.remove('zoom-15'); } else { el.classList.add('zoom-15'); }
+                            //   if (zoom <= 16) { el.classList.remove('zoom-16'); } else { el.classList.add('zoom-16'); }
+                        });
                     });
             }
             else {
-                speciesData.districts.map((district) => {
+                speciesData.districts.map((district, index) => {
                     const el = document.createElement('div');
-                    // const width = "auto";
-                    const height = 150;
                     el.className = styles.marker;
+                    el.id = `marker${index}`
                     el.style.backgroundImage = `url('${speciesData.marker}')`;
-                    el.style.width = `50px`;
                     el.style.backgroundStyle = 'cover'
                     el.style.backgroundRepeat = 'no-repeat'
                     el.style.backgroundPosition = 'center top'
-                    el.style.height = `50px`;
-                    // el.style.display = `block`;
-                    el.style.top = `-20px`;
+                    const zoom = map.current.getZoom();
+                    const scalePercent = 1 + (zoom - 8) * 0.4;
+                    let top = scalePercent * 40
+                    let height = scalePercent * 70
+                    let width = scalePercent * 70
+                    el.style.height = `${height}px`
+                    el.style.width = `${width}px`
+                    el.style.top = `-${top}px`;
                     el.style.backgroundSize = 'contain';
                     new mapboxgl.Marker(el)
                         .setLngLat([district.center[0], district.center[1]])
@@ -184,9 +214,22 @@ const Map = () => {
 
 
                         ));
+                    elements.push(el)
                 })
             }
-
+            map.current.on('zoom', () => {
+                const zoom = map.current.getZoom();
+                for (const el of elements) {
+                    const scalePercent = 1 + (zoom - 8) * 0.4;
+                    // const el = marker.getElement()
+                    let top = scalePercent * 40
+                    let height = scalePercent * 70
+                    let width = scalePercent * 70
+                    el.style.height = `${height}px`
+                    el.style.width = `${width}px`
+                    el.style.top = `-${top}px`;
+                }
+            });
 
         })
 
@@ -194,134 +237,128 @@ const Map = () => {
     }, [query]);
 
     return (
-
-
-        <Box
-            component="main"
-            sx={{
-                flexGrow: 1,
-
+        <Grid
+            container
+            style={{
+                width: "100%",
+                height: "100vh",
+                overflow: "auto"
             }}
         >
             <Grid
-                container
-                spacing={3}
-                xs={12}
+                item
+                style={{
+                    width: "100%",
+                    height: "100%"
+                }}
                 md={12}
-
+                xl={12}
+                xs={12}
+            // style={{ borderRadius: "10px" }}
+            // style={{  paddingRight: "20px" }}
             >
-                <Grid
-                    item
-                    md={12}
-                    xl={12}
-                    xs={12}
-                    style={{ borderRadius: "10px" }}
-                // style={{  paddingRight: "20px" }}
-                >
-                    <div className={styles.sidebar}>
-                        Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
-                    </div>
-                    <div className={styles.details_bar}>
+                <div className={styles.sidebar}>
+                    Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
+                </div>
+                <div className={styles.details_bar}>
 
-                        <Card sx={{ maxWidth: 345, height: 1080 }}>
-                            {speciesData?.additionalFiles?.length > 0 ?
-                                (<div>
-                                    <StyledSlider {...settings}>
-                                        {speciesData.additionalFiles.map((speciesImage, index) => {
-                                            return (
+                    <Card sx={{ maxWidth: 345, height: "100%" }}>
+                        {speciesData?.additionalFiles?.length > 0 ?
+                            (<div>
+                                <StyledSlider {...settings}>
+                                    {speciesData.additionalFiles.map((speciesImage, index) => {
+                                        return (
 
-                                                <Image key={`speciesAdditional${index}`}{...imageProps} loader={myLoader} src={imageUrl + '/' + speciesImage} />
-                                            )
-                                        })}
-                                    </StyledSlider>
-                                </div>) :
+                                            <Image key={`speciesAdditional${index}`}{...imageProps} loader={myLoader} src={imageUrl + '/' + speciesImage} />
+                                        )
+                                    })}
+                                </StyledSlider>
+                            </div>) :
 
-                                (<Image loader={myLoader} src={imageUrl + '/' + speciesData?.profile_image} alt="species-image" width="345" height={200}></Image>)
-                            }
-                            <br />
-                            <Divider />
-                            <CardContent>
-                                <Typography gutterBottom variant="h1" component="div">
-                                    {speciesData?.name?.commonName}
+                            (<Image loader={myLoader} src={imageUrl + '/' + speciesData?.profile_image} alt="species-image" width="345" height={200}></Image>)
+                        }
+                        <br />
+                        <Divider />
+                        <CardContent>
+                            <Typography gutterBottom variant="h1" component="div">
+                                {speciesData?.name?.commonName}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                                {speciesData?.description}
+                            </Typography>
+                            <Grid item xs={6}>
+                                <Typography gutterBottom component="description" variant="div">
+                                    <b>Kindom</b>:{speciesData.kindom}
                                 </Typography>
-                                <Typography variant="body2" color="text.secondary">
-                                    {speciesData?.description}
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Typography gutterBottom component="description" variant="div">
+                                    <b>Phylum</b>:{speciesData.phylum}
                                 </Typography>
-                                <Grid item xs={6}>
-                                    <Typography gutterBottom component="description" variant="div">
-                                        <b>Kindom</b>:{speciesData.kindom}
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <Typography gutterBottom component="description" variant="div">
-                                        <b>Phylum</b>:{speciesData.phylum}
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <Typography gutterBottom component="description" variant="div">
-                                        <b>class</b>:{speciesData.class}
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <Typography gutterBottom component="description" variant="div">
-                                        <b>order</b>:{speciesData.order}
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <Typography gutterBottom component="description" variant="div">
-                                        <b>family</b>:{speciesData.family}
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <Typography gutterBottom component="description" variant="div">
-                                        <b>Genus</b>:{speciesData.genus}
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <Typography gutterBottom component="description" variant="div">
-                                        <b>Specis</b>:{speciesData.specis}
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <Typography gutterBottom component="description" variant="div">
-                                        <b>Variety</b>:{speciesData.variety}
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <Typography gutterBottom component="description" variant="div">
-                                        <b>Sub Variety</b>:{speciesData.subVariety}
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <Typography gutterBottom component="description" variant="div">
-                                        <b>clone</b>:{speciesData.clone}
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <Typography gutterBottom component="description" variant="div">
-                                        <b>forma</b>:{speciesData.forma}
-                                    </Typography>
-                                </Grid>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Typography gutterBottom component="description" variant="div">
+                                    <b>class</b>:{speciesData.class}
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Typography gutterBottom component="description" variant="div">
+                                    <b>order</b>:{speciesData.order}
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Typography gutterBottom component="description" variant="div">
+                                    <b>family</b>:{speciesData.family}
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Typography gutterBottom component="description" variant="div">
+                                    <b>Genus</b>:{speciesData.genus}
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Typography gutterBottom component="description" variant="div">
+                                    <b>Specis</b>:{speciesData.specis}
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Typography gutterBottom component="description" variant="div">
+                                    <b>Variety</b>:{speciesData.variety}
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Typography gutterBottom component="description" variant="div">
+                                    <b>Sub Variety</b>:{speciesData.subVariety}
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Typography gutterBottom component="description" variant="div">
+                                    <b>clone</b>:{speciesData.clone}
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Typography gutterBottom component="description" variant="div">
+                                    <b>forma</b>:{speciesData.forma}
+                                </Typography>
+                            </Grid>
 
-                            </CardContent>
-                            <CardActions>
-                                <Button size="small">Share</Button>
-                                <Button size="small">Learn More</Button>
-                            </CardActions>
-                        </Card>
+                        </CardContent>
+                        <CardActions>
+                            <Button size="small">Share</Button>
+                            <Button size="small">Learn More</Button>
+                        </CardActions>
+                    </Card>
 
-                    </div>
-                    <div ref={mapContainer} className={styles.map_container}></div>
+                </div>
+                <div ref={mapContainer}
+                    // style={{position: "absolute",top: 0, bottom: 0, width: "100%"}}
+                    className={styles.map_container}>
 
-                </Grid>
+                </div>
 
             </Grid>
 
-            {/*  */}
-        </Box>
-
-
-
+        </Grid>
 
 
 
