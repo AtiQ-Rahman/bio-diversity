@@ -306,7 +306,7 @@ const ManageSpeciesTable = () => {
                 <Grid item xs={12} md={12}>
                   <Card sx={{ marginBottom: "10px" }}>
                     <Typography gutterBottom component="h2" variant="h2">
-                      Species Search
+                     Biodiversity Group
                     </Typography>
                   </Card>
                   <Grid

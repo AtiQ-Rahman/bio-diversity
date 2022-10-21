@@ -43,7 +43,7 @@ const TableData = (props) => {
                 </Typography>
                     <br />
                     <TableContainer component={Paper}  >
-                        <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                        <Table sx={{ minWidth: 700,pl: 7  }} aria-label="customized table">
                             <TableHead>
                                 <TableRow>
                                     <StyledTableCell sx={{ pl: 4 }}><b>SI</b></StyledTableCell>
@@ -53,7 +53,7 @@ const TableData = (props) => {
                                     <StyledTableCell align="center"><b>Family</b></StyledTableCell>
                                     <StyledTableCell align="center"><b>Order name</b></StyledTableCell>
                                     <StyledTableCell align="center"><b>Lng/Lat</b></StyledTableCell>
-                                    <StyledTableCell align="center"><b>Action</b></StyledTableCell>
+                                    <StyledTableCell  align="center"><b>Action</b></StyledTableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody   >
@@ -79,8 +79,8 @@ const TableData = (props) => {
                                         <StyledTableCell align="center">{row.family}</StyledTableCell >
                                         <StyledTableCell align="center">{row.order_name}</StyledTableCell >
                                         <StyledTableCell align="center">{row.lng},<br />{row.lat}</StyledTableCell >
-                                        <StyledTableCell align="center">
-                                            <Grid container spacing={1} sx={{ pl: 10 }} >
+                                        <StyledTableCell sx={{ pl: 20 }} align="center">
+                                            <Grid container spacing={1}  >
                                                 {/* <Grid item xs={12}> */}
                                                 <Button
                                                     style={{
