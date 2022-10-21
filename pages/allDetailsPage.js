@@ -36,14 +36,14 @@ const Item = styled(Paper)(({ theme }) => ({
 
 let imageProps = {
   height: "300px",
-  width: "1000px",
+  width: "1300px",
   objectFit: "cover",
   borderRadius: "0px 0px 40px 40px"
 }
 const StyledSlider = styled((props) => <Slider {...props} />)({
   "& .slick-dots li": {
-    width: "100px",
-    height: "70px",
+    width: "200px",
+    height: "100px",
     margin: "0px 4px",
   },
   "& .slick-dots": {
@@ -52,7 +52,7 @@ const StyledSlider = styled((props) => <Slider {...props} />)({
   },
   "& .slick-slide span": {
     // display: "block",
-    width: "100% !important",
+    width: "150% !important",
     height: "400px !important"
   },
 });
@@ -94,7 +94,7 @@ const rows = [
 const AllDetailsPage = () => {
   const [speciesDetails, setSpeciesData] = useState({});
   const [modifiedSpeciesDetails, setModifiedSpeciesDetails] = useState({});
-  const [popupInfo, setPopUpInfo] = useState(null);
+  // const [popupInfo, setPopUpInfo] = useState(null);
   const router = useRouter();
   const [query, setQuery] = useState(router.query);
   const fetchData = async (query, cbfn) => {
@@ -207,7 +207,7 @@ const AllDetailsPage = () => {
 
                       return (
                         <StyledTableRow key={row}>
-                          <StyledTableCell component="th" scope="row">
+                          <StyledTableCell component="th" scope="row" >
                             <b> {title}</b>
                           </StyledTableCell>
                           <StyledTableCell align="left">

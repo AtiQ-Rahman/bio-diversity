@@ -403,7 +403,7 @@ const EcosystemDiversity = () => {
         onRowsPerPageChange={handleChangeRowsPerPage}
       /> */}
          </Grid>
-         <Footer style={{ padding: "100px" }} />
+         <Footer style={{ padding: "120px" }} />
       </Box>
    );
 };

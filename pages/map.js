@@ -1,16 +1,16 @@
 import {
-    AppBar,
-    Box,
-    Button,
-    Card,
-    CardActions,
-    CardContent,
-    CardMedia,
-    Container,
-    Divider,
-    Grid,
-    Toolbar,
-    Typography,
+  AppBar,
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Container,
+  Divider,
+  Grid,
+  Toolbar,
+  Typography,
 } from "@mui/material";
 import React, { useState, useEffect, useRef } from "react";
 import Header from "../components/Home/Header";
@@ -19,36 +19,32 @@ import Image from "next/image";
 import Footer from "../components/Home/Footer/Footer";
 import { margin } from "@mui/system";
 import Counters from "../components/Home/counters";
-import mapboxgl from 'mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
-import 'mapbox-gl/dist/mapbox-gl.css';
-import { useRouter } from 'next/router'
+import mapboxgl from "mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
+import "mapbox-gl/dist/mapbox-gl.css";
+import { useRouter } from "next/router";
 mapboxgl.accessToken = process.env.mapbox_key;
 import callApi, { imageUrl } from "../utils/callApi";
-import { styled } from '@mui/material/styles';
-console.log(process.env.mapbox_key)
+import { styled } from "@mui/material/styles";
+console.log(process.env.mapbox_key);
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 let imageProps = {
-    height: "300px",
-    width: "400px",
-}
-const StyledSlider = styled((props) => (
-    <Slider
-        {...props}
-    />
-))({
-    '& .slick-dots li': {
-        width: "70px",
-        height: "70px",
-        margin: "0px 4px"
-    },
-    '& .slick-dots': {
-        display: "block",
-        position: "relative"
-    },
+  height: "300px",
+  width: "400px",
+};
+const StyledSlider = styled((props) => <Slider {...props} />)({
+  "& .slick-dots li": {
+    width: "100px",
+    height: "70px",
+    margin: "0px 4px",
+  },
+  "& .slick-dots": {
+    display: "block",
+    position: "relative",
+  },
 });
-const myLoader = ({ src }) => `${src}`
+const myLoader = ({ src }) => `${src}`;
 const Map = () => {
     const router = useRouter()
     const [query, setQuery] = useState(router.query)
@@ -165,14 +161,6 @@ const Map = () => {
                             const el = marker.getElement().children[0]
                             el.style.height = `${height}px`
                             el.style.width = `${width}px`
-
-                            //   if (zoom <= 10) { el.classList.remove('zoom-10'); } else { el.classList.add('zoom-10'); }
-                            //   if (zoom <= 11) { el.classList.remove('zoom-11'); } else { el.classList.add('zoom-11'); }
-                            //   if (zoom <= 12) { el.classList.remove('zoom-12'); } else { el.classList.add('zoom-12'); }
-                            //   if (zoom <= 13) { el.classList.remove('zoom-13'); } else { el.classList.add('zoom-13'); }
-                            //   if (zoom <= 14) { el.classList.remove('zoom-14'); } else { el.classList.add('zoom-14'); }
-                            //   if (zoom <= 15) { el.classList.remove('zoom-15'); } else { el.classList.add('zoom-15'); }
-                            //   if (zoom <= 16) { el.classList.remove('zoom-16'); } else { el.classList.add('zoom-16'); }
                         });
                     });
             }
@@ -365,6 +353,6 @@ const Map = () => {
     );
 };
 Map.getInitialProps = ({ query }) => {
-    return { query }
-}
+  return { query };
+};
 export default Map;

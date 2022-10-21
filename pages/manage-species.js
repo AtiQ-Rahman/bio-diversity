@@ -208,15 +208,17 @@ export default function ManageSpecies() {
           <Grid item xs={4}>
             <Item>
               <Box
+            
                 sx={{
                   width: 350,
                   height: 200,
                   backgroundColor: "whitesmoke",
-                  // "&:hover": {
-                  //   backgroundColor: "tomato",
-                  //   opacity: [0.9, 0.8, 0.7],
-                  // },
-                  // boxShadow:"1px 1px gray"
+                  "&:hover": {
+                    // backgroundColor: "tomato",
+                    boxShadow:"1px 5px 15px 1px red",
+                    opacity: [0.1, 0.9, 0.9],
+                  },
+                  cursor:"pointer"
                 }}
                 onClick={() =>
                   router.push({
@@ -234,11 +236,12 @@ export default function ManageSpecies() {
                   fontSize: 25,
                   fontFamily: "Times New Roman",
                   color: "#c44d34",
-                  paddingTop: 8
+                  paddingTop: 8,
+                 
                 }}
-                style={noPointer}
+                
               >
-                  {row.name}
+                  {row.name} ({row.name.length})
                 </Typography></Box>
 
             </Item>
@@ -401,7 +404,7 @@ export default function ManageSpecies() {
                 <Grid item xs={12} md={12}>
                   <Card sx={{ marginBottom: "10px" }}>
                     <Typography gutterBottom component="h2" variant="h2">
-                      Manage Species
+                    Major Biodiversity
                     </Typography>
                   </Card>
 

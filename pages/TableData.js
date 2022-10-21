@@ -35,7 +35,7 @@ const TableData = (props) => {
     const imageLoader = ({ src }) => `${src}`
     const router = useRouter();
     return (
-        <Grid container sx={{ borderRadius: "10px", px: 10 }} paddingBottom={1}>
+        <Grid container sx={{ borderRadius: "10px", px: 10 }} paddingBottom={7}>
             <Grid item xs={12}>
                 {/* {props.length > 0 ? ( */}
                 <><Typography variant="h2" component="h2" align="center" gutterBottom>
