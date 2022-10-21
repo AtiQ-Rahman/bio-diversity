@@ -84,7 +84,7 @@ const Distribution = () => {
 
         map.current.addControl(new mapboxgl.NavigationControl(), 'top-left');
         modifiedList.map((city) => {
-            if (city.marker && city.districts[0].center[0] && city.districts[0].center[1]) {
+            if (city.marker && city.districts[0]?.center[0] && city.districts[0]?.center[1]) {
                 console.log({ city })
                 const el = document.createElement('div');
                 el.className = styles.marker;
@@ -105,7 +105,8 @@ const Distribution = () => {
                     .setLngLat([city.districts[0].center[0], city.districts[0].center[1]])
                     .setPopup(new mapboxgl.Popup({ offset: 30 }).setHTML(`
                         <div >
-                        <div style="height: 150px; width:150px; background-image: url('${imageUrl + '/' + city.profile_image}'); background-size : cover ; background-repeat : no-repeat"></div>
+                        ${city.profile_image !== '' ? ` <div style="height: 150px; width:150px; background-image: url('${imageUrl + '/' + city.profile_image}'); background-size : cover ; background-repeat : no-repeat"></div>
+                        `: ''}
                         <div className="popup">
                             <h3 className="route-name">${city.name.bangla}</h3>
                             <div className="route-metric-row">
@@ -216,7 +217,10 @@ const Distribution = () => {
                                                         }}
                                                     >
                                                         <TableCell component="td" scope="row" width={50}>
-                                                            <Image height={50} width={40} src={species.marker}></Image>
+                                                            {species.marker !== 'N/A' ? (
+                                                                <Image height={50} width={40} src={species.marker}></Image>
+                                                            ) : null}
+
                                                         </TableCell>
                                                         <TableCell align="">
                                                             <Typography variant="body2" color="text.primary">
@@ -226,7 +230,7 @@ const Distribution = () => {
                                                         </TableCell>
                                                         <TableCell>
                                                             <Typography variant="caption">
-                                                                {twoDecimal(species.districts[0].center[0])} ,{twoDecimal(species.districts[0].center[1])}
+                                                                {twoDecimal(species.districts[0]?.center[0])} ,{twoDecimal(species.districts[0]?.center[1])}
                                                             </Typography>
                                                         </TableCell>
                                                     </TableRow>
