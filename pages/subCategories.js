@@ -536,20 +536,23 @@ const SubCategories = () => {
                                     
                                   }}
                                 >
+                                  <Grid paddingRight={2}>
                                   <Icon
-                                    fontSize={50}
+                                    fontSize={20}
                                     icon="dashicons:edit-large"
                                     color="#c44d34"
+                                
                                     onClick={(e) => {
                                       setSubCategoriesValues(row);
                                       handleClickOpen();
                                     }}
                                   />
-                                  <Icon
-                                    fontSize={50}
+                                  </Grid>
+                                  <Grid><Icon
+                                    fontSize={20}
                                     icon="fluent:delete-16-filled"
                                     color="#c44d34"
-                                  />
+                                  /></Grid>
                                 </Box>
                               </Grid>
                             </Grid>
