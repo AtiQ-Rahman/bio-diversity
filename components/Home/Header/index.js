@@ -54,7 +54,7 @@ const options = [
 
   {
     name: "Contribute",
-    url: "/contribute"
+    url: "/request-new-species"
   },
   {
     name: "Team",
@@ -372,7 +372,7 @@ export default function PrimarySearchAppBar(props) {
       {pages.map((page, index) => (
         <Link key={`page${index}`} href={page.path}>
           <MenuItem key={page} onClick={handleCloseNavMenu}>
-            <Box  textAlign="center">{page.name}</Box>
+            <Box textAlign="center">{page.name}</Box>
           </MenuItem>
         </Link>
       ))}
@@ -383,12 +383,12 @@ export default function PrimarySearchAppBar(props) {
     <Box sx={{ flexGrow: 1, zIndex: 1301 }}>
       <AppBar
         enableColorOnDark
-        position="fixed"
+        position="absolute"
         color=""
         style={{
           // borderBottom: "1px solid #e5e5e5",
           // boxShadow: "none",
-          height: 90,
+          height: "auto",
           // backgroundColor: "rgba(0,0,0,.5)",
           backgroundColor: navBg,
           // zIndex: 1301
@@ -398,7 +398,7 @@ export default function PrimarySearchAppBar(props) {
       >
         <Toolbar>
           <Box
-            component="span" sx={{ display: { xs: 'none', md: 'block' }, flexGrow: 1 }}
+            component="span" sx={{ display: { md: 'block' }, flexGrow: 1 }}
           >
 
             <Grid
@@ -410,24 +410,26 @@ export default function PrimarySearchAppBar(props) {
             >
               <Box> <LogoSection /></Box>
               <Box container
-                direction="colum"
+                direction="column"
               // justifyContent="center"
-              ><Box><span style={{
-                fontFamily: "Comic Sans MS",
-                fontSize: "30px",
-                color: "white",
-                padding: "10px"
-              }}> <>Biodiversity of <span style={{
-                fontWeight: '800',
+              ><Box>
+                  <Typography variant="body" component="h2" style={{
+                    fontFamily: "Comic Sans MS",
+                    // fontSize: "25px",
+                    color: "white",
+                    padding: "10px"
+                  }}>
+                    <>Biodiversity of <span style={{
+                    fontWeight: '600',
 
-                color: "#c44d34",
+                    color: "#c44d34",
 
-              }}>Bangladesh</span></></span></Box>  <Box ><span style={{
-                fontFamily: "Gabriola",
-                fontSize: "20px",
-                color: "white",
-                padding: "10px"
-              }}>Database and Mapping</span></Box></Box>
+                  }}>Bangladesh</span></></Typography></Box>  <Box ><span style={{
+                    fontFamily: "Gabriola",
+                    fontSize: "20px",
+                    color: "white",
+                    padding: "10px"
+                  }}>Database and Mapping</span></Box></Box>
             </Grid>
 
 

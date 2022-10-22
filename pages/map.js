@@ -104,13 +104,6 @@ const Map = () => {
                 setZoom(map.current.getZoom().toFixed(2));
             });
             map.current.addControl(new mapboxgl.NavigationControl(), 'top-left');
-
-            // map.current.on('zoom', () => {
-            //     const scalePercent = 1 + (map.getZoom() - 8)  * 0.4;
-            //     const svgElement = marker.getElement().children[0];
-            //     svgElement.style.transform = `scale(${scalePercent})`;
-            //     svgElement.style.transformOrigin = 'bottom';
-            // });
             if (typeof speciesData.districts == 'string') {
                 let url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${speciesData.districts}.json?access_token=${process.env.mapbox_key}&bbox=88.007207%2C20.4817039%2C92.679485%2C26.638142`
                 fetch(url)           //api for the get request
