@@ -21,11 +21,11 @@ exports.getAllSpecies = async (req, res, next) => {
                         })
                     })
                 }
-                else{
-                    if(item.district.includes('{'))
+                else {
+                    if (item.district.includes('{'))
                         districts = item?.district ? JSON.parse(item.district) : []
                     else
-                        districts = [] || []
+                        districts = item?.district || []
                 }
                 modifiedResponse.push({
                     ...item,
