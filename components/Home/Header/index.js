@@ -281,8 +281,8 @@ export default function PrimarySearchAppBar(props) {
     },
   ];
   pages[props.index].background = "#c44d34";
-  pages[props.index].color = "white";
-  pages[props.index].border = "1px solid #c44d34";
+  // pages[props.index].color = "white";
+  // pages[props.index].border = "1px solid #c44d34";
 
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
