@@ -1,8 +1,8 @@
-const { getTable, executeQuery, speciesTableTypes } = require('../config/common');
+const { getTable, executeQuery, speciesTableTypes, isValidImageOrMarker } = require('../config/common');
 
 const DB = require("../config/connectToDatabase");
 
-exports.getAllSpecies = async (req, res, next) => {
+exports.getAllImages = async (req, res, next) => {
     let modifiedList = []
     for (let key of Object.keys(speciesTableTypes)) {
         let table = await getTable(speciesTableTypes[key])
@@ -11,8 +11,11 @@ exports.getAllSpecies = async (req, res, next) => {
         if (response?.length > 0) {
             for (let item of response) {
                 let files = item?.additional_files?.split(',') || []
-                for(let imageItem of files){
-                    modifiedList.push(imageItem)
+                for (let imageItem of files) {
+                    if (isValidImageOrMarker(imageItem)) {
+                        modifiedList.push(imageItem)
+
+                    }
                 }
             }
 

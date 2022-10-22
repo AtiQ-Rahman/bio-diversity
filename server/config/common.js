@@ -23,6 +23,14 @@ const createQueryForSpecies = async (table) => {
     let res = await this.executeQuery(query)
     return res
 }
+exports.isValidImageOrMarker = (fileName) => {
+    if (fileName == '' || fileName.toLowerCase() == 'n/a') {
+        return false
+    }
+    else {
+        return true
+    }
+}
 exports.log = (message = '', value = '') => {
     if (value == '') return console.log(message)
     return console.log(message, value)

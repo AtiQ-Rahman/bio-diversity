@@ -1,24 +1,16 @@
 import {
-  AppBar,
   Box,
   Button,
   Card,
   CardActions,
   CardContent,
-  CardMedia,
-  Container,
   Divider,
   Grid,
-  Toolbar,
   Typography,
 } from "@mui/material";
 import React, { useState, useEffect, useRef } from "react";
-import Header from "../components/Home/Header";
 import styles from "../styles/Home.module.css";
 import Image from "next/image";
-import Footer from "../components/Home/Footer/Footer";
-import { margin } from "@mui/system";
-import Counters from "../components/Home/counters";
 import mapboxgl from "mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import "mapbox-gl/dist/mapbox-gl.css";
 import { useRouter } from "next/router";
@@ -47,117 +39,109 @@ const StyledSlider = styled((props) => <Slider {...props} />)({
 });
 const myLoader = ({ src }) => `${src}`;
 const Map = () => {
-    const router = useRouter()
-    const [query, setQuery] = useState(router.query)
-    const mapContainer = useRef(null);
-    const map = useRef(null);
-    const [lng, setLng] = useState(90.399452);
-    const [lat, setLat] = useState(23.777176);
-    const [zoom, setZoom] = useState(6.52);
-    const [speciesData, setSpeciesData] = useState({})
-    const [elements, setElements] = useState([])
-    const fetchData = async (query, cbfn) => {
-        let searchParameters = query
-        if (!query.initial) {
-            localStorage.setItem(`allowed${query.category}`, true)
-        }
-        delete searchParameters.initial
-        let response = await callApi("/get-species-by-serial", { searchParameters })
-        if (response?.data?.length > 0) {
-            setSpeciesData(response.data[0])
-            cbfn(response.data[0])
-        }
-        else {
-            cbfn({})
-        }
+  const router = useRouter()
+  const [query, setQuery] = useState(router.query)
+  const mapContainer = useRef(null);
+  const map = useRef(null);
+  const [lng, setLng] = useState(90.399452);
+  const [lat, setLat] = useState(23.777176);
+  const [zoom, setZoom] = useState(6.52);
+  const [speciesData, setSpeciesData] = useState({})
+  const [elements, setElements] = useState([])
+  const fetchData = async (query, cbfn) => {
+    let searchParameters = query
+    if (!query.initial) {
+      localStorage.setItem(`allowed${query.category}`, true)
     }
-    const settings = {
-        customPaging: function (i) {
-            return (
-                <Box height={400}>
-                    <Image layout="fill" objectFit="cover" loader={myLoader} src={`${imageUrl + '/' + speciesData?.additionalFiles[i]}`} />
-                </Box>
-
-            );
-        },
-        dots: true,
-        dotsClass: "slick-dots slick-thumb",
-        infinite: true,
-        speed: 500,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-    };
-    useEffect(() => {
-        if (!query) return; // initialize map only once
-        fetchData(query, (speciesData) => {
-            setLng(speciesData?.lng)
-            setLat(speciesData?.lat)
-            map.current = new mapboxgl.Map({
-                container: mapContainer.current,
-                style: process.env.mapStyle,
-                center: [lng, lat],
-                zoom: zoom
-            });
-            map.current.on('move', () => {
-                setLng(map.current.getCenter().lng.toFixed(4));
-                setLat(map.current.getCenter().lat.toFixed(4));
-                setZoom(map.current.getZoom().toFixed(2));
-            });
-            map.current.addControl(new mapboxgl.NavigationControl(), 'top-left');
-
+    delete searchParameters.initial
+    let response = await callApi("/get-species-by-serial", { searchParameters })
+    if (response?.data?.length > 0) {
+      setSpeciesData(response.data[0])
+      cbfn(response.data[0])
+    }
+    else {
+      cbfn({})
+    }
+  }
+  const settings = {
+    customPaging: function (i) {
+      return (
+        <Box height={400}>
+          <Image layout="fill" objectFit="cover" loader={myLoader} src={`${imageUrl + '/' + speciesData?.additionalFiles[i]}`} />
+        </Box>
+      );
+    },
+    dots: true,
+    dotsClass: "slick-dots slick-thumb",
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
+  useEffect(() => {
+    if (!query) return; // initialize map only once
+    fetchData(query, (speciesData) => {
+      setLng(speciesData?.lng)
+      setLat(speciesData?.lat)
+      map.current = new mapboxgl.Map({
+        container: mapContainer.current,
+        style: process.env.mapStyle,
+        center: [lng, lat],
+        zoom: zoom
+      });
+      map.current.on('move', () => {
+        setLng(map.current.getCenter().lng.toFixed(4));
+        setLat(map.current.getCenter().lat.toFixed(4));
+        setZoom(map.current.getZoom().toFixed(2));
+      });
+      map.current.addControl(new mapboxgl.NavigationControl(), 'top-left');
+      if (typeof speciesData.districts == 'string') {
+        let url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${speciesData.districts}.json?access_token=${process.env.mapbox_key}&bbox=88.007207%2C20.4817039%2C92.679485%2C26.638142`
+        fetch(url)           //api for the get request
+          .then(response => response.json())
+          .then(async data => {
+            console.log(data)
+            let district = data.features[0]
+            const el = document.createElement('div');
+            await createMarkerElement(el, styles, elements, speciesData.marker, map)
+            await createMapboxMarker(el, mapboxgl, speciesData.marker, district, map)
+            // const width = "auto";
             // map.current.on('zoom', () => {
-            //     const scalePercent = 1 + (map.getZoom() - 8)  * 0.4;
-            //     const svgElement = marker.getElement().children[0];
-            //     svgElement.style.transform = `scale(${scalePercent})`;
-            //     svgElement.style.transformOrigin = 'bottom';
+            //     const zoom = map.current.getZoom();
+            //     const scalePercent = 1 + (zoom - 8) * 0.4;
+            //     let height = scalePercent * 70
+            //     let width = scalePercent * 70
+            //     const el = marker.getElement().children[0]
+            //     el.style.height = `${height}px`
+            //     el.style.width = `${width}px`
             // });
-            if (typeof speciesData.districts == 'string') {
-                let url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${speciesData.districts}.json?access_token=${process.env.mapbox_key}&bbox=88.007207%2C20.4817039%2C92.679485%2C26.638142`
-                fetch(url)           //api for the get request
-                    .then(response => response.json())
-                    .then(async data => {
-                        console.log(data)
-                        let district = data.features[0]
-                        const el = document.createElement('div');
-                        await createMarkerElement(el, styles, elements, speciesData.marker, map)
-                        await createMapboxMarker(el, mapboxgl, speciesData.marker, district, map)
-                        // const width = "auto";
-                        // map.current.on('zoom', () => {
-                        //     const zoom = map.current.getZoom();
-                        //     const scalePercent = 1 + (zoom - 8) * 0.4;
-                        //     let height = scalePercent * 70
-                        //     let width = scalePercent * 70
-                        //     const el = marker.getElement().children[0]
-                        //     el.style.height = `${height}px`
-                        //     el.style.width = `${width}px`
-                        // });
-                    });
-            }
-            else {
-                speciesData.districts.map(async (district, index) => {
-                    const el = document.createElement('div');
-                    await createMarkerElement(el, styles, elements, speciesData.marker, map)
-                    await createMapboxMarker(el, mapboxgl, speciesData.marker, district, map)
-                })
-            }
-            map.current.on('zoom', () => {
-                const zoom = map.current.getZoom();
-                for (const el of elements) {
-                    const scalePercent = 1 + (zoom - 8) * 0.4;
-                    // const el = marker.getElement()
-                    let top = scalePercent * 40
-                    let height = scalePercent * 70
-                    let width = scalePercent * 70
-                    el.style.height = `${height}px`
-                    el.style.width = `${width}px`
-                    el.style.top = `-${top}px`;
-                }
-            });
-
+          });
+      }
+      else {
+        speciesData.districts.map(async (district, index) => {
+          const el = document.createElement('div');
+          await createMarkerElement(el, styles, elements, speciesData.marker, map)
+          await createMapboxMarker(el, mapboxgl, speciesData.marker, district, map)
         })
+      }
+      map.current.on('zoom', () => {
+        const zoom = map.current.getZoom();
+        for (const el of elements) {
+          const scalePercent = 1 + (zoom - 8) * 0.4;
+          // const el = marker.getElement()
+          let top = scalePercent * 40
+          let height = scalePercent * 70
+          let width = scalePercent * 70
+          el.style.height = `${height}px`
+          el.style.width = `${width}px`
+          el.style.top = `-${top}px`;
+        }
+      });
+
+    })
 
 
-    }, [query]);
+  }, [query]);
 
   return (
     <Grid
@@ -177,8 +161,8 @@ const Map = () => {
         md={12}
         xl={12}
         xs={12}
-        // style={{ borderRadius: "10px" }}
-        // style={{  paddingRight: "20px" }}
+      // style={{ borderRadius: "10px" }}
+      // style={{  paddingRight: "20px" }}
       >
         <div className={styles.sidebar}>
           Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}

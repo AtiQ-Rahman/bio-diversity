@@ -62,9 +62,6 @@ exports.BIOGSearchParamsByField = async (req, res, next) => {
         searchQuery = searchQuery.replace('and' , 'where')
     }
     let response = await executeQuery(searchQuery)
-    console.log(JSON.stringify(searchParameters.nameOfSpecies))
-    console.log(searchQuery)
-    console.log(response)
     if (response?.length > 0) {
         let modifiedResponse = []
         for (let item of response) {
@@ -88,7 +85,4 @@ exports.BIOGSearchParamsByField = async (req, res, next) => {
             data: [],
         })
     }
-
-
-
 }

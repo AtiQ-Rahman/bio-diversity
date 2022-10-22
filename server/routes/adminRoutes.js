@@ -5,11 +5,12 @@ const path = require("path")
 const multer = require("multer");
 const { createNewSpecies, uploadSpeciesByExcel } = require('../apis/create-new-species');
 const { BIOGetAllCategories } = require('../apis/get-all-categories');
-const { BIOGetAllTemplates } = require('../apis/get-all-templates');
+const { BIOGetAllTemplates, BIOUpdateSelectedTemplate } = require('../apis/get-all-templates');
 const { addUpdateCategories } = require('../apis/add-update-categories');
 const { BIOGetSpeciesByCategory } = require('../apis/get-species-by-category');
 const { addUpdateSubCategories } = require("../apis/add-update-subcategories");
 const { createNewTemplate, updateSelectedTemplate } = require("../apis/create-new-templates");
+const { getAllImages } = require("../apis/get-all-images");
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -33,6 +34,8 @@ router.post("/add-update-subcategories", addUpdateSubCategories);
 router.post("/create-new-template", upload.array("sliderImages", 100), createNewTemplate)
 router.post("/get-template-list", BIOGetAllTemplates);
 router.post("/update-selected-template", updateSelectedTemplate);
+router.post("/get-all-images", getAllImages);
+router.post("/update-slider-image", BIOUpdateSelectedTemplate);
 
 
 
