@@ -160,7 +160,7 @@ export default function PrimarySearchAppBar(props) {
       {options.map((option) => (
         <MenuItem
           key={option}
-          selected={option === "Pyxis"}
+       
           onClick={handleClose}
         >
           <Link href={option.url}>
@@ -178,6 +178,7 @@ export default function PrimarySearchAppBar(props) {
       // background: "white",
       color: "white",
       border: "none",
+     
 
       // icon: <HomeIcon style={{ fontSize: 19 }}></HomeIcon>,
     },
@@ -269,7 +270,7 @@ export default function PrimarySearchAppBar(props) {
             onClick={handleClick}
           >
             <AddIcon style={{ fontSize: 19 }} sx={{ color: "white" }}></AddIcon>
-            <Typography sx={{ color: "white" }} style={{ fontWeight: 600 }}>
+            <Typography sx={{ color: "white" }}>
               More
             </Typography>{" "}
             <ArrowDropDownIcon sx={{ color: "white" }} />
@@ -280,8 +281,8 @@ export default function PrimarySearchAppBar(props) {
     },
   ];
   pages[props.index].background = "#c44d34";
-  pages[props.index].color = "white";
-  pages[props.index].border = "10px solid #c44d34";
+  // pages[props.index].color = "white";
+  // pages[props.index].border = "1px solid #c44d34";
 
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -456,7 +457,7 @@ export default function PrimarySearchAppBar(props) {
                   // className={page.background}
                   onClick={handleCloseNavMenu}
                 >
-                  <Typography style={{ fontSize: 0.1 }}>{page.icon}</Typography>
+                  {/* <Typography style={{ fontSize: 0.1 }}>{page.icon}</Typography> */}
 
                   <Box textAlign="center">{page.name}</Box>
 

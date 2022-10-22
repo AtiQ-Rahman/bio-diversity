@@ -278,16 +278,16 @@ const SubCategories = () => {
   const leftDrawerOpened = useSelector((state) => state.customization.opened);
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
-  const pointer = { cursor: 'pointer' };
+  const pointer = { cursor: "pointer" };
 
   const handleLeftDrawerToggle = () => {
     dispatch({ type: SET_MENU, opened: !leftDrawerOpened });
   };
-  const changeCategory = (e) => { };
+  const changeCategory = (e) => {};
   function FormRow(props) {
     const { row, index } = props;
     const [openCategory, setOpenCategory] = React.useState(false);
-    const pointer = { cursor: 'pointer' };
+    const pointer = { cursor: "pointer" };
     return (
       <>
         <React.Fragment>
@@ -306,32 +306,33 @@ const SubCategories = () => {
               >
                 <CardContent sx={{ pb: 30, justifyContent: "center" }}>
                   <Box sx={{ pr: 2, justifyContent: "center" }} style={pointer}>
-
                     <Icon
-
                       icon="dashicons:edit-large"
                       color="#c44d34"
                       onClick={(e) => {
-                        setSubCategoriesValues(row)
-                        handleClickOpen()
+                        setSubCategoriesValues(row);
+                        handleClickOpen();
                       }}
-
                     />
                   </Box>
 
-                  <Box style={pointer}> <Icon
-
-                    icon="fluent:delete-16-filled"
-                    color="#c44d34"
-
-                  /></Box>
+                  <Box style={pointer}>
+                    {" "}
+                    <Icon icon="fluent:delete-16-filled" color="#c44d34" />
+                  </Box>
 
                   <Grid container spacing={2}>
                     {columns.map((column) => {
                       const value = row[column.id];
                       if (column.id !== "button") {
                         return (
-                          <Grid item xs={12} key={column.id} align="center" fontSize={17}>
+                          <Grid
+                            item
+                            xs={12}
+                            key={column.id}
+                            align="center"
+                            fontSize={17}
+                          >
                             <b>{column.label}</b>:{" "}
                             <span
                               style={{
@@ -491,7 +492,8 @@ const SubCategories = () => {
                     item
                     xs={12}
                     sx={{ b: 1, mb: 3 }}
-                    style={{ borderRadius: "10px" }} >
+                    style={{ borderRadius: "10px" }}
+                  >
                     <Grid container spacing={3}>
                       {/* {columns.map((column) => (
                                
@@ -500,45 +502,60 @@ const SubCategories = () => {
                               ))}: */}
                       {subCategoryList.map((row, index) => {
                         return (
-                          <Grid item xs={3} md={2}  sx={{
-                            boxShadow: "3px 1px 10px #f1f1f1",
-                            border: "1px solid #f3c4b8",
-                            px: 5,
-                            py: 2,
-                            m:1
-                          }}>
+                          <Grid
+                            item
+                            xs={3}
+                            md={2}
+                            sx={{
+                              width: 300,
+                              height: 200,
+                              boxShadow: "3px 1px 10px #f1f1f1",
+                              border: "1px solid #f3c4b8",
+                              px: 5,
+                              py: 2,
+                              m: 1,
+                            }}
+                          >
                             <Grid container>
                               <Grid item xs={12} md={10}>
-                                <Typography component="h4">
+                                <Typography
+                                  component="h4"
+                                  fontSize={25}
+                                  align="center"
+                                  sx={{ pt: 7, pl: 2, color: "#c44d34" }}
+                                >
                                   {row.name}
-                                </Typography></Grid>
+                                </Typography>
+                              </Grid>
                               <Grid item xs={12} md={2}>
-                                <Box style={{...pointer ,justifyContent: "end", display: "flex"  }} >
-
+                                <Box
+                                  style={{
+                                    ...pointer,
+                                    justifyContent: "end",
+                                    display: "flex",
+                                    
+                                  }}
+                                >
+                                  <Grid paddingRight={2}>
                                   <Icon
-
+                                    fontSize={20}
                                     icon="dashicons:edit-large"
                                     color="#c44d34"
+                                
                                     onClick={(e) => {
-                                      setSubCategoriesValues(row)
-                                      handleClickOpen()
+                                      setSubCategoriesValues(row);
+                                      handleClickOpen();
                                     }}
-
                                   />
-                                  <Icon
-
+                                  </Grid>
+                                  <Grid><Icon
+                                    fontSize={20}
                                     icon="fluent:delete-16-filled"
                                     color="#c44d34"
-
-                                  />
+                                  /></Grid>
                                 </Box>
-
-
                               </Grid>
                             </Grid>
-
-
-
                           </Grid>
 
                           // <FormRow
@@ -549,9 +566,6 @@ const SubCategories = () => {
                         );
                       })}
                     </Grid>
-
-
-
                   </Grid>
                 </Grid>
               </Grid>

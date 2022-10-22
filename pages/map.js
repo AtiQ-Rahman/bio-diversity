@@ -1,16 +1,16 @@
 import {
-    AppBar,
-    Box,
-    Button,
-    Card,
-    CardActions,
-    CardContent,
-    CardMedia,
-    Container,
-    Divider,
-    Grid,
-    Toolbar,
-    Typography,
+  AppBar,
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Container,
+  Divider,
+  Grid,
+  Toolbar,
+  Typography,
 } from "@mui/material";
 import React, { useState, useEffect, useRef } from "react";
 import Header from "../components/Home/Header";
@@ -31,19 +31,19 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { createMapboxMarker, createMarkerElement } from "../utils/utils";
 let imageProps = {
-    height: "300px",
-    width: "400px",
+  height: "300px",
+  width: "400px",
 };
 const StyledSlider = styled((props) => <Slider {...props} />)({
-    "& .slick-dots li": {
-        width: "100px",
-        height: "70px",
-        margin: "0px 4px",
-    },
-    "& .slick-dots": {
-        display: "block",
-        position: "relative",
-    },
+  "& .slick-dots li": {
+    width: "100px",
+    height: "70px",
+    margin: "0px 4px",
+  },
+  "& .slick-dots": {
+    display: "block",
+    position: "relative",
+  },
 });
 const myLoader = ({ src }) => `${src}`;
 const Map = () => {
@@ -104,6 +104,13 @@ const Map = () => {
                 setZoom(map.current.getZoom().toFixed(2));
             });
             map.current.addControl(new mapboxgl.NavigationControl(), 'top-left');
+
+            // map.current.on('zoom', () => {
+            //     const scalePercent = 1 + (map.getZoom() - 8)  * 0.4;
+            //     const svgElement = marker.getElement().children[0];
+            //     svgElement.style.transform = `scale(${scalePercent})`;
+            //     svgElement.style.transformOrigin = 'bottom';
+            // });
             if (typeof speciesData.districts == 'string') {
                 let url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${speciesData.districts}.json?access_token=${process.env.mapbox_key}&bbox=88.007207%2C20.4817039%2C92.679485%2C26.638142`
                 fetch(url)           //api for the get request
@@ -152,135 +159,137 @@ const Map = () => {
 
     }, [query]);
 
-    return (
-        <Grid
-            container
-            style={{
-                width: "100%",
-                height: "100vh",
-                overflow: "auto"
-            }}
-        >
-            <Grid
-                item
-                style={{
-                    width: "100%",
-                    height: "100%"
-                }}
-                md={12}
-                xl={12}
-                xs={12}
-            // style={{ borderRadius: "10px" }}
-            // style={{  paddingRight: "20px" }}
-            >
-                <div className={styles.sidebar}>
-                    Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
-                </div>
-                <div className={styles.details_bar}>
-
-                    <Card sx={{ maxWidth: 345, height: "100%" }}>
-                        {speciesData?.additionalFiles?.length > 0 ?
-                            (<div>
-                                <StyledSlider {...settings}>
-                                    {speciesData.additionalFiles.map((speciesImage, index) => {
-                                        return (
-
-                                            <Image key={`speciesAdditional${index}`}{...imageProps} loader={myLoader} src={imageUrl + '/' + speciesImage} />
-                                        )
-                                    })}
-                                </StyledSlider>
-                            </div>) :
-
-                            (<Image loader={myLoader} src={imageUrl + '/' + speciesData?.profile_image} alt="species-image" width="345" height={200}></Image>)
-                        }
-                        <br />
-                        <Divider />
-                        <CardContent>
-                            <Typography gutterBottom variant="h1" component="div">
-                                {speciesData?.name?.commonName}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                {speciesData?.description}
-                            </Typography>
-                            <Grid item xs={6}>
-                                <Typography gutterBottom component="description" variant="div">
-                                    <b>Kindom</b>:{speciesData.kindom}
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={6}>
-                                <Typography gutterBottom component="description" variant="div">
-                                    <b>Phylum</b>:{speciesData.phylum}
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={6}>
-                                <Typography gutterBottom component="description" variant="div">
-                                    <b>class</b>:{speciesData.class}
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={6}>
-                                <Typography gutterBottom component="description" variant="div">
-                                    <b>order</b>:{speciesData.order}
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={6}>
-                                <Typography gutterBottom component="description" variant="div">
-                                    <b>family</b>:{speciesData.family}
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={6}>
-                                <Typography gutterBottom component="description" variant="div">
-                                    <b>Genus</b>:{speciesData.genus}
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={6}>
-                                <Typography gutterBottom component="description" variant="div">
-                                    <b>Specis</b>:{speciesData.specis}
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={6}>
-                                <Typography gutterBottom component="description" variant="div">
-                                    <b>Variety</b>:{speciesData.variety}
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={6}>
-                                <Typography gutterBottom component="description" variant="div">
-                                    <b>Sub Variety</b>:{speciesData.subVariety}
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={6}>
-                                <Typography gutterBottom component="description" variant="div">
-                                    <b>clone</b>:{speciesData.clone}
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={6}>
-                                <Typography gutterBottom component="description" variant="div">
-                                    <b>forma</b>:{speciesData.forma}
-                                </Typography>
-                            </Grid>
-
-                        </CardContent>
-                        <CardActions>
-                            <Button size="small">Share</Button>
-                            <Button size="small">Learn More</Button>
-                        </CardActions>
-                    </Card>
-
-                </div>
-                <div ref={mapContainer}
-                    // style={{position: "absolute",top: 0, bottom: 0, width: "100%"}}
-                    className={styles.map_container}>
-
-                </div>
-
-            </Grid>
-
-        </Grid>
-
-
-
-    );
+  return (
+    <Grid
+      container
+      style={{
+        width: "100%",
+        height: "100vh",
+        overflow: "auto",
+      }}
+    >
+      <Grid
+        item
+        style={{
+          width: "100%",
+          height: "100%",
+        }}
+        md={12}
+        xl={12}
+        xs={12}
+        // style={{ borderRadius: "10px" }}
+        // style={{  paddingRight: "20px" }}
+      >
+        <div className={styles.sidebar}>
+          Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
+        </div>
+        <div className={styles.details_bar}>
+          <Card sx={{ maxWidth: 345, height: "100%" }}>
+            {speciesData?.additionalFiles?.length > 0 ? (
+              <div>
+                <StyledSlider {...settings}>
+                  {speciesData.additionalFiles.map((speciesImage, index) => {
+                    return (
+                      <Image
+                        key={`speciesAdditional${index}`}
+                        {...imageProps}
+                        loader={myLoader}
+                        src={imageUrl + "/" + speciesImage}
+                      />
+                    );
+                  })}
+                </StyledSlider>
+              </div>
+            ) : (
+              <Image
+                loader={myLoader}
+                src={imageUrl + "/" + speciesData?.profile_image}
+                alt="species-image"
+                width="345"
+                height={200}
+              ></Image>
+            )}
+            <br />
+            <Divider />
+            <CardContent>
+              <Typography gutterBottom variant="h1" component="div">
+                {speciesData?.name?.commonName}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {speciesData?.description}
+              </Typography>
+              <Grid item xs={6}>
+                <Typography gutterBottom component="description" variant="div">
+                  <b>Kindom</b>:{speciesData.kindom}
+                </Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography gutterBottom component="description" variant="div">
+                  <b>Phylum</b>:{speciesData.phylum}
+                </Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography gutterBottom component="description" variant="div">
+                  <b>class</b>:{speciesData.class}
+                </Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography gutterBottom component="description" variant="div">
+                  <b>order</b>:{speciesData.order}
+                </Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography gutterBottom component="description" variant="div">
+                  <b>family</b>:{speciesData.family}
+                </Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography gutterBottom component="description" variant="div">
+                  <b>Genus</b>:{speciesData.genus}
+                </Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography gutterBottom component="description" variant="div">
+                  <b>Specis</b>:{speciesData.specis}
+                </Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography gutterBottom component="description" variant="div">
+                  <b>Variety</b>:{speciesData.variety}
+                </Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography gutterBottom component="description" variant="div">
+                  <b>Sub Variety</b>:{speciesData.subVariety}
+                </Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography gutterBottom component="description" variant="div">
+                  <b>clone</b>:{speciesData.clone}
+                </Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography gutterBottom component="description" variant="div">
+                  <b>forma</b>:{speciesData.forma}
+                </Typography>
+              </Grid>
+            </CardContent>
+            <CardActions>
+              <Button size="small">Share</Button>
+              <Button size="small">Learn More</Button>
+            </CardActions>
+          </Card>
+        </div>
+        <div
+          ref={mapContainer}
+          // style={{position: "absolute",top: 0, bottom: 0, width: "100%"}}
+          className={styles.map_container}
+        ></div>
+      </Grid>
+    </Grid>
+  );
 };
 Map.getInitialProps = ({ query }) => {
-    return { query };
+  return { query };
 };
 export default Map;

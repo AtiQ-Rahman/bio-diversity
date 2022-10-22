@@ -6,7 +6,7 @@ import Header from "../components/Home/Header";
 const team = () => {
     return (
         <Box>
-              <Header index={0} />
+              <Header index={7} />
             <Grid sx={{ m: 15 }}>
             <Card style={{
                padding:"155px",
