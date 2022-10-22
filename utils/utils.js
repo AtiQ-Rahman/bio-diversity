@@ -1,3 +1,75 @@
+export const isMarker = (marker) => {
+    if (marker == '' || marker == 'N/A') {
+        return false
+    }
+    else {
+        return true
+    }
+}
+export const createMapboxMarkerForDistribution = async (el, mapboxgl, imageUrl, speciesData, map) => {
+    new mapboxgl.Marker(isMarker(speciesData.marker) ? el : "")
+        .setLngLat([speciesData.districts[0].center[0], speciesData.districts[0].center[1]])
+        .setPopup(new mapboxgl.Popup({ offset: 30 }).setHTML(`
+        <div >
+        ${speciesData.profile_image !== '' ? ` <div style="height: 150px; width:150px; background-image: url('${imageUrl + '/' + speciesData.profile_image}'); background-size : cover ; background-repeat : no-repeat"></div>
+        `: ''}
+        <div className="popup">
+            <h3 className="route-name">${speciesData.name.bangla}</h3>
+            <div className="route-metric-row">
+                <h4 className="row-title">Kingdom #</h4>
+                <div className="row-value">${speciesData.kingdom}</div>
+            </div>
+            <div className="route-metric-row">
+                <h4 className="row-title">species</h4>
+                <div className="row-value">${speciesData.species}</div>
+            </div>
+            <p className="route-speciesData">Lng/Lat ${speciesData.districts[0].center[0]},${speciesData.districts[0].center[1]}</p>
+        </div>
+    </div>`
+
+
+        ))
+        .addTo(map.current);
+}
+export const createMapboxMarker = async (el, mapboxgl, marker, district, map) => {
+    new mapboxgl.Marker(isMarker(marker) ? el : "")
+        .setLngLat([district.center[0], district.center[1]])
+        .addTo(map.current)
+        .setPopup(new mapboxgl.Popup({ offset: 30 }).setHTML(`
+        <div >
+            <div className="popup">
+                <h3 className="route-name">${district.place_name}</h3>
+                <div className="route-metric-row">
+                    <h4 className="row-title">Lng:</h4>
+                    <div className="row-value">${district.center[1]}</div>
+                </div>
+                <div className="route-metric-row">
+                    <h4 className="row-title">Lat :</h4>
+                    <div className="row-value">${district.center[1]}</div>
+                </div>
+            </div>
+        </div>`
+
+        ))
+}
+export const createMarkerElement = async (el, styles, elements, marker, map) => {
+    el.className = styles.marker;
+    el.style.backgroundImage = `url('${marker}')`;
+    el.style.backgroundStyle = 'cover'
+    el.style.backgroundRepeat = 'no-repeat'
+    el.style.backgroundPosition = 'center top'
+    const zoom = map.current.getZoom();
+    const scalePercent = 1 + (zoom - 8) * 0.4;
+    let top = scalePercent * 40
+    let height = scalePercent * 70
+    let width = scalePercent * 70
+    el.style.height = `${height}px`
+    el.style.width = `${width}px`
+    el.style.top = `-${top}px`;
+    el.style.backgroundSize = 'contain';
+    elements.push(el)
+}
+
 export const imageLoader = ({ src }) => `${src}`
 
 
@@ -12,7 +84,6 @@ export const pageGroups = {
 
 
 export const twoDecimal = (num) => {
-    console.log(parseFloat(num))
     return (Math.round(parseFloat(num) * 100000) / 100000).toFixed(5);
 }
 export const processSpeciesObject = (speciesDetails) => {
