@@ -187,7 +187,6 @@ const GeneticSubCellularDiversity = () => {
                      <Typography
                         gutterBottom
                         variant="h3"
-                        align="start"
                         sx={{ pt: 8 }}
                      >
                         Enter Your Details

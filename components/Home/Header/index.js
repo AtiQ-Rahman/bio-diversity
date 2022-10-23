@@ -298,10 +298,6 @@ export default function PrimarySearchAppBar(props) {
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
   const isMenuOpen = Boolean(anchorEl1);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   // const [pages, setPages] = React.useState([])
@@ -410,7 +406,7 @@ export default function PrimarySearchAppBar(props) {
 
             >
               <Box> <LogoSection /></Box>
-              <Box container
+              <Box
                 direction="column"
               // justifyContent="center"
               >
