@@ -67,7 +67,9 @@ const Map = () => {
     customPaging: function (i) {
       return (
         <Box height={400}>
-          <Image layout="fill" objectFit="cover" loader={myLoader} src={`${imageUrl + '/' + speciesData?.additionalFiles[i]}`} />
+          <Image layout="fill" objectFit="cover"
+            alt="Additional Image"
+            loader={myLoader} src={`${imageUrl + '/' + speciesData?.additionalFiles[i]}`} />
         </Box>
       );
     },
@@ -141,7 +143,7 @@ const Map = () => {
     })
 
 
-  }, [query]);
+  }, [query, lng, lat, zoom, elements]);
 
   return (
     <Grid
@@ -178,6 +180,7 @@ const Map = () => {
                         key={`speciesAdditional${index}`}
                         {...imageProps}
                         loader={myLoader}
+                        alt="Additional Image"
                         src={imageUrl + "/" + speciesImage}
                       />
                     );

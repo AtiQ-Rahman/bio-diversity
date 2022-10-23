@@ -128,6 +128,7 @@ const AllDetailsPage = () => {
                 style={{
                   border: "1px solid black"
                 }}
+                alt="Additonal Image"
                 layout="fill"
                 objectFit="cover"
                 loader={imageLoader}
@@ -139,6 +140,7 @@ const AllDetailsPage = () => {
               <Image
                 layout="fill"
                 objectFit="cover"
+                alt="Additonal Image"
                 loader={imageLoader}
                 src={`${imageUrl + "/" + speciesDetails?.additionalFiles[i]}`}
               />
@@ -179,6 +181,7 @@ const AllDetailsPage = () => {
                       return (
                         <Image
                           key={`speciesAdditional;${index}`}
+                          alt="Additonal Image"
                           {...imageProps}
                           loader={imageLoader}
                           src={imageUrl + "/" + speciesImage}

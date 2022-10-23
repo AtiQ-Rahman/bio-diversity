@@ -54,37 +54,31 @@ const Plants = () => {
     additionalFiles: [],
     profileImage: null,
   };
-  async function fetchData() {
-    let response = await callApi("/get-categories-by-name", { name: pageGroups.plants });
-    let localData = localStorage.getItem(pageGroups.plants)
-    let isAllowed = localStorage.getItem(`allowed${pageGroups.plants}`)
-    console.log(router.query, localData)
-    // if (router?.query?.initial) {
-    //   localStorage.removeItem(category)
-    // }
-    if (localData && isAllowed) {
-      let searchParameters = JSON.parse(localData)
-      let res = await callApi("/search-species-by-field", {
-        searchParameters,
-      });
-      console.log("response", res);
-      setSpeciesList(res?.data);
-      localStorage.removeItem(`allowed${pageGroups.plants}`)
-    }
-    else {
-      localStorage.removeItem(pageGroups.plants)
-    }
-    if (response.data.length > 0) {
-      console.log(response.data);
-      setCatgory(response.data[0]);
-    } else {
-      setCatgory({});
-    }
-  }
 
   React.useEffect(() => {
+    async function fetchData() {
+      let response = await callApi("/get-categories-by-name", { name: pageGroups.plants });
+      let localData = localStorage.getItem(pageGroups.plants)
+      let isAllowed = localStorage.getItem(`allowed${pageGroups.plants}`)
+      if (localData && isAllowed) {
+        let searchParameters = JSON.parse(localData)
+        let res = await callApi("/search-species-by-field", {
+          searchParameters,
+        });
+        setSpeciesList(res?.data);
+        localStorage.removeItem(`allowed${pageGroups.plants}`)
+      }
+      else {
+        localStorage.removeItem(pageGroups.plants)
+      }
+      if (response.data.length > 0) {
+        setCatgory(response.data[0]);
+      } else {
+        setCatgory({});
+      }
+    }
     fetchData();
-  }, [router.pathname]);
+  }, [router.pathname , router.query]);
   // Handle left drawer
 
   return (
@@ -106,7 +100,6 @@ const Plants = () => {
         ) => {
           try {
             console.log({ values });
-            // console.log(values.reportfile.name);
             values.category = "Plants";
 
             let searchParameters = values;

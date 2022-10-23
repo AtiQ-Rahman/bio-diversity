@@ -61,39 +61,38 @@ const EcosystemDiversity = () => {
       additionalFiles: [],
       profileImage: null,
    };
-   async function fetchData() {
-      let response = await callApi("/get-categories-by-name", { name: pageGroups.eco });
-      let localData = localStorage.getItem(pageGroups.eco)
-      let isAllowed = localStorage.getItem(`allowed${pageGroups.eco}`)
-      console.log(router.query, localData)
-      // if (router?.query?.initial) {
-      //   localStorage.removeItem(category)
-      // }
-      if (localData && isAllowed) {
-        let searchParameters = JSON.parse(localData)
-        let res = await callApi("/search-species-by-field", {
-          searchParameters,
-        });
-        console.log("response", res);
-        setSpeciesList(res?.data);
-        localStorage.removeItem(`allowed${pageGroups.eco}`)
-      }
-      else {
-        localStorage.removeItem(pageGroups.eco)
-      }
-      if (response.data.length > 0) {
-         console.log(response.data)
-         setCatgory(response.data[0])
-      }
-      else {
-         setCatgory({})
-      }
-   }
-
    useEffect(() => {
+      async function fetchData() {
+         let response = await callApi("/get-categories-by-name", { name: pageGroups.eco });
+         let localData = localStorage.getItem(pageGroups.eco)
+         let isAllowed = localStorage.getItem(`allowed${pageGroups.eco}`)
+         console.log(router.query, localData)
+         // if (router?.query?.initial) {
+         //   localStorage.removeItem(category)
+         // }
+         if (localData && isAllowed) {
+            let searchParameters = JSON.parse(localData)
+            let res = await callApi("/search-species-by-field", {
+               searchParameters,
+            });
+            console.log("response", res);
+            setSpeciesList(res?.data);
+            localStorage.removeItem(`allowed${pageGroups.eco}`)
+         }
+         else {
+            localStorage.removeItem(pageGroups.eco)
+         }
+         if (response.data.length > 0) {
+            console.log(response.data)
+            setCatgory(response.data[0])
+         }
+         else {
+            setCatgory({})
+         }
+      }
       fetchData()
 
-   }, [])
+   })
    // Handle left drawer
    const router = useRouter();
    return (
@@ -324,7 +323,9 @@ const EcosystemDiversity = () => {
                                        {index + 1}
                                     </TableCell>
                                     <TableCell component="td" scope="row" width={200}>
-                                       <Image {...imageProps} objectFit="cover" loader={imageLoader} src={imageUrl + '/' + row.profile_image}></Image>
+                                       <Image {...imageProps} objectFit="cover"
+                                          alt="Profile Image"
+                                          loader={imageLoader} src={imageUrl + '/' + row.profile_image}></Image>
                                     </TableCell>
                                     <TableCell align="center">
                                        {row.name.commonName}

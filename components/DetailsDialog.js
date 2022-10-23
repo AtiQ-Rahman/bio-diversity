@@ -10,58 +10,20 @@ import "slick-carousel/slick/slick-theme.css";
 const imageSrc = require("../assets/images/species1.jpg");
 
 import {
-    AppBar,
     Box,
-    CssBaseline,
-    Toolbar,
-    Container,
-    useMediaQuery,
-    Grid,
     Typography,
-    TextField,
-    TableCell,
-    TableRow,
-    TableBody,
-    TableHead,
-    Table,
-    TableContainer,
     Button,
-    Modal,
-    Divider,
-    Card,
-    CardActions,
-    CardContent,
-    tableCellClasses,
-    TablePagination,
     DialogActions,
     DialogContent,
     DialogTitle,
     IconButton,
-    Autocomplete,
     Dialog,
 } from "@mui/material";
-import Header from "../components/Home/Header";
-import CollapseCard from "../components/Home/collapseCard";
-import SearchSection from "../components/Home/Header/SearchSection";
-import Paper from "@mui/material/Paper";
-import { Link, Router } from "react-router-dom";
 import Image from "next/image";
-import Footer from "../components/Home/Footer/Footer";
-import Counters from "../components/Home/counters";
-import { fontSize, fontWeight, height } from "@mui/system";
-import { useState } from "react";
-import { useEffect } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import callApi from "../utils/callApi";
-import { Details } from "@mui/icons-material";
 const species1 = require("../assets/images/species5.jpg");
 const species2 = require("../assets/images/species6.jpg");
 const species3 = require("../assets/images/species7.jpg");
 const species4 = require("../assets/images/species8.jpg");
-const species9 = require("../assets/images/species9.jpg");
-const species10 = require("../assets/images/species10.jpg");
-const species12 = require("../assets/images/species12.jpg");
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     "& .MuiDialogContent-root": {
         padding: theme.spacing(2),
@@ -158,16 +120,16 @@ const DetailsDialog = ({
                 <Box>
                     <Slider {...settings} >
                         <Box >
-                            <Image {...slideStylesWidthBackground} src={species1}/>
+                            <Image {...slideStylesWidthBackground} src={species1} alt="No Slider Image"/>
                         </Box>
                         <Box>
-                            <Image {...slideStylesWidthBackground}src={species2} />
+                            <Image {...slideStylesWidthBackground}src={species2} alt="No Slider Image"/>
                         </Box>
                         <Box>
-                            <Image {...slideStylesWidthBackground}src={species3}  />
+                            <Image {...slideStylesWidthBackground}src={species3}  alt="No Slider Image"/>
                         </Box>
                         <Box>
-                            <Image {...slideStylesWidthBackground}src={species4} />
+                            <Image {...slideStylesWidthBackground}src={species4} alt="No Slider Image"/>
                         </Box>
                     </Slider>
                 </Box>

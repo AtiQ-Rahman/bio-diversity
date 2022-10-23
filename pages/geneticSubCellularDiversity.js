@@ -69,39 +69,40 @@ const GeneticSubCellularDiversity = () => {
       additionalFiles: [],
       profileImage: "",
    };
-   async function fetchData() {
-      let response = await callApi("/get-categories-by-name", { name: pageGroups.genetic });
-      let localData = localStorage.getItem(pageGroups.genetic)
-      let isAllowed = localStorage.getItem(`allowed${pageGroups.genetic}`)
-      console.log(router.query, localData)
-      // if (router?.query?.initial) {
-      //   localStorage.removeItem(category)
-      // }
-      if (localData && isAllowed) {
-        let searchParameters = JSON.parse(localData)
-        let res = await callApi("/search-species-by-field", {
-          searchParameters,
-        });
-        console.log("response", res);
-        setSpeciesList(res?.data);
-        localStorage.removeItem(`allowed${pageGroups.genetic}`)
-      }
-      else {
-        localStorage.removeItem(pageGroups.genetic)
-      }
-      if (response.data.length > 0) {
-         console.log(response.data)
-         setCatgory(response.data[0])
-      }
-      else {
-         setCatgory({})
-      }
-   }
+
 
    useEffect(() => {
+      async function fetchData() {
+         let response = await callApi("/get-categories-by-name", { name: pageGroups.genetic });
+         let localData = localStorage.getItem(pageGroups.genetic)
+         let isAllowed = localStorage.getItem(`allowed${pageGroups.genetic}`)
+         console.log(router.query, localData)
+         // if (router?.query?.initial) {
+         //   localStorage.removeItem(category)
+         // }
+         if (localData && isAllowed) {
+            let searchParameters = JSON.parse(localData)
+            let res = await callApi("/search-species-by-field", {
+               searchParameters,
+            });
+            console.log("response", res);
+            setSpeciesList(res?.data);
+            localStorage.removeItem(`allowed${pageGroups.genetic}`)
+         }
+         else {
+            localStorage.removeItem(pageGroups.genetic)
+         }
+         if (response.data.length > 0) {
+            console.log(response.data)
+            setCatgory(response.data[0])
+         }
+         else {
+            setCatgory({})
+         }
+      }
       fetchData()
 
-   }, [])
+   })
 
    const router = useRouter();
    return (
@@ -203,8 +204,8 @@ const GeneticSubCellularDiversity = () => {
                                           // margin="normal"
                                           size="small"
                                           label={`${category.name}`}
-                                          onChange={(e)=>{
-                                             setFieldValue(`${category.key}` , e.target.value)
+                                          onChange={(e) => {
+                                             setFieldValue(`${category.key}`, e.target.value)
                                           }}
                                           type="deseription"
                                           fullWidth
@@ -328,7 +329,9 @@ const GeneticSubCellularDiversity = () => {
                                     {index + 1}
                                  </TableCell>
                                  <TableCell component="td" scope="row" width={200}>
-                                    <Image {...imageProps} objectFit="cover" loader={imageLoader} src={imageUrl + '/' + row.profile_image}></Image>
+                                    <Image {...imageProps} objectFit="cover" loader={imageLoader}
+                                       alt="Profile Image"
+                                       src={imageUrl + '/' + row.profile_image}></Image>
                                  </TableCell>
                                  <TableCell align="center">
                                     {row.name.commonName}

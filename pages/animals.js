@@ -8,50 +8,22 @@ import {
    Grid,
    TextField,
    Button,
-   Card,
-   CardContent,
-   FormControlLabel,
-   Checkbox,
    Box,
-   AppBar,
-   Toolbar,
-   useMediaQuery,
-   CssBaseline,
    Autocomplete,
-   Divider,
-   TableContainer,
-   Paper,
-   Table,
-   TableHead,
-   TableRow,
-   TableCell,
-   TableBody,
-   tableCellClasses,
 } from "@mui/material";
 // import ImageUpload from "./ImageUpload";
 
-import Sidebar from "../components/Admin/Sidebar";
-import Breadcrumbs from "../components/Home/ui-component/extended/Breadcrumbs";
-import { useDispatch, useSelector } from "react-redux";
-import { IconChevronRight } from "@tabler/icons";
-import { Icon } from "@iconify/react";
-import navigation from "../components/Admin/menu-items";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-
-import { drawerWidth } from "../store/constant";
-import { SET_MENU } from "../store/actions";
 import styles from "../styles/Home.module.css";
 import { styled, useTheme } from "@mui/material/styles";
 import callApi, { imageUrl } from "../utils/callApi";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { imageLoader, pageGroups } from "../utils/utils";
 import CommonDropDowns from "../components/CommonDropDowns";
 import TableData from "./TableData";
 const Animals = () => {
    const [category, setCatgory] = React.useState()
-   const theme = useTheme();
    const [searchMessage, setSearchMessage] = React.useState('')
    const [speciesList, setSpeciesList] = React.useState()
    const initialValues = {
@@ -80,39 +52,39 @@ const Animals = () => {
       additionalFiles: [],
       profileImage: null,
    };
-   async function fetchData() {
-      let response = await callApi("/get-categories-by-name", { name: pageGroups.animals });
-      let localData = localStorage.getItem(pageGroups.animals)
-      let isAllowed = localStorage.getItem(`allowed${pageGroups.animals}`)
-      console.log(router.query, localData)
-      // if (router?.query?.initial) {
-      //   localStorage.removeItem(category)
-      // }
-      if (localData && isAllowed) {
-        let searchParameters = JSON.parse(localData)
-        let res = await callApi("/search-species-by-field", {
-          searchParameters,
-        });
-        console.log("response", res);
-        setSpeciesList(res?.data);
-        localStorage.removeItem(`allowed${pageGroups.animals}`)
-      }
-      else {
-        localStorage.removeItem(pageGroups.animals)
-      }
-      if (response.data.length > 0) {
-         console.log(response.data)
-         setCatgory(response.data[0])
-      }
-      else {
-         setCatgory({})
-      }
-   }
+
 
    useEffect(() => {
+      async function fetchData() {
+         let response = await callApi("/get-categories-by-name", { name: pageGroups.animals });
+         let localData = localStorage.getItem(pageGroups.animals)
+         let isAllowed = localStorage.getItem(`allowed${pageGroups.animals}`)
+         // if (router?.query?.initial) {
+         //   localStorage.removeItem(category)
+         // }
+         if (localData && isAllowed) {
+            let searchParameters = JSON.parse(localData)
+            let res = await callApi("/search-species-by-field", {
+               searchParameters,
+            });
+            console.log("response", res);
+            setSpeciesList(res?.data);
+            localStorage.removeItem(`allowed${pageGroups.animals}`)
+         }
+         else {
+            localStorage.removeItem(pageGroups.animals)
+         }
+         if (response.data.length > 0) {
+            console.log(response.data)
+            setCatgory(response.data[0])
+         }
+         else {
+            setCatgory({})
+         }
+      }
       fetchData()
 
-   }, [])
+   })
 
    const router = useRouter();
    return (

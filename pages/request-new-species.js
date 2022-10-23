@@ -187,63 +187,35 @@ const AddNewSpecies = () => {
         setGeocodeSearchResult(data?.features || [])
       });
   }
-  async function fetchData(query, cbfn) {
-    let allTypesOfSpecies = await callApi("/get-unique-types-of-species", {});
-    setAllTypesOfSpecies(allTypesOfSpecies.data)
-    setKingdoms(allTypesOfSpecies.data.kingdoms)
-    console.log({ allTypesOfSpecies })
 
-    let response = await callApi("/get-categories-list", {});
-    console.log({ query });
-    if (query?.category) {
-      let searchParameters = query;
-      let species = await callApi("/get-species-by-serial", {
-        searchParameters,
-      });
-      if (species?.data?.length > 0) {
-        let data = species.data[0];
-        data.nameOfSpecies = data.name;
-        setMarkerUrl(data.marker);
-        setLng(parseFloat(data.lng));
-        setLat(parseFloat(data.lat));
-
-        // console.log(data)
-        setSpeciesData(data);
-        setForce(!force);
+  useEffect(() => {
+    async function fetchData(query, cbfn) {
+      let allTypesOfSpecies = await callApi("/get-unique-types-of-species", {});
+      setAllTypesOfSpecies(allTypesOfSpecies.data)
+      setKingdoms(allTypesOfSpecies.data.kingdoms)
+      let response = await callApi("/get-categories-list", {});
+      if (query?.category) {
+        let searchParameters = query;
+        let species = await callApi("/get-species-by-serial", {
+          searchParameters,
+        });
+        if (species?.data?.length > 0) {
+          let data = species.data[0];
+          data.nameOfSpecies = data.name;
+          setMarkerUrl(data.marker);
+          setLng(parseFloat(data.lng));
+          setLat(parseFloat(data.lat));
+          setSpeciesData(data);
+          cbfn();
+        }
+      } else {
+        setSpeciesData(initialValues);
         cbfn();
       }
-    } else {
-      setSpeciesData(initialValues);
-      cbfn();
+      setCatgoryList(response.data);
     }
-    setCatgoryList(response.data);
-  }
-  useEffect(() => {
-    // if (!map.current) return; // initialize map only once
     fetchData(query, () => null);
-    // new mapboxgl.Marker()
-    //    .setLngLat([lng, lat])
-    //    .addTo(map.current);
   }, [query]);
-  useEffect(() => {
-    // if (!map.current) return; // initialize map only once
-
-    if (selectedDistricts.length == 0) {
-      setLng(0);
-      setLat(0);
-    } // initialize map only once
-    if (!speciesData) return;
-    // map.current.on('move', () => {
-    //    setLng(map.current.getCenter().lng.toFixed(4));
-    //    setLat(map.current.getCenter().lat.toFixed(4));
-    //    setZoom(map.current.getZoom().toFixed(2));
-    // });
-    console.log("markerUrl", markerUrl);
-
-    // new mapboxgl.Marker()
-    //    .setLngLat([lng, lat])
-    //    .addTo(map.current);
-  }, [selectedDistricts, speciesData]);
   // Handle left drawer
   const leftDrawerOpened = useSelector((state) => state.customization.opened);
   const dispatch = useDispatch();
@@ -875,6 +847,7 @@ const AddNewSpecies = () => {
                             src={createObjectURL}
                             height="200"
                             width="150"
+                            alt="Thumnail Image"
                           ></Image>
                         ) : (
                           <Icon icon="bx:image-add" width="70" height="80" />
@@ -1040,6 +1013,7 @@ const AddNewSpecies = () => {
                                 src={markerUrl}
                                 height="200"
                                 width="150"
+                                alt="Marker Image"
                               ></Image>
                             ) : (
                               <Icon

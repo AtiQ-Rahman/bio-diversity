@@ -141,7 +141,7 @@ const Distribution = () => {
         el.style.top = `-${top}px`;
       }
     });
-  }, [modifiedList]);
+  }, [modifiedList, elements, lat, lng, zoom]);
   return (
     <Grid
       container
@@ -217,6 +217,7 @@ const Distribution = () => {
                               {species.marker !== "N/A" ? (
                                 <Image
                                   height={50}
+                                  alt="Marker Icon"
                                   width={40}
                                   src={species.marker}
                                 ></Image>

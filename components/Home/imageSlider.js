@@ -121,7 +121,7 @@ const ImageSlider = ({ slides }) => {
                 (<div>
                     <StyledSlider {...settings} ref={slider}>
                         {slides.map((speciesImage, index) => (
-                            <Image key={`slideImage${index}`}{...imageProps} loader={imageLoader} src={speciesImage.url} />
+                            <Image key={`slideImage${index}`} alt="No Slider Image" {...imageProps} loader={imageLoader} src={speciesImage.url} />
                         ))}
                     </StyledSlider>
                 </div>) :

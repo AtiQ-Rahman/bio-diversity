@@ -60,37 +60,39 @@ const Fungi = () => {
     additionalFiles: [],
     profileImage: null,
   };
-  async function fetchData() {
-    let response = await callApi("/get-categories-by-name", { name: pageGroups.fungi });
-    let localData = localStorage.getItem(pageGroups.fungi)
-    let isAllowed = localStorage.getItem(`allowed${pageGroups.fungi}`)
-    console.log(router.query, localData)
-    // if (router?.query?.initial) {
-    //   localStorage.removeItem(category)
-    // }
-    if (localData && isAllowed) {
-      let searchParameters = JSON.parse(localData)
-      let res = await callApi("/search-species-by-field", {
-        searchParameters,
-      });
-      console.log("response", res);
-      setSpeciesList(res?.data);
-      localStorage.removeItem(`allowed${pageGroups.fungi}`)
-    }
-    else {
-      localStorage.removeItem(pageGroups.fungi)
-    }
-    if (response.data.length > 0) {
-      console.log(response.data);
-      setCatgory(response.data[0]);
-    } else {
-      setCatgory({});
-    }
-  }
+
 
   useEffect(() => {
+    async function fetchData() {
+      let response = await callApi("/get-categories-by-name", { name: pageGroups.fungi });
+      let localData = localStorage.getItem(pageGroups.fungi)
+      let isAllowed = localStorage.getItem(`allowed${pageGroups.fungi}`)
+      console.log(router.query, localData)
+      // if (router?.query?.initial) {
+      //   localStorage.removeItem(category)
+      // }
+      if (localData && isAllowed) {
+        let searchParameters = JSON.parse(localData)
+        let res = await callApi("/search-species-by-field", {
+          searchParameters,
+        });
+        console.log("response", res);
+        setSpeciesList(res?.data);
+        localStorage.removeItem(`allowed${pageGroups.fungi}`)
+      }
+      else {
+        localStorage.removeItem(pageGroups.fungi)
+      }
+      if (response.data.length > 0) {
+        console.log(response.data);
+        setCatgory(response.data[0]);
+      } else {
+        setCatgory({});
+      }
+    }
     fetchData();
-  }, []);
+
+  });
 
 
   const router = useRouter();

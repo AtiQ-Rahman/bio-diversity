@@ -66,8 +66,8 @@ const species9 = require("../assets/images/species9.jpg")
 const species10 = require("../assets/images/species10.jpg")
 const species11 = require("../assets/images/species11.jpg")
 const species12 = require("../assets/images/species12.jpg")
-let species ={
-  species7,species8,species9,species10,species11,species12
+let species = {
+  species7, species8, species9, species10, species11, species12
 }
 console.log({ species10 })
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -181,7 +181,9 @@ export default function ManageSpecies() {
     return (
       <React.Fragment>
         {categoryList?.map((row, index) => (
-          <Grid item xs={4}>
+          <Grid item xs={4}
+            key={`Category${index}`}
+          >
             <Card sx={{
               display: 'flex', border: "1px solid #eee", filter: "drop-shadow(2px 2px 10px #eee)",
               transition: "all .2s ease-in-out",

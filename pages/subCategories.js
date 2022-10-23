@@ -322,7 +322,7 @@ const SubCategories = () => {
                   </Box>
 
                   <Grid container spacing={2}>
-                    {columns.map((column) => {
+                    {columns.map((column , index) => {
                       const value = row[column.id];
                       if (column.id !== "button") {
                         return (
@@ -506,6 +506,7 @@ const SubCategories = () => {
                             item
                             xs={3}
                             md={2}
+                            key={`subCategory${index}`}
                             sx={{
                               width: 300,
                               height: 200,

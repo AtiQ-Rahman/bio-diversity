@@ -139,7 +139,7 @@ const AddNewSpecies = () => {
     address: "",
     lng,
     lat,
-    subGroup:"",
+    subGroup: "",
     addtionalCategories: [],
     nameOfSpecies: {
       bangla: "",
@@ -176,43 +176,45 @@ const AddNewSpecies = () => {
         setGeocodeSearchResult(data?.features || []);
       });
   };
-  async function fetchData(query, cbfn) {
-    let allTypesOfSpecies = await callApi("/get-unique-types-of-species", {});
-    setAllTypesOfSpecies(allTypesOfSpecies.data);
-    setKingdoms(allTypesOfSpecies.data.kingdoms);
-    console.log({ allTypesOfSpecies });
 
-    let response = await callApi("/get-categories-list", {});
-    console.log({ query });
-    if (query?.category && query?.serial) {
-      let searchParameters = query;
-      let species = await callApi("/get-species-by-serial", {
-        searchParameters,
-      });
-      if (species?.data?.length > 0) {
-        let data = species.data[0];
-        data.nameOfSpecies = data.name;
-        setMarkerUrl(data.marker);
-        setLng(parseFloat(data.lng));
-        setLat(parseFloat(data.lat));
-
-        // console.log(data)
-        setSpeciesData(data);
-        setForce(!force);
-        cbfn();
-      }
-    } else {
-      let response = await callApi("/get-categories-by-name", { name: query.category });
-      console.log({response})
-      initialValues.category = response.data[0]
-      setSpeciesData(initialValues);
-      cbfn();
-    }
-    setCatgoryList(response.data);
-  }
   useEffect(() => {
     // if (!map.current) return; // initialize map only once
+    async function fetchData(query, cbfn) {
+      let allTypesOfSpecies = await callApi("/get-unique-types-of-species", {});
+      setAllTypesOfSpecies(allTypesOfSpecies.data);
+      setKingdoms(allTypesOfSpecies.data.kingdoms);
+      console.log({ allTypesOfSpecies });
+
+      let response = await callApi("/get-categories-list", {});
+      console.log({ query });
+      if (query?.category && query?.serial) {
+        let searchParameters = query;
+        let species = await callApi("/get-species-by-serial", {
+          searchParameters,
+        });
+        if (species?.data?.length > 0) {
+          let data = species.data[0];
+          data.nameOfSpecies = data.name;
+          setMarkerUrl(data.marker);
+          setLng(parseFloat(data.lng));
+          setLat(parseFloat(data.lat));
+
+          // console.log(data)
+          setSpeciesData(data);
+          setForce(!force);
+          cbfn();
+        }
+      } else {
+        let response = await callApi("/get-categories-by-name", { name: query.category });
+        console.log({ response })
+        initialValues.category = response.data[0]
+        setSpeciesData(initialValues);
+        cbfn();
+      }
+      setCatgoryList(response.data);
+    }
     fetchData(query, () => null);
+
     // new mapboxgl.Marker()
     //    .setLngLat([lng, lat])
     //    .addTo(map.current);
@@ -1037,6 +1039,7 @@ const AddNewSpecies = () => {
                             <Image
                               src={createObjectURL}
                               height="200"
+                              alt="Thumbnail Image"
                               width="150"
                             ></Image>
                           ) : (
@@ -1202,6 +1205,7 @@ const AddNewSpecies = () => {
                                 <Image
                                   src={markerUrl}
                                   height="200"
+                                  alt="Marker Icon"
                                   width="150"
                                 ></Image>
                               ) : (

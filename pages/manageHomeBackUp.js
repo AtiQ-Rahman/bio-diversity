@@ -746,7 +746,7 @@ export default function ManageHome() {
                         </Grid>
                         <Grid item xs={12} sx={{ my: 2 }}>
                           <input
-                            sx={{
+                            style={{
                               flexGrow: 1,
                               mt: 2,
 
