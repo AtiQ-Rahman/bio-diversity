@@ -471,7 +471,7 @@ export default function ManageSpeciesDetails() {
                 }) => (
                   <Form onSubmit={handleSubmit}>
                     <Box sx={{ p: 5, background: "#eee" }}>
-                      <Grid container xs={12} md={12} sx={{ mb: 5 }}>
+                      <Grid container md={12} sx={{ mb: 5 }}>
                         <Grid item xs={12} md={12} sx={{ display: "flex" }}>
                           <TextField
                             type="text"
@@ -505,7 +505,7 @@ export default function ManageSpeciesDetails() {
                         </Grid>
                       </Grid>
                       <Divider />
-                      <Grid container xs={12} md={12}>
+                      <Grid container md={12}>
                         {values?.keyList.map((item, index) => {
                           return (
                             <Grid

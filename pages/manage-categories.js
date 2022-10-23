@@ -410,13 +410,13 @@ export default function ManageSpecies() {
 
                   {/* TABLE */}
                   <Divider></Divider>
-                  <Grid container xs={12}>
+                  <Grid>
                     <Grid item xs={12} md={5}>
                       <h1>Total Table Found ({rows.length})</h1>
                     </Grid>
 
                     <Grid item xs={12} md={7}>
-                      <Grid container xs={12} md={12}>
+                      <Grid container md={12}>
                         <Grid
                           item
                           xs={12}
@@ -597,7 +597,7 @@ export default function ManageSpecies() {
                 }) => (
                   <Form onSubmit={handleSubmit}>
                     <Box sx={{ p: 5, background: "#eee" }}>
-                      <Grid container xs={12} md={12} sx={{ mb: 5 }}>
+                      <Grid container md={12} sx={{ mb: 5 }}>
                         <Grid item xs={12} md={12} sx={{ display: "flex" }}>
                           <TextField
                             type="text"
@@ -648,7 +648,7 @@ export default function ManageSpecies() {
                         </Grid>
                       </Grid>
                       <Divider />
-                      <Grid container xs={12} md={12}>
+                      <Grid container md={12}>
                         {values?.keyList.map((item, index) => {
                           return (
                             <Grid
@@ -749,7 +749,7 @@ export default function ManageSpecies() {
               </Toolbar>
             </AppBar>
             <Box sx={{ p: 5, background: "#eee" }}>
-              <Grid container xs={12} md={12} sx={{ mb: 5 }}>
+              <Grid container md={12} sx={{ mb: 5 }}>
                 <Grid item xs={12} md={12} sx={{ display: "flex" }}>
                   <TextField
                     type="text"
@@ -785,7 +785,7 @@ export default function ManageSpecies() {
 
               </Grid>
               <Divider />
-              <Grid container xs={12} md={12}>
+              <Grid container md={12}>
                 {categoryObject?.keyList.map((item, index) => {
                   return (
 

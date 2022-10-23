@@ -453,7 +453,7 @@ const SubCategories = () => {
 
                   {/* TABLE */}
                   <Divider></Divider>
-                  <Grid container xs={12} spacing={2}>
+                  <Grid container spacing={2}>
                     <Grid item xs={12} md={5}>
                       <h2>Selected Category ({query.name})</h2>
                     </Grid>
@@ -659,7 +659,7 @@ const SubCategories = () => {
                 }) => (
                   <Form onSubmit={handleSubmit}>
                     <Box sx={{ p: 5, background: "#eee" }}>
-                      <Grid container xs={12} md={12} sx={{ mb: 5 }}>
+                      <Grid container md={12} sx={{ mb: 5 }}>
                         <Grid item xs={12} md={12} sx={{ display: "flex" }}>
                           <TextField
                             type="text"
@@ -740,7 +740,7 @@ const SubCategories = () => {
               </Toolbar>
             </AppBar>
             <Box sx={{ p: 5, background: "#eee" }}>
-              <Grid container xs={12} md={12} sx={{ mb: 5 }}>
+              <Grid container md={12} sx={{ mb: 5 }}>
                 <Grid item xs={12} md={12} sx={{ display: "flex" }}>
                   <TextField
                     type="text"
@@ -776,7 +776,7 @@ const SubCategories = () => {
 
               </Grid>
               <Divider />
-              <Grid container xs={12} md={12}>
+              <Grid container md={12}>
                 {categoryObject?.keyList.map((item, index) => {
                   return (
 

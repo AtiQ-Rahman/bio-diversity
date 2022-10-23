@@ -401,7 +401,7 @@ const ManageSpeciesTable = () => {
                         setFieldValue,
                       }) => (
                         <Form onSubmit={handleSubmit}>
-                          <Grid container xs={9} spacing={3}>
+                          <Grid container spacing={3}>
                             <Grid item xs={2}>
                               <Autocomplete
                                 size="small"
@@ -533,13 +533,13 @@ const ManageSpeciesTable = () => {
 
                   {/* TABLE */}
                   <Divider></Divider>
-                  <Grid container xs={12}>
+                  <Grid container>
                     <Grid item xs={12} md={5}>
                       <h1>Total Species Found ({speciesList.length})</h1>
                     </Grid>
 
                     <Grid item xs={12} md={7}>
-                      <Grid container xs={12} md={12}>
+                      <Grid container md={12}>
                         <Grid
                           item
                           xs={12}

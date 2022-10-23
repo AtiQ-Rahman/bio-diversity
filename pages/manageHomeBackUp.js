@@ -372,7 +372,7 @@ export default function ManageHome() {
                     </Typography>
                   </Card>
 
-                  <Grid container xs={12} md={12}>
+                  <Grid container md={12}>
                     <Grid
                       item
                       xs={12}
@@ -521,7 +521,7 @@ export default function ManageHome() {
       /> */}
                   </Grid>
                   <Divider></Divider>
-                  <Grid container xs={12}>
+                  <Grid container>
                     <Grid item xs={12} md={5}>
                       <h1>Selected Slider Images</h1>
                     </Grid>
@@ -572,7 +572,7 @@ export default function ManageHome() {
                     </Box>
                   </Grid>
                   <Divider></Divider>
-                  <Grid container xs={12}>
+                  <Grid container>
                     <Grid item xs={12} md={5}>
                       <h1>Total Slider (3)</h1>
                     </Grid>
@@ -711,7 +711,7 @@ export default function ManageHome() {
                 }) => (
                   <Form onSubmit={handleSubmit}>
                     <Box sx={{ p: 5, background: "#white" }}>
-                      <Grid container xs={12} md={12} sx={{ mb: 5 }}>
+                      <Grid container md={12} sx={{ mb: 5 }}>
                         <Grid item xs={12} md={12} sx={{ display: "flex" }}>
                           <TextField
                             type="text"

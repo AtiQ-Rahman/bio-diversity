@@ -89,7 +89,7 @@ export default function Home() {
 
   return (
     <div className={styles.body}>
-      <Grid container xs={12} md={12}>
+      <Grid container>
         <Grid item xs={12} md={12}>
           <Grid container>
             <Grid
