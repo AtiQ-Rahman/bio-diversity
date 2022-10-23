@@ -25,7 +25,9 @@ const getDetailsByQuery = async (searchQuery, key, modifiedList) => {
             let isExist = typeObject[modifiedList].findIndex((modifiedItem) => item[key] == modifiedItem[key])
             if (isExist == -1) {
                 console.log({ modifiedList })
-                typeObject[modifiedList].push(item)
+                if (item[key].toLowerCase() != 'n/a' && item[key] !== '') {
+                    typeObject[modifiedList].push(item)
+                }
             }
             else if (isExist > -1) {
                 typeObject[modifiedList][isExist] = {
@@ -41,18 +43,18 @@ const getDetailsByQuery = async (searchQuery, key, modifiedList) => {
 exports.getUniqueTypes = async (req, res, next) => {
 
     let fetchSequences = [
-        { parent: null, child: 'kingdom', list: 'kingdoms'},
-        { parent: 'kingdom', child: 'phylum', list: 'phylums'},
-        { parent: 'phylum', child: 'class_name', list: 'classes'},
-        { parent: 'class_name', child: 'order_name', list: 'orders'},
-        { parent: 'order_name', child: 'family', list: 'families'},
-        { parent: 'family', child: 'genus', list: 'genuses'},
-        { parent: 'genus', child: 'species', list: 'speciesListFromServer'},
-        { parent: 'species', child: 'sub_species', list: 'subSpeciesList'},
-        { parent: null, child: 'variety', list: 'varieties'},
-        { parent: 'variety', child: 'sub_variety', list: 'subVarieties'},
-        { parent: null, child: 'clone', list: 'clones'},
-        { parent: 'clone', child: 'forma', list: 'formas'}
+        { parent: null, child: 'kingdom', list: 'kingdoms' },
+        { parent: 'kingdom', child: 'phylum', list: 'phylums' },
+        { parent: 'phylum', child: 'class_name', list: 'classes' },
+        { parent: 'class_name', child: 'order_name', list: 'orders' },
+        { parent: 'order_name', child: 'family', list: 'families' },
+        { parent: 'family', child: 'genus', list: 'genuses' },
+        { parent: 'genus', child: 'species', list: 'speciesListFromServer' },
+        { parent: 'species', child: 'sub_species', list: 'subSpeciesList' },
+        { parent: null, child: 'variety', list: 'varieties' },
+        { parent: 'variety', child: 'sub_variety', list: 'subVarieties' },
+        { parent: null, child: 'clone', list: 'clones' },
+        { parent: 'clone', child: 'forma', list: 'formas' }
     ]
     for (let key of Object.keys(speciesTableTypes)) {
         let table = await getTable(speciesTableTypes[key])
