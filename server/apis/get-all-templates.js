@@ -45,23 +45,29 @@ exports.BIOGetGetSelectedTemplate = async (req, res, next) => {
 
 }
 exports.BIOUpdateSelectedTemplate = async (req, res, next) => {
-    let requestedImage = req.body.item
+    let { requestedImage, recentSightings } = req.body
     let table = await getTable(tableTypes.homepage)
     let searchQuery = `select * from ${table} where selected`
     let response = await executeQuery(searchQuery)
-    console.log({ response })
+    let updateQuery
     if (response?.length > 0) {
-        let sliderImages = response[0].sliderImages?.split(',') || []
-        console.log({sliderImages , requestedImage})
-        if (sliderImages.includes(requestedImage)) {
-            let index = sliderImages.indexOf(requestedImage)
-            sliderImages.splice(index, 1)
+        if (requestedImage) {
+            let sliderImages = response[0].sliderImages?.split(',') || []
+            console.log({ sliderImages, requestedImage })
+            if (sliderImages.includes(requestedImage)) {
+                let index = sliderImages.indexOf(requestedImage)
+                sliderImages.splice(index, 1)
+            }
+            else {
+                sliderImages.push(requestedImage)
+            }
+            sliderImages = sliderImages.filter(item => item)
+            let updatedSlider = sliderImages.join(',')
+            updateQuery = `update ${table} set sliderImages = '${updatedSlider}' where id =${response[0].id}`
         }
-        else {
-            sliderImages.push(requestedImage)
+        else if (recentSightings) {
+            updateQuery = `update ${table} set recentSighting = '${recentSightings}' where id =${response[0].id}`
         }
-        let updatedSlider = sliderImages.join(',')
-        let updateQuery = `update ${table} set sliderImages = '${updatedSlider}' where id =${response[0].id}`
         let updateResponse = await executeQuery(updateQuery)
         res.status(200).json({
             success: true,

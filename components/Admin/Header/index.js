@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import { Avatar, Box, ButtonBase } from '@mui/material';
+import { Avatar, Box, ButtonBase, Typography } from '@mui/material';
 
 // project imports
 import LogoSection from '../../Home/LogoSection';
@@ -29,7 +29,28 @@ const Header = ({ handleLeftDrawerToggle }) => {
             >
                 <Box component="span" sx={{ display: { xs: 'none', md: 'block' }, flexGrow: 1 }}>
                     <LogoSection />
+
                 </Box>
+
+                <Box>
+                    <Typography variant="body" component="h2" style={{
+                        fontFamily: "Comic Sans MS",
+                        // fontSize: "25px",
+                        color: "black",
+                        padding: "10px"
+                    }}>
+
+                        Biodiversity of
+                        <span style={{
+                            fontWeight: '600',
+                            color: "#c44d34",
+
+                        }}>Bangladesh
+                        </span>
+
+                    </Typography>
+                </Box>
+
                 <ButtonBase sx={{ borderRadius: '12px', overflow: 'hidden' }}>
                     <Avatar
                         variant="rounded"

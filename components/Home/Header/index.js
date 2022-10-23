@@ -160,7 +160,7 @@ export default function PrimarySearchAppBar(props) {
       {options.map((option) => (
         <MenuItem
           key={option}
-       
+
           onClick={handleClose}
         >
           <Link href={option.url}>
@@ -178,7 +178,7 @@ export default function PrimarySearchAppBar(props) {
       // background: "white",
       color: "white",
       border: "none",
-     
+
 
       // icon: <HomeIcon style={{ fontSize: 19 }}></HomeIcon>,
     },
@@ -413,24 +413,35 @@ export default function PrimarySearchAppBar(props) {
               <Box container
                 direction="column"
               // justifyContent="center"
-              ><Box>
+              >
+                <Box>
                   <Typography variant="body" component="h2" style={{
                     fontFamily: "Comic Sans MS",
                     // fontSize: "25px",
                     color: "white",
                     padding: "10px"
                   }}>
-                    <>Biodiversity of <span style={{
-                    fontWeight: '600',
 
-                    color: "#c44d34",
+                    Biodiversity of 
+                    <span style={{
+                      fontWeight: '600',
+                      color: "#c44d34",
 
-                  }}>Bangladesh</span></></Typography></Box>  <Box ><span style={{
-                    fontFamily: "Gabriola",
-                    fontSize: "20px",
-                    color: "white",
-                    padding: "10px"
-                  }}>Database and Mapping</span></Box></Box>
+                    }}>Bangladesh
+                    </span>
+
+                  </Typography>
+                </Box>
+                <Box ><span style={{
+                  fontFamily: "Gabriola",
+                  fontSize: "20px",
+                  color: "white",
+                  padding: "10px"
+                }}>Database and Mapping
+                </span>
+
+                </Box>
+              </Box>
             </Grid>
 
 

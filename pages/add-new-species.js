@@ -36,13 +36,10 @@ import styles from "../styles/Home.module.css";
 import { styled, useTheme } from "@mui/material/styles";
 import callApi from "../utils/callApi";
 import Image from "next/image";
-import mapboxgl from "mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
-import "mapbox-gl/dist/mapbox-gl.css";
 import { teal } from "@mui/material/colors";
 import { useRouter } from "next/router";
 import Geocoder from "react-mapbox-gl-geocoder";
 import Geocode from "react-geocode";
-mapboxgl.accessToken = process.env.mapbox_key;
 // import { kingdoms } from "../utils/kingdoms";
 // const kingdoms = require("../utils/kingdoms");
 // const phylums = require("../utils/kingdoms");
@@ -142,6 +139,7 @@ const AddNewSpecies = () => {
     address: "",
     lng,
     lat,
+    subGroup:"",
     addtionalCategories: [],
     nameOfSpecies: {
       bangla: "",
@@ -155,6 +153,7 @@ const AddNewSpecies = () => {
     profileImage: "",
   };
   const [allTypesOfSpecies, setAllTypesOfSpecies] = useState([]);
+  const [subGroups, setSubGroups] = useState([]);
   const [kingdoms, setKingdoms] = useState([]);
   const [phylums, setPhylums] = useState([]);
   const [classes, setClassNames] = useState([]);
@@ -169,10 +168,6 @@ const AddNewSpecies = () => {
   const [formas, setFormas] = useState([]);
   const [geocodeSearchResult, setGeocodeSearchResult] = useState([]);
   const [selectedDistricts, setSelectedDistricts] = useState([]);
-  const onSelected = (viewport, item) => {
-    setViewPort({ viewport });
-    console.log("Selected: ", item);
-  };
   const callGecoderApi = (value) => {
     let url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${value}.json?access_token=${process.env.mapbox_key}&bbox=88.007207%2C20.4817039%2C92.679485%2C26.638142`;
     fetch(url) //api for the get request
@@ -189,7 +184,7 @@ const AddNewSpecies = () => {
 
     let response = await callApi("/get-categories-list", {});
     console.log({ query });
-    if (query?.category) {
+    if (query?.category && query?.serial) {
       let searchParameters = query;
       let species = await callApi("/get-species-by-serial", {
         searchParameters,
@@ -207,6 +202,9 @@ const AddNewSpecies = () => {
         cbfn();
       }
     } else {
+      let response = await callApi("/get-categories-by-name", { name: query.category });
+      console.log({response})
+      initialValues.category = response.data[0]
       setSpeciesData(initialValues);
       cbfn();
     }
@@ -219,59 +217,6 @@ const AddNewSpecies = () => {
     //    .setLngLat([lng, lat])
     //    .addTo(map.current);
   }, [query]);
-  useEffect(() => {
-    // if (!map.current) return; // initialize map only once
-
-    if (selectedDistricts.length == 0) {
-      setLng(0);
-      setLat(0);
-    } // initialize map only once
-    if (!speciesData) return;
-    map.current = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: process.env.mapStyle,
-      center: [lng, lat],
-      zoom: zoom,
-    });
-    // map.current.on('move', () => {
-    //    setLng(map.current.getCenter().lng.toFixed(4));
-    //    setLat(map.current.getCenter().lat.toFixed(4));
-    //    setZoom(map.current.getZoom().toFixed(2));
-    // });
-    console.log("markerUrl", markerUrl);
-    selectedDistricts?.map((district) => {
-      const el = document.createElement("div");
-      const width = 50;
-      const height = 50;
-      el.className = styles.marker;
-      el.style.backgroundImage = `url('${markerUrl}')`;
-      el.style.width = `50px`;
-      el.style.backgroundStyle = "cover";
-      el.style.backgroundRepeat = "no-repeat";
-      el.style.backgroundPosition = "center top";
-      el.style.height = `50px`;
-      // el.style.display = `block`;
-      el.style.top = `-20px`;
-      el.style.backgroundSize = "contain";
-      let marker = new mapboxgl.Marker(el);
-      marker
-        .setLngLat([district.center[0], district.center[1]])
-        .addTo(map.current);
-    });
-
-    map.current.on("click", function (event) {
-      var coordinates = event.lngLat;
-      setLat(coordinates.lat);
-      setLng(coordinates.lng);
-      setForce(!force);
-      console.log("Lng:", coordinates.lng, "Lat:", coordinates.lat);
-      marker.setLngLat(coordinates).addTo(map.current);
-    });
-
-    // new mapboxgl.Marker()
-    //    .setLngLat([lng, lat])
-    //    .addTo(map.current);
-  }, [selectedDistricts, speciesData]);
   // Handle left drawer
   const leftDrawerOpened = useSelector((state) => state.customization.opened);
   const dispatch = useDispatch();
@@ -279,20 +224,6 @@ const AddNewSpecies = () => {
     dispatch({ type: SET_MENU, opened: !leftDrawerOpened });
   };
 
-  const uploadToClient = (event) => {
-    if (event.target.files[0]) {
-      const reader = new FileReader();
-
-      const file = event.target.files[0];
-
-      reader.readAsDataURL(file);
-      return (reader.onload = () => {
-        let dataUri;
-        dataUri = reader.result;
-        return setCreateObjectURL(dataUri);
-      });
-    }
-  };
   const getMarkerUrl = (event) => {
     if (event.target.files[0]) {
       const reader = new FileReader();
@@ -464,84 +395,147 @@ const AddNewSpecies = () => {
                     Add New Species
                   </Typography>
                   <Grid container spacing={3}>
-                    {/* <Grid item xs={2}>
-                                          <TextField
-                                             required
-                                             id="serial"
-                                             name="serial"
-                                             // margin="normal"
-                                             size="small"
-                                             label="Serial"
-                                             type="number"
-                                             fullWidth
-                                             autoComplete="Serial"
-                                             variant="outlined"
-                                          />
-                                       </Grid> */}
                     <Grid item xs={2}>
                       <Autocomplete
-                        freeSolo
                         size="small"
-                        disablePortal
-                        id="BiodiversityGroup"
-                        name={values?.kingdom}
-                        options={kingdoms}
-                        key="BiodiversityGroup"
-                        // value={values?.kingdom}
-                        getOptionLabel={(option) => option?.kingdom || option}
-                        value={values?.kingdom}
+                        disabled
+                        id="species"
+                        name={values?.category}
+                        value={values?.category}
+                        options={categoryList}
+                        key="categorySpecies"
+                        getOptionLabel={(option) =>
+                          option.name || option
+                        }
+                        isOptionEqualToValue={(option, value) =>
+                          option.serial === value.serial
+                        }
+                        required
                         // sx={{ width: 300 }}
-                        onInputChange={(e, value) => {
-                          setFieldValue("kingdom", value?.kingdom || value);
-                          let phylums = allTypesOfSpecies.phylums.filter(
-                            (item) => item.kingdom == (value?.kingdom || value)
-                          );
-                          setPhylums(phylums);
+                        onChange={(e, value) => {
+                          setFieldValue("category", value);
                         }}
                         renderInput={(params) => (
                           <TextField
                             {...params}
-                            error={Boolean(touched?.kingdom && errors?.kingdom)}
-                            helperText={touched?.kingdom && errors?.kingdom}
+                            error={Boolean(
+                              touched?.category && errors?.category
+                            )}
+                            helperText={
+                              touched?.category && errors?.category
+                            }
                             style={{ padding: "2px" }}
-                            label="Biodiversity Group"
+                            label="Major Bio-Diversity"
                             variant="outlined"
                             placeholder="Select"
-                            value={values?.kingdom}
+                            required
+                            value={values?.category}
                           />
                         )}
                       />
                     </Grid>
+                    {values?.category?.type === "Dropdown" ? (
+                      <Grid item xs={2}>
+                        <Autocomplete
+                          size="small"
+                          disablePortal
+                          id="species"
+                          name={
+                            values?.identificationFeatures?.subCategory
+                          }
+                          options={values?.category?.keyList}
+                          isOptionEqualToValue={(option, value) =>
+                            option.key === value.key
+                          }
+                          getOptionLabel={(option) => option.name}
+                          // sx={{ width: 300 }}
+                          onChange={(e, value) => {
+                            setFieldValue(
+                              "identificationFeatures.subCategory",
+                              value
+                            );
+                          }}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              error={Boolean(
+                                touched?.identificationFeatures
+                                  ?.subCategory &&
+                                errors?.identificationFeatures
+                                  ?.subCategory
+                              )}
+                              helperText={
+                                touched?.identificationFeatures
+                                  ?.subCategory &&
+                                errors?.identificationFeatures
+                                  ?.subCategory
+                              }
+                              style={{ padding: "2px" }}
+                              label=" Bio-Diversity Group"
+                              variant="outlined"
+                              placeholder="Select"
+                              required
+                              value={values?.category}
+                            />
+                          )}
+                        />
+                      </Grid>
+                    ) : (
+                      values?.category?.keyList?.map((item, index) => {
+                        return (
+                          <Grid
+                            key={`identificationFeaturesCate${index}`}
+                            item
+                            xs={2}
+                          >
+                            <TextField
+                              required
+                              id={`key${index}`}
+                              key={`key${index}`}
+                              name={`identificationFeatures.${item.key}`}
+                              // margin="normal"
+                              size="small"
+                              label={item.name}
+                              fullWidth
+                              onChange={(e) => {
+                                values.identificationFeatures[
+                                  item.key
+                                ] = e.target.value;
+                              }}
+                              autoComplete={item.name}
+                              variant="outlined"
+                            />
+                          </Grid>
+                        );
+                      })
+                    )}
+
                     <Grid item xs={2}>
                       <Autocomplete
                         freeSolo
                         size="small"
                         disablePortal
                         id="subGroup"
-                        name={values?.kingdom}
-                        options={kingdoms}
+                        name={values?.subGroup}
+                        options={subGroups}
                         key="subGroup"
                         // value={values?.kingdom}
-                        getOptionLabel={(option) => option?.kingdom || option}
-                        value={values?.kingdom}
+                        getOptionLabel={(option) => option?.subGroup || option}
+                        value={values?.subGroup}
                         // sx={{ width: 300 }}
                         onInputChange={(e, value) => {
-                          setFieldValue("kingdom", value?.kingdom || value);
-                          let phylums = allTypesOfSpecies.phylums.filter(
-                            (item) => item.kingdom == (value?.kingdom || value)
-                          );
-                          setPhylums(phylums);
+                          setFieldValue("subGroup", value?.subGroup || value);
                         }}
                         renderInput={(params) => (
                           <TextField
                             {...params}
-                            error={Boolean(touched?.kingdom && errors?.kingdom)}
-                            helperText={touched?.kingdom && errors?.kingdom}
+                            error={Boolean(touched?.subGroup && errors?.subGroup)}
+                            helperText={touched?.subGroup && errors?.subGroup}
                             style={{ padding: "2px" }}
                             label="---Sub Group---"
                             variant="outlined"
                             placeholder="Select"
-                            value={values?.kingdom}
+                            value={values?.subGroup}
                           />
                         )}
                       />
@@ -1083,7 +1077,7 @@ const AddNewSpecies = () => {
                                 accept=".png, */png, .jpg, */jpg"
                                 error={Boolean(
                                   touched.additionalFiles &&
-                                    errors.additionalFiles
+                                  errors.additionalFiles
                                 )}
                                 helpertext={
                                   touched.additionalFiles &&
@@ -1101,9 +1095,9 @@ const AddNewSpecies = () => {
                                   console.log(e.target.files);
                                   // setFileName(e.target.files[0].name);
                                 }}
-                                // onChange={(event, values) => {
-                                //   setFieldValue("file", event.currentTarget.files[0]);
-                                // }}
+                              // onChange={(event, values) => {
+                              //   setFieldValue("file", event.currentTarget.files[0]);
+                              // }}
                               />
 
                               <div> </div>
@@ -1258,7 +1252,7 @@ const AddNewSpecies = () => {
                                       label="Select District"
                                       variant="outlined"
                                       placeholder="Select"
-                                      // value={values?.district}
+                                    // value={values?.district}
                                     />
                                   )}
                                 />
@@ -1349,7 +1343,7 @@ const AddNewSpecies = () => {
                           >
                             Add New Category
                           </Button>
-                          <Grid container spacing={2}>
+                          {/* <Grid container spacing={2}>
                             <Grid item xs={2}>
                               <Autocomplete
                                 size="small"
@@ -1464,7 +1458,7 @@ const AddNewSpecies = () => {
                                 );
                               })
                             )}
-                          </Grid>
+                          </Grid> */}
                         </Grid>
 
                         <Grid item xs={3}>

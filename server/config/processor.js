@@ -12,7 +12,7 @@ exports.processKeys = async (label) => {
 async function matchKey() {
     let list = [
         {
-            label: 'Category Name',
+            label: 'Major Biodiversity Group',
             key: 'category'
         },
         {

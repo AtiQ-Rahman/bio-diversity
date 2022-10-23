@@ -222,15 +222,11 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
 export default function ManageHome() {
     const theme = useTheme();
     const matchDownMd = useMediaQuery(theme.breakpoints.down("lg"));
-    // const classes = useStyles();
-    const [open, setOpen] = React.useState(false);
+
     const [openUpload, setOpenUpload] = React.useState(false);
-    // const handleOpen = () => setOpen(true);
-    // const handleClose = () => setOpen(false);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [force, setForce] = React.useState(false);
-    const [categoryList, setCatgoryList] = React.useState();
     const { enqueueSnackbar } = useSnackbar();
 
     const [imageList, setImageList] = React.useState([]);
@@ -250,32 +246,6 @@ export default function ManageHome() {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
-    const uploadToClient = (event) => {
-        if (event.target.files && event.target.files[0]) {
-            const i = event.target.files[0];
-
-            setImage(i);
-            setCreateObjectURL(URL.createObjectURL(i));
-        }
-    };
-    const uploadCSV = (event) => {
-        if (event.target.files && event.target.files[0]) {
-            const i = event.target.files[0];
-
-            setImage(i);
-            setCreateObjectURL(URL.createObjectURL(i));
-        }
-    };
-    const router = useRouter();
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-    const handleClose = () => {
-        setOpen(false);
-    };
-    const handleClickUpload = () => {
-        setOpenUpload(true);
-    };
     const handleCloseUpload = () => {
         setOpenUpload(false);
     };
@@ -291,7 +261,10 @@ export default function ManageHome() {
         let response = await callApi("/get-all-images", {});
         setImageList(response.data);
         let templateResponse = await callApi("/get-selected-template", {});
-        setSelectedTemplate(templateResponse?.data[0] || [])
+        let result = templateResponse?.data[0]
+        let sliderImages = result?.sliderImages?.split(',').filter(item => item)
+        result.sliderImages = sliderImages
+        setSelectedTemplate(result)
         let modifiedList = templateResponse.data
         if (modifiedList[0]) {
             let allSpecies = await callApi("/get-species-list", {});
@@ -371,7 +344,7 @@ export default function ManageHome() {
                                         </Typography>
                                     </Card>
 
-                                    <Grid container xs={12} md={12}>
+                                    {/* <Grid container xs={12} md={12}>
                                         <Grid
                                             item
                                             xs={12}
@@ -396,7 +369,7 @@ export default function ManageHome() {
                                                 Add New Template
                                             </Button>
                                         </Grid>
-                                    </Grid>
+                                    </Grid> */}
 
 
                                     <Grid
@@ -405,12 +378,19 @@ export default function ManageHome() {
                                         sx={{ b: 1, mb: 3 }}
                                         style={{ borderRadius: "10px" }}
                                     >
+                                        <Typography variant='h3'>
+                                            All Images
+                                        </Typography>
                                         <Grid container>
-                                            {imageList?.map((item, index) => (
-                                                <Grid item xs={2} sm={3} md={3} key={index}>
+
+                                            {imageList?.slice(
+                                                page * rowsPerPage,
+                                                page * rowsPerPage + rowsPerPage
+                                            ).map((item, index) => (
+                                                <Grid item xs={2} sm={2} md={2} key={index}>
                                                     <Item onClick={async (e) => {
                                                         console.log({ item })
-                                                        let updateSliderImages = await callApi("/update-slider-image", { item });
+                                                        let updateSliderImages = await callApi("/update-slider-image", { requestedImage: item });
                                                         if (updateSliderImages.success) {
                                                             await fetchData()
                                                         }
@@ -429,7 +409,7 @@ export default function ManageHome() {
                                                                     image={imageUrl + '/' + item}
 
                                                                 />
-                                                                {selectedTemplate?.sliderImages?.split(',')?.includes(item) ? (
+                                                                {selectedTemplate?.sliderImages?.includes(item) ? (
                                                                     <CardContent style={{
                                                                         position: "absolute",
                                                                         padding: "5px",
@@ -466,15 +446,6 @@ export default function ManageHome() {
                                             onPageChange={handleChangePage}
                                             onRowsPerPageChange={handleChangeRowsPerPage}
                                         />
-                                        {/* <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      /> */}
                                     </Grid>
                                     <Divider></Divider>
                                     <Grid container xs={12}>
@@ -497,7 +468,7 @@ export default function ManageHome() {
                                                     spacing={{ xs: 2, md: 3 }}
                                                     columns={{ xs: 4, sm: 8, md: 12 }}
                                                 >
-                                                    {selectedTemplate?.sliderImages?.split(',')?.map((item, index) => (
+                                                    {selectedTemplate?.sliderImages?.map((item, index) => (
                                                         <Grid item xs={2} sm={4} md={4} key={index}>
                                                             <Item>
                                                                 <Card sx={{ maxWidth: 345 }}>
@@ -530,7 +501,7 @@ export default function ManageHome() {
                                     <Divider></Divider>
                                     <Grid container xs={12}>
                                         <Grid item xs={12} md={5}>
-                                            <h1>Total Slider (3)</h1>
+                                            <h1>Recent Sightings</h1>
                                         </Grid>
                                     </Grid>
                                     <br />
@@ -541,48 +512,38 @@ export default function ManageHome() {
                                         style={{ borderRadius: "10px" }}
                                     >
                                         <Box sx={{ flexGrow: 1 }}>
-                                            <Box sx={{ flexGrow: 1 }}>
-                                                <Grid
-                                                    container
-                                                    spacing={{ xs: 2, md: 3 }}
-                                                    columns={{ xs: 4, sm: 8, md: 12 }}
+                                            <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+                                                <InputLabel id="demo-select-small">Select Sights</InputLabel>
+                                                <Select
+                                                    labelId="demo-select-small"
+                                                    id="demo-select-small"
+                                                    value={selectedTemplate?.recentSighting || "None"}
+                                                    label="Select Sights"
+                                                    name="recentSighting"
+                                                    onChange={async (e) => {
+                                                        console.log(e.target.value)
+                                                        let updateSliderImages = await callApi("/update-slider-image", { recentSightings: e.target.value });
+                                                        if (updateSliderImages.success) {
+                                                            await fetchData()
+                                                        }
+                                                        else {
+                                                            console.log('error')
+                                                        }
+                                                    }}
                                                 >
-
-                                                    <Grid item xs={2} sm={4} md={4}>
-                                                        <Item>
-                                                            {selectedRecentSightings.map((item, index) => (
-                                                                <Card sx={{ border: "1px solid gray" }} key={index}>
-                                                                    <CardActionArea>
-                                                                        <CardMedia
-                                                                            component="img"
-                                                                            height="140"
-                                                                            image={imageUrl + '/' + item.profile_image}
-                                                                            alt="green iguana"
-                                                                        />
-
-                                                                        <CardContent>
-                                                                            <Typography
-                                                                                gutterBottom
-                                                                                variant="h5"
-                                                                                component="div"
-                                                                            >
-                                                                                {item.english}
-                                                                            </Typography>
-                                                                            <Typography
-                                                                                variant="body2"
-                                                                                color="text.secondary"
-                                                                            >
-                                                                                {item.kingdom}
-                                                                            </Typography>
-                                                                        </CardContent>
-                                                                    </CardActionArea>
-                                                                </Card>
-                                                            ))}
-                                                        </Item>
-                                                    </Grid>
-
-                                                </Grid>
-                                            </Box>
+                                                    <MenuItem value="">
+                                                        <em>None</em>
+                                                    </MenuItem>
+                                                    <MenuItem value={3}>last 3 sights</MenuItem>
+                                                    <MenuItem value={3}>last 4 sights</MenuItem>
+                                                    <MenuItem value={5}>last 5 sights</MenuItem>
+                                                    <MenuItem value={6}>last 6 sights</MenuItem>
+                                                    <MenuItem value={7}>last 7 sights</MenuItem>
+                                                    <MenuItem value={8}>last 8 sights</MenuItem>
+                                                    <MenuItem value={9}>last 9 sights</MenuItem>
+                                                    <MenuItem value={10}>last 10 sights</MenuItem>
+                                                </Select>
+                                            </FormControl>
                                         </Box>
                                     </Grid>
                                 </Grid>

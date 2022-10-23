@@ -92,6 +92,7 @@ const rows = [
   createData("forma", "Viruses"),
 ];
 const AllDetailsPage = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [speciesDetails, setSpeciesData] = useState({});
   const [modifiedSpeciesDetails, setModifiedSpeciesDetails] = useState({});
   // const [popupInfo, setPopUpInfo] = useState(null);
@@ -101,8 +102,8 @@ const AllDetailsPage = () => {
     let searchParameters = query;
     if (!query.initial) {
       localStorage.setItem(`allowed${query.category}`, true)
-  }
-  delete searchParameters.initial
+    }
+    delete searchParameters.initial
     let response = await callApi("/get-species-by-serial", {
       searchParameters,
     });
@@ -114,16 +115,38 @@ const AllDetailsPage = () => {
     }
   };
   const settings = {
+    beforeChange: (current, next) => setCurrentIndex(next),
+
     customPaging: function (i) {
       return (
-        <Box height={400}>
-          <Image
-            layout="fill"
-            objectFit="cover"
-            loader={imageLoader}
-            src={`${imageUrl + "/" + speciesDetails?.additionalFiles[i]}`}
-          />
-        </Box>
+        <div>
+          {i === currentIndex ? (
+            <Box height={400} style={{
+              opacity: 0.6,
+            }}>
+              <Image
+                style={{
+                  border: "1px solid black"
+                }}
+                layout="fill"
+                objectFit="cover"
+                loader={imageLoader}
+                src={`${imageUrl + "/" + speciesDetails?.additionalFiles[i]}`}
+              />
+            </Box>
+          ) : (
+            <Box height={400}>
+              <Image
+                layout="fill"
+                objectFit="cover"
+                loader={imageLoader}
+                src={`${imageUrl + "/" + speciesDetails?.additionalFiles[i]}`}
+              />
+            </Box>
+          )
+          }
+        </div>
+
       );
     },
     dots: true,
@@ -147,7 +170,7 @@ const AllDetailsPage = () => {
       <Grid container  >
         <Grid item xs={2}></Grid>
         <Grid item xs={8} style={{ background: "white", margin: '0 auto' }}>
-          <Item sx={{pt:10}}>
+          <Item sx={{ pt: 10 }}>
             {speciesDetails?.additionalFiles?.length > 0 ? (
               <div>
                 <StyledSlider {...settings} >
@@ -155,7 +178,7 @@ const AllDetailsPage = () => {
                     (speciesImage, index) => {
                       return (
                         <Image
-                          key={`speciesAdditiona;${index}`}
+                          key={`speciesAdditional;${index}`}
                           {...imageProps}
                           loader={imageLoader}
                           src={imageUrl + "/" + speciesImage}
@@ -237,7 +260,7 @@ const AllDetailsPage = () => {
               </TableBody>
             </Table>
           </TableContainer>
-          
+
 
         </Grid>
 

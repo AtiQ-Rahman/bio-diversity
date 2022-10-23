@@ -12,8 +12,11 @@ exports.BIOGetAllCategories = async (req, res, next) => {
         let categories = []
         for (let item of response) {
             let sub_table = await getTable(tableTypes.subcategories)
+            let itemTable = await getTable(item.name)
             let searchQuery = `select * from ${sub_table} where linkID = '${item.serial}'`
+            let totalItemQuery = `SELECT COUNT(*) FROM ${itemTable} `
             let result = await executeQuery(searchQuery)
+            let totalItemResults = await executeQuery(totalItemQuery)
             let subCategoryList = result.map((res)=>{
                 return {
                     name : res.name,
@@ -25,6 +28,7 @@ exports.BIOGetAllCategories = async (req, res, next) => {
                 serial: item.serial,
                 type: item.type,
                 keyList: subCategoryList,
+                totalItem: totalItemResults[0]['COUNT(*)']
             })
         }
         res.status(200).json({

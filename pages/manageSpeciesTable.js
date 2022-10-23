@@ -306,7 +306,7 @@ const ManageSpeciesTable = () => {
                 <Grid item xs={12} md={12}>
                   <Card sx={{ marginBottom: "10px" }}>
                     <Typography gutterBottom component="h2" variant="h2">
-                     Biodiversity Group
+                      Biodiversity Group
                     </Typography>
                   </Card>
                   <Grid
@@ -560,7 +560,12 @@ const ManageSpeciesTable = () => {
                               margin: "10px",
                             }}
                             onClick={(e) => {
-                              router.push("/add-new-species");
+                              router.push({
+                                pathname: "/add-new-species",
+                                query: {
+                                  category: router.query.category
+                                }
+                              });
                             }}
                           >
                             Add New Species
@@ -584,28 +589,28 @@ const ManageSpeciesTable = () => {
                         <TableHead>
                           <TableRow >
                             <StyledTableCell>
-                             
+
                             </StyledTableCell>
                             <StyledTableCell align="center">
-                             Category
+                              Category
                             </StyledTableCell>
                             <StyledTableCell align="center">
                               Family
                             </StyledTableCell>
                             <StyledTableCell align="center">
-                            species
+                              species
                             </StyledTableCell>
                             <StyledTableCell align="center">
-                            kingdom
+                              kingdom
                             </StyledTableCell>
                             <StyledTableCell align="center">
-                            Size
+                              Size
                             </StyledTableCell>
                             <StyledTableCell align="center">
-                            lng/lat
+                              lng/lat
                             </StyledTableCell>
                             <StyledTableCell align="center">
-                            Action
+                              Action
                             </StyledTableCell>
                           </TableRow>
                         </TableHead>
@@ -664,7 +669,7 @@ const ManageSpeciesTable = () => {
                                       });
                                     }}
                                     sx={{ mb: 1, mr: 0.5 }}
-                                    // variant="outlined"
+                                  // variant="outlined"
                                   >
                                     <DetailsIcon></DetailsIcon>
                                     &nbsp; Details

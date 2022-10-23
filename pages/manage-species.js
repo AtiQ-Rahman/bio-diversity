@@ -19,10 +19,6 @@ import PropTypes from "prop-types";
 import { Icon } from "@iconify/react";
 import Collapse from "@mui/material/Collapse";
 import AddIcon from "@mui/icons-material/Add";
-const species7 = require("../assets/images/species7.jpg");
-const species8 = require("../assets/images/species8.jpg");
-const species9 = require("../assets/images/species9.jpg");
-const species10 = require("../assets/images/species10.jpg");
 import {
   AppBar,
   Box,
@@ -64,7 +60,16 @@ import callApi from "../utils/callApi";
 import { useSnackbar } from "notistack";
 
 import * as XLSX from 'xlsx';
-
+const species7 = require("../assets/images/species7.jpg")
+const species8 = require("../assets/images/species8.jpg")
+const species9 = require("../assets/images/species9.jpg")
+const species10 = require("../assets/images/species10.jpg")
+const species11 = require("../assets/images/species11.jpg")
+const species12 = require("../assets/images/species12.jpg")
+let species ={
+  species7,species8,species9,species10,species11,species12
+}
+console.log({ species10 })
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
     padding: theme.spacing(2),
@@ -103,26 +108,6 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-const dummySpecies = [
-  {
-    title: "Plants",
-  },
-  {
-    title: "Animals",
-  },
-  {
-    title: "Fungi",
-  },
-  {
-    title: "Ecosystem Diversity",
-  },
-  {
-    title: "Micro-Organism",
-  },
-  {
-    title: "Genetic and Sub-Cellular Diversity",
-  },
-];
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
   ({ theme, open }) => ({
@@ -177,7 +162,7 @@ const Item = styled(Paper)(({ theme }) => ({
   paddingTop: 10,
   textAlign: "center",
   paddingBottom: 30,
- 
+
   // color: theme.palette.text.secondary,
   // border: "1px solid",
   // boxShadow:"1px 1px 1px 1px black",
@@ -186,65 +171,51 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 export default function ManageSpecies() {
   const theme = useTheme();
-  const matchDownMd = useMediaQuery(theme.breakpoints.down("lg"));
-  // const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [openUpload, setOpenUpload] = React.useState(false);
-  // const handleOpen = () => setOpen(true);
-  // const handleClose = () => setOpen(false);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [force, setForce] = React.useState(false);
   const [uploadedSpecies, setUploadedSpecies] = React.useState([]);
   const { enqueueSnackbar } = useSnackbar();
-
   const [categoryList, setCatgoryList] = React.useState([]);
   function FormRow() {
     const router = useRouter();
-    const noPointer = { cursor: 'default' };
     return (
       <React.Fragment>
-        {categoryList?.map((row) => (
+        {categoryList?.map((row, index) => (
           <Grid item xs={4}>
-            <Item>
-              <Box
-            
-                sx={{
-                  width: 350,
-                  height: 200,
-                  backgroundColor: "whitesmoke",
-                  "&:hover": {
-                    // backgroundColor: "tomato",
-                    boxShadow:"1px 5px 15px 1px red",
-                    opacity: [0.1, 0.9, 0.9],
-                  },
-                  cursor:"pointer"
-                }}
-                onClick={() =>
-                  router.push({
-                    pathname: "/manageSpeciesTable",
-                    query: {
-                      category: row.name
-                    }
-                  })
+            <Card sx={{
+              display: 'flex', border: "1px solid #eee", filter: "drop-shadow(2px 2px 10px #eee)",
+              transition: "all .2s ease-in-out",
+              "&:hover": {
+                filter: "drop-shadow(10px 2px 20px gray)",
+                cursor: "pointer",
+                transform: "scale(1.1)"
+              }
+            }} onClick={() =>
+              router.push({
+                pathname: "/manageSpeciesTable",
+                query: {
+                  category: row.name
                 }
-              ><Typography
-                gutterBottom
-                variant="h1"
-                component="div"
-                sx={{
-                  fontSize: 25,
-                  fontFamily: "Times New Roman",
-                  color: "#c44d34",
-                  paddingTop: 8,
-                 
-                }}
-                
-              >
-                  {row.name} ({row.name.length})
-                </Typography></Box>
+              })
+            }>
+              <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                <CardContent sx={{ flex: '1 0 auto', width: 200 }}>
+                  <Typography component="div" variant="h3">
+                    {row.name}
 
-            </Item>
+                  </Typography>
+                  <Typography variant="subtitle1" color="text.secondary" component="div">
+                    ({row.totalItem})
+                  </Typography>
+                </CardContent>
+              </Box>
+              <CardMedia
+                component="img"
+                sx={{ height: 200 }}
+                image={species[`species${index + 7}`].default.src}
+                alt="Live from space album cover"
+              />
+            </Card>
           </Grid>
         ))}
         {/* <Grid item xs={4}>
@@ -256,28 +227,6 @@ export default function ManageSpecies() {
       </React.Fragment>
     );
   }
-  const initialValues = {
-    name: "",
-    serial: null,
-    type: "",
-    keyList: [],
-  };
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
-  const uploadToClient = (event) => {
-    if (event.target.files && event.target.files[0]) {
-      const i = event.target.files[0];
-
-      setImage(i);
-      setCreateObjectURL(URL.createObjectURL(i));
-    }
-  };
   const uploadCSV = (evt) => {
     if (evt.target.files && evt.target.files[0]) {
       const f = evt.target.files[0];
@@ -327,13 +276,6 @@ export default function ManageSpecies() {
     }
 
   }
-  const router = useRouter();
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
   const handleClickUpload = () => {
     setOpenUpload(true);
   };
@@ -349,10 +291,13 @@ export default function ManageSpecies() {
   const changeCategory = (e) => { };
 
   async function fetchData() {
+    // let value = eval('species10')
+    // console.log({value})
     let response = await callApi("/get-categories-list", {});
     setCatgoryList(response.data);
   }
   useEffect(() => {
+
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -400,22 +345,22 @@ export default function ManageSpecies() {
           <div className={styles.main}>
             <Box component="section" className={styles.main_box}>
               {/* Species Search */}
-              <Grid container item xs={12} md={12} sx={{ mx: "auto" }}>
+              <Grid container item sx={{ mx: "auto" }}>
                 <Grid item xs={12} md={12}>
                   <Card sx={{ marginBottom: "10px" }}>
                     <Typography gutterBottom component="h2" variant="h2">
-                    Major Biodiversity
+                      Major Biodiversity
                     </Typography>
                   </Card>
 
                   <Divider></Divider>
-                  <Grid container xs={12}>
+                  <Grid container>
                     <Grid item xs={12} md={5}>
                       <h1>Total Species (6)</h1>
                     </Grid>
 
                     <Grid item xs={12} md={7}>
-                      <Grid container xs={12} md={12}>
+                      <Grid container>
                         <Grid
                           item
                           xs={12}
