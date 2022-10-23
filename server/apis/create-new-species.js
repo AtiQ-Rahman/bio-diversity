@@ -16,22 +16,33 @@ exports.createNewSpecies = async (req, res, next) => {
         })
         ).then(async () => {
             let table = await getTable(speciesData.category.name)
-
+            let query;
             let { serial,
                 kingdom, phylum, class_name, order_name, family, genus, nameOfSpecies, sub_species, variety, sub_variety, clone, forma, species,
                 identificationFeatures, thumbnailImage, lng, lat, marker, category, profileIndex, addtionalCategories, district , subGroup } = speciesData
-            if (!serial) {
-                serial = await uniqueIdGenerator(table, 5)
-            }
+
             let { english, bangla, commonName, synonym } = nameOfSpecies
 
             // keyList = JSON.stringify(keyList)
-            let createdDatetimeStamp = moment().format("YYYY-MM-DD HH:mm:ss");
-            let insertQuery = `insert into ${table} 
-                (serial, kingdom, phylum, class_name, category, order_name, family, genus, english, bangla, common, synonym, sub_species, variety, sub_variety, clone, forma, species, district, subGroup, identificationFeatures, additional_files, profile_image, marker, createdDatetimeStamp,addtionalCategories)
-                VALUES('${serial}','${kingdom}','${phylum}','${class_name}','${category.name}','${order_name}','${family}','${genus}','${english}','${bangla}','${commonName}','${synonym}','${sub_species}','${variety}','${sub_variety}','${clone}','${forma}','${species}','${JSON.stringify(district)}','${subGroup}','${JSON.stringify(identificationFeatures)}','${fileNameOnServer}','${fileNameOnServer[profileIndex]}','${marker}','${createdDatetimeStamp}','${JSON.stringify(addtionalCategories)}')`
-            // console.log(insertQuery)
-            let response = await executeQuery(insertQuery)
+            if (!serial) {
+                serial = await uniqueIdGenerator(table, 5)
+                let createdDatetimeStamp = moment().format("YYYY-MM-DD HH:mm:ss");
+                query = `insert into ${table} 
+                    (serial, kingdom, phylum, class_name, category, order_name, family, genus, english, bangla, common, synonym, sub_species, variety, sub_variety, clone, forma, species, district, subGroup, identificationFeatures, additional_files, profile_image, marker, createdDatetimeStamp,addtionalCategories)
+                    VALUES('${serial}','${kingdom}','${phylum}','${class_name}','${category.name}','${order_name}','${family}','${genus}','${english}','${bangla}','${commonName}','${synonym}','${sub_species}','${variety}','${sub_variety}','${clone}','${forma}','${species}','${JSON.stringify(district)}','${subGroup}','${JSON.stringify(identificationFeatures)}','${fileNameOnServer}','${fileNameOnServer[profileIndex]}','${marker}','${createdDatetimeStamp}','${JSON.stringify(addtionalCategories)}')`
+                // console.log(insertQuery)
+            }
+            else{
+                let createdDatetimeStamp = moment().format("YYYY-MM-DD HH:mm:ss");
+
+                query = `update ${table} set 
+                kingdom = '${kingdom}',phylum = '${phylum}',class_name = '${class_name}',category = '${category}',order_name = '${order_name}',family = '${family}',
+                genus = '${genus}',english = '${english}',bangla = '${bangla}',common = '${commonName}',synonym = '${synonym}',sub_species = '${sub_species}',
+                variety = '${variety}',sub_variety = '${sub_variety}',clone = '${clone}',forma = '${forma}',species = '${species}',district = '${JSON.stringify(district)}',subGroup = '${subGroup}',identificationFeatures = '${JSON.stringify(identificationFeatures)}',)`
+                // console.log(insertQuery)
+            }
+
+            let response = await executeQuery(query)
 
             res.status(200).json({
                 success: true,

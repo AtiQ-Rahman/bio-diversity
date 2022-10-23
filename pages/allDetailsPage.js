@@ -1,7 +1,4 @@
 import {
-  Button,
-  Card,
-  CardContent,
   Grid,
   Paper,
   Typography,
@@ -50,10 +47,14 @@ const StyledSlider = styled((props) => <Slider {...props} />)({
     // display: "block",
     position: "relative",
   },
-  "& .slick-slide span": {
+  "& .slick-slider span": {
     // display: "block",
     width: "150% !important",
     height: "400px !important"
+  },
+  "& ul .slick-active": {
+    // display: "block",
+    // transform: "scale(1.1)",
   },
 });
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -80,17 +81,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     border: 1,
   },
 }));
-
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-const rows = [
-  createData("Kindom", "Viruses"),
-  createData("class", "Viruses"),
-  createData("family", "Viruses"),
-  createData("Specis", "Viruses"),
-  createData("forma", "Viruses"),
-];
 const AllDetailsPage = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [speciesDetails, setSpeciesData] = useState({});
@@ -168,112 +158,111 @@ const AllDetailsPage = () => {
   }, [query]);
 
   return (
-    <>
-      <Grid container  >
-        <Grid item xs={2}></Grid>
-        <Grid item xs={8} style={{ background: "white", margin: '0 auto' }}>
-          <Item sx={{ pt: 10 }}>
-            {speciesDetails?.additionalFiles?.length > 0 ? (
-              <div>
-                <StyledSlider {...settings} >
-                  {speciesDetails.additionalFiles.map(
-                    (speciesImage, index) => {
-                      return (
-                        <Image
-                          key={`speciesAdditional;${index}`}
-                          alt="Additonal Image"
-                          {...imageProps}
-                          loader={imageLoader}
-                          src={imageUrl + "/" + speciesImage}
 
-                        />
-                      );
-                    }
-                  )}
-                </StyledSlider>
-              </div>
-            ) : (
-              <Image
-                loader={imageLoader}
-                src={imageUrl + "/" + speciesDetails?.profile_image}
-                alt="species-image"
-                // width="345"
-                // height={200}
-                layout='fill'
-              ></Image>
-            )}
-          </Item>
+    <Grid container  >
+      <Grid item xs={2}></Grid>
+      <Grid item xs={8} style={{ background: "white", margin: '0 auto' }}>
+        <Item sx={{ pt: 10 }}>
+          {speciesDetails?.additionalFiles?.length > 0 ? (
+            <div>
+              <StyledSlider {...settings} >
+                {speciesDetails.additionalFiles.map(
+                  (speciesImage, index) => {
+                    return (
+                      <Image
+                        key={`speciesAdditional;${index}`}
+                        alt="Additonal Image"
+                        {...imageProps}
+                        loader={imageLoader}
+                        src={imageUrl + "/" + speciesImage}
 
-
-          <Typography
-            gutterBottom
-            component="h2"
-            variant="h2"
-            // className={styles.title1}
-            sx={{
-              paddingTop: "70px",
-              paddingBottom: "50px",
-              textAlign: "center",
-              color: "#c44d34",
-
-            }}
-          >
-            {speciesDetails?.name?.commonName}
-          </Typography>
-
-          <TableContainer component={Paper}>
-            <Table style={{ width: '100%' }} className={styles.table} aria-label="customized table">
-              <TableBody>
-                {Object.keys(modifiedSpeciesDetails).map((row) => {
-                  if (typeof modifiedSpeciesDetails[row] === 'object' && modifiedSpeciesDetails[row]) {
-
-                    Object?.keys(modifiedSpeciesDetails[row])?.map((objKey) => {
-                      let title = processKeys(`${modifiedSpeciesDetails[row]}.${objKey}`)
-                      console.log(modifiedSpeciesDetails[row][objKey])
-
-                      return (
-                        <StyledTableRow key={row}>
-                          <StyledTableCell component="th" scope="row" >
-                            <b> {title}</b>
-                          </StyledTableCell>
-                          <StyledTableCell align="left">
-                            {modifiedSpeciesDetails[row][objKey]?.name || modifiedSpeciesDetails[row][objKey]}
-                          </StyledTableCell>
-
-                        </StyledTableRow>
-                      )
-                    })
-
+                      />
+                    );
                   }
-                  else {
-                    let title = processKeys(row)
+                )}
+              </StyledSlider>
+            </div>
+          ) : (
+            <Image
+              loader={imageLoader}
+              src={imageUrl + "/" + speciesDetails?.profile_image}
+              alt="species-image"
+              // width="345"
+              // height={200}
+              layout='fill'
+            ></Image>
+          )}
+        </Item>
+
+
+        <Typography
+          gutterBottom
+          component="h2"
+          variant="h2"
+          // className={styles.title1}
+          sx={{
+            paddingTop: "70px",
+            paddingBottom: "50px",
+            textAlign: "center",
+            color: "#c44d34",
+
+          }}
+        >
+          {speciesDetails?.name?.commonName}
+        </Typography>
+
+        <TableContainer component={Paper}>
+          <Table style={{ width: '100%' }} className={styles.table} aria-label="customized table">
+            <TableBody>
+              {Object.keys(modifiedSpeciesDetails).map((row) => {
+                if (typeof modifiedSpeciesDetails[row] === 'object' && modifiedSpeciesDetails[row]) {
+
+                  Object?.keys(modifiedSpeciesDetails[row])?.map((objKey) => {
+                    let title = processKeys(`${modifiedSpeciesDetails[row]}.${objKey}`)
+                    console.log(modifiedSpeciesDetails[row][objKey])
+
                     return (
                       <StyledTableRow key={row}>
-                        <StyledTableCell component="th" scope="row">
+                        <StyledTableCell component="th" scope="row" >
                           <b> {title}</b>
                         </StyledTableCell>
                         <StyledTableCell align="left">
-                          {modifiedSpeciesDetails[row]}
+                          {modifiedSpeciesDetails[row][objKey]?.name || modifiedSpeciesDetails[row][objKey]}
                         </StyledTableCell>
 
                       </StyledTableRow>
                     )
-                  }
-                })}
-              </TableBody>
-            </Table>
-          </TableContainer>
+                  })
 
+                }
+                else {
+                  let title = processKeys(row)
+                  return (
+                    <StyledTableRow key={row}>
+                      <StyledTableCell component="th" scope="row">
+                        <b> {title}</b>
+                      </StyledTableCell>
+                      <StyledTableCell align="left">
+                        {modifiedSpeciesDetails[row]}
+                      </StyledTableCell>
 
-        </Grid>
-
-        <Grid item xs={2}></Grid>
+                    </StyledTableRow>
+                  )
+                }
+              })}
+            </TableBody>
+          </Table>
+        </TableContainer>
 
 
       </Grid>
 
+      <Grid item xs={2}></Grid>
 
-    </>
+
+    </Grid>
+
+
   );
 };
 

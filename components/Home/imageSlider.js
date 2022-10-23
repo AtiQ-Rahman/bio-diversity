@@ -115,7 +115,7 @@ const ImageSlider = ({ slides }) => {
     //     setCurrentIndex(newIndex);
     // };
     return (
-        <div style={sliderStyles}>
+        <Box style={sliderStyles}>
 
             {slides?.length > 0 ?
                 (<div>
@@ -190,7 +190,7 @@ const ImageSlider = ({ slides }) => {
 
             </Grid>
 
-        </div>
+        </Box>
 
     );
 };

@@ -143,7 +143,7 @@ const Map = () => {
     })
 
 
-  }, [query, lng, lat, zoom, elements]);
+  }, [query]);
 
   return (
     <Grid

@@ -1,5 +1,3 @@
-import Head from "next/head";
-import Image from "next/image";
 
 import { styled, useTheme } from "@mui/material/styles";
 import { useEffect, useState } from "react";
@@ -17,70 +15,31 @@ import { useRouter } from "next/router";
 import CloseIcon from "@mui/icons-material/Close";
 import PropTypes from "prop-types";
 import { Icon } from "@iconify/react";
-import Collapse from "@mui/material/Collapse";
-import AddIcon from "@mui/icons-material/Add";
-const species7 = require("../assets/images/species7.jpg");
-const species8 = require("../assets/images/species8.jpg");
-const species9 = require("../assets/images/species9.jpg");
-const species10 = require("../assets/images/species10.jpg");
 import {
   AppBar,
   Box,
   CssBaseline,
   Toolbar,
-  Container,
   useMediaQuery,
   Grid,
   Typography,
   TextField,
-  TableCell,
-  TableRow,
-  TableBody,
-  TableHead,
-  Table,
-  TableContainer,
   Button,
-  Modal,
   Divider,
   Card,
-  CardActions,
-  CardContent,
-  tableCellClasses,
-  TablePagination,
   DialogActions,
   DialogContent,
   DialogTitle,
   IconButton,
   Dialog,
   Autocomplete,
-  CardActionArea,
-  CardMedia,
+
 } from "@mui/material";
-import Paper from "@mui/material/Paper";
-import Link from "next/link";
+
 import { Formik, Form } from "formik";
-import * as Yup from "yup";
+
 import callApi from "../utils/callApi";
-import Slide from "@mui/material/Slide";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import Details from "./details";
 import AllDetailsPage from "./AllDetailsPage";
-const kingdoms = require("../utils/kingdoms");
-const phylums = require("../utils/kingdoms");
-const classes = require("../utils/kingdoms");
-const orders = require("../utils/kingdoms");
-const families = require("../utils/kingdoms");
-const genuses = require("../utils/kingdoms");
-const species = require("../utils/kingdoms");
-const imageSrc = require("../assets/images/species1.jpg");
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-}));
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
     padding: theme.spacing(2),
@@ -119,71 +78,7 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  "&:last-child td, &:last-child th": {
-    border: 0,
-  },
-}));
-const columns = [
-  // { id: "subcategory", label: "Subcategory", minWidth: 100 },
-  { id: "name", label: "Name", minWidth: 170 },
-  { id: "type", label: "Type", minWidth: 100 },
-  { id: "button", label: "Action ", width: 100 },
-];
-const itemData = [
-  {
-    img1: species8,
-    title: "Butterfly",
-    author: "@bkristastucchio",
-    featured: true,
-  },
-  // {
-  //   img2: species10,
-  //   title: "Turtle",
-  //   author: "@rollelflex_graphy726",
-  // },
-  // {
-  //   img3: species7,
-  //   title: "Deer",
-  //   author: "@helloimnik",
-  // },
-];
-const sightingsData = [
-  {
-    img2: species10,
-    title: "Turtle",
-    author: "@rollelflex_graphy726",
-  },
-  // {
-  //   img3: species7,
-  //   title: "Deer",
-  //   author: "@helloimnik",
-  // },
-];
+
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
   ({ theme, open }) => ({
@@ -229,7 +124,7 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
     }),
   })
 );
-export default function ManageSpeciesDetails() {
+const ManageSpeciesDetails = () => {
   const theme = useTheme();
   const matchDownMd = useMediaQuery(theme.breakpoints.down("lg"));
   // const classes = useStyles();
@@ -237,50 +132,15 @@ export default function ManageSpeciesDetails() {
   const [openUpload, setOpenUpload] = React.useState(false);
   // const handleOpen = () => setOpen(true);
   // const handleClose = () => setOpen(false);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [force, setForce] = React.useState(false);
-  const [categoryList, setCatgoryList] = React.useState();
   const initialValues = {
     name: "",
     serial: null,
     type: "",
     keyList: [],
   };
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
 
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
-  const uploadToClient = (event) => {
-    if (event.target.files && event.target.files[0]) {
-      const i = event.target.files[0];
-
-      setImage(i);
-      setCreateObjectURL(URL.createObjectURL(i));
-    }
-  };
-  const uploadCSV = (event) => {
-    if (event.target.files && event.target.files[0]) {
-      const i = event.target.files[0];
-
-      setImage(i);
-      setCreateObjectURL(URL.createObjectURL(i));
-    }
-  };
   const router = useRouter();
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
-  const handleClickUpload = () => {
-    setOpenUpload(true);
-  };
   const handleCloseUpload = () => {
     setOpenUpload(false);
   };
@@ -290,15 +150,10 @@ export default function ManageSpeciesDetails() {
   const handleLeftDrawerToggle = () => {
     dispatch({ type: SET_MENU, opened: !leftDrawerOpened });
   };
-  const changeCategory = (e) => {};
+  const changeCategory = (e) => { };
 
-  async function fetchData() {
-    let response = await callApi("/get-categories-list", {});
-    setCatgoryList(response.data);
-  }
   useEffect(() => {
     dispatch({ type: SET_MENU, opened: !matchDownMd });
-    fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [matchDownMd]);
   return (
@@ -349,46 +204,46 @@ export default function ManageSpeciesDetails() {
                 <Grid item xs={12} md={12}>
                   <Card sx={{ marginBottom: "10px" }}>
                     <Typography gutterBottom component="h2" variant="h2" textAlign="end" padding={2}>
-                    <Button
-                                    className={styles.bg_primary}
-                                    style={{
-                                      width: "80px",
-                                      maxHeight: "80px",
-                                      minWidth: "40px",
-                                      minHeight: "40px",
-                                      color: "white",
-                                      boxShadow: "1px 1px 4px grey",
-                                    }}
-                                    onClick={(e) => {
-                                      router.push({
-                                        pathname: '/add-new-species',
-                                        // query: {
-                                        //   serial: row.serial,
-                                        //   category: "row.category"
-                                        // }
-                                      })
-                                    }}
-                                    sx={{ mr: 0.5 }}
-                                  // variant="outlined"
-                                  >
-                                    {/* <DetailsIcon></DetailsIcon> */}
-                                    Edit
-                                  </Button>
-                                  <Button
-                                    style={{
-                                      boxShadow: "1px 1px 4px grey",
-                                      maxHeight: "80px",
-                                      width: "80px",
-                                      background: "white",
-                                      minHeight: "40px",
-                                      color: "#0f4c39",
-                                    }}
-                                    type="button"
-                                  // onClick={() => router.push("/map")}
-                                  >
-                                    <Icon icon="fluent:delete-16-filled" />
-                                    &nbsp; Delete
-                                  </Button>
+                      <Button
+                        className={styles.bg_primary}
+                        style={{
+                          width: "80px",
+                          maxHeight: "80px",
+                          minWidth: "40px",
+                          minHeight: "40px",
+                          color: "white",
+                          boxShadow: "1px 1px 4px grey",
+                        }}
+                        onClick={(e) => {
+                          router.push({
+                            pathname: '/add-new-species',
+                            query: {
+                              serial: router.query.serial,
+                              category: router.query.category
+                            }
+                          })
+                        }}
+                        sx={{ mr: 0.5 }}
+                      // variant="outlined"
+                      >
+                        {/* <DetailsIcon></DetailsIcon> */}
+                        Edit
+                      </Button>
+                      <Button
+                        style={{
+                          boxShadow: "1px 1px 4px grey",
+                          maxHeight: "80px",
+                          width: "80px",
+                          background: "white",
+                          minHeight: "40px",
+                          color: "#0f4c39",
+                        }}
+                        type="button"
+                      // onClick={() => router.push("/map")}
+                      >
+                        <Icon icon="fluent:delete-16-filled" />
+                        &nbsp; Delete
+                      </Button>
                     </Typography>
                   </Card>
 
@@ -585,3 +440,7 @@ export default function ManageSpeciesDetails() {
     </div>
   );
 }
+ManageSpeciesDetails.getInitialProps = ({ query }) => {
+  return query;
+}
+export default ManageSpeciesDetails

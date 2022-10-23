@@ -92,7 +92,7 @@ const MicroOrgansim = () => {
          }
       }
       fetchData()
-   }, [router.query])
+   })
    // Handle left drawer
    const leftDrawerOpened = useSelector((state) => state.customization.opened);
    const dispatch = useDispatch();

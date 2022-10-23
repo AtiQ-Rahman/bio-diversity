@@ -141,7 +141,7 @@ const Distribution = () => {
         el.style.top = `-${top}px`;
       }
     });
-  }, [modifiedList, elements, lat, lng, zoom]);
+  }, [modifiedList]);
   return (
     <Grid
       container

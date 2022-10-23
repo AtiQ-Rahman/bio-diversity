@@ -6,6 +6,14 @@ export const isMarker = (marker) => {
         return true
     }
 }
+export const isValidImage = (marker) => {
+    if (marker == '' || marker == 'N/A') {
+        return false
+    }
+    else {
+        return true
+    }
+}
 export const createMapboxMarkerForDistribution = async (el, mapboxgl, imageUrl, speciesData, map) => {
     new mapboxgl.Marker(isMarker(speciesData.marker) ? el : "")
         .setLngLat([speciesData.districts[0].center[0], speciesData.districts[0].center[1]])

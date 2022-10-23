@@ -40,6 +40,7 @@ import { teal } from "@mui/material/colors";
 import { useRouter } from "next/router";
 import Geocoder from "react-mapbox-gl-geocoder";
 import Geocode from "react-geocode";
+import { isValidImage } from "../utils/utils";
 // import { kingdoms } from "../utils/kingdoms";
 // const kingdoms = require("../utils/kingdoms");
 // const phylums = require("../utils/kingdoms");
@@ -195,7 +196,11 @@ const AddNewSpecies = () => {
         if (species?.data?.length > 0) {
           let data = species.data[0];
           data.nameOfSpecies = data.name;
-          setMarkerUrl(data.marker);
+          setMarkerUrl(isValidImage(data.marker) ? data.marker : null);
+          let response = await callApi("/get-categories-by-name", { name: data.category });
+          console.log({ response })
+          data.category = response.data[0]
+          // set(isValidImage(data.marker) ? data.marker : null);
           setLng(parseFloat(data.lng));
           setLat(parseFloat(data.lat));
 
@@ -445,6 +450,7 @@ const AddNewSpecies = () => {
                           name={
                             values?.identificationFeatures?.subCategory
                           }
+                          value={values?.identificationFeatures.subCategory}
                           options={values?.category?.keyList}
                           isOptionEqualToValue={(option, value) =>
                             option.key === value.key
@@ -477,7 +483,7 @@ const AddNewSpecies = () => {
                               variant="outlined"
                               placeholder="Select"
                               required
-                              value={values?.category}
+                              value={values?.identificationFeatures.subCategory}
                             />
                           )}
                         />
