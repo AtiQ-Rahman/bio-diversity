@@ -65,18 +65,21 @@ const CommonDropDowns = ({
                         freeSolo
                         size="small"
                         disablePortal
-                        id="subGroup"
+                        id="subGroups"
                         name={values?.subGroup}
                         options={subGroups}
-                        key="subGroup"
+                        key="subGroups"
                         // value={values?.kingdom}
                         getOptionLabel={(option) => option?.subGroup || option}
                         value={values?.subGroup}
                         // sx={{ width: 300 }}
                         onInputChange={(e, value) => {
                           setFieldValue("subGroup", value?.subGroup || value);
-                          let phylums = allTypesOfSpecies.subGroup.filter((item) => item.subGroup == (value?.subGroup || value))
-                          setSubGroups(subGroup)
+                        //   let subGroups = allTypesOfSpecies.subGroups.filter((item) => item.subGroup == (value?.subGroup || value))
+                        //   setSubGroups(subGroups)
+                        //   setFieldValue("kingdom", value?.kingdom || value);
+                        // let phylums = allTypesOfSpecies.phylums.filter((item) => item.kingdom == (value?.kingdom || value))
+                        // setPhylums(phylums)
                         }}
                         renderInput={(params) => (
                           <TextField

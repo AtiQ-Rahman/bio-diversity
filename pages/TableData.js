@@ -79,7 +79,7 @@ const TableData = (props) => {
                                         <StyledTableCell align="center">{row.family}</StyledTableCell >
                                         <StyledTableCell align="center">{row.order_name}</StyledTableCell >
                                         <StyledTableCell align="center">{row.lng},<br />{row.lat}</StyledTableCell >
-                                        <StyledTableCell sx={{ pl: 20 }} align="center">
+                                        <StyledTableCell sx={{ pl: 10 }}  align="center">
                                             <Grid container spacing={1}  >
                                                 {/* <Grid item xs={12}> */}
                                                 <Button

@@ -230,7 +230,6 @@ const Distribution = () => {
                             </TableCell>
                             <TableCell>
                               <Typography variant="caption">
-                              {species.address}
                                 {twoDecimal(species?.districts?.[0]?.center[0])}{" "}
                                 ,
                                 {twoDecimal(species?.districts?.[0]?.center[1])}

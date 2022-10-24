@@ -264,6 +264,28 @@ const Map = () => {
                   <b>forma</b>:{speciesData.forma}
                 </Typography>
               </Grid>
+              <Grid item xs={6}>
+                <Typography gutterBottom component="description" variant="div">
+                  <b>English</b>:{speciesData.english}
+                </Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography gutterBottom component="description" variant="div">
+                  <b>Bangla</b>:{speciesData.bangla}
+                </Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography gutterBottom component="description" variant="div">
+                  <b>Synonym</b>:{speciesData.synonym}
+                </Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography gutterBottom component="description" variant="div">
+                  <b>Common</b>:{speciesData.common}
+                </Typography>
+              </Grid>
+              
+              
             </CardContent>
             
           </Card>
