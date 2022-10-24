@@ -37,13 +37,12 @@ const StyledSlider = styled((props) => (
     },
     '& .slick-slide div span': {
         height: '800px !important',
-        width:'100% !important'
-
-    },
+        width: '100% !important'
+    }
 });
 let imageProps = {
     height: "800px !important",
-    width:"100%",
+    width: "100%",
     // width:"auto",
     // width:"1500px",
     objectFit: "cover"
@@ -79,7 +78,7 @@ const ImageSlider = ({ slides }) => {
         autoplaySpeed: 5000,
         slidesToShow: 1,
         slidesToScroll: 1,
-        arrows:false,
+        arrows: false,
         beforeChange: (current, next) => setCurrentIndex(next),
         customPaging: i => (
             <div style={dotsContainerStyles}>

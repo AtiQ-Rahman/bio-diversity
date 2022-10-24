@@ -19,7 +19,7 @@ exports.createNewSpecies = async (req, res, next) => {
             let query;
             let { serial,
                 kingdom, phylum, class_name, order_name, family, genus, nameOfSpecies, sub_species, variety, sub_variety, clone, forma, species,
-                identificationFeatures, thumbnailImage, lng, lat, marker, category, profileIndex, addtionalCategories, district , subGroup } = speciesData
+                identificationFeatures, thumbnailImage, lng, lat, marker, category, profileIndex, addtionalCategories, district, subGroup } = speciesData
 
             let { english, bangla, commonName, synonym } = nameOfSpecies
 
@@ -32,7 +32,7 @@ exports.createNewSpecies = async (req, res, next) => {
                     VALUES('${serial}','${kingdom}','${phylum}','${class_name}','${category.name}','${order_name}','${family}','${genus}','${english}','${bangla}','${commonName}','${synonym}','${sub_species}','${variety}','${sub_variety}','${clone}','${forma}','${species}','${JSON.stringify(district)}','${subGroup}','${JSON.stringify(identificationFeatures)}','${fileNameOnServer}','${fileNameOnServer[profileIndex]}','${marker}','${createdDatetimeStamp}','${JSON.stringify(addtionalCategories)}')`
                 // console.log(insertQuery)
             }
-            else{
+            else {
                 let createdDatetimeStamp = moment().format("YYYY-MM-DD HH:mm:ss");
 
                 query = `update ${table} set 
@@ -71,7 +71,6 @@ exports.uploadSpeciesByExcel = async (req, res, next) => {
         let fileNameOnServer = []
         let files = req.files
         let modifiedData = []
-        // console.log(data)
         let { uploadedSpecies, type } = data
         let headersArray = uploadedSpecies[0]
         let headers = {}
@@ -82,9 +81,9 @@ exports.uploadSpeciesByExcel = async (req, res, next) => {
         for (let item = 1; item < uploadedSpecies.length; item++) {
             let object = {};
             for (let idx = 0; idx < uploadedSpecies[item].length; idx++) {
+                // console.log(uploadedSpecies[item])
                 let key = await processKeys(Object.keys(headers)[idx])
                 let splittedKey = key.split('.')
-                // console.log(splittedKey)
                 if (splittedKey.length > 1) {
                     if (!(object[splittedKey[0]])) {
                         object[splittedKey[0]] = {}
@@ -92,15 +91,17 @@ exports.uploadSpeciesByExcel = async (req, res, next) => {
                     object[splittedKey[0]][splittedKey[1]] = uploadedSpecies[item][idx]
                 }
                 else {
-                    if (key == 'gis') {
+                    if (splittedKey[0] == 'gis') {
                         let splittedValue = uploadedSpecies[item][idx].split(',')
-                        object['lng'] = splittedValue[0].trim()
-                        object['lat'] = splittedValue[1].trim()
+                        object['lng'] = splittedValue[0]?.trim()
+                        object['lat'] = splittedValue[1]?.trim()
 
                     }
-                    else { object[key] = uploadedSpecies[item][idx].replaceAll("'", "") }
+
+                    else { object[splittedKey[0]] = uploadedSpecies[item][idx].replaceAll("'", "") }
                 }
             }
+            console.log(object.category)
 
             let table = await getTable(object.category)
             console.log(table)

@@ -52,9 +52,9 @@ const StyledSlider = styled((props) => <Slider {...props} />)({
     width: "150% !important",
     height: "400px !important"
   },
-  "& ul .slick-active": {
-    // display: "block",
-    // transform: "scale(1.1)",
+  '& ul .slick-active': {
+      border: "3px solid #d76d2e !important",
+      filter: " drop-shadow(2px 4px 6px grey) !important"
   },
 });
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -111,9 +111,7 @@ const AllDetailsPage = () => {
       return (
         <div>
           {i === currentIndex ? (
-            <Box height={400} style={{
-              opacity: 0.6,
-            }}>
+            <Box height={400}>
               <Image
                 style={{
                   border: "1px solid black"

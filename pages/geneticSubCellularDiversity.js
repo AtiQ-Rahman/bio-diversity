@@ -28,7 +28,7 @@ import { SET_MENU } from "../store/actions";
 import styles from "../styles/Home.module.css";
 import { styled, useTheme } from "@mui/material/styles";
 import callApi, { imageUrl } from "../utils/callApi";
-import { imageLoader, pageGroups } from "../utils/utils";
+import { imageLoader, initialValues, pageGroups } from "../utils/utils";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
@@ -41,34 +41,7 @@ const GeneticSubCellularDiversity = () => {
    const [searchMessage, setSearchMessage] = React.useState('')
    const theme = useTheme();
    const [speciesList, setSpeciesList] = React.useState()
-   const initialValues = {
-      serial: "",
-      kingdom: "",
-      phylum: "",
-      animal: "",
-      class: "",
-      order: "",
-      fungi: "",
-      family: "",
-      genus: "",
-      species: "",
-      plants: "",
-      subSpecies: "",
-      variety: "",
-      subVariety: "",
-      clone: "",
-      forma: "",
-      nameOfSpecies: {
-         bangla: "",
-         english: "",
-         commonName: "",
-         synonym: ""
-      },
-      identificationFeatures: {},
-      categories: [],
-      additionalFiles: [],
-      profileImage: "",
-   };
+   const initialValues = initialValues;
 
 
    useEffect(() => {
@@ -355,7 +328,7 @@ const GeneticSubCellularDiversity = () => {
                                                 pathname: "/details",
                                                 query: {
                                                    serial: row.serial,
-                                                   category: 'Genetic & Sub-Cellular Diversity'
+                                                   category: pageGroups.genetic
                                                 }
                                              })}
                                              variant="outlined"
@@ -378,7 +351,7 @@ const GeneticSubCellularDiversity = () => {
                                                 pathname: "/map",
                                                 query: {
                                                    serial: row.serial,
-                                                   category: 'Genetic & Sub-Cellular Diversity'
+                                                   category: pageGroups.genetic
                                                 }
                                              })}
                                           // variant="outlined"

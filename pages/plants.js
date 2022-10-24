@@ -21,39 +21,14 @@ import callApi, { imageUrl } from "../utils/callApi";
 import CommonDropDowns from "../components/CommonDropDowns";
 import TableData from "./TableData";
 import { useRouter } from "next/router";
-import { pageGroups } from "../utils/utils";
+import { initialValues, pageGroups } from "../utils/utils";
 
 const Plants = () => {
   const router = useRouter();
   const [category, setCatgory] = React.useState();
   const [speciesList, setSpeciesList] = React.useState([]);
   const [searchMessage, setSearchMessage] = React.useState("");
-  const initialValues = {
-    kingdom: null,
-    phylum: null,
-    class_name: null,
-    order_name: null,
-    family: null,
-    genus: null,
-    species: null,
-    plants: null,
-    subSpecies: null,
-    variety: null,
-    subVariety: null,
-    clone: null,
-    forma: null,
-    type: null,
-    nameOfSpecies: {
-      bangla: null,
-      english: null,
-      commonName: null,
-      synonym: null,
-    },
-    identificationFeatures: {},
-    categories: [],
-    additionalFiles: [],
-    profileImage: null,
-  };
+  const initialValues = initialValues
 
   React.useEffect(() => {
     async function fetchData() {
@@ -78,7 +53,7 @@ const Plants = () => {
       }
     }
     fetchData();
-  }, [router.pathname , router.query]);
+  }, [router.pathname, router.query]);
   // Handle left drawer
 
   return (

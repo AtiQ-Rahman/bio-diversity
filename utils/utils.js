@@ -90,7 +90,33 @@ export const pageGroups = {
     genetic: 'Genetic & Sub-Cellular Diversity'
 }
 
-
+export const initialValues = {
+    kingdom: null,
+    phylum: null,
+    class_name: null,
+    order_name: null,
+    family: null,
+    genus: null,
+    species: null,
+    plants: null,
+    subSpecies: null,
+    subGroup: null,
+    variety: null,
+    subVariety: null,
+    clone: null,
+    forma: null,
+    type: null,
+    nameOfSpecies: {
+        bangla: null,
+        english: null,
+        commonName: null,
+        synonym: null,
+    },
+    identificationFeatures: {},
+    categories: [],
+    additionalFiles: [],
+    profileImage: null,
+}
 export const twoDecimal = (num) => {
     return (Math.round(parseFloat(num) * 100000) / 100000).toFixed(5);
 }

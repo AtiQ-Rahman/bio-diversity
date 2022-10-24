@@ -27,40 +27,14 @@ import { styled, useTheme } from "@mui/material/styles";
 import callApi, { imageUrl } from "../utils/callApi";
 import CommonDropDowns from "../components/CommonDropDowns";
 import TableData from "./TableData";
-import { pageGroups } from "../utils/utils";
+import { initialValues, pageGroups } from "../utils/utils";
 // import { kingdoms } from "../utils/kingdoms";
 const MicroOrgansim = () => {
    const [category, setCatgory] = React.useState()
    const theme = useTheme();
    const [searchMessage, setSearchMessage] = React.useState('')
    const [speciesList, setSpeciesList] = React.useState()
-   const initialValues = {
-      kingdom: null,
-      phylum: null,
-      class_name: null,
-      order_name: null,
-      family: null,
-      genus: null,
-      species: null,
-      plants: null,
-      subSpecies: null,
-      variety: null,
-      subVariety: null,
-      clone: null,
-      forma: null,
-      type: null,
-      nameOfSpecies: {
-         bangla: null,
-         english: null,
-         commonName: null,
-         synonym: null
-      },
-      identificationFeatures: {},
-      categories: [],
-      additionalFiles: [],
-      profileImage: null,
-   };
-
+   const initialValues = initialValues;
 
    useEffect(() => {
       async function fetchData() {

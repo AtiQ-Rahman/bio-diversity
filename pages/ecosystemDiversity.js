@@ -27,7 +27,7 @@ import styles from "../styles/Home.module.css";
 import { styled, useTheme } from "@mui/material/styles";
 import callApi, { imageUrl } from "../utils/callApi";
 import Image from "next/image";
-import { imageLoader, pageGroups } from "../utils/utils";
+import { imageLoader, initialValues, pageGroups } from "../utils/utils";
 import { useRouter } from "next/router";
 const EcosystemDiversity = () => {
 
@@ -35,32 +35,8 @@ const EcosystemDiversity = () => {
    const [searchMessage, setSearchMessage] = React.useState('')
    const theme = useTheme();
    const [speciesList, setSpeciesList] = React.useState()
-   const initialValues = {
-      kingdom: null,
-      phylum: null,
-      class_name: null,
-      order_name: null,
-      family: null,
-      genus: null,
-      species: null,
-      plants: null,
-      subSpecies: null,
-      variety: null,
-      subVariety: null,
-      clone: null,
-      forma: null,
-      type: null,
-      nameOfSpecies: {
-         bangla: null,
-         english: null,
-         commonName: null,
-         synonym: null
-      },
-      identificationFeatures: {},
-      categories: [],
-      additionalFiles: [],
-      profileImage: null,
-   };
+   const initialValues = initialValues;
+
    useEffect(() => {
       async function fetchData() {
          let response = await callApi("/get-categories-by-name", { name: pageGroups.eco });
@@ -349,7 +325,7 @@ const EcosystemDiversity = () => {
                                                    pathname: "/details",
                                                    query: {
                                                       serial: row.serial,
-                                                      category: 'Plants'
+                                                      category: pageGroups.eco
                                                    }
                                                 })}
                                                 variant="outlined"
@@ -372,7 +348,7 @@ const EcosystemDiversity = () => {
                                                    pathname: "/map",
                                                    query: {
                                                       serial: row.serial,
-                                                      category: 'Ecosystem Diversity'
+                                                      category: pageGroups.eco
                                                    }
                                                 })}
                                              // variant="outlined"

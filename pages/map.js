@@ -36,6 +36,10 @@ const StyledSlider = styled((props) => <Slider {...props} />)({
     display: "block",
     position: "relative",
   },
+  '& ul .slick-active': {
+    border: "3px solid #d76d2e !important",
+    filter: " drop-shadow(2px 4px 6px grey) !important"
+},
 });
 const myLoader = ({ src }) => `${src}`;
 const Map = () => {

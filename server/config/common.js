@@ -94,6 +94,23 @@ const processTableName = async (name) => {
     const table = dbName + '_' + joinedName.toLowerCase()
     return table
 }
+exports.returnValidJson = async (data) => {
+    if (typeof data == 'string') {
+        if (data == 'undefined' || data == "" || data.toLowerCase() == "n/a") {
+            return {}
+        }
+        else {
+            return JSON.parse(data)
+        }
+    }
+    else if (typeof data == 'object') {
+        return data
+    }
+    else {
+        return {}
+    }
+
+}
 exports.getTable = async (type) => {
     const table = await processTableName(type)
     let query = `SELECT * FROM  ${table}`

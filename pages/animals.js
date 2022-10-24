@@ -19,39 +19,14 @@ import styles from "../styles/Home.module.css";
 import { styled, useTheme } from "@mui/material/styles";
 import callApi, { imageUrl } from "../utils/callApi";
 import { useRouter } from "next/router";
-import { imageLoader, pageGroups } from "../utils/utils";
+import { imageLoader, initialValues, pageGroups } from "../utils/utils";
 import CommonDropDowns from "../components/CommonDropDowns";
 import TableData from "./TableData";
 const Animals = () => {
    const [category, setCatgory] = React.useState()
    const [searchMessage, setSearchMessage] = React.useState('')
    const [speciesList, setSpeciesList] = React.useState()
-   const initialValues = {
-      kingdom: null,
-      phylum: null,
-      class_name: null,
-      order_name: null,
-      family: null,
-      genus: null,
-      species: null,
-      plants: null,
-      subSpecies: null,
-      variety: null,
-      subVariety: null,
-      clone: null,
-      forma: null,
-      type: null,
-      nameOfSpecies: {
-         bangla: null,
-         english: null,
-         commonName: null,
-         synonym: null
-      },
-      identificationFeatures: {},
-      categories: [],
-      additionalFiles: [],
-      profileImage: null,
-   };
+   const initialValues = initialValues
 
 
    useEffect(() => {
