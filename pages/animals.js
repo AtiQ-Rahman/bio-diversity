@@ -26,7 +26,6 @@ const Animals = () => {
    const [category, setCatgory] = React.useState()
    const [searchMessage, setSearchMessage] = React.useState('')
    const [speciesList, setSpeciesList] = React.useState()
-   const initialValues = initialValues
 
 
    useEffect(() => {

@@ -28,7 +28,6 @@ const Plants = () => {
   const [category, setCatgory] = React.useState();
   const [speciesList, setSpeciesList] = React.useState([]);
   const [searchMessage, setSearchMessage] = React.useState("");
-  const initialValues = initialValues
 
   React.useEffect(() => {
     async function fetchData() {

@@ -35,7 +35,6 @@ const EcosystemDiversity = () => {
    const [searchMessage, setSearchMessage] = React.useState('')
    const theme = useTheme();
    const [speciesList, setSpeciesList] = React.useState()
-   const initialValues = initialValues;
 
    useEffect(() => {
       async function fetchData() {

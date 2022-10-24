@@ -34,7 +34,6 @@ const MicroOrgansim = () => {
    const theme = useTheme();
    const [searchMessage, setSearchMessage] = React.useState('')
    const [speciesList, setSpeciesList] = React.useState()
-   const initialValues = initialValues;
 
    useEffect(() => {
       async function fetchData() {
