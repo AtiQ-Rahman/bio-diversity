@@ -183,7 +183,7 @@ const Plants = () => {
       {speciesList?.length > 0 ? (
         <TableData speciesList={speciesList} category={pageGroups.plants} ></TableData>
       ) : (
-        <Typography variant="h1" component="h1" align="center" padding={25} paddingBottom={6}>
+        <Typography variant="h1" component="h1" align="center" padding={25} paddingTop={10}>
           {searchMessage ?? ""}
         </Typography>
       )}

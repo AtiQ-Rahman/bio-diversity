@@ -203,7 +203,7 @@ const Map = () => {
             <br />
             <Divider />
             <CardContent>
-              <Typography gutterBottom variant="h1" component="div">
+              <Typography gutterBottom variant="h1" component="div" >
                 {speciesData?.name?.commonName}
               </Typography>
               <Typography variant="body2" color="text.secondary">
@@ -265,10 +265,7 @@ const Map = () => {
                 </Typography>
               </Grid>
             </CardContent>
-            <CardActions>
-              <Button size="small">Share</Button>
-              <Button size="small">Learn More</Button>
-            </CardActions>
+            
           </Card>
         </div>
         <div

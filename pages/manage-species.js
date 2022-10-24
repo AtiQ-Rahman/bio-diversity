@@ -305,7 +305,7 @@ export default function ManageSpecies() {
   }, []);
   return (
     <div className={styles.body}>
-      <Box sx={{ display: "flex" }}>
+      <Box sx={{ display: "flex",pt:5 }} >
         <CssBaseline />
         {/* header */}
         <AppBar
