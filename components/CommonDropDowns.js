@@ -291,7 +291,7 @@ const CommonDropDowns = ({
                     id="species"
                     name={values?.species}
                     options={speciesListFromServer}
-                    key=""
+                    key="species"
                     getOptionLabel={(option) => option?.species || option}
                     value={values?.species}
                     // sx={{ width: 300 }}
