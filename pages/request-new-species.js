@@ -6,15 +6,8 @@ import {
   Grid,
   TextField,
   Button,
-  Card,
-  CardContent,
-  FormControlLabel,
-  Checkbox,
   Box,
-  AppBar,
-  Toolbar,
   useMediaQuery,
-  CssBaseline,
   Autocomplete,
   Divider,
 } from "@mui/material";
@@ -219,24 +212,7 @@ const AddNewSpecies = () => {
   // Handle left drawer
   const leftDrawerOpened = useSelector((state) => state.customization.opened);
   const dispatch = useDispatch();
-  const handleLeftDrawerToggle = () => {
-    dispatch({ type: SET_MENU, opened: !leftDrawerOpened });
-  };
 
-  const uploadToClient = (event) => {
-    if (event.target.files[0]) {
-      const reader = new FileReader();
-
-      const file = event.target.files[0];
-
-      reader.readAsDataURL(file);
-      return (reader.onload = () => {
-        let dataUri;
-        dataUri = reader.result;
-        return setCreateObjectURL(dataUri);
-      });
-    }
-  };
   const getMarkerUrl = (event) => {
     if (event.target.files[0]) {
       const reader = new FileReader();
@@ -370,25 +346,11 @@ const AddNewSpecies = () => {
             setFieldValue,
           }) => (
             <Form onSubmit={handleSubmit}>
-              <Grid sx={{ p: 10, background: "white" }}>
+              <Grid sx={{ p: 10, mt:5, background: "white" }}>
                 <Typography gutterBottom variant="h3">
                   Request A Species
                 </Typography>
                 <Grid container spacing={3}>
-                  {/* <Grid item xs={2}>
-                                          <TextField
-                                             required
-                                             id="serial"
-                                             name="serial"
-                                             // margin="normal"
-                                             size="small"
-                                             label="Serial"
-                                             type="number"
-                                             fullWidth
-                                             autoComplete="Serial"
-                                             variant="outlined"
-                                          />
-                                       </Grid> */}
                   <Grid item xs={2}>
                     <Autocomplete
                       freeSolo

@@ -24,7 +24,7 @@ exports.requestNewSpecies = async (req, res, next) => {
                 serial = await uniqueIdGenerator(table, 5)
             }
             let { english, bangla, commonName, synonym } = nameOfSpecies
-
+            console.log(speciesData)
             // keyList = JSON.stringify(keyList)
             let createdDatetimeStamp = moment().format("YYYY-MM-DD HH:mm:ss");
             let insertQuery = `insert into ${table} 
@@ -50,4 +50,48 @@ exports.requestNewSpecies = async (req, res, next) => {
     }
 
 
+}
+exports.getAllRequestedSpecies = async (req, res, next) => {
+    let modifiedList = []
+
+    let table = await getTable(tableTypes.requestedSpecies)
+    let searchQuery = `select * from ${table}`
+    let response = await executeQuery(searchQuery)
+    if (response?.length > 0) {
+        let modifiedResponse = []
+        for (let item of response) {
+            let districts = []
+            if (item.district.includes('+')) {
+                let splittedValue = item.district.split('+')
+                splittedValue.map((item) => {
+                    districts.push({
+                        place_name: item,
+                        center: null
+                    })
+                })
+            }
+            else {
+                if (item.district.includes('{'))
+                    districts = item?.district ? JSON.parse(item.district) : []
+                else
+                    districts = item?.district || []
+            }
+            modifiedResponse.push({
+                ...item,
+                identificationFeatures: item?.identificationFeatures ? JSON.parse(item.identificationFeatures) : {},
+                additionalFiles: item?.additional_files?.split(',') || '',
+                name: item?.name ? JSON.parse(item.name) : {},
+                districts: districts,
+
+            })
+        }
+        modifiedList = modifiedList.concat(modifiedResponse)
+    }
+
+
+    // console.log(modifiedList.length)
+    res.status(200).json({
+        success: true,
+        data: modifiedList,
+    })
 }

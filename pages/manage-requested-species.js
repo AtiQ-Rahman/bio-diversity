@@ -48,6 +48,7 @@ import {
   Dialog,
 } from "@mui/material";
 import Paper from "@mui/material/Paper";
+import callApi from "../utils/callApi";
 const imageSrc = require("../assets/images/species1.jpg");
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -61,7 +62,6 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 const BootstrapDialogTitle = (props) => {
   const { children, onClose, ...other } = props;
-
   return (
     <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
       {children}
@@ -130,61 +130,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     border: 0,
   },
 }));
-const rows = [
-  createData(
-    1,
-
-    "Bryopsis indica Gepp & Gepp",
-    "Bryopsidaceae",
-    "St Martin’s Island (SMI)",
-    "rocks, corals",
-    "2-3",
-    "20.622990,92.320325"
-  ),
-  createData(
-    2,
-
-    "Bryopsis indica Gepp & Gepp",
-    "Bryopsidaceae",
-    "St Martin’s Island (SMI)",
-    "rocks, corals",
-    "2-3",
-    "20.622990,92.320325"
-  ),
-
-  createData(
-    3,
-
-    "Bryopsis indica Gepp & Gepp",
-    "Bryopsidaceae",
-    "St Martin’s Island (SMI)",
-    "rocks, corals",
-    "2-3",
-    "20.622990,92.320325"
-  ),
-
-  createData(
-    4,
-
-    "Bryopsis indica Gepp & Gepp",
-    "Bryopsidaceae",
-    "St Martin’s Island (SMI)",
-    "rocks, corals",
-    "2-3",
-    "20.622990,92.320325"
-  ),
-
-  createData(
-    5,
-
-    "Bryopsis indica Gepp & Gepp",
-    "Bryopsidaceae",
-    "St Martin’s Island (SMI)",
-    "rocks, corals",
-    "2-3",
-    "20.622990,92.320325"
-  ),
-];
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
   ({ theme, open }) => ({
     ...theme.typography.mainContent,
@@ -249,9 +194,14 @@ export default function ManageRequestedSpecies() {
   const handleLeftDrawerToggle = () => {
     dispatch({ type: SET_MENU, opened: !leftDrawerOpened });
   };
-
+  const [requestedSpecies , setRequestedSpecies] = useState([])
+  async function fetchData() {
+    let response = await callApi("/get-all-requested-species", {});
+    setRequestedSpecies(response.data);
+  }
   useEffect(() => {
     dispatch({ type: SET_MENU, opened: !matchDownMd });
+    fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [matchDownMd]);
   return (
@@ -361,22 +311,23 @@ export default function ManageRequestedSpecies() {
                         <TableHead>
                           <TableRow>
                             <StyledTableCell>SI</StyledTableCell>
-                            <StyledTableCell>Image</StyledTableCell>
-
                             <StyledTableCell align="center">
-                              Species
+                              Name
                             </StyledTableCell>
                             <StyledTableCell align="center">
-                              Family
+                              Kingdom
                             </StyledTableCell>
                             <StyledTableCell align="center">
                               Locality
                             </StyledTableCell>
                             <StyledTableCell align="center">
-                              Habitat
+                              Category
                             </StyledTableCell>
                             <StyledTableCell align="center">
-                              Size &nbsp;(cm)
+                              Species
+                            </StyledTableCell>
+                            <StyledTableCell align="center">
+                              Status
                             </StyledTableCell>
                             {/* <StyledTableCell align="center">GIS</StyledTableCell> */}
                             <StyledTableCell align="center">
@@ -385,7 +336,7 @@ export default function ManageRequestedSpecies() {
                           </TableRow>
                         </TableHead>
                         <TableBody>
-                          {rows.map((row) => (
+                          {requestedSpecies.map((row ,index) => (
                             <StyledTableRow
                               key={row.name}
                               sx={{
@@ -395,27 +346,36 @@ export default function ManageRequestedSpecies() {
                               }}
                             >
                               <StyledTableCell component="th" scope="row">
-                                {row.number}
+                                {index + 1}
                               </StyledTableCell>
                               <StyledTableCell align="center">
                                 <Typography component="div" variant="div">
-                                  {row.Species}
+                                  {row.bangla}
                                 </Typography>
                               </StyledTableCell>
                               <StyledTableCell align="center">
-                                {row.Family}
+                                {row.kingdom}
                               </StyledTableCell>
                               <StyledTableCell align="center">
-                                {row.Locality}
+                                {row.districts[0].place_name}
                               </StyledTableCell>
                               <StyledTableCell align="center">
-                                {row.Habitat}
+                                {row.category}
                               </StyledTableCell>
                               <StyledTableCell align="center">
-                                {row.Size}
+                                {row.species}
                               </StyledTableCell>
                               <StyledTableCell align="center">
-                                {row.GIS}
+                              {row.status == "approved" ?
+                                  (<Typography component="div" variant="div" style={{ background: "green", color: "white", padding: "5px", borderRadius: "8px" }}>
+                                    {row.status}
+                                  </Typography>)
+                                  :
+                                  (
+                                    <Typography component="div" variant="div" style={{ background: "red", color: "white", padding: "5px", borderRadius: "8px" }}>
+                                      {row.status}
+                                    </Typography>)
+                                }
                               </StyledTableCell>
                               <StyledTableCell align="center">
                                 <Box

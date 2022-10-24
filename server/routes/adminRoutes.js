@@ -11,6 +11,7 @@ const { BIOGetSpeciesByCategory } = require('../apis/get-species-by-category');
 const { addUpdateSubCategories } = require("../apis/add-update-subcategories");
 const { createNewTemplate, updateSelectedTemplate } = require("../apis/create-new-templates");
 const { getAllImages } = require("../apis/get-all-images");
+const { requestNewSpecies, getAllRequestedSpecies } = require("../apis/manage-requested-species");
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -37,6 +38,8 @@ router.post("/update-selected-template", updateSelectedTemplate);
 router.post("/get-all-images", getAllImages);
 router.post("/update-slider-image", BIOUpdateSelectedTemplate);
 
+router.post("/send-request-for-new-species", upload.array("additionalFiles", 100), requestNewSpecies);
+router.post("/get-all-requested-species", getAllRequestedSpecies);
 
 
 
