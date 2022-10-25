@@ -201,7 +201,7 @@ export default function ManageSpecies() {
               })
             }>
               <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                <CardContent sx={{ flex: '1 0 auto', width: 220 }}>
+                <CardContent sx={{ flex: '1 0 auto', width: 220,pt:10,align:"center" }}>
                   <Typography component="div" variant="h3">
                     {row.name}
 
