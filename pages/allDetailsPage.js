@@ -239,10 +239,10 @@ const AllDetailsPage = () => {
                   let title = processKeys(row)
                   return (
                     <StyledTableRow key={row}>
-                      <StyledTableCell component="th" scope="row">
-                        <b> {title}</b>
+                      <StyledTableCell component="th" scope="row" sx={{ pl: 10 }} >
+                        <b> {title} :</b>
                       </StyledTableCell>
-                      <StyledTableCell align="left">
+                      <StyledTableCell align="left" sx={{ pr: 15 }}>
                         {modifiedSpeciesDetails[row]}
                       </StyledTableCell>
 
