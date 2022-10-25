@@ -1,4 +1,4 @@
-const { getTable, executeQuery, uniqueIdGenerator, tableTypes, log, createQueryForSpecies } = require('../config/common');
+const { getTable, executeQuery, uniqueIdGenerator, tableTypes, log, createQueryForSpecies, speciesTableTypes, isValidImageOrMarker } = require('../config/common');
 
 const DB = require("../config/connectToDatabase");
 
@@ -30,7 +30,26 @@ exports.BIOGetGetSelectedTemplate = async (req, res, next) => {
     let searchQuery = `select * from ${table} where selected`
     let response = await executeQuery(searchQuery)
     console.log({ response })
+    let modifiedList = []
     if (response?.length > 0) {
+        let recentSighting = parseInt(response[0].recentSighting)
+
+        for (let key of Object.keys(speciesTableTypes)) {
+            let table = await getTable(speciesTableTypes[key])
+            let searchQuery = `select * from ${table} where profile_image is not null && profile_image != '' &&  profile_image != 'N/A' order by id desc limit ${recentSighting ?? 3}`
+            let response2 = await executeQuery(searchQuery)
+            if (response2?.length > 0) {
+                modifiedList = modifiedList.concat(response2)
+            }
+        }
+        let recentSightings = []
+        if (modifiedList.length >= recentSighting) {
+            recentSightings = modifiedList.slice(0, recentSighting)
+        }
+        else{
+            recentSightings = modifiedList
+        }
+        response[0].recentSightings = recentSightings
         res.status(200).json({
             success: true,
             data: response,

@@ -589,7 +589,7 @@ const ManageSpeciesTable = () => {
                         <TableHead>
                           <TableRow >
                             <StyledTableCell>
-
+                              Bangla Name
                             </StyledTableCell>
                             <StyledTableCell align="center">
                               Category
@@ -602,12 +602,6 @@ const ManageSpeciesTable = () => {
                             </StyledTableCell>
                             <StyledTableCell align="center">
                               kingdom
-                            </StyledTableCell>
-                            <StyledTableCell align="center">
-                              Size
-                            </StyledTableCell>
-                            <StyledTableCell align="center">
-                              lng/lat
                             </StyledTableCell>
                             <StyledTableCell align="center">
                               Action
@@ -625,7 +619,7 @@ const ManageSpeciesTable = () => {
                               }}
                             >
                               <StyledTableCell component="th" scope="row">
-                                {row.name.bangla}
+                                {row.bangla}
                               </StyledTableCell>
                               <StyledTableCell align="center">
                                 <Typography component="div" variant="div">
@@ -641,12 +635,7 @@ const ManageSpeciesTable = () => {
                               <StyledTableCell align="center">
                                 {row.kingdom}
                               </StyledTableCell>
-                              <StyledTableCell align="center">
-                                {row.Size}
-                              </StyledTableCell>
-                              <StyledTableCell align="center">
-                                {row.lng}, {row.lat}
-                              </StyledTableCell>
+
                               <StyledTableCell align="center">
                                 <Box sx={{ flexGrow: 1, flexDirection: "row" }}>
                                   <Button

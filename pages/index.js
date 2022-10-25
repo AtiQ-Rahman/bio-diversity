@@ -10,30 +10,11 @@ import {
   ImageListItem,
   ImageListItemBar,
 } from "@mui/material";
-import { styled, useTheme } from "@mui/material/styles";
-import SearchIcon from "@mui/icons-material/Search";
 
 import styles from "../styles/Home.module.css";
 import Header from "../components/Home/Header";
-import Counters from "../components/Home/counters";
 import CuroselCard from "../components/Home/curoselCard";
-import CollapseCard from "../components/Home/collapseCard";
 import Footer from "../components/Home/Footer/Footer";
-const img = require("../assets/images/species3.jpg");
-const species2 = require("../assets/images/species2.jpg");
-const imageSrc = require("../assets/images/species4.jpg");
-const imageSrc2 = require("../assets/images/species5.jpg");
-const imageSrc3 = require("../assets/images/species6.jpg");
-const species7 = require("../assets/images/species7.jpg");
-const species8 = require("../assets/images/species8.jpg");
-const species9 = require("../assets/images/species9.jpg");
-const species10 = require("../assets/images/species10.jpg");
-const species12 = require("../assets/images/species12.jpg");
-import blurImage from "../assets/images/blur.jpg";
-const species3 = require("../assets/images/species3.jpg");
-import { Icon } from "@iconify/react";
-import { height, width } from "@mui/system";
-import InfoIcon from "@mui/icons-material/Info";
 import callApi, { imageUrl } from "../utils/callApi";
 import { imageLoader } from "../utils/utils";
 
@@ -46,6 +27,7 @@ export default function Home() {
     let response = await callApi("/get-selected-template", {});
     if (response.data.length > 0) {
       let sliderImages = response.data[0].sliderImages.split(',')
+      setSelectedRecentSightings(response.data[0].recentSightings)
       if(slides.length == 0) {
         sliderImages.map((item) => {
           slides.push({
@@ -53,25 +35,6 @@ export default function Home() {
             title: item
           })
         })
-      }
-
-      console.log
-      let allSpecies = await callApi("/get-species-list", {});
-      if (allSpecies.data.length > 0) {
-        console.log(allSpecies.data)
-        let speciesList = allSpecies.data
-        speciesList = speciesList.sort((a, b) => {
-          if (a.createdDatetimeStamp > b.createdDatetimeStamp) return -1;
-          if (a.createdDatetimeStamp < b.createdDatetimeStamp) return 1;
-          return 0;
-        });
-        console.log(speciesList.slice(0, parseInt(response.data[0]?.recentSighting)))
-        if (speciesList.length < parseInt(response.data[0]?.recentSighting)) {
-          setSelectedRecentSightings(speciesList)
-        }
-        else {
-          setSelectedRecentSightings(speciesList.slice(0, parseInt(response.data[0]?.recentSighting)))
-        }
       }
     }
 

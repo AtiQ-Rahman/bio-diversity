@@ -1,5 +1,5 @@
 const db = require("./connectToDatabase");
-const { categoryTable, homepageTable, subcategoriesTable, speciesTable, requestSpeciesTable } = require("./db-tables");
+const { categoryTable, homepageTable, subcategoriesTable, speciesTable, requestSpeciesTable, deletedSpeciesTable } = require("./db-tables");
 const dbName = process.env.DATABASE
 
 const createQueryForSpecies = async (table) => {
@@ -16,6 +16,9 @@ const createQueryForSpecies = async (table) => {
     }
     else if (table == await processTableName(this.tableTypes.requestedSpecies)) {
         query = requestSpeciesTable(table)
+    }
+    else if (table == await processTableName(this.tableTypes.deletedSpecies)) {
+        query = deletedSpeciesTable(table)
     }
     else {
         query = speciesTable(table)
@@ -48,6 +51,7 @@ exports.tableTypes = {
     subcategories: 'subcategories',
     homepage: 'homepage',
     requestedSpecies: 'requestedspecies',
+    deletedSpecies: 'deletedspecies',
 }
 exports.getTableNameFromSql = async (sql) => {
     let matchIndex = sql.match(/bio_diversity/i).index

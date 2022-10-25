@@ -33,6 +33,8 @@ import {
   IconButton,
   Dialog,
   Autocomplete,
+  DialogContentText,
+  Slide,
 
 } from "@mui/material";
 
@@ -48,7 +50,9 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     padding: theme.spacing(1),
   },
 }));
-
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 const BootstrapDialogTitle = (props) => {
   const { children, onClose, ...other } = props;
 
@@ -129,6 +133,29 @@ const ManageSpeciesDetails = () => {
   const matchDownMd = useMediaQuery(theme.breakpoints.down("lg"));
   // const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [deletDialogOpen, seDeletDialogOpen] = React.useState(false);
+
+  const handleDeleteDialogOpen = () => {
+    seDeletDialogOpen(true);
+  };
+
+  const handleDeleteDialogClose = () => {
+    seDeletDialogOpen(false);
+  };
+  const deleteSpecies = async () => {
+    let response = await callApi("/delete-item", {
+      serial: router.query.serial,
+      data: router.query.category,
+    });
+    handleDeleteDialogClose()
+    router.push({
+      pathname: 'manageSpeciesTable',
+      query: {
+        category: router.query.category
+      }
+    })
+    console.log({ response })
+  }
   const [openUpload, setOpenUpload] = React.useState(false);
   // const handleOpen = () => setOpen(true);
   // const handleClose = () => setOpen(false);
@@ -239,7 +266,9 @@ const ManageSpeciesDetails = () => {
                           color: "#0f4c39",
                         }}
                         type="button"
-                      // onClick={() => router.push("/map")}
+                        onClick={(e) => {
+                          handleDeleteDialogOpen()
+                        }}
                       >
                         <Icon icon="fluent:delete-16-filled" />
                         &nbsp; Delete
@@ -435,6 +464,21 @@ const ManageSpeciesDetails = () => {
               </Formik>
             </DialogContent>
           </BootstrapDialog>
+
+          {/* Delete Dialog Start*/}
+          <Dialog
+            open={deletDialogOpen}
+            TransitionComponent={Transition}
+            keepMounted
+            onClose={handleDeleteDialogClose}
+            aria-describedby="alert-dialog-slide-description"
+          >
+            <DialogTitle>{"Are you want to delete this species ?"}</DialogTitle>
+            <DialogActions>
+              <Button onClick={handleDeleteDialogClose}>No</Button>
+              <Button onClick={deleteSpecies}>Yes</Button>
+            </DialogActions>
+          </Dialog>
         </Main>
       </Box>
     </div>

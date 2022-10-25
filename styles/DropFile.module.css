@@ -60,8 +60,8 @@
     display: flex;
     margin-bottom: 10px;
     background-color: var(--input-bg);
-    padding: 15px;
-    border-radius: 20px;
+    padding: 10px;
+    border-radius: 10px;
 }
 
 .dropFilePreview__item img {

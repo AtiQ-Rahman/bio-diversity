@@ -53,8 +53,8 @@ const StyledSlider = styled((props) => <Slider {...props} />)({
     height: "400px !important"
   },
   '& ul .slick-active': {
-      border: "3px solid #d76d2e !important",
-      filter: " drop-shadow(2px 4px 6px grey) !important"
+    border: "3px solid #d76d2e !important",
+    filter: " drop-shadow(2px 4px 6px grey) !important"
   },
 });
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -180,16 +180,18 @@ const AllDetailsPage = () => {
                 )}
               </StyledSlider>
             </div>
-          ) : (
-            <Image
-              loader={imageLoader}
-              src={imageUrl + "/" + speciesDetails?.profile_image}
-              alt="species-image"
-              // width="345"
-              // height={200}
-              layout='fill'
-            ></Image>
-          )}
+          ) :
+            speciesDetails?.profile_image ?
+              (
+                <Image
+                  loader={imageLoader}
+                  src={imageUrl + "/" + speciesDetails?.profile_image}
+                  alt="species-image"
+                  // width="345"
+                  // height={200}
+                  layout='fill'
+                ></Image>
+              ) : null}
         </Item>
 
 

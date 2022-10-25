@@ -12,6 +12,7 @@ const { addUpdateSubCategories } = require("../apis/add-update-subcategories");
 const { createNewTemplate, updateSelectedTemplate } = require("../apis/create-new-templates");
 const { getAllImages, getBLOBFromFileName } = require("../apis/get-all-images");
 const { requestNewSpecies, getAllRequestedSpecies } = require("../apis/manage-requested-species");
+const { deleteItemFromTable } = require("../apis/delete-item-from-table");
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -27,6 +28,7 @@ const upload = multer({ storage: storage })
 router.post("/create-new-species", upload.array("additionalFiles", 100), createNewSpecies)
 router.post("/upload-species-by-excel", uploadSpeciesByExcel)
 router.post("/get-blob-from-filename", getBLOBFromFileName)
+router.post("/delete-item", deleteItemFromTable)
 
 router.post("/get-categories-list", BIOGetAllCategories);
 router.post("/add-update-categories", addUpdateCategories);

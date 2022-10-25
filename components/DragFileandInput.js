@@ -62,10 +62,10 @@ const DropFileInput = ({ setFieldValue, additionalFiles }) => {
                     onDrop={onDrop}
                 >
                     <div className={styles.dropFileInput__label}>
-                        <Image height={40} width={50} src={uploadImg} alt="" ></Image>
+                        <Image height={50} width={50} src={uploadImg} alt="" ></Image>
                         <p>Drag & Drop your Additional Image here</p>
                     </div>
-                    <input type="file" value="" accept=".png, */png, .jpg, */jpg" onChange={onFileDrop} />
+                    <input type="file" value="" multiple accept=".png, */png, .jpg, */jpg" onChange={onFileDrop} />
                 </div>
             </Grid>
             <Grid item xs={12} md={8}>

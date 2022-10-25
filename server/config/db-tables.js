@@ -8,6 +8,7 @@ const requestSpeciesTable = (table) => {
             english varchar(255),
             common varchar(255),
             synonym varchar(255),
+            subGroup varchar(255),
             district varchar(1000),
             profile_image longtext,
             category varchar(255),
@@ -27,6 +28,7 @@ const requestSpeciesTable = (table) => {
             variety varchar(255),
             sub_variety varchar(255),
             forma varchar(255),
+            lastModified datetime,
             createdDatetimeStamp datetime,
             lng varchar(255),
             lat varchar(255),
@@ -45,6 +47,7 @@ const speciesTable = (table) => {
         common varchar(255),
         synonym varchar(255),
         district varchar(1000),
+        subGroup varchar(255),
         profile_image longtext,
         category varchar(255),
         identificationFeatures longtext,
@@ -64,6 +67,7 @@ const speciesTable = (table) => {
         sub_variety varchar(255),
         forma varchar(255),
         createdDatetimeStamp datetime,
+        lastModified datetime,
         lng varchar(255),
         lat varchar(255),
         marker longtext,
@@ -109,10 +113,22 @@ const subcategoriesTable = (table) => {
     )`
     return createQuery
 }
+const deletedSpeciesTable = (table) => {
+    let createQuery = `CREATE TABLE ${table} (
+        id int NOT NULL AUTO_INCREMENT,
+        table_name varchar(255) NOT NULL,
+        data longtext,
+        createdDatetimeStamp datetime,
+        lastModified datetime,
+        PRIMARY KEY (id)
+    )`
+    return createQuery
+}
 module.exports = {
     categoryTable,
     subcategoriesTable,
     requestSpeciesTable,
     homepageTable,
-    speciesTable
+    speciesTable,
+    deletedSpeciesTable
 }

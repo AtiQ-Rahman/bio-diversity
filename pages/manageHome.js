@@ -225,7 +225,7 @@ export default function ManageHome() {
 
     const [openUpload, setOpenUpload] = React.useState(false);
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [rowsPerPage, setRowsPerPage] = React.useState(20);
     const [force, setForce] = React.useState(false);
     const { enqueueSnackbar } = useSnackbar();
 
@@ -535,7 +535,7 @@ export default function ManageHome() {
                                                         <em>None</em>
                                                     </MenuItem>
                                                     <MenuItem value={3}>last 3 sights</MenuItem>
-                                                    <MenuItem value={3}>last 4 sights</MenuItem>
+                                                    <MenuItem value={4}>last 4 sights</MenuItem>
                                                     <MenuItem value={5}>last 5 sights</MenuItem>
                                                     <MenuItem value={6}>last 6 sights</MenuItem>
                                                     <MenuItem value={7}>last 7 sights</MenuItem>

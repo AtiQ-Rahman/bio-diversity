@@ -35,13 +35,13 @@ import { SET_MENU } from "../store/actions";
 import styles from "../styles/Home.module.css";
 import dropStyles from "../styles/DropFile.module.css";
 import { styled, useTheme } from "@mui/material/styles";
-import callApi from "../utils/callApi";
+import callApi, { imageUrl } from "../utils/callApi";
 import Image from "next/image";
 import { teal } from "@mui/material/colors";
 import { useRouter } from "next/router";
 import Geocoder from "react-mapbox-gl-geocoder";
 import Geocode from "react-geocode";
-import { isValidImage } from "../utils/utils";
+import { isValidImage, imageLoader } from "../utils/utils";
 import DropFileInput from "../components/DragFileandInput";
 // import { kingdoms } from "../utils/kingdoms";
 // const kingdoms = require("../utils/kingdoms");
@@ -121,7 +121,7 @@ const AddNewSpecies = () => {
   const { enqueueSnackbar } = useSnackbar();
   const [lat, setLat] = useState(0);
   const [zoom, setZoom] = useState(5.52);
-  const [markerUrl, setMarkerUrl] = useState("");
+  const [markerUrl, setMarkerUrl] = useState(null);
   const [force, setForce] = useState(null);
   const [profileIndex, setProfileIndex] = useState();
 
@@ -210,6 +210,8 @@ const AddNewSpecies = () => {
           if (index > -1) {
             setProfileIndex(index)
           }
+          setSelectedDistricts(data.districts)
+          setCreateObjectURL(isValidImage(data.profile_image) ? imageUrl + '/' + data.profile_image : null)
           setMarkerUrl(isValidImage(data.marker) ? data.marker : null);
           let response = await callApi("/get-categories-by-name", { name: data.category });
           console.log({ response })
@@ -415,9 +417,10 @@ const AddNewSpecies = () => {
               <Form onSubmit={handleSubmit}>
                 <Grid sx={{ p: 10, background: "white" }}>
                   <Typography gutterBottom variant="h3">
-                    Add New Species
+                    {router?.query?.serial ? 'Edit Details' : 'Add New Species'}
+
                   </Typography>
-                  <Grid container spacing={3} sx={{pt:5}}>
+                  <Grid container spacing={3} sx={{ pt: 5, mb: 5 }}>
                     <Grid item xs={2}>
                       <Autocomplete
                         size="small"
@@ -1057,15 +1060,20 @@ const AddNewSpecies = () => {
                             onChange={handleChange}
                           />
                         </Grid>
-                        <Grid item xs={12} sx={{ p: 2 }}>
-                          <Typography component="h4" variant="div">
-                            Thumbnail Image
+                        <Grid item xs={12} sx={{ pt: 5, mb: 5, borderBottom: "1px solid gray" }}></Grid>
+
+
+                        <Grid item xs={12} md={6} sx={{}}>
+                          <Typography gutterBottom component="h3" variant="h3">
+                            Add Thumbnail Image
                           </Typography>
                           {createObjectURL ? (
                             <Image
                               src={createObjectURL}
                               height="200"
+                              objectFit="cover"
                               alt="Thumbnail Image"
+                              loader={imageLoader}
                               width="150"
                             ></Image>
                           ) : (
@@ -1093,24 +1101,16 @@ const AddNewSpecies = () => {
                               values.additionalFiles.push(file);
                             }}
                           />
-                          <Grid item xs={12}>
-                            <Typography component="h4" variant="div">
-                              Additional Image
-                            </Typography>
-                            <div className={dropStyles.box}>
-                              <DropFileInput
-                                additionalFiles={values?.additionalFiles}
-                                setFieldValue={setFieldValue}
-                              ></DropFileInput>
-                            </div>
-                          </Grid>
+
                         </Grid>
-                        <Grid item xs={12}>
-                          <Grid container spacing={3}>
-                            <Grid item md={6}>
-                              <Typography component="h4" variant="div">
-                                Add Marker
-                              </Typography>
+                        <Grid item xs={12} md={6} sx={{ mb: 3 }}>
+                          <Typography gutterBottom component="h3" variant="h3">
+                            Add Marker
+                          </Typography>
+                          <Grid container spacing={2}>
+
+                            <Grid item md={12} xs={12}>
+
                               {markerUrl ? (
                                 <Image
                                   src={markerUrl}
@@ -1137,54 +1137,58 @@ const AddNewSpecies = () => {
                                 name="marker"
                                 onChange={getMarkerUrl}
                               />
-                              <Box>
-                                {/* <Geocoder
-                              style={{ background: "white" }}
-                              {...mapAccess} onSelected={onSelected} viewport={viewport} hideOnSelect={true}
-                              queryParams={queryParams}
-                            /> */}
-                                <Autocomplete
-                                  multiple
-                                  disabled={markerUrl ? false : true}
-                                  id="tags-standard"
-                                  options={geocodeSearchResult}
-                                  getOptionLabel={(option) =>
-                                    option.place_name || option
-                                  }
-                                  defaultValue={[]}
-                                  onInputChange={(e, value) => {
-                                    callGecoderApi(value);
-                                  }}
-                                  onChange={(e, value) => {
-                                    console.log(value);
-                                    setSelectedDistricts(value);
-                                  }}
-                                  renderInput={(params) => (
-                                    <TextField
-                                      {...params}
-                                      style={{ padding: "2px" }}
-                                      label="Select District"
-                                      variant="outlined"
-                                      placeholder="Select"
-                                    // value={values?.district}
-                                    />
-                                  )}
-                                />
-                              </Box>
+
                             </Grid>
-                            <Grid item md={6}>
-                              <div
-                                ref={mapContainer}
-                                className={styles.map_container_2}
-                              ></div>
-                            </Grid>
+
                           </Grid>
                         </Grid>
-
                         <Grid item xs={12}>
-                          <Typography gutterBottom component="h3" variant="div">
+
+                          <div className={dropStyles.box}>
+                            <DropFileInput
+                              additionalFiles={values?.additionalFiles}
+                              setFieldValue={setFieldValue}
+                            ></DropFileInput>
+                          </div>
+                        </Grid>
+
+
+
+                        <Grid item md={6} xs={12} rowSpacing={4}>
+                          <Typography gutterBottom component="h3" variant="h3">
                             Identification Features
                           </Typography>
+                          <Autocomplete
+                            multiple
+                            fullWidth
+                            id="tags-standard"
+                            options={geocodeSearchResult}
+                            getOptionLabel={(option) =>
+                              option.place_name || option
+                            }
+                            defaultValue={[]}
+                            onInputChange={(e, value) => {
+                              callGecoderApi(value);
+                            }}
+                            onChange={(e, value) => {
+                              setSelectedDistricts(value);
+                            }}
+                            value={selectedDistricts ?? []}
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                style={{ padding: "2px" }}
+                                label="Select District"
+                                variant="outlined"
+                                placeholder="Select"
+                              // value={values?.district}
+                              />
+                            )}
+                          />
+
+                        </Grid>
+                        <Grid item xs={12}>
+
 
                           {values?.addtionalCategories?.map(
                             (category, index) => {

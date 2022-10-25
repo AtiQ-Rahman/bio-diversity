@@ -1,4 +1,4 @@
-const { getTable, executeQuery, uniqueIdGenerator, speciesTableTypes, log, createQueryForSpecies } = require('../config/common');
+const { getTable, executeQuery, uniqueIdGenerator, speciesTableTypes, log, createQueryForSpecies, returnValidJson, isValidImageOrMarker } = require('../config/common');
 
 const DB = require("../config/connectToDatabase");
 
@@ -27,11 +27,19 @@ exports.getAllSpecies = async (req, res, next) => {
                     else
                         districts = item?.district || []
                 }
+                let identificationFeatures = await returnValidJson(item.identificationFeatures)
+                console.log({identificationFeatures})
+                let additional_files = item?.additional_files?.split(',') || []
+                additional_files = additional_files.filter((item) => {
+                    if (isValidImageOrMarker(item)) {
+                        return item
+                    }
+                })
+                
                 modifiedResponse.push({
                     ...item,
-                    identificationFeatures: item?.identificationFeatures ? JSON.parse(item.identificationFeatures) : {},
-                    additionalFiles: item?.additional_files?.split(',') || '',
-                    name: item?.name ? JSON.parse(item.name) : {},
+                    identificationFeatures: identificationFeatures,
+                    additionalFiles: additional_files,
                     districts: districts,
 
                 })

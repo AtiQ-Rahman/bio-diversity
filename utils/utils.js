@@ -7,7 +7,7 @@ export const isMarker = (marker) => {
     }
 }
 export const isValidImage = (marker) => {
-    if (marker == '' || marker == 'N/A') {
+    if (marker == '' || marker == 'N/A' || marker == 'null') {
         return false
     }
     else {
