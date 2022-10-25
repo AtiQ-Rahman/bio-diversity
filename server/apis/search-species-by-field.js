@@ -58,9 +58,28 @@ exports.BIOGSearchParamsByField = async (req, res, next) => {
     if (searchParameters?.nameOfSpecies?.synonym) {
         searchQuery += ` and synonym REGEXP '${searchParameters.nameOfSpecies.synonym}?'`
     }
+    if (searchParameters?.csequestration) {
+        searchQuery += ` and JSON_EXTRACT(identificationFeatures, "$.csequestration") REGEXP '${searchParameters?.csequestration}?'`
+    }
+    if (searchParameters?.cproduction) {
+        searchQuery += ` and JSON_EXTRACT(identificationFeatures, "$.cproduction") REGEXP '${searchParameters?.cproduction}?'`
+    }
+    if (searchParameters?.ecosystemstatus) {
+        searchQuery += ` and JSON_EXTRACT(identificationFeatures, "$.ecosystemstatus") REGEXP '${searchParameters?.ecosystemstatus}?'`
+    }
+    if (searchParameters?.ecosystemvalue) {
+        searchQuery += ` and JSON_EXTRACT(identificationFeatures, "$.ecosystemvalue") REGEXP '${searchParameters?.ecosystemvalue}?'`
+    }
+    if (searchParameters?.geneticdata) {
+        searchQuery += ` and JSON_EXTRACT(identificationFeatures, "$.geneticdata") REGEXP '${searchParameters?.geneticdata}?'`
+    }
+    if (searchParameters?.speciestaxa) {
+        searchQuery += ` and JSON_EXTRACT(identificationFeatures, "$.speciestaxa") REGEXP '${searchParameters?.speciestaxa}?'`
+    }
     if(!searchQuery.includes('where')){
         searchQuery = searchQuery.replace('and' , 'where')
     }
+    console.log(searchQuery)
     let response = await executeQuery(searchQuery)
     if (response?.length > 0) {
         let modifiedResponse = []

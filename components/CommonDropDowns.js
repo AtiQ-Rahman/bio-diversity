@@ -32,7 +32,11 @@ const CommonDropDowns = ({
 }) => {
 
     const [allTypesOfSpecies, setAllTypesOfSpecies] = useState([])
-    const [subGroups, setsubGroups] = useState([])
+    const [subGroups, setSubGroups] = useState([])
+    const [cSequestrations, setSequestrations] = useState([])
+    const [cProductions, setProductions] = useState([])
+    const [ecosystemStatuses, setEcosystemStatuses] = useState([])
+    const [ecosystemValues, setEcosystemValueS] = useState([])
     const [kingdoms, setKingdoms] = useState([])
     const [phylums, setPhylums] = useState([])
     const [classes, setClassNames] = useState([])
@@ -49,6 +53,7 @@ const CommonDropDowns = ({
         let allTypesOfSpecies = await callApi("/get-unique-types-of-species", {});
         setAllTypesOfSpecies(allTypesOfSpecies.data)
         setKingdoms(allTypesOfSpecies.data.kingdoms)
+        setSubGroups(allTypesOfSpecies.data.subGroups)
         console.log({ allTypesOfSpecies })
     }
     useEffect(() => {

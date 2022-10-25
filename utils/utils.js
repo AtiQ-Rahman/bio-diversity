@@ -116,9 +116,18 @@ export const initialValues = {
     categories: [],
     additionalFiles: [],
     profileImage: null,
+    csequestration: null,
+    cproductions: null,
+    ecosystemstatus: null,
+    ecosystemvalue: null,
+    geneticdata: null,
+    speciestaxa: null,
 }
 export const twoDecimal = (num) => {
     return (Math.round(parseFloat(num) * 100000) / 100000).toFixed(5);
+}
+export const processNames = (name)=>{
+    return name?.toLowerCase()?.replaceAll('-','').replaceAll(' ','').replaceAll('/','')
 }
 export const processSpeciesObject = (speciesDetails) => {
     let mainObject = {}

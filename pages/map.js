@@ -55,7 +55,7 @@ const Map = () => {
   const fetchData = async (query, cbfn) => {
     let searchParameters = query
     if (!query.initial) {
-      localStorage.setItem(`allowed${query.category}`, true)
+      localStorage.setItem(`allowed${query.category.replaceAll(" ",'')}`, true)
     }
     delete searchParameters.initial
     let response = await callApi("/get-species-by-serial", { searchParameters })

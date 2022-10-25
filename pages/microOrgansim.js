@@ -34,6 +34,7 @@ const MicroOrgansim = () => {
    const theme = useTheme();
    const [searchMessage, setSearchMessage] = React.useState('')
    const [speciesList, setSpeciesList] = React.useState()
+   const router = useRouter();
 
    useEffect(() => {
       async function fetchData() {
@@ -65,11 +66,10 @@ const MicroOrgansim = () => {
          }
       }
       fetchData()
-   })
+   }, [router.pathname, router.query])
    // Handle left drawer
    const leftDrawerOpened = useSelector((state) => state.customization.opened);
    const dispatch = useDispatch();
-   const router = useRouter();
    return (
       <Box>
 
@@ -120,6 +120,8 @@ const MicroOrgansim = () => {
                   values.category = 'Microorganisms'
 
                   let searchParameters = values;
+                  localStorage.setItem(`${values.category}`, JSON.stringify(searchParameters))
+
                   // console.log({ loggedUser: loggedUser.userId });
                   // data.append("reportfile", values.reportfile);
                   let res = await callApi("/search-species-by-field", { searchParameters })

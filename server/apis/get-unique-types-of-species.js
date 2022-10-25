@@ -3,6 +3,7 @@ const { getTable, executeQuery, uniqueIdGenerator, speciesTableTypes, log, creat
 const DB = require("../config/connectToDatabase");
 
 const typeObject = {
+    subGroups: [],
     kingdoms: [],
     phylums: [],
     classes: [],
@@ -15,17 +16,25 @@ const typeObject = {
     subVarieties: [],
     subVarieties: [],
     clones: [],
-    formas: []
+    formas: [],
+    cSequestrations: [],
+    cProductions: [],
+    ecosystemStatuses: [],
+    ecosystemValues: [],
+    geneticdatas: [],
+    speciestaxas: [],
 }
-const getDetailsByQuery = async (searchQuery, key, modifiedList) => {
+const getDetailsByQuery = async (searchQuery, key, modifiedList, isJson) => {
     let response = await executeQuery(searchQuery)
+    console.log({ response })
+
     if (response?.length > 0) {
         for (let item of response) {
-            console.log({ item })
+            // console.log({ item })
             let isExist = typeObject[modifiedList].findIndex((modifiedItem) => item[key] == modifiedItem[key])
             if (isExist == -1) {
                 console.log({ modifiedList })
-                if (item[key].toLowerCase() != 'n/a' && item[key] !== '') {
+                if (item[key]?.toLowerCase() != 'n/a' && item[key] !== '' && item[key] !== 'null' && item[key] !== 'undifined' && item[key]) {
                     typeObject[modifiedList].push(item)
                 }
             }
@@ -43,6 +52,7 @@ const getDetailsByQuery = async (searchQuery, key, modifiedList) => {
 exports.getUniqueTypes = async (req, res, next) => {
 
     let fetchSequences = [
+        { parent: null, child: 'subGroup', list: 'subGroups' },
         { parent: null, child: 'kingdom', list: 'kingdoms' },
         { parent: 'kingdom', child: 'phylum', list: 'phylums' },
         { parent: 'phylum', child: 'class_name', list: 'classes' },
@@ -54,7 +64,13 @@ exports.getUniqueTypes = async (req, res, next) => {
         { parent: null, child: 'variety', list: 'varieties' },
         { parent: 'variety', child: 'sub_variety', list: 'subVarieties' },
         { parent: null, child: 'clone', list: 'clones' },
-        { parent: 'clone', child: 'forma', list: 'formas' }
+        { parent: 'clone', child: 'forma', list: 'formas' },
+        { parent: null, child: 'csequestration', list: 'cSequestrations', isJson: true },
+        { parent: null, child: 'cproduction', list: 'cProductions', isJson: true },
+        { parent: null, child: 'ecosystemstatus', list: 'ecosystemStatuses', isJson: true },
+        { parent: null, child: 'ecosystemvalue', list: 'ecosystemValues', isJson: true },
+        { parent: null, child: 'speciestaxa', list: 'speciestaxas', isJson: true },
+        { parent: null, child: 'geneticdata', list: 'geneticdatas', isJson: true },
     ]
     for (let key of Object.keys(speciesTableTypes)) {
         let table = await getTable(speciesTableTypes[key])
@@ -63,12 +79,18 @@ exports.getUniqueTypes = async (req, res, next) => {
         for (let item of fetchSequences) {
             let searchQuery;
             if (!item.parent) {
-                searchQuery = `select  ${item.child} from ${table} group by ${item.child}`
+                if (item.isJson) {
+                    searchQuery = `select JSON_EXTRACT(identificationFeatures ,"$.${item.child}") as ${item.child} from ${table} group by JSON_EXTRACT(identificationFeatures ,"$.${item.child}")`
+                }
+                else {
+                    searchQuery = `select  ${item.child} from ${table} group by ${item.child}`
+                }
             }
             else {
                 searchQuery = `select ${item.parent} , ${item.child} from ${table} group by ${item.child}`
             }
-            await getDetailsByQuery(searchQuery, item.child, item.list)
+            console.log(searchQuery)
+            await getDetailsByQuery(searchQuery, item.child, item.list, item.isJson)
         }
     }
 

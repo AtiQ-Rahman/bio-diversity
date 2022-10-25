@@ -27,6 +27,7 @@ const Animals = () => {
    const [searchMessage, setSearchMessage] = React.useState('')
    const [speciesList, setSpeciesList] = React.useState()
 
+   const router = useRouter();
 
    useEffect(() => {
       async function fetchData() {
@@ -58,9 +59,8 @@ const Animals = () => {
       }
       fetchData()
 
-   })
+   }, [router.pathname, router.query])
 
-   const router = useRouter();
    return (
       <Box>
 
@@ -88,6 +88,7 @@ const Animals = () => {
                   values.category = 'Animals'
 
                   let searchParameters = values;
+                  localStorage.setItem(`${values.category}`, JSON.stringify(searchParameters))
                   // console.log({ loggedUser: loggedUser.userId });
                   // data.append("reportfile", values.reportfile);
                   let res = await callApi("/search-species-by-field", { searchParameters })
