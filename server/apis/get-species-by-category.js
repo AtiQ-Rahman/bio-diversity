@@ -22,13 +22,11 @@ exports.BIOGetSpeciesByCategory = async (req, res, next) => {
             for (let item of response) {
                 let addtionalCategories = returnValidJson(item.addtionalCategories)
                 let identificationFeatures = returnValidJson(item.identificationFeatures)
-                let name = returnValidJson(item.name)
                 modifiedResponse.push({
                     ...item,
                     identificationFeatures: identificationFeatures,
-                    addtionalCategories: addtionalCategories,
+                    addtionalCategories: [addtionalCategories],
                     additionalFiles: item?.additional_files?.split(',') || '',
-                    name: name,
                 })
             }
             res.status(200).json({

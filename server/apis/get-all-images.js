@@ -1,6 +1,10 @@
 const { getTable, executeQuery, speciesTableTypes, isValidImageOrMarker } = require('../config/common');
 
 const DB = require("../config/connectToDatabase");
+const path = require("path")
+const fs = require('fs')
+let dir = path.join(__dirname, "uploads").replace(`apis`,"").replace(`server\\`,"public")
+console.log(dir)
 
 exports.getAllImages = async (req, res, next) => {
     let modifiedList = []
@@ -27,7 +31,9 @@ exports.getAllImages = async (req, res, next) => {
         success: true,
         data: modifiedList,
     })
-
-
-
+}
+exports.getBLOBFromFileName = async (req, res, next) => {
+    console.log(req.body)
+    res.setHeader("content-type", "application/octet-stream");
+    fs.createReadStream(`${dir}/${req.body.additionalFileName}`).pipe(res);
 }

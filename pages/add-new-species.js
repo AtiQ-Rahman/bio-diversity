@@ -33,6 +33,7 @@ import * as Yup from "yup";
 import { drawerWidth } from "../store/constant";
 import { SET_MENU } from "../store/actions";
 import styles from "../styles/Home.module.css";
+import dropStyles from "../styles/DropFile.module.css";
 import { styled, useTheme } from "@mui/material/styles";
 import callApi from "../utils/callApi";
 import Image from "next/image";
@@ -41,6 +42,7 @@ import { useRouter } from "next/router";
 import Geocoder from "react-mapbox-gl-geocoder";
 import Geocode from "react-geocode";
 import { isValidImage } from "../utils/utils";
+import DropFileInput from "../components/DragFileandInput";
 // import { kingdoms } from "../utils/kingdoms";
 // const kingdoms = require("../utils/kingdoms");
 // const phylums = require("../utils/kingdoms");
@@ -195,7 +197,19 @@ const AddNewSpecies = () => {
         });
         if (species?.data?.length > 0) {
           let data = species.data[0];
-          data.nameOfSpecies = data.name;
+          data.nameOfSpecies = {
+            bangla: data.bangla,
+            english: data.english,
+            commonName: data.common,
+            synonym: data.synonym,
+          };
+          console.log({ data })
+
+          let index = data?.additionalFiles?.findIndex((item) => item?.trim() == data.profile_image?.trim())
+          console.log({ index })
+          if (index > -1) {
+            setProfileIndex(index)
+          }
           setMarkerUrl(isValidImage(data.marker) ? data.marker : null);
           let response = await callApi("/get-categories-by-name", { name: data.category });
           console.log({ response })
@@ -358,6 +372,8 @@ const AddNewSpecies = () => {
                 const data = new FormData();
                 data.append("data", JSON.stringify(speciesData));
                 let files = speciesData.additionalFiles;
+                console.log(files);
+
                 if (files.length != 0) {
                   for (const single_file of files) {
                     data.append("additionalFiles", single_file);
@@ -991,6 +1007,7 @@ const AddNewSpecies = () => {
                             name="nameOfSpecies.english"
                             margin="normal"
                             size="small"
+                            value={values?.nameOfSpecies?.english}
                             label="English Name"
                             fullWidth
                             onChange={handleChange}
@@ -1005,6 +1022,7 @@ const AddNewSpecies = () => {
                             margin="normal"
                             size="small"
                             label="Bangla Name"
+                            value={values?.nameOfSpecies?.bangla}
                             fullWidth
                             onChange={handleChange}
                             autoComplete="Bangla Name"
@@ -1016,6 +1034,7 @@ const AddNewSpecies = () => {
                             id="commonName"
                             name="nameOfSpecies.commonName"
                             margin="normal"
+                            value={values?.nameOfSpecies?.commonName}
                             size="small"
                             label="Common Name"
                             fullWidth
@@ -1030,6 +1049,7 @@ const AddNewSpecies = () => {
                             name="nameOfSpecies.synonym"
                             margin="normal"
                             size="small"
+                            value={values?.nameOfSpecies?.synonym}
                             label="Synonym"
                             fullWidth
                             autoComplete="synonym"
@@ -1077,128 +1097,12 @@ const AddNewSpecies = () => {
                             <Typography component="h4" variant="div">
                               Additional Image
                             </Typography>
-                            <label htmlFor="contained-button-file">
-                              <Input
-                                id="contained-button-file"
-                                multiple
-                                name="additionalFiles"
-                                type="file"
-                                accept=".png, */png, .jpg, */jpg"
-                                error={Boolean(
-                                  touched.additionalFiles &&
-                                  errors.additionalFiles
-                                )}
-                                helpertext={
-                                  touched.additionalFiles &&
-                                  errors.additionalFiles
-                                }
-                                color="success"
-                                onChange={(e) => {
-                                  for (let file of e.target.files) {
-                                    values.additionalFiles.push(file);
-                                  }
-                                  setFieldValue(
-                                    "additionalFiles",
-                                    values.additionalFiles
-                                  );
-                                  console.log(e.target.files);
-                                  // setFileName(e.target.files[0].name);
-                                }}
-                              // onChange={(event, values) => {
-                              //   setFieldValue("file", event.currentTarget.files[0]);
-                              // }}
-                              />
-
-                              <div> </div>
-
-                              <Box
-                                variant="contained"
-                                component="div"
-                                size="large"
-                                style={{
-                                  border: "1px dashed #c6b3b3",
-                                  borderRadius: "10px",
-                                  marginTop: "20px",
-                                }}
-                              >
-                                {values?.additionalFiles?.length > 0 ? (
-                                  Array.from(values.additionalFiles)
-                                    .slice(0, 5)
-                                    .map((file, index) => {
-                                      return (
-                                        <Grid
-                                          key={`additionalFiles${index}`}
-                                          item
-                                          xs={12}
-                                          style={{
-                                            border: "1px solid #eee",
-                                            borderRadius: "10px",
-                                            marginRight: "5px",
-                                          }}
-                                        >
-                                          <Grid
-                                            container
-                                            style={{ padding: 10 }}
-                                          >
-                                            <Grid
-                                              item
-                                              xs={1}
-                                              md={2}
-                                              style={{ paddingTop: 2 }}
-                                            >
-                                              <Icon icon="bi:image" />
-                                            </Grid>
-                                            <Grid
-                                              item
-                                              xs={10}
-                                              md={9}
-                                              style={{ paddingLeft: 2 }}
-                                            >
-                                              <Typography
-                                                component="div"
-                                                variant="body"
-                                              >
-                                                {file?.name || file}
-                                              </Typography>
-                                            </Grid>
-                                            <Grid
-                                              item
-                                              xs={1}
-                                              style={{ paddingTop: 2 }}
-                                            >
-                                              <Icon
-                                                icon="fluent:delete-32-filled"
-                                                onClick={(e) => {
-                                                  let list = Array.from(
-                                                    values.additionalFiles
-                                                  );
-                                                  list.splice(index, 1);
-                                                  setFieldValue(
-                                                    "additionalFiles",
-                                                    list
-                                                  );
-                                                }}
-                                              />
-                                            </Grid>
-                                          </Grid>
-                                        </Grid>
-                                      );
-                                    })
-                                ) : (
-                                  <Typography
-                                    sx={{ p: 5 }}
-                                    component="h5"
-                                    variant="h5"
-                                  >
-                                    <Icon
-                                      icon="clarity:image-gallery-solid"
-                                      width={20}
-                                    />{" "}
-                                    Please Upload Addition File here
-                                  </Typography>
-                                )}
-                              </Box>
-                            </label>
+                            <div className={dropStyles.box}>
+                              <DropFileInput
+                                additionalFiles={values?.additionalFiles}
+                                setFieldValue={setFieldValue}
+                              ></DropFileInput>
+                            </div>
                           </Grid>
                         </Grid>
                         <Grid item xs={12}>

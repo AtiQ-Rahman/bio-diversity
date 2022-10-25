@@ -100,7 +100,8 @@ exports.returnValidJson = async (data) => {
             return {}
         }
         else {
-            return JSON.parse(data)
+            let parsedData = JSON.parse(data)
+            return parsedData
         }
     }
     else if (typeof data == 'object') {

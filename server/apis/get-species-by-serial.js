@@ -1,4 +1,4 @@
-const { getTable, executeQuery, uniqueIdGenerator, tableTypes, log, createQueryForSpecies, isValidImageOrMarker } = require('../config/common');
+const { getTable, executeQuery, uniqueIdGenerator, tableTypes, log, createQueryForSpecies, isValidImageOrMarker, returnValidJson } = require('../config/common');
 
 const DB = require("../config/connectToDatabase");
 
@@ -17,8 +17,6 @@ exports.BIOGetSpeciesBySerial = async (req, res, next) => {
         let searchQuery = `select * from ${table} where serial = '${searchParameters.serial}'`
 
         let response = await executeQuery(searchQuery)
-        console.log(JSON.stringify(searchParameters.type))
-        console.log({ response })
         if (response?.length > 0) {
             let modifiedResponse = []
             for (let item of response) {
@@ -38,6 +36,9 @@ exports.BIOGetSpeciesBySerial = async (req, res, next) => {
                     else
                         districts = item?.district || []
                 }
+                let addtionalCategories = await returnValidJson(item.addtionalCategories)
+                let identificationFeatures = await returnValidJson(item.identificationFeatures)
+                console.log({identificationFeatures})
                 let additional_files = item?.additional_files?.split(',') || []
                 additional_files = additional_files.filter((item) => {
                     if (isValidImageOrMarker(item)) {
@@ -46,10 +47,9 @@ exports.BIOGetSpeciesBySerial = async (req, res, next) => {
                 })
                 modifiedResponse.push({
                     ...item,
-                    identificationFeatures: item?.identificationFeatures ? JSON.parse(item.identificationFeatures) : {},
-                    addtionalCategories: item?.addtionalCategories ? [JSON.parse(item.addtionalCategories)] : [],
+                    identificationFeatures: identificationFeatures,
+                    addtionalCategories: [addtionalCategories],
                     additionalFiles: additional_files,
-                    name: item?.name ? JSON.parse(item.name) : {},
                     districts: districts,
 
                 })

@@ -10,7 +10,7 @@ const { addUpdateCategories } = require('../apis/add-update-categories');
 const { BIOGetSpeciesByCategory } = require('../apis/get-species-by-category');
 const { addUpdateSubCategories } = require("../apis/add-update-subcategories");
 const { createNewTemplate, updateSelectedTemplate } = require("../apis/create-new-templates");
-const { getAllImages } = require("../apis/get-all-images");
+const { getAllImages, getBLOBFromFileName } = require("../apis/get-all-images");
 const { requestNewSpecies, getAllRequestedSpecies } = require("../apis/manage-requested-species");
 
 const storage = multer.diskStorage({
@@ -26,6 +26,7 @@ const upload = multer({ storage: storage })
 
 router.post("/create-new-species", upload.array("additionalFiles", 100), createNewSpecies)
 router.post("/upload-species-by-excel", uploadSpeciesByExcel)
+router.post("/get-blob-from-filename", getBLOBFromFileName)
 
 router.post("/get-categories-list", BIOGetAllCategories);
 router.post("/add-update-categories", addUpdateCategories);

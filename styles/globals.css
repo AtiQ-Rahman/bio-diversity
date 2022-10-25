@@ -7,6 +7,13 @@
   --app-insideSidebar-color:#c44d34;
   --app-dropDown-color:rgb(225, 253, 249);
   --app-fontFamily:'Times New Roman', Times, serif;
+  --body-bg: #f5f8ff;
+  --box-bg: #fff;
+  --input-bg: #f5f8ff;
+  --txt-color: #2f2d2f;
+  --txt-second-color: #ccc;
+  --border-color: #4267b2;
+  --box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 .globalFont{
   font-family: 'Times New Roman', Times, serif;
