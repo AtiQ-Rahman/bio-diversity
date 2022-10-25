@@ -411,10 +411,6 @@ export default function ManageSpecies() {
                   {/* TABLE */}
                   <Divider></Divider>
                   <Grid>
-                    <Grid item xs={12} md={5}>
-                      <h1>Total Table Found ({rows.length})</h1>
-                    </Grid>
-
                     <Grid item xs={12} md={7}>
                       <Grid container md={12}>
                         <Grid
