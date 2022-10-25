@@ -32,7 +32,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 let imageProps = {
-  height: "300px",
+  height: "600px",
   width: "1300px",
   objectFit: "cover",
   borderRadius: "0px 0px 40px 40px"

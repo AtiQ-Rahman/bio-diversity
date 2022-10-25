@@ -19,7 +19,7 @@ export const createMapboxMarkerForDistribution = async (el, mapboxgl, imageUrl, 
         .setLngLat([speciesData.districts[0].center[0], speciesData.districts[0].center[1]])
         .setPopup(new mapboxgl.Popup({ offset: 30 }).setHTML(`
         <div >
-        ${speciesData.profile_image !== '' ? ` <div style="height: 150px; width:150px; background-image: url('${imageUrl + '/' + speciesData.profile_image}'); background-size : cover ; background-repeat : no-repeat"></div>
+        ${speciesData.profile_image !== '' ? ` <div style="height: 150px; width:200px;margin:8px; background-image: url('${imageUrl + '/' + speciesData.profile_image}'); background-size : cover ; background-repeat : no-repeat"></div>
         `: ''}
         <div className="popup">
             <h3 className="route-name">${speciesData.name.bangla}</h3>

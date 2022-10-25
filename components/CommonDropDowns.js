@@ -32,6 +32,7 @@ const CommonDropDowns = ({
 }) => {
 
     const [allTypesOfSpecies, setAllTypesOfSpecies] = useState([])
+    const [subGroups, setsubGroups] = useState([])
     const [kingdoms, setKingdoms] = useState([])
     const [phylums, setPhylums] = useState([])
     const [classes, setClassNames] = useState([])
@@ -60,37 +61,40 @@ const CommonDropDowns = ({
     return (
         <>
          <Grid item xs={2}>
-                <Autocomplete
-                    freeSolo
-                    size="small"
-                    disablePortal
-                    id="kingdoms"
-                    name={values?.kingdom}
-                    options={kingdoms}
-                    key="kingdoms"
-                    // value={values?.kingdom}
-                    getOptionLabel={(option) => option?.kingdom || option}
-                    value={values?.kingdom}
-                    // sx={{ width: 300 }}
-                    onInputChange={(e, value) => {
-                        setFieldValue("kingdom", value?.kingdom || value);
-                        let phylums = allTypesOfSpecies.phylums.filter((item) => item.kingdom == (value?.kingdom || value))
-                        setPhylums(phylums)
-                    }}
-                    renderInput={(params) => (
-                        <TextField
+                      <Autocomplete
+                        freeSolo
+                        size="small"
+                        disablePortal
+                        id="subGroups"
+                        name={values?.subGroup}
+                        options={subGroups}
+                        key="subGroups"
+                        // value={values?.kingdom}
+                        getOptionLabel={(option) => option?.subGroup || option}
+                        value={values?.subGroup}
+                        // sx={{ width: 300 }}
+                        onInputChange={(e, value) => {
+                          setFieldValue("subGroup", value?.subGroup || value);
+                        //   let subGroups = allTypesOfSpecies.subGroups.filter((item) => item.subGroup == (value?.subGroup || value))
+                        //   setSubGroups(subGroups)
+                        //   setFieldValue("kingdom", value?.kingdom || value);
+                        // let phylums = allTypesOfSpecies.phylums.filter((item) => item.kingdom == (value?.kingdom || value))
+                        // setPhylums(phylums)
+                        }}
+                        renderInput={(params) => (
+                          <TextField
                             {...params}
-                            error={Boolean(touched?.kingdom && errors?.kingdom)}
-                            helperText={touched?.kingdom && errors?.kingdom}
+                            error={Boolean(touched?.subGroup && errors?.subGroup)}
+                            helperText={touched?.subGroup && errors?.subGroup}
                             style={{ padding: "2px" }}
-                            label="Sub Group"
+                            label="---Sub Group---"
                             variant="outlined"
                             placeholder="Select"
-                            value={values?.kingdom}
-                        />
-                    )}
-                />
-            </Grid>
+                            value={values?.subGroup}
+                          />
+                        )}
+                      />
+                    </Grid>
             <Grid item xs={2}>
                 <Autocomplete
                     freeSolo

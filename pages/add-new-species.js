@@ -417,7 +417,7 @@ const AddNewSpecies = () => {
                   <Typography gutterBottom variant="h3">
                     Add New Species
                   </Typography>
-                  <Grid container spacing={3}>
+                  <Grid container spacing={3} sx={{pt:5}}>
                     <Grid item xs={2}>
                       <Autocomplete
                         size="small"
