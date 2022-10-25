@@ -18,6 +18,7 @@ import {
    TableRow,
    TableCell,
    TableBody,
+   Autocomplete,
 } from "@mui/material";
 // import ImageUpload from "./ImageUpload";
 
@@ -28,7 +29,7 @@ import { SET_MENU } from "../store/actions";
 import styles from "../styles/Home.module.css";
 import { styled, useTheme } from "@mui/material/styles";
 import callApi, { imageUrl } from "../utils/callApi";
-import { imageLoader, initialValues, pageGroups } from "../utils/utils";
+import { imageLoader, initialValues, pageGroups, processNames } from "../utils/utils";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
@@ -41,10 +42,19 @@ const GeneticSubCellularDiversity = () => {
    const [searchMessage, setSearchMessage] = React.useState('')
    const theme = useTheme();
    const [speciesList, setSpeciesList] = React.useState()
-
+   const router = useRouter();
+   const [allTypesOfSpecies, setAllTypesOfSpecies] = useState([])
+   const [subGroups, setSubGroups] = useState([])
+   const [subValues, setSubValues] = useState({})
 
    useEffect(() => {
       async function fetchData() {
+         let allTypesOfSpecies = await callApi("/get-unique-types-of-species", {});
+         console.log({ allTypesOfSpecies })
+         setAllTypesOfSpecies(allTypesOfSpecies.data)
+         setSubGroups(allTypesOfSpecies.data.subGroups)
+         subValues.geneticdatas = allTypesOfSpecies.data.genticdatas ? allTypesOfSpecies.data.geneticdatas : []
+         subValues.speciestaxas = allTypesOfSpecies.data.speciestaxas ? allTypesOfSpecies.data.speciestaxas : []
          let response = await callApi("/get-categories-by-name", { name: pageGroups.genetic });
          let localData = localStorage.getItem(pageGroups.genetic)
          let isAllowed = localStorage.getItem(`allowed${pageGroups.genetic}`)
@@ -74,9 +84,7 @@ const GeneticSubCellularDiversity = () => {
       }
       fetchData()
 
-   })
-
-   const router = useRouter();
+   }, [router.pathname, router.query])
    return (
       <Box>
 
@@ -127,6 +135,7 @@ const GeneticSubCellularDiversity = () => {
                   values.category = 'Genetic & Sub-Cellular Diversity'
 
                   let searchParameters = values;
+                  localStorage.setItem(`${values.category.replaceAll(" ", '')}`, JSON.stringify(searchParameters))
                   // console.log({ loggedUser: loggedUser.userId });
                   // data.append("reportfile", values.reportfile);
                   let res = await callApi("/search-species-by-field", { searchParameters })
@@ -169,19 +178,43 @@ const GeneticSubCellularDiversity = () => {
                               return (
                                  <>
                                     <Grid item xs={2} key={`keyList${index}`}>
-                                       <TextField
-                                          id={`${category.name + index}`}
-                                          name={`${category.key}`}
-                                          // margin="normal"
+                                       <Autocomplete
+                                          freeSolo
                                           size="small"
-                                          label={`${category.name}`}
-                                          onChange={(e) => {
-                                             setFieldValue(`${category.key}`, e.target.value)
+                                          disablePortal
+                                          id="subGroups"
+                                          name={`${category.name.toLowerCase()}`}
+                                          options={subValues[`${processNames(category.name)}s`]}
+                                          key={`dropdowns${index}`}
+                                          // value={values?.kingdom}
+                                          getOptionLabel={(option) => option[`${processNames(category.name)}`] || option}
+                                          value={values[`${processNames(category?.name)}`]}
+                                          // sx={{ width: 300 }}
+                                          onInputChange={(e, value) => {
+                                             console.log({ value })
+                                             setFieldValue(`${processNames(category.name)}`, value);
                                           }}
-                                          type="deseription"
-                                          fullWidth
-                                          variant="outlined"
+                                          renderInput={(params) => (
+                                             <TextField
+                                                {...params}
+                                                style={{ padding: "2px" }}
+                                                label={`${category.name}`}
+                                                variant="outlined"
+                                                placeholder="Select"
+                                                value={values[`${processNames(category?.name)}`]}
+                                             />
+                                          )}
                                        />
+                                       {/* <TextField
+                                             id={`${category.name + index}`}
+                                             name={`${category.name.toLowerCase()}`}
+                                             // margin="normal"
+                                             size="small"
+                                             label={`${category.name}`}
+                                             type="deseription"
+                                             fullWidth
+                                             variant="outlined"
+                                          /> */}
                                     </Grid>
                                  </>
                               )
@@ -327,7 +360,8 @@ const GeneticSubCellularDiversity = () => {
                                                 pathname: "/details",
                                                 query: {
                                                    serial: row.serial,
-                                                   category: pageGroups.genetic
+                                                   category: pageGroups.genetic,
+                                                   initial: false
                                                 }
                                              })}
                                              variant="outlined"
@@ -350,7 +384,8 @@ const GeneticSubCellularDiversity = () => {
                                                 pathname: "/map",
                                                 query: {
                                                    serial: row.serial,
-                                                   category: pageGroups.genetic
+                                                   category: pageGroups.genetic,
+                                                   initial: false
                                                 }
                                              })}
                                           // variant="outlined"

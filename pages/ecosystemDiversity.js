@@ -17,6 +17,7 @@ import {
    TableRow,
    TableCell,
    TableBody,
+   Autocomplete,
 } from "@mui/material";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -27,20 +28,36 @@ import styles from "../styles/Home.module.css";
 import { styled, useTheme } from "@mui/material/styles";
 import callApi, { imageUrl } from "../utils/callApi";
 import Image from "next/image";
-import { imageLoader, initialValues, pageGroups } from "../utils/utils";
+import { imageLoader, initialValues, pageGroups, processNames } from "../utils/utils";
 import { useRouter } from "next/router";
+let imageProps = {
+   height: "100px",
+   width: "200px",
+}
 const EcosystemDiversity = () => {
 
    const [category, setCatgory] = React.useState()
    const [searchMessage, setSearchMessage] = React.useState('')
    const theme = useTheme();
    const [speciesList, setSpeciesList] = React.useState()
-
+   const router = useRouter();
+   const [allTypesOfSpecies, setAllTypesOfSpecies] = useState([])
+   const [subGroups, setSubGroups] = useState([])
+   const [subValues, setSubValues] = useState({})
    useEffect(() => {
       async function fetchData() {
+         let allTypesOfSpecies = await callApi("/get-unique-types-of-species", {});
+         console.log({ allTypesOfSpecies })
+         setAllTypesOfSpecies(allTypesOfSpecies.data)
+
+         setSubGroups(allTypesOfSpecies.data.subGroups)
+         subValues.csequestrations = allTypesOfSpecies.data.cSequestrations ?? []
+         subValues.cproductions = allTypesOfSpecies.data.cProductions ?? []
+         subValues.ecosystemstatuss = allTypesOfSpecies.data.ecosystemStatuses ?? []
+         subValues.ecosystemvalues = allTypesOfSpecies.data.ecosystemValues ?? []
          let response = await callApi("/get-categories-by-name", { name: pageGroups.eco });
-         let localData = localStorage.getItem(pageGroups.eco)
-         let isAllowed = localStorage.getItem(`allowed${pageGroups.eco}`)
+         let localData = localStorage.getItem(pageGroups.eco.replaceAll(" ", ""))
+         let isAllowed = localStorage.getItem(`allowed${pageGroups.eco.replaceAll(" ", "")}`)
          console.log(router.query, localData)
          // if (router?.query?.initial) {
          //   localStorage.removeItem(category)
@@ -52,10 +69,10 @@ const EcosystemDiversity = () => {
             });
             console.log("response", res);
             setSpeciesList(res?.data);
-            localStorage.removeItem(`allowed${pageGroups.eco}`)
+            localStorage.removeItem(`allowed${pageGroups.eco.replaceAll(" ", "")}`)
          }
          else {
-            localStorage.removeItem(pageGroups.eco)
+            localStorage.removeItem(pageGroups.eco.replaceAll(" ", ""))
          }
          if (response.data.length > 0) {
             console.log(response.data)
@@ -67,9 +84,8 @@ const EcosystemDiversity = () => {
       }
       fetchData()
 
-   })
+   }, [router.pathname, router.query])
    // Handle left drawer
-   const router = useRouter();
    return (
       <Box>
 
@@ -120,6 +136,8 @@ const EcosystemDiversity = () => {
                   values.category = 'Ecosystem Diversity'
 
                   let searchParameters = values;
+                  localStorage.setItem(`${values.category.replaceAll(" ", '')}`, JSON.stringify(searchParameters))
+
                   // console.log({ loggedUser: loggedUser.userId });
                   // data.append("reportfile", values.reportfile);
                   let res = await callApi("/search-species-by-field", { searchParameters })
@@ -163,25 +181,57 @@ const EcosystemDiversity = () => {
                      <Grid container spacing={3}>
                         {category?.keyList?.length > 0 ?
                            category.keyList.map((category, index) => {
-                              return (
-                                 <>
-                                    <Grid item xs={2} key={`keyList${index}`}>
-                                       <TextField
-                                          id={`${category.name + index}`}
-                                          name={`${category.name.toLowerCase()}`}
-                                          // margin="normal"
-                                          size="small"
-                                          label={`${category.name}`}
-                                          type="deseription"
-                                          fullWidth
-                                          variant="outlined"
-                                       />
-                                    </Grid>
-                                 </>
-                              )
+                              if (category.name.toLowerCase() !== 'description') {
+                                 return (
+                                    <>
+                                       <Grid item xs={2} key={`keyList${index}`}>
+                                          <Autocomplete
+                                             freeSolo
+                                             size="small"
+                                             disablePortal
+                                             id="subGroups"
+                                             name={`${category.name.toLowerCase()}`}
+                                             options={subValues[`${processNames(category.name)}s`]}
+                                             key={`dropdowns${index}`}
+                                             // value={values?.kingdom}
+                                             getOptionLabel={(option) => option[`${processNames(category.name)}`] || option}
+                                             value={values[`${processNames(category?.name)}`]}
+                                             // sx={{ width: 300 }}
+                                             onInputChange={(e, value) => {
+                                                console.log({value})
+                                                setFieldValue(`${processNames(category.name)}`, value);
+                                             }}
+                                             renderInput={(params) => (
+                                                <TextField
+                                                   {...params}
+                                                   style={{ padding: "2px" }}
+                                                   label={`${category.name}`}
+                                                   variant="outlined"
+                                                   placeholder="Select"
+                                                   value={values[`${processNames(category?.name)}`]}
+                                                />
+                                             )}
+                                          />
+                                          {/* <TextField
+                                             id={`${category.name + index}`}
+                                             name={`${category.name.toLowerCase()}`}
+                                             // margin="normal"
+                                             size="small"
+                                             label={`${category.name}`}
+                                             type="deseription"
+                                             fullWidth
+                                             variant="outlined"
+                                          /> */}
+                                       </Grid>
+                                    </>
+                                 )
+                              }
+
                            })
                            : null}
 
+                     </Grid>
+                     <Grid container spacing={2}>
                         <Grid item xs={3}>
                            <TextField
 
@@ -238,7 +288,6 @@ const EcosystemDiversity = () => {
                               onChange={handleChange}
                            />
                         </Grid>
-
                      </Grid>
 
                      <br />
@@ -287,7 +336,7 @@ const EcosystemDiversity = () => {
                            <TableBody   >
                               {speciesList.map((row, index) => (
                                  <TableRow
-                                    key={row.index}
+                                    key={`list${row.index}`}
                                     sx={{
                                        "&:last-child td, &:last-child th": { border: 0 },
                                     }}
@@ -324,7 +373,8 @@ const EcosystemDiversity = () => {
                                                    pathname: "/details",
                                                    query: {
                                                       serial: row.serial,
-                                                      category: pageGroups.eco
+                                                      category: pageGroups.eco,
+                                                      initial: false
                                                    }
                                                 })}
                                                 variant="outlined"
@@ -347,7 +397,8 @@ const EcosystemDiversity = () => {
                                                    pathname: "/map",
                                                    query: {
                                                       serial: row.serial,
-                                                      category: pageGroups.eco
+                                                      category: pageGroups.eco,
+                                                      initial: false
                                                    }
                                                 })}
                                              // variant="outlined"

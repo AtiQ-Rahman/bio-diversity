@@ -78,6 +78,8 @@ const Fungi = () => {
             values.category = "Fungi";
 
             let searchParameters = values;
+            localStorage.setItem(`${values.category}`, JSON.stringify(searchParameters))
+
             // console.log({ loggedUser: loggedUser.userId });
             // data.append("reportfile", values.reportfile);
             let res = await callApi("/search-species-by-field", {

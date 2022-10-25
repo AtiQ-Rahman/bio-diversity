@@ -41,7 +41,7 @@ import { teal } from "@mui/material/colors";
 import { useRouter } from "next/router";
 import Geocoder from "react-mapbox-gl-geocoder";
 import Geocode from "react-geocode";
-import { isValidImage, imageLoader } from "../utils/utils";
+import { isValidImage, imageLoader, processNames } from "../utils/utils";
 import DropFileInput from "../components/DragFileandInput";
 // import { kingdoms } from "../utils/kingdoms";
 // const kingdoms = require("../utils/kingdoms");
@@ -185,6 +185,7 @@ const AddNewSpecies = () => {
     async function fetchData(query, cbfn) {
       let allTypesOfSpecies = await callApi("/get-unique-types-of-species", {});
       setAllTypesOfSpecies(allTypesOfSpecies.data);
+      setSubGroups(allTypesOfSpecies.data.subGroups)
       setKingdoms(allTypesOfSpecies.data.kingdoms);
       console.log({ allTypesOfSpecies });
 
@@ -524,9 +525,10 @@ const AddNewSpecies = () => {
                               size="small"
                               label={item.name}
                               fullWidth
+                              value={values?.identificationFeatures[processNames(item?.name)]}
                               onChange={(e) => {
                                 values.identificationFeatures[
-                                  item.key
+                                  processNames(item?.name)
                                 ] = e.target.value;
                               }}
                               autoComplete={item.name}
