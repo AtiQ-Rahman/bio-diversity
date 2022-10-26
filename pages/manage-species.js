@@ -185,7 +185,7 @@ export default function ManageSpecies() {
             key={`Category${index}`}
           >
             <Card sx={{
-              display: 'flex', border: "1px solid #eee", filter: "drop-shadow(2px 2px 10px #eee)",
+              border: "1px solid #eee", filter: "drop-shadow(2px 2px 10px #eee)",
               transition: "all .2s ease-in-out",
               "&:hover": {
                 filter: "drop-shadow(10px 2px 20px gray)",
@@ -200,23 +200,22 @@ export default function ManageSpecies() {
                 }
               })
             }>
-              <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                <CardContent sx={{ flex: '1 0 auto', width: 220,pt:10,align:"center" }}>
-                  <Typography component="div" variant="h3">
-                    {row.name}
-
-                  </Typography>
-                  <Typography variant="subtitle1" color="text.secondary" component="div">
-                    ({row.totalItem})
-                  </Typography>
-                </CardContent>
-              </Box>
-              <CardMedia
+               <CardMedia
                 component="img"
                 sx={{ height: 200 }}
                 image={species[`species${index + 7}`].default.src}
                 alt="Live from space album cover"
               />
+              <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                <CardContent >
+                  <Typography component="div" variant="h3" textAlign="center">
+                    {row.name} ({row.totalItem})
+
+                  </Typography>
+                 
+                </CardContent>
+              </Box>
+             
             </Card>
           </Grid>
         ))}

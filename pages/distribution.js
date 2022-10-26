@@ -228,13 +228,13 @@ const Distribution = () => {
                                 {species.english}
                               </Typography>
                             </TableCell>
-                            <TableCell>
+                            {/* <TableCell>
                               <Typography variant="caption">
                                 {twoDecimal(species?.districts?.[0]?.center[0])}{" "}
                                 ,
                                 {twoDecimal(species?.districts?.[0]?.center[1])}
                               </Typography>
-                            </TableCell>
+                            </TableCell> */}
                           </TableRow>
                         </>
                       ))}
