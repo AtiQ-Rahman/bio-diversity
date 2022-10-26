@@ -211,7 +211,19 @@ const AddNewSpecies = () => {
           if (index > -1) {
             setProfileIndex(index)
           }
-          setSelectedDistricts(data.districts)
+          if (typeof data.districts == 'string') {
+            let url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${data.districts}.json?access_token=${process.env.mapbox_key}&bbox=88.007207%2C20.4817039%2C92.679485%2C26.638142`
+            let response = await fetch(url)           //api for the get request
+            let value = await response.json()
+            console.log(value)
+            let district = value.features[1]
+            setSelectedDistricts([district])
+            setForce(!force)
+
+          }
+          else {
+            setSelectedDistricts(data.districts)
+          }
           setCreateObjectURL(isValidImage(data.profile_image) ? imageUrl + '/' + data.profile_image : null)
           setMarkerUrl(isValidImage(data.marker) ? data.marker : null);
           let response = await callApi("/get-categories-by-name", { name: data.category });

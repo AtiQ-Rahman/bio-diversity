@@ -22,7 +22,7 @@ export const createMapboxMarkerForDistribution = async (el, mapboxgl, imageUrl, 
         ${speciesData.profile_image !== '' ? ` <div style="height: 150px; width:200px;margin:8px; background-image: url('${imageUrl + '/' + speciesData.profile_image}'); background-size : cover ; background-repeat : no-repeat"></div>
         `: ''}
         <div className="popup">
-            <h3 className="route-name">${speciesData.name.bangla}</h3>
+            <h3 className="route-name">${speciesData.bangla}</h3>
             <div className="route-metric-row">
                 <h4 className="row-title">Kingdom #</h4>
                 <div className="row-value">${speciesData.kingdom}</div>

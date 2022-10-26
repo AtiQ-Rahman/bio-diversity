@@ -214,7 +214,7 @@ const Distribution = () => {
                             }}
                           >
                             <TableCell component="td" scope="row" width={50}>
-                              {species.marker !== "N/A" ? (
+                              {species.marker !== "N/A" && species.marker !== 'null' ? (
                                 <Image
                                   height={50}
                                   alt="Marker Icon"
