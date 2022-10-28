@@ -660,8 +660,7 @@ const ManageSpeciesTable = () => {
                                     sx={{ mb: 1, mr: 0.5 }}
                                   // variant="outlined"
                                   >
-                                    <DetailsIcon></DetailsIcon>
-                                    &nbsp; Details
+                                     Details
                                   </Button>
 
                                   {/* =======MODAL===== */}

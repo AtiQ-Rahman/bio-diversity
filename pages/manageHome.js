@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
-
+import LibraryAddCheckIcon from '@mui/icons-material/LibraryAddCheck';
 import { styled, useTheme } from "@mui/material/styles";
 import { useEffect, useState } from "react";
 import styles from "../styles/Home.module.css";
@@ -470,6 +470,7 @@ export default function ManageHome() {
                                   {selectedTemplate?.sliderImages?.includes(
                                     item
                                   ) ? (
+                                    
                                     <CardContent
                                       style={{
                                         position: "absolute",
@@ -481,12 +482,9 @@ export default function ManageHome() {
                                         borderRadius: "5px 0px 0px 5px",
                                       }}
                                     >
-                                      <Typography
-                                        variant="body"
-                                        component="div"
-                                      >
-                                        Selected
-                                      </Typography>
+                                      
+                                       <LibraryAddCheckIcon></LibraryAddCheckIcon>
+                                      
                                     </CardContent>
                                   ) : null}
                                 </CardActionArea>

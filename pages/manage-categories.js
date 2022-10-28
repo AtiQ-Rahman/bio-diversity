@@ -340,7 +340,7 @@ export default function ManageSpecies() {
               }
               // variant="outlined"
             >
-            <AddIcon></AddIcon>Add 
+           <Icon icon="carbon:view-filled" /> &nbsp;view 
             </Button>
           </StyledTableCell >
         </StyledTableRow >
@@ -519,6 +519,7 @@ export default function ManageSpecies() {
                 color: "#0f4c39",
               }}
             >
+              
               Add
             </BootstrapDialogTitle>
             <DialogContent dividers>

@@ -508,13 +508,13 @@ const SubCategories = () => {
                             md={2}
                             key={`subCategory${index}`}
                             sx={{
-                              width: 300,
-                              height: 200,
+                              width: 370,
+                              height: 170,
                               boxShadow: "3px 1px 10px #f1f1f1",
                               border: "1px solid #f3c4b8",
-                              px: 5,
+                              px: 1,
                               py: 2,
-                              m: 1,
+                              m: 2,
                             }}
                           >
                             <Grid container>
@@ -523,9 +523,9 @@ const SubCategories = () => {
                                   component="h4"
                                   fontSize={25}
                                   align="center"
-                                  sx={{ pt: 7, pl: 2, color: "#c44d34" }}
+                                  sx={{ pt: 7, pl: 2,  }}
                                 >
-                                  {row.name}
+                                  <b>{row.name}</b>
                                 </Typography>
                               </Grid>
                               <Grid item xs={12} md={2}>

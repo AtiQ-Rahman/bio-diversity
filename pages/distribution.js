@@ -223,9 +223,9 @@ const Distribution = () => {
                                 ></Image>
                               ) : null}
                             </TableCell>
-                            <TableCell align="">
+                            <TableCell align="center">
                               <Typography variant="body2" color="text.primary">
-                                {species.english}
+                                <b>{species.english}</b>
                               </Typography>
                             </TableCell>
                             {/* <TableCell>
