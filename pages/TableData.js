@@ -53,7 +53,7 @@ const TableData = (props) => {
                                     <StyledTableCell align="center"><b>Family</b></StyledTableCell>
                                     <StyledTableCell align="center"><b>Order name</b></StyledTableCell>
                                     <StyledTableCell align="center"><b>Lng/Lat</b></StyledTableCell>
-                                    <StyledTableCell  align="center"><b>Action</b></StyledTableCell>
+                                    <StyledTableCell  align="center" sx={{ pr: 10 }} ><b>Action</b></StyledTableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody   >

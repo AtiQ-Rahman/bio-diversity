@@ -184,7 +184,7 @@ const Fungi = () => {
               category={pageGroups.fungi}
             ></TableData>
           ) : (
-            <Typography variant="h1" component="h1" align="center" padding={25}>
+            <Typography variant="h1" component="h1" align="center" paddingBottom={20} paddingTop={10}>
               {searchMessage ?? ""}
             </Typography>
           )}

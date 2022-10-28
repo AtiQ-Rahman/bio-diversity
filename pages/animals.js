@@ -188,7 +188,7 @@ const Animals = () => {
             <Grid item xs={12}>
                {speciesList?.length > 0 ? (
                   <TableData speciesList={speciesList} category={pageGroups.animals}></TableData>
-               ) : <Typography variant="h1" component="h1" align="center" padding={25}>
+               ) : <Typography variant="h1" component="h1" align="center" paddingBottom={20} paddingTop={10}>
                   {searchMessage ?? ''}
                </Typography>}
             </Grid>

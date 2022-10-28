@@ -18,6 +18,7 @@ import {
    TableCell,
    TableBody,
    Autocomplete,
+   tableCellClasses,
 } from "@mui/material";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -34,6 +35,25 @@ let imageProps = {
    height: "100px",
    width: "200px",
 }
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+   [`&.${tableCellClasses.head}`]: {
+       backgroundColor: "#c44d34",
+       color: theme.palette.common.white,
+   },
+   [`&.${tableCellClasses.body}`]: {
+       fontSize: 20,
+       fontFamily: "Times New Roman"
+   },
+}));
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+   '&:nth-of-type(odd)': {
+       backgroundColor: theme.palette.action.hover,
+   },
+   // hide last border
+   '&:last-child td, &:last-child th': {
+       border: 0,
+   },
+}));
 const EcosystemDiversity = () => {
 
    const [category, setCatgory] = React.useState()
@@ -178,6 +198,7 @@ const EcosystemDiversity = () => {
                      >
                         Enter Your Details
                      </Typography>
+                     <br></br>
                      <Grid container spacing={3}>
                         {category?.keyList?.length > 0 ?
                            category.keyList.map((category, index) => {
@@ -314,60 +335,60 @@ const EcosystemDiversity = () => {
             )}
          </Formik>
          <Grid container sx={{ borderRadius: "10px", px: 10 }} >
-            <Grid item xs={12}>
+            <Grid item xs={12} paddingBottom={10}>
                {speciesList?.length > 0 ? (
                   <><Typography variant="h2" component="h2" align="center" gutterBottom>
                      Total Species Found : {speciesList.length}
                   </Typography>
                      <TableContainer component={Paper}    >
-                        <Table sx={{ minWidth: 650 }} aria-label="customized table" >
+                        <Table sx={{ minWidth: 700,pl: 7  }} aria-label="customized table" >
                            <TableHead>
                               <TableRow>
-                                 <TableCell>SI</TableCell>
-                                 <TableCell></TableCell>
-                                 <TableCell align="center">Species Name</TableCell>
-                                 <TableCell align="center">Descripton</TableCell>
-                                 <TableCell align="center">Family</TableCell>
-                                 <TableCell align="center">C-Production</TableCell>
-                                 <TableCell align="center">Lng/Lat</TableCell>
-                                 <TableCell align="center">Action</TableCell>
+                                 <StyledTableCell><b>SI</b></StyledTableCell>
+                                 <StyledTableCell><b>Images</b></StyledTableCell>
+                                 <StyledTableCell align="center">Species Name</StyledTableCell>
+                                 <StyledTableCell align="center">Descripton</StyledTableCell>
+                                 <StyledTableCell align="center">Family</StyledTableCell>
+                                 <StyledTableCell align="center">C-Production</StyledTableCell>
+                                 <StyledTableCell align="center">Lng/Lat</StyledTableCell>
+                                 <StyledTableCell align="center">Action</StyledTableCell>
                               </TableRow>
                            </TableHead>
                            <TableBody   >
                               {speciesList.map((row, index) => (
-                                 <TableRow
+                                 <StyledTableRow
                                     key={`list${row.index}`}
                                     sx={{
                                        "&:last-child td, &:last-child th": { border: 0 },
                                     }}
 
                                  >
-                                    <TableCell component="th" scope="row">
+                                    <StyledTableCell component="th" scope="row">
                                        {index + 1}
-                                    </TableCell>
-                                    <TableCell component="td" scope="row" width={200}>
+                                    </StyledTableCell>
+                                    <StyledTableCell component="td" scope="row" width={200}>
                                        <Image {...imageProps} objectFit="cover"
                                           alt="Profile Image"
                                           loader={imageLoader} src={imageUrl + '/' + row.profile_image}></Image>
-                                    </TableCell>
-                                    <TableCell align="center">
+                                    </StyledTableCell>
+                                    <StyledTableCell align="center">
                                        {row.name.commonName}
-                                    </TableCell>
-                                    <TableCell align="center">{row.identificationFeatures.description}</TableCell>
+                                    </StyledTableCell>
+                                    <StyledTableCell align="center">{row.identificationFeatures.description}</StyledTableCell>
 
-                                    <TableCell align="center">{row.family}</TableCell>
-                                    <TableCell align="center">{row.production}</TableCell>
-                                    <TableCell align="center">{row.lng} ,{row.lat}</TableCell>
-                                    <TableCell align="center">
-                                       <Grid container spacing={1} width={100}>
-                                          <Grid item xs={12}>
+                                    <StyledTableCell align="center">{row.family}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.production}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.lng} ,{row.lat}</StyledTableCell>
+                                    <StyledTableCell align="center" sx={{ pl: 10 }} >
+                                       <Grid container spacing={1} >
+                                          {/* <Grid item xs={12}> */}
                                              <Button
                                                 style={{
-                                                   width: "130px",
+                                                   width: "110px",
                                                    maxHeight: "80px",
                                                    minWidth: "40px",
                                                    minHeight: "40px"
-                                                }}
+                                               }}
                                                 type="button"
                                                 onClick={() => router.push({
                                                    pathname: "/details",
@@ -381,8 +402,8 @@ const EcosystemDiversity = () => {
                                              >
                                                 View Details
                                              </Button>
-                                          </Grid>
-                                          <Grid item xs={12}>
+                                          {/* </Grid> */}
+                                          {/* <Grid item xs={12}> */}
                                              <Button
                                                 className={styles.bg_primary}
                                                 style={{
@@ -401,21 +422,22 @@ const EcosystemDiversity = () => {
                                                       initial: false
                                                    }
                                                 })}
+                                                sx={{ ml: 1 }}
                                              // variant="outlined"
                                              >
-                                                View on map
+                                                View  map
                                              </Button>
-                                          </Grid>
+                                          {/* </Grid> */}
 
                                        </Grid>
 
-                                    </TableCell>
-                                 </TableRow>
+                                    </StyledTableCell>
+                                 </StyledTableRow>
                               ))}
                            </TableBody>
                         </Table>
                      </TableContainer></>
-               ) : <Typography variant="h1" component="h1" align="center">
+               ) : <Typography variant="h1" component="h1" align="center" paddingBottom={20} paddingTop={10}>
                   {searchMessage ?? ''}
                </Typography>}
             </Grid>
@@ -429,7 +451,7 @@ const EcosystemDiversity = () => {
         onRowsPerPageChange={handleChangeRowsPerPage}
       /> */}
          </Grid>
-         <Footer style={{ padding: "120px" }} />
+         <Footer style={{ paddingTop: "120px" }} />
       </Box>
    );
 };

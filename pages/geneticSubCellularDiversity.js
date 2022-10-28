@@ -19,6 +19,7 @@ import {
    TableCell,
    TableBody,
    Autocomplete,
+   tableCellClasses,
 } from "@mui/material";
 // import ImageUpload from "./ImageUpload";
 
@@ -32,7 +33,25 @@ import callApi, { imageUrl } from "../utils/callApi";
 import { imageLoader, initialValues, pageGroups, processNames } from "../utils/utils";
 import Image from "next/image";
 import { useRouter } from "next/router";
-
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+   [`&.${tableCellClasses.head}`]: {
+       backgroundColor: "#c44d34",
+       color: theme.palette.common.white,
+   },
+   [`&.${tableCellClasses.body}`]: {
+       fontSize: 20,
+       fontFamily: "Times New Roman"
+   },
+}));
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+   '&:nth-of-type(odd)': {
+       backgroundColor: theme.palette.action.hover,
+   },
+   // hide last border
+   '&:last-child td, &:last-child th': {
+       border: 0,
+   },
+}));
 let imageProps = {
    height: "100px",
    width: "200px",
@@ -172,6 +191,7 @@ const GeneticSubCellularDiversity = () => {
                      >
                         Enter Your Details
                      </Typography>
+                     <br></br>
                      <Grid container spacing={3}>
                         {category?.keyList?.length > 0 ?
                            category.keyList.map((category, index) => {
@@ -303,58 +323,65 @@ const GeneticSubCellularDiversity = () => {
                </Form>
             )}
          </Formik>
-         <Grid container sx={{ px: 10 }}>
+         <Grid container sx={{borderRadius: "10px", px: 10 }} paddingBottom={7}>
             <Grid item xs={12} >
                {speciesList?.length > 0 ? (
+                  <>
+                  <Typography variant="h2" component="h2" align="center" gutterBottom>
+                     Total Species Found : {speciesList.length}
+                  </Typography>
+                  <br/>
                   <TableContainer component={Paper}    >
                      <Table sx={{ minWidth: 650 }} aria-label="customized table" >
                         <TableHead>
                            <TableRow>
-                              <TableCell>SI</TableCell>
-                              <TableCell></TableCell>
-                              <TableCell align="center">Species Name</TableCell>
-                              <TableCell align="center">Type</TableCell>
-                              <TableCell align="center">Family</TableCell>
-                              <TableCell align="center">Order name</TableCell>
-                              <TableCell align="center">Lng/Lat</TableCell>
-                              <TableCell align="center">Action</TableCell>
+                              <StyledTableCell><b>SI</b></StyledTableCell>
+                              <StyledTableCell><b>Image</b></StyledTableCell>
+                              <StyledTableCell align="center"><b>Species Name</b></StyledTableCell>
+                              <StyledTableCell align="center"><b>Type</b></StyledTableCell>
+                              <StyledTableCell align="center"><b>Family</b></StyledTableCell>
+                              <StyledTableCell align="center"><b>Order name</b></StyledTableCell>
+                              <StyledTableCell align="center"><b>Lng/Lat</b></StyledTableCell>
+                              <StyledTableCell align="center"><b>Action</b></StyledTableCell>
                            </TableRow>
                         </TableHead>
                         <TableBody   >
                            {speciesList.map((row, index) => (
-                              <TableRow
+                              <StyledTableRow
                                  key={row.index}
                                  sx={{
                                     "&:last-child td, &:last-child th": { border: 0 },
                                  }}
 
                               >
-                                 <TableCell component="th" scope="row">
+                                 <StyledTableCell component="th" scope="row">
                                     {index + 1}
-                                 </TableCell>
-                                 <TableCell component="td" scope="row" width={200}>
+                                 </StyledTableCell>
+                                 <StyledTableCell component="td" scope="row" width={200}>
                                     <Image {...imageProps} objectFit="cover" loader={imageLoader}
                                        alt="Profile Image"
                                        src={imageUrl + '/' + row.profile_image}></Image>
-                                 </TableCell>
-                                 <TableCell align="center">
+                                 </StyledTableCell>
+                                 <StyledTableCell align="center">
                                     {row.name.commonName}
-                                 </TableCell>
-                                 <TableCell align="center">{row.identificationFeatures.description}</TableCell>
+                                 </StyledTableCell>
+                                 <StyledTableCell align="center">{row.identificationFeatures.description}</StyledTableCell>
 
-                                 <TableCell align="center">{row.family}</TableCell>
-                                 <TableCell align="center">{row.cProduction}</TableCell>
-                                 <TableCell align="center">{row.lng} ,{row.lat}</TableCell>
-                                 <TableCell align="center">
-                                    <Grid container spacing={1} width={100}>
-                                       <Grid item xs={12}>
+                                 <StyledTableCell align="center">{row.family}</StyledTableCell>
+                                 <StyledTableCell align="center">{row.cProduction}</StyledTableCell>
+                                 <StyledTableCell align="center">{row.lng} ,{row.lat}</StyledTableCell>
+                                 <StyledTableCell sx={{ pl: 10 }} align="center">
+                                    <Grid container spacing={1} >
+                                      
                                           <Button
-                                             style={{
-                                                width: "130px",
-                                                maxHeight: "80px",
-                                                minWidth: "40px",
-                                                minHeight: "40px"
-                                             }}
+                                                
+                                                style={{
+                                                    width: "110px",
+                                                    maxHeight: "80px",
+                                                    minWidth: "40px",
+                                                    minHeight: "40px",
+                                                   
+                                                }}
                                              type="button"
                                              onClick={() => router.push({
                                                 pathname: "/details",
@@ -368,8 +395,8 @@ const GeneticSubCellularDiversity = () => {
                                           >
                                              View Details
                                           </Button>
-                                       </Grid>
-                                       <Grid item xs={12}>
+                                     
+                                      
                                           <Button
                                              className={styles.bg_primary}
                                              style={{
@@ -389,20 +416,21 @@ const GeneticSubCellularDiversity = () => {
                                                 }
                                              })}
                                           // variant="outlined"
+                                          sx={{ ml: 1 }}
                                           >
-                                             View on map
+                                             View  map
                                           </Button>
-                                       </Grid>
+                                      
+                                          </Grid>
+                                    
 
-                                    </Grid>
-
-                                 </TableCell>
-                              </TableRow>
+                                 </StyledTableCell>
+                              </StyledTableRow>
                            ))}
                         </TableBody>
                      </Table>
-                  </TableContainer>
-               ) : <Typography variant="h1" component="h1" align="center">
+                  </TableContainer></>
+               ) : <Typography variant="h1" component="h1" align="center" paddingBottom={20} paddingTop={10}>
                   {searchMessage ?? ''}
                </Typography>}
                {/* <TablePagination
