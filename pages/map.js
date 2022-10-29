@@ -21,10 +21,15 @@ console.log(process.env.mapbox_key);
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { createMapboxMarker, createMarkerElement } from "../utils/utils";
+import { createMapboxMarker, createMarkerElement, imageLoader } from "../utils/utils";
 let imageProps = {
   height: "300px",
   width: "400px",
+};
+let imageProps2 = {
+  height: "200px",
+  width: "300px",
+
 };
 const StyledSlider = styled((props) => <Slider {...props} />)({
   "& .slick-dots li": {
@@ -39,7 +44,7 @@ const StyledSlider = styled((props) => <Slider {...props} />)({
   '& ul .slick-active': {
     border: "3px solid #d76d2e !important",
     filter: " drop-shadow(2px 4px 6px grey) !important"
-},
+  },
 });
 const myLoader = ({ src }) => `${src}`;
 const Map = () => {
@@ -52,10 +57,12 @@ const Map = () => {
   const [zoom, setZoom] = useState(6.52);
   const [speciesData, setSpeciesData] = useState({})
   const [elements, setElements] = useState([])
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [slider, setSlider] = useState(null)
   const fetchData = async (query, cbfn) => {
     let searchParameters = query
     if (!query.initial) {
-      localStorage.setItem(`allowed${query.category.replaceAll(" ",'')}`, true)
+      localStorage.setItem(`allowed${query.category.replaceAll(" ", '')}`, true)
     }
     delete searchParameters.initial
     let response = await callApi("/get-species-by-serial", { searchParameters })
@@ -77,12 +84,50 @@ const Map = () => {
         </Box>
       );
     },
-    dots: true,
+    dots: false,
     dotsClass: "slick-dots slick-thumb",
     infinite: true,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+  };
+  const settingsForAddition = {
+    dots: false,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 3,
+    initialSlide: 0,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          infinite: true,
+          dots: false
+        }
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2,
+          dots: false
+
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          dots: false
+
+        }
+      }
+    ]
   };
   useEffect(() => {
     if (!query) return; // initialize map only once
@@ -133,7 +178,7 @@ const Map = () => {
       map.current.on('zoom', () => {
         const zoom = map.current.getZoom();
         for (const el of elements) {
-          const scalePercent = 1 + (zoom - 8) * 0.4;
+          const scalePercent = 1 + (zoom - 6) * 0.4;
           // const el = marker.getElement()
           let top = scalePercent * 40
           let height = scalePercent * 70
@@ -177,7 +222,7 @@ const Map = () => {
           <Card sx={{ maxWidth: 345, height: "100%" }}>
             {speciesData?.additionalFiles?.length > 0 ? (
               <div>
-                <StyledSlider {...settings}>
+                <Slider ref={slider => setSlider(slider)} {...settings} >
                   {speciesData.additionalFiles.map((speciesImage, index) => {
                     return (
                       <Image
@@ -189,7 +234,7 @@ const Map = () => {
                       />
                     );
                   })}
-                </StyledSlider>
+                </Slider>
               </div>
             ) : (
               <Image
@@ -200,95 +245,108 @@ const Map = () => {
                 height={200}
               ></Image>
             )}
+            {speciesData?.additionalFiles?.length > 0 ? (
+              <div>
+                <Slider {...settingsForAddition}>
+                  {speciesData.additionalFiles.map((speciesImage, index) => (
+                    <Image key={`slideImage2${index}`} alt="No Slider Image" {...imageProps2} loader={imageLoader} src={imageUrl + "/" + speciesImage} onClick={(e) => {
+                      slider?.slickGoTo(index)
+                      setCurrentIndex(index)
+                    }} />
+                  ))}
+                </Slider>
+              </div>
+            ) : null}
             <br />
             <Divider />
             <CardContent>
-              <Typography gutterBottom variant="h1" component="div" fontFamily= 'Times New Roman' fontSize={30}>
+              <Typography gutterBottom variant="h1" component="div" fontFamily='Times New Roman' fontSize={30}>
                 {speciesData?.name?.commonName}
               </Typography>
-              <Typography variant="body2" color="text.secondary" fontFamily= 'Times New Roman'fontSize={30}>
+              <Typography variant="body2" color="text.secondary" fontFamily='Times New Roman' fontSize={30}>
                 {speciesData?.description}
               </Typography>
               <Grid item xs={12} >
-                <Typography gutterBottom component="description" variant="div" fontFamily= 'Times New Roman' fontSize={20}>
+                <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
                   <b>Kindom</b>:{speciesData.kindom}
                 </Typography>
               </Grid>
               <Grid item xs={12} >
-                <Typography gutterBottom component="description" variant="div" fontFamily= 'Times New Roman'fontSize={20}>
+                <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
                   <b>Phylum</b>:{speciesData.phylum}
                 </Typography>
               </Grid>
               <Grid item xs={12}>
-                <Typography gutterBottom component="description" variant="div" fontFamily= 'Times New Roman'fontSize={20}>
+                <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
                   <b>class</b>:{speciesData.class}
                 </Typography>
               </Grid>
               <Grid item xs={12}>
-                <Typography gutterBottom component="description" variant="div" fontFamily= 'Times New Roman'fontSize={20}>
+                <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
                   <b>order</b>:{speciesData.order}
                 </Typography>
               </Grid>
               <Grid item xs={12}>
-                <Typography gutterBottom component="description" variant="div" fontFamily= 'Times New Roman'fontSize={20}>
+                <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
                   <b>family</b>:{speciesData.family}
                 </Typography>
               </Grid>
               <Grid item xs={12}>
-                <Typography gutterBottom component="description" variant="div"fontFamily= 'Times New Roman'fontSize={20}>
+                <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
                   <b>Genus</b>:{speciesData.genus}
                 </Typography>
               </Grid>
               <Grid item xs={12}>
-                <Typography gutterBottom component="description" variant="div"fontFamily= 'Times New Roman'fontSize={20}>
+                <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
                   <b>Specis</b>:{speciesData.specis}
                 </Typography>
               </Grid>
               <Grid item xs={12}>
-                <Typography gutterBottom component="description" variant="div"fontFamily= 'Times New Roman'fontSize={20}>
+                <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
                   <b>Variety</b>:{speciesData.variety}
                 </Typography>
               </Grid>
               <Grid item xs={12}>
-                <Typography gutterBottom component="description" variant="div"fontFamily= 'Times New Roman'fontSize={20}>
+                <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
                   <b>Sub Variety</b>:{speciesData.subVariety}
                 </Typography>
               </Grid>
               <Grid item xs={12}>
-                <Typography gutterBottom component="description" variant="div"fontFamily= 'Times New Roman'fontSize={20}>
+                <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
                   <b>clone</b>:{speciesData.clone}
                 </Typography>
               </Grid>
               <Grid item xs={12}>
-                <Typography gutterBottom component="description" variant="div"fontFamily= 'Times New Roman'fontSize={20}>
+                <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
                   <b>forma</b>:{speciesData.forma}
                 </Typography>
               </Grid>
               <Grid item xs={12}>
-                <Typography gutterBottom component="description" variant="div"fontFamily= 'Times New Roman'fontSize={20}>
+                <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
                   <b>English</b>:{speciesData.english}
                 </Typography>
               </Grid>
               <Grid item xs={12}>
-                <Typography gutterBottom component="description" variant="div"fontFamily= 'Times New Roman'fontSize={20}>
+                <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
                   <b>Bangla</b>:{speciesData.bangla}
                 </Typography>
               </Grid>
               <Grid item xs={12}>
-                <Typography gutterBottom component="description" variant="div"fontFamily= 'Times New Roman'fontSize={20}>
+                <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
                   <b>Synonym</b>:{speciesData.synonym}
                 </Typography>
               </Grid>
               <Grid item xs={12}>
-                <Typography gutterBottom component="description" variant="div"fontFamily= 'Times New Roman'fontSize={20}>
+                <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
                   <b>Common</b>:{speciesData.common}
                 </Typography>
               </Grid>
-              
-              
+
+
             </CardContent>
-            
+
           </Card>
+
         </div>
         <div
           ref={mapContainer}

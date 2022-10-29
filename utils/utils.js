@@ -67,7 +67,7 @@ export const createMarkerElement = async (el, styles, elements, marker, map) => 
     el.style.backgroundRepeat = 'no-repeat'
     el.style.backgroundPosition = 'center top'
     const zoom = map.current.getZoom();
-    const scalePercent = 1 + (zoom - 8) * 0.4;
+    const scalePercent = 1 + (zoom - 6) * 0.4;
     let top = scalePercent * 40
     let height = scalePercent * 70
     let width = scalePercent * 70
