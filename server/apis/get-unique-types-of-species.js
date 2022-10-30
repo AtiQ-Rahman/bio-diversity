@@ -30,19 +30,20 @@ const getDetailsByQuery = async (searchQuery, key, modifiedList, isJson) => {
 
     if (response?.length > 0) {
         for (let item of response) {
-            // console.log({ item })
-            let isExist = typeObject[modifiedList].findIndex((modifiedItem) => item[key] == modifiedItem[key])
+            let isExist = typeObject[modifiedList].findIndex((modifiedItem) => item[key]?.trim()?.toLowerCase() == modifiedItem[key].trim()?.toLowerCase())
+            console.log({ isExist })
+
             if (isExist == -1) {
                 console.log({ modifiedList })
-                if (item[key]?.toLowerCase() != 'n/a' && item[key] !== '' && item[key] !== 'null' && item[key] !== 'undifined' && item[key]) {
+                if (item[key]?.trim()?.toLowerCase() != 'n/a' && item[key] !== '' && item[key] !== 'null' && item[key] !== 'undifined' && item[key]) {
                     typeObject[modifiedList].push(item)
                 }
             }
             else if (isExist > -1) {
-                // typeObject[modifiedList][isExist] = {
-                //     ...typeObject[modifiedList][isExist],
-                //     ...item
-                // }
+                typeObject[modifiedList][isExist] = {
+                    ...typeObject[modifiedList][isExist],
+                    ...item
+                }
             }
         }
 
@@ -73,25 +74,28 @@ exports.getUniqueTypes = async (req, res, next) => {
         { parent: null, child: 'geneticdata', list: 'geneticdatas', isJson: true },
     ]
     // for (let key of Object.keys(speciesTableTypes)) {
-        let table = await getTable(category)
-        // let searchQuery = `select kingdom from ${table} group by kingdom`
-        // await getDetailsByQuery(searchQuery, 'kingdom', 'kingdoms')
-        for (let item of fetchSequences) {
-            let searchQuery;
-            if (!item.parent) {
-                if (item.isJson) {
-                    searchQuery = `select JSON_EXTRACT(identificationFeatures ,"$.${item.child}") as ${item.child} from ${table} group by JSON_EXTRACT(identificationFeatures ,"$.${item.child}")`
-                }
-                else {
-                    searchQuery = `select  ${item.child} from ${table} group by ${item.child}`
-                }
+    let table = await getTable(category)
+    // let searchQuery = `select kingdom from ${table} group by kingdom`
+    // await getDetailsByQuery(searchQuery, 'kingdom', 'kingdoms')
+    for (let item of fetchSequences) {
+        let searchQuery;
+        if (!item.parent) {
+            if (item.isJson) {
+                searchQuery = `select JSON_EXTRACT(identificationFeatures ,"$.${item.child}") as ${item.child} from ${table} group by JSON_EXTRACT(identificationFeatures ,"$.${item.child}")`
             }
             else {
-                searchQuery = `select ${item.parent} , ${item.child} from ${table} group by ${item.child}`
+                searchQuery = `select  ${item.child} from ${table} group by ${item.child}`
+                await getDetailsByQuery(searchQuery, item.child, item.list, item.isJson)
+
             }
-            console.log(searchQuery)
-            await getDetailsByQuery(searchQuery, item.child, item.list, item.isJson)
         }
+        else {
+            searchQuery = `select ${item.parent} , ${item.child} from ${table} group by ${item.parent}`
+            await getDetailsByQuery(searchQuery, item.parent, item.list, item.isJson)
+
+        }
+        console.log(searchQuery)
+    }
     // }
 
     res.status(200).json({
