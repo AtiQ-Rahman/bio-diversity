@@ -33,11 +33,8 @@ const CommonDropDowns = ({
 }) => {
 
     const [allTypesOfSpecies, setAllTypesOfSpecies] = useState([])
+    const [subCategories, setSubcategories] = useState([])
     const [subGroups, setSubGroups] = useState([])
-    const [cSequestrations, setSequestrations] = useState([])
-    const [cProductions, setProductions] = useState([])
-    const [ecosystemStatuses, setEcosystemStatuses] = useState([])
-    const [ecosystemValues, setEcosystemValueS] = useState([])
     const [kingdoms, setKingdoms] = useState([])
     const [phylums, setPhylums] = useState([])
     const [classes, setClassNames] = useState([])
@@ -53,11 +50,13 @@ const CommonDropDowns = ({
     async function fetchData(cbfn) {
         let allTypesOfSpecies = await callApi("/get-unique-types-of-species", { category });
         setAllTypesOfSpecies(allTypesOfSpecies.data)
+        setSubcategories(allTypesOfSpecies.data.categories)
         setSubGroups(allTypesOfSpecies.data.subGroups)
         console.log({ allTypesOfSpecies })
     }
     useEffect(() => {
         // if (!map.current) return; // initialize map only once
+        setSubcategories([])
         fetchData(() => null);
         // new mapboxgl.Marker()
         //    .setLngLat([lng, lat])
@@ -66,6 +65,35 @@ const CommonDropDowns = ({
     return (
         <>
             <Grid item xs={2}>
+                <Autocomplete
+                    size="small"
+                    disablePortal
+                    id="plants"
+                    name={values?.type}
+                    options={subCategories || []}
+                    key="plants"
+                    getOptionLabel={(option) => option.subCategory || option}
+                    // sx={{ width: 300 }}
+                    onChange={(e, value) => {
+                        console.log({ value });
+                        setFieldValue("type", value.subCategory || value);
+                    }}
+                    renderInput={(params) => (
+                        <TextField
+                            {...params}
+                            error={Boolean(touched?.type && errors?.type)}
+                            helperText={touched?.type && errors?.type}
+                            style={{ padding: "2px" }}
+                            label="Biodiversity Group"
+                            variant="outlined"
+                            placeholder="Select"
+                            value={values?.type}
+                        />
+                    )}
+                />
+            </Grid>
+            <Grid item xs={2}>
+
                 <Autocomplete
                     freeSolo
                     size="small"

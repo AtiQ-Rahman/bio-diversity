@@ -163,36 +163,7 @@ const MicroOrgansim = () => {
                         Enter Your Details
                      </Typography>
                      <Grid container spacing={3}>
-                        <Grid item xs={2}>
-                           <Autocomplete
-                              size="small"
-                              disablePortal
-                              id="microOrgansims"
-                              name={values?.type}
-                              options={category?.keyList || []}
-                              key="microOrgansims"
-                              getOptionLabel={(option) => option.name}
-                              // sx={{ width: 300 }}
-                              onChange={(e, value) => {
-                                 setFieldValue("type", value);
-                              }}
-                              renderInput={(params) => (
-                                 <TextField
-                                    {...params}
-                                    error={Boolean(touched?.type && errors?.type)}
-                                    helperText={touched?.type && errors?.type}
-                                    style={{ padding: "2px" }}
-                                    label="Biodiversity Group"
-                                    variant="outlined"
-                                    placeholder="Select"
-                                    value={values?.type}
-                                 />
-                              )}
-                           />
-                        </Grid>
-
                         <CommonDropDowns values={values} setFieldValue={setFieldValue} touched={touched} handleChange={handleChange} errors={errors} category={pageGroups.micro}></CommonDropDowns>
-
                      </Grid>
                      <br />
                      <Button

@@ -2,39 +2,40 @@ const { getTable, executeQuery, uniqueIdGenerator, speciesTableTypes, log, creat
 
 const DB = require("../config/connectToDatabase");
 
-const typeObject = {
-    subGroups: [],
-    kingdoms: [],
-    phylums: [],
-    classes: [],
-    orders: [],
-    families: [],
-    genuses: [],
-    speciesListFromServer: [],
-    subSpeciesList: [],
-    varieties: [],
-    subVarieties: [],
-    subVarieties: [],
-    clones: [],
-    formas: [],
-    cSequestrations: [],
-    cProductions: [],
-    ecosystemStatuses: [],
-    ecosystemValues: [],
-    geneticdatas: [],
-    speciestaxas: [],
+const createTypeObject = () => {
+    return {
+        categories: [],
+        subGroups: [],
+        kingdoms: [],
+        phylums: [],
+        classes: [],
+        orders: [],
+        families: [],
+        genuses: [],
+        speciesListFromServer: [],
+        subSpeciesList: [],
+        varieties: [],
+        subVarieties: [],
+        subVarieties: [],
+        clones: [],
+        formas: [],
+        cSequestrations: [],
+        cProductions: [],
+        ecosystemStatuses: [],
+        ecosystemValues: [],
+        geneticdatas: [],
+        speciestaxas: [],
+    }
 }
-const getDetailsByQuery = async (searchQuery, key, modifiedList, isJson) => {
+const getDetailsByQuery = async (searchQuery, key, modifiedList, typeObject) => {
     let response = await executeQuery(searchQuery)
-    console.log({ response })
-
     if (response?.length > 0) {
         for (let item of response) {
+            if (typeof item[key] == 'object' && item[key]) {
+                item[key] = item[key].name
+            }
             let isExist = typeObject[modifiedList].findIndex((modifiedItem) => item[key]?.trim()?.toLowerCase() == modifiedItem[key].trim()?.toLowerCase())
-            console.log({ isExist })
-
             if (isExist == -1) {
-                console.log({ modifiedList })
                 if (item[key]?.trim()?.toLowerCase() != 'n/a' && item[key] !== '' && item[key] !== 'null' && item[key] !== 'undifined' && item[key]) {
                     typeObject[modifiedList].push(item)
                 }
@@ -52,7 +53,9 @@ const getDetailsByQuery = async (searchQuery, key, modifiedList, isJson) => {
 }
 exports.getUniqueTypes = async (req, res, next) => {
     let category = req.body.category
+    let typeObject = createTypeObject()
     let fetchSequences = [
+        { parent: null, child: 'subCategory', list: 'categories', isJson: true },
         { parent: null, child: 'subGroup', list: 'subGroups' },
         { parent: 'subGroup', child: 'kingdom', list: 'kingdoms' },
         { parent: 'kingdom', child: 'phylum', list: 'phylums' },
@@ -85,14 +88,12 @@ exports.getUniqueTypes = async (req, res, next) => {
             }
             else {
                 searchQuery = `select  ${item.child} from ${table} group by ${item.child}`
-                await getDetailsByQuery(searchQuery, item.child, item.list, item.isJson)
-
             }
+            await getDetailsByQuery(searchQuery, item.child, item.list, typeObject)
         }
         else {
             searchQuery = `select ${item.parent} , ${item.child} from ${table} group by ${item.parent}`
-            await getDetailsByQuery(searchQuery, item.parent, item.list, item.isJson)
-
+            await getDetailsByQuery(searchQuery, item.parent, item.list, typeObject)
         }
         console.log(searchQuery)
     }
