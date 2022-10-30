@@ -141,7 +141,7 @@ const AllDetailsPage = () => {
         </div>
       );
     },
-    dots: true,
+    dots: false,
     dotsClass: "slick-dots slick-thumb",
     infinite: true,
     speed: 500,
@@ -153,8 +153,8 @@ const AllDetailsPage = () => {
     dots: false,
     infinite: false,
     speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 3,
+    slidesToShow: 6,
+    slidesToScroll: 6,
     initialSlide: 0,
     responsive: [
       {
@@ -274,7 +274,7 @@ const AllDetailsPage = () => {
 
                     return (
                       <StyledTableRow key={row}>
-                        <StyledTableCell component="th" scope="row">
+                        <StyledTableCell component="th" scope="row" align="end">
                           <b> {title}</b>
                         </StyledTableCell>
                         <StyledTableCell align="left">
