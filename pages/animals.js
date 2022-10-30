@@ -158,7 +158,7 @@ const Animals = () => {
                            />
                         </Grid>
 
-                        <CommonDropDowns values={values} setFieldValue={setFieldValue} touched={touched} handleChange={handleChange} errors={errors}></CommonDropDowns>
+                        <CommonDropDowns values={values} setFieldValue={setFieldValue} touched={touched} handleChange={handleChange} errors={errors} category={pageGroups.animals}></CommonDropDowns>
 
                      </Grid>
                      <br />

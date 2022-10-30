@@ -152,6 +152,7 @@ const Fungi = () => {
                   touched={touched}
                   handleChange={handleChange}
                   errors={errors}
+                  category={pageGroups.fungi}
                 ></CommonDropDowns>
               </Grid>
               <br />

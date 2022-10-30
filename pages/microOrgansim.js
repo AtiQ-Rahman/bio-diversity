@@ -191,7 +191,7 @@ const MicroOrgansim = () => {
                            />
                         </Grid>
 
-                        <CommonDropDowns values={values} setFieldValue={setFieldValue} touched={touched} handleChange={handleChange} errors={errors}></CommonDropDowns>
+                        <CommonDropDowns values={values} setFieldValue={setFieldValue} touched={touched} handleChange={handleChange} errors={errors} category={pageGroups.micro}></CommonDropDowns>
 
                      </Grid>
                      <br />

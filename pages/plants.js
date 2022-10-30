@@ -74,7 +74,7 @@ const Plants = () => {
         ) => {
           try {
             console.log({ values });
-            values.category = "Plants";
+            values.category = pageGroups.plants;
 
             let searchParameters = values;
             localStorage.setItem(`${values.category}`, JSON.stringify(searchParameters))
@@ -154,6 +154,7 @@ const Plants = () => {
                   touched={touched}
                   handleChange={handleChange}
                   errors={errors}
+                  category={pageGroups.plants}
                 ></CommonDropDowns>
               </Grid>
               <br />

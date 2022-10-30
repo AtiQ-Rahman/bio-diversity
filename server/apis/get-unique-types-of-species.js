@@ -39,10 +39,10 @@ const getDetailsByQuery = async (searchQuery, key, modifiedList, isJson) => {
                 }
             }
             else if (isExist > -1) {
-                typeObject[modifiedList][isExist] = {
-                    ...typeObject[modifiedList][isExist],
-                    ...item
-                }
+                // typeObject[modifiedList][isExist] = {
+                //     ...typeObject[modifiedList][isExist],
+                //     ...item
+                // }
             }
         }
 
@@ -50,10 +50,10 @@ const getDetailsByQuery = async (searchQuery, key, modifiedList, isJson) => {
 
 }
 exports.getUniqueTypes = async (req, res, next) => {
-
+    let category = req.body.category
     let fetchSequences = [
         { parent: null, child: 'subGroup', list: 'subGroups' },
-        { parent: null, child: 'kingdom', list: 'kingdoms' },
+        { parent: 'subGroup', child: 'kingdom', list: 'kingdoms' },
         { parent: 'kingdom', child: 'phylum', list: 'phylums' },
         { parent: 'phylum', child: 'class_name', list: 'classes' },
         { parent: 'class_name', child: 'order_name', list: 'orders' },
@@ -72,8 +72,8 @@ exports.getUniqueTypes = async (req, res, next) => {
         { parent: null, child: 'speciestaxa', list: 'speciestaxas', isJson: true },
         { parent: null, child: 'geneticdata', list: 'geneticdatas', isJson: true },
     ]
-    for (let key of Object.keys(speciesTableTypes)) {
-        let table = await getTable(speciesTableTypes[key])
+    // for (let key of Object.keys(speciesTableTypes)) {
+        let table = await getTable(category)
         // let searchQuery = `select kingdom from ${table} group by kingdom`
         // await getDetailsByQuery(searchQuery, 'kingdom', 'kingdoms')
         for (let item of fetchSequences) {
@@ -92,7 +92,7 @@ exports.getUniqueTypes = async (req, res, next) => {
             console.log(searchQuery)
             await getDetailsByQuery(searchQuery, item.child, item.list, item.isJson)
         }
-    }
+    // }
 
     res.status(200).json({
         success: true,
