@@ -31,9 +31,7 @@ const Fungi = () => {
 
   useEffect(() => {
     async function fetchData() {
-      let response = await callApi("/get-categories-by-name", {
-        name: pageGroups.fungi,
-      });
+
       let localData = localStorage.getItem(pageGroups.fungi);
       let isAllowed = localStorage.getItem(`allowed${pageGroups.fungi}`);
       console.log(router.query, localData);
@@ -50,12 +48,6 @@ const Fungi = () => {
         localStorage.removeItem(`allowed${pageGroups.fungi}`);
       } else {
         localStorage.removeItem(pageGroups.fungi);
-      }
-      if (response.data.length > 0) {
-        console.log(response.data);
-        setCatgory(response.data[0]);
-      } else {
-        setCatgory({});
       }
     }
     fetchData();

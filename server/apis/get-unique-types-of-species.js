@@ -56,7 +56,7 @@ exports.getUniqueTypes = async (req, res, next) => {
     let typeObject = createTypeObject()
     let fetchSequences = [
         { parent: null, child: 'subCategory', list: 'categories', isJson: true },
-        { parent: null, child: 'subGroup', list: 'subGroups' },
+        { parent: "subCategory", child: 'subGroup', list: 'subGroups' },
         { parent: 'subGroup', child: 'kingdom', list: 'kingdoms' },
         { parent: 'kingdom', child: 'phylum', list: 'phylums' },
         { parent: 'phylum', child: 'class_name', list: 'classes' },
@@ -92,7 +92,13 @@ exports.getUniqueTypes = async (req, res, next) => {
             await getDetailsByQuery(searchQuery, item.child, item.list, typeObject)
         }
         else {
-            searchQuery = `select ${item.parent} , ${item.child} from ${table} group by ${item.parent}`
+            if (item.child == "subGroup") {
+                searchQuery = `select JSON_EXTRACT(identificationFeatures ,"$.${item.parent}") as ${item.parent} , ${item.child} from ${table} group by ${item.parent}`
+
+            }
+            else {
+                searchQuery = `select ${item.parent} , ${item.child} from ${table} group by ${item.parent}`
+            }
             await getDetailsByQuery(searchQuery, item.parent, item.list, typeObject)
         }
         console.log(searchQuery)

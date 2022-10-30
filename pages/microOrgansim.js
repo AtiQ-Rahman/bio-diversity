@@ -38,7 +38,6 @@ const MicroOrgansim = () => {
 
    useEffect(() => {
       async function fetchData() {
-         let response = await callApi("/get-categories-by-name", { name: pageGroups.micro });
          let localData = localStorage.getItem(pageGroups.micro)
          let isAllowed = localStorage.getItem(`allowed${pageGroups.micro}`)
          console.log(router.query, localData)
@@ -56,13 +55,6 @@ const MicroOrgansim = () => {
          }
          else {
             localStorage.removeItem(pageGroups.micro)
-         }
-         if (response.data.length > 0) {
-            console.log(response.data)
-            setCatgory(response.data[0])
-         }
-         else {
-            setCatgory({})
          }
       }
       fetchData()

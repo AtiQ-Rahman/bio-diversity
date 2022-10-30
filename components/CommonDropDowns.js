@@ -51,7 +51,6 @@ const CommonDropDowns = ({
         let allTypesOfSpecies = await callApi("/get-unique-types-of-species", { category });
         setAllTypesOfSpecies(allTypesOfSpecies.data)
         setSubcategories(allTypesOfSpecies.data.categories)
-        setSubGroups(allTypesOfSpecies.data.subGroups)
         console.log({ allTypesOfSpecies })
     }
     useEffect(() => {
@@ -77,6 +76,8 @@ const CommonDropDowns = ({
                     onChange={(e, value) => {
                         console.log({ value });
                         setFieldValue("type", value.subCategory || value);
+                        let subGroups = allTypesOfSpecies.subGroups.filter((item) => item.subCategory == (value?.subCategory || value))
+                        setSubGroups(subGroups)
                     }}
                     renderInput={(params) => (
                         <TextField

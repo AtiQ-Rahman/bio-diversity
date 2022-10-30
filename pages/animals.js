@@ -31,7 +31,6 @@ const Animals = () => {
 
    useEffect(() => {
       async function fetchData() {
-         let response = await callApi("/get-categories-by-name", { name: pageGroups.animals });
          let localData = localStorage.getItem(pageGroups.animals)
          let isAllowed = localStorage.getItem(`allowed${pageGroups.animals}`)
          // if (router?.query?.initial) {
@@ -48,13 +47,6 @@ const Animals = () => {
          }
          else {
             localStorage.removeItem(pageGroups.animals)
-         }
-         if (response.data.length > 0) {
-            console.log(response.data)
-            setCatgory(response.data[0])
-         }
-         else {
-            setCatgory({})
          }
       }
       fetchData()

@@ -31,7 +31,6 @@ const Plants = () => {
 
   React.useEffect(() => {
     async function fetchData() {
-      let response = await callApi("/get-categories-by-name", { name: pageGroups.plants });
       let localData = localStorage.getItem(pageGroups.plants)
       let isAllowed = localStorage.getItem(`allowed${pageGroups.plants}`)
       if (localData && isAllowed) {
@@ -45,11 +44,7 @@ const Plants = () => {
       else {
         localStorage.removeItem(pageGroups.plants)
       }
-      if (response.data.length > 0) {
-        setCatgory(response.data[0]);
-      } else {
-        setCatgory({});
-      }
+
     }
     fetchData();
   }, [router.pathname, router.query]);
