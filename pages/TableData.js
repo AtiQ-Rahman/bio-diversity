@@ -1,5 +1,5 @@
 import { Button, Grid, Paper, Table, TableBody, TableCell, tableCellClasses, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
-import { styled } from '@mui/system';
+import { height, styled } from '@mui/system';
 import callApi, { imageUrl } from "../utils/callApi";
 import React from 'react';
 import styles from "../styles/Home.module.css";
@@ -9,10 +9,12 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
         backgroundColor: "#c44d34",
         color: theme.palette.common.white,
+        fontSize: 17,
     },
     [`&.${tableCellClasses.body}`]: {
         fontSize: 20,
-        fontFamily: "Times New Roman"
+        fontFamily: "Times New Roman",
+       
     },
 }));
 
@@ -43,7 +45,7 @@ const TableData = (props) => {
                 </Typography>
                     <br />
                     <TableContainer component={Paper}  >
-                        <Table sx={{ minWidth: 700,pl: 7  }} aria-label="customized table">
+                        <Table  aria-label="customized table">
                             <TableHead>
                                 <TableRow>
                                     <StyledTableCell sx={{ pl: 4 }}><b>SI</b></StyledTableCell>
