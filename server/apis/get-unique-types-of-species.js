@@ -29,6 +29,7 @@ const createTypeObject = () => {
 }
 const getDetailsByQuery = async (searchQuery, key, modifiedList, typeObject) => {
     let response = await executeQuery(searchQuery)
+    console.log({response})
     if (response?.length > 0) {
         for (let item of response) {
             if (typeof item[key] == 'object' && item[key]) {
@@ -93,13 +94,14 @@ exports.getUniqueTypes = async (req, res, next) => {
         }
         else {
             if (item.child == "subGroup") {
-                searchQuery = `select JSON_EXTRACT(identificationFeatures ,"$.${item.parent}") as ${item.parent} , ${item.child} from ${table} group by ${item.parent}`
+                searchQuery = `select JSON_EXTRACT(identificationFeatures ,"$.${item.parent}") as ${item.parent} , ${item.child} from ${table} group by ${item.child}`
+                await getDetailsByQuery(searchQuery, item.child, item.list, typeObject)
 
             }
             else {
                 searchQuery = `select ${item.parent} , ${item.child} from ${table} group by ${item.parent}`
+                await getDetailsByQuery(searchQuery, item.parent, item.list, typeObject)
             }
-            await getDetailsByQuery(searchQuery, item.parent, item.list, typeObject)
         }
         console.log(searchQuery)
     }

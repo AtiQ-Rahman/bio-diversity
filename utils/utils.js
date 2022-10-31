@@ -31,7 +31,7 @@ export const createMapboxMarkerForDistribution = async (el, mapboxgl, imageUrl, 
                 <h4 className="row-title">species</h4>
                 <div className="row-value">${speciesData.species}</div>
             </div>
-            <p className="route-speciesData">Lng/Lat ${speciesData.districts[0].center[0]},${speciesData.districts[0].center[1]}</p>
+            <p className="route-speciesData">Lng/Lat ${twoDecimal(speciesData.districts[0].center[0])},${twoDecimal(speciesData.districts[0].center[1])}</p>
         </div>
     </div>`
 
@@ -49,11 +49,11 @@ export const createMapboxMarker = async (el, mapboxgl, marker, district, map) =>
                 <h3 className="route-name">${district.place_name}</h3>
                 <div className="route-metric-row">
                     <h4 className="row-title">Lng:</h4>
-                    <div className="row-value">${district.center[1]}</div>
+                    <div className="row-value">${twoDecimal(district.center[1])}</div>
                 </div>
                 <div className="route-metric-row">
                     <h4 className="row-title">Lat :</h4>
-                    <div className="row-value">${district.center[1]}</div>
+                    <div className="row-value">${twoDecimal(district.center[1])}</div>
                 </div>
             </div>
         </div>`

@@ -8,7 +8,10 @@ exports.BIOGSearchParamsByField = async (req, res, next) => {
     let table = await getTable(searchParameters.category)
     let searchQuery = `select * from ${table}`
     if (searchParameters.type) {
-        searchQuery += ` where JSON_EXTRACT(identificationFeatures, "$.subCategory") REGEXP '${searchParameters.type.name}?'`
+        searchQuery += ` where JSON_EXTRACT(identificationFeatures, "$.subCategory") REGEXP '${searchParameters.type}?'`
+    }
+    if (searchParameters.type) {
+        searchQuery += ` and subGroup = '${searchParameters.subGroup}'`
     }
     if (searchParameters.kingdom) {
         searchQuery += ` and kingdom = '${searchParameters.kingdom}'`

@@ -157,6 +157,7 @@ const AddNewSpecies = () => {
   };
   const [allTypesOfSpecies, setAllTypesOfSpecies] = useState([]);
   const [subGroups, setSubGroups] = useState([]);
+  const [subCategories, setSubcategories] = useState([])
   const [kingdoms, setKingdoms] = useState([]);
   const [phylums, setPhylums] = useState([]);
   const [classes, setClassNames] = useState([]);
@@ -183,8 +184,10 @@ const AddNewSpecies = () => {
   useEffect(() => {
     // if (!map.current) return; // initialize map only once
     async function fetchData(query, cbfn) {
-      let allTypesOfSpecies = await callApi("/get-unique-types-of-species", {});
+      let allTypesOfSpecies = await callApi("/get-unique-types-of-species", { category: query.category });
       setAllTypesOfSpecies(allTypesOfSpecies.data);
+      setSubcategories(allTypesOfSpecies?.data.categories)
+
       setSubGroups(allTypesOfSpecies.data.subGroups)
       setKingdoms(allTypesOfSpecies.data.kingdoms);
       console.log({ allTypesOfSpecies });
@@ -483,16 +486,14 @@ const AddNewSpecies = () => {
                             values?.identificationFeatures?.subCategory
                           }
                           value={values?.identificationFeatures.subCategory}
-                          options={values?.category?.keyList}
-                          isOptionEqualToValue={(option, value) =>
-                            option.key === value.key
-                          }
-                          getOptionLabel={(option) => option.name}
+                          options={subCategories}
+                          getOptionLabel={(option) => option?.subCategory || option}
                           // sx={{ width: 300 }}
+
                           onChange={(e, value) => {
                             setFieldValue(
                               "identificationFeatures.subCategory",
-                              value
+                              value?.subCategory || value
                             );
                           }}
                           renderInput={(params) => (

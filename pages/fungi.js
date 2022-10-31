@@ -28,6 +28,7 @@ const Fungi = () => {
   const [searchMessage, setSearchMessage] = React.useState("");
   const theme = useTheme();
   const [speciesList, setSpeciesList] = React.useState();
+  const [searchValues, setSearchValues] = React.useState(null)
 
   useEffect(() => {
     async function fetchData() {
@@ -44,9 +45,12 @@ const Fungi = () => {
           searchParameters,
         });
         console.log("response", res);
+        setSearchValues(searchParameters)
         setSpeciesList(res?.data);
         localStorage.removeItem(`allowed${pageGroups.fungi}`);
       } else {
+        setSearchValues(initialValues)
+
         localStorage.removeItem(pageGroups.fungi);
       }
     }
@@ -57,90 +61,93 @@ const Fungi = () => {
     <Box>
       {/* header */}
       <Header index={3} />
-      <Formik
-        initialValues={initialValues}
-        validationSchema={Yup.object().shape({})}
-        onSubmit={async (
-          values,
-          { resetForm, setErrors, setStatus, setSubmitting, setFieldValue }
-        ) => {
-          try {
-            console.log({ values });
-            // console.log(values.reportfile.name);
-            values.category = "Fungi";
+      {searchValues ? (
+        <Formik
+          initialValues={searchValues}
+          validationSchema={Yup.object().shape({})}
+          onSubmit={async (
+            values,
+            { resetForm, setErrors, setStatus, setSubmitting, setFieldValue }
+          ) => {
+            try {
+              console.log({ values });
+              // console.log(values.reportfile.name);
+              values.category = "Fungi";
 
-            let searchParameters = values;
-            localStorage.setItem(`${values.category}`, JSON.stringify(searchParameters))
+              let searchParameters = values;
+              localStorage.setItem(`${values.category}`, JSON.stringify(searchParameters))
 
-            // console.log({ loggedUser: loggedUser.userId });
-            // data.append("reportfile", values.reportfile);
-            let res = await callApi("/search-species-by-field", {
-              searchParameters,
-            });
-            console.log("response", res);
-            setSpeciesList(res?.data);
-            setSearchMessage(res?.message);
-            // enqueueSnackbar("Report  Uploaded Successfully", {
-            //    variant: "success",
-            //    // action: <Button>See all</Button>
-            // });
-            setErrors(false);
-          } catch (error) {
-            console.log({ error });
+              // console.log({ loggedUser: loggedUser.userId });
+              // data.append("reportfile", values.reportfile);
+              let res = await callApi("/search-species-by-field", {
+                searchParameters,
+              });
+              console.log("response", res);
+              setSpeciesList(res?.data);
+              setSearchMessage(res?.message);
+              // enqueueSnackbar("Report  Uploaded Successfully", {
+              //    variant: "success",
+              //    // action: <Button>See all</Button>
+              // });
+              setErrors(false);
+            } catch (error) {
+              console.log({ error });
 
-            setStatus({ success: false });
-            setErrors({ submit: error.message });
-            setSubmitting(false);
-          }
-        }}
-      >
-        {({
-          errors,
-          handleBlur,
-          handleChange,
-          handleSubmit,
-          isSubmitting,
-          touched,
-          values,
-          setFieldValue,
-        }) => (
-          <Form onSubmit={handleSubmit}>
-            <Grid sx={{ p: 10, background: "white" }}>
-              <Typography gutterBottom variant="h3" sx={{ pt: 8 }}>
-                Enter Your Details
-              </Typography>
-              <Grid container spacing={3}>
-                <CommonDropDowns
-                  values={values}
-                  setFieldValue={setFieldValue}
-                  touched={touched}
-                  handleChange={handleChange}
-                  errors={errors}
-                  category={pageGroups.fungi}
-                ></CommonDropDowns>
+              setStatus({ success: false });
+              setErrors({ submit: error.message });
+              setSubmitting(false);
+            }
+          }}
+        >
+          {({
+            errors,
+            handleBlur,
+            handleChange,
+            handleSubmit,
+            isSubmitting,
+            touched,
+            values,
+            setFieldValue,
+          }) => (
+            <Form onSubmit={handleSubmit}>
+              <Grid sx={{ p: 10, background: "white" }}>
+                <Typography gutterBottom variant="h3" sx={{ pt: 8 }}>
+                  Enter Your Details
+                </Typography>
+                <Grid container spacing={3}>
+                  <CommonDropDowns
+                    values={values}
+                    setFieldValue={setFieldValue}
+                    touched={touched}
+                    handleChange={handleChange}
+                    errors={errors}
+                    category={pageGroups.fungi}
+                  ></CommonDropDowns>
+                </Grid>
+                <br />
+                <Button
+                  className={styles.bg_primary}
+                  type="submit"
+                  // disabled={isSubmitting}
+                  style={{
+                    width: "80px",
+                    maxHeight: "80px",
+                    minWidth: "40px",
+                    minHeight: "40px",
+                    color: "white",
+                    boxShadow: "1px 1px 4px grey",
+                    marginBottom: "10px",
+                  }}
+                  sx={{ mb: 1, mr: 1 }}
+                >
+                  Search
+                </Button>
               </Grid>
-              <br />
-              <Button
-                className={styles.bg_primary}
-                type="submit"
-                // disabled={isSubmitting}
-                style={{
-                  width: "80px",
-                  maxHeight: "80px",
-                  minWidth: "40px",
-                  minHeight: "40px",
-                  color: "white",
-                  boxShadow: "1px 1px 4px grey",
-                  marginBottom: "10px",
-                }}
-                sx={{ mb: 1, mr: 1 }}
-              >
-                Search
-              </Button>
-            </Grid>
-          </Form>
-        )}
-      </Formik>
+            </Form>
+          )}
+        </Formik>
+      ) : null}
+
       <Grid container sx={{ borderRadius: "10px", px: 10 }} paddingBottom={6}>
         <Grid item xs={12}>
           {speciesList?.length > 0 ? (

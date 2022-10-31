@@ -268,7 +268,7 @@ const Map = () => {
               </Typography>
               <Grid item xs={12} >
                 <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
-                  <b>Kindom</b>:{speciesData.kindom}
+                  <b>Kindom</b>:{speciesData.kingdom}
                 </Typography>
               </Grid>
               <Grid item xs={12} >
@@ -278,12 +278,12 @@ const Map = () => {
               </Grid>
               <Grid item xs={12}>
                 <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
-                  <b>class</b>:{speciesData.class}
+                  <b>class</b>:{speciesData.class_name}
                 </Typography>
               </Grid>
               <Grid item xs={12}>
                 <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
-                  <b>order</b>:{speciesData.order}
+                  <b>order</b>:{speciesData.order_name}
                 </Typography>
               </Grid>
               <Grid item xs={12}>
@@ -298,7 +298,7 @@ const Map = () => {
               </Grid>
               <Grid item xs={12}>
                 <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
-                  <b>Specis</b>:{speciesData.specis}
+                  <b>Species</b>:{speciesData.species}
                 </Typography>
               </Grid>
               <Grid item xs={12}>

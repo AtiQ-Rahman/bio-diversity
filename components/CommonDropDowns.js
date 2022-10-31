@@ -32,7 +32,7 @@ const CommonDropDowns = ({
 
 }) => {
 
-    const [allTypesOfSpecies, setAllTypesOfSpecies] = useState([])
+    const [allTypesOfSpecies, setAllTypesOfSpecies] = useState(null)
     const [subCategories, setSubcategories] = useState([])
     const [subGroups, setSubGroups] = useState([])
     const [kingdoms, setKingdoms] = useState([])
@@ -49,8 +49,8 @@ const CommonDropDowns = ({
     const [formas, setFormas] = useState([])
     async function fetchData(cbfn) {
         let allTypesOfSpecies = await callApi("/get-unique-types-of-species", { category });
-        setAllTypesOfSpecies(allTypesOfSpecies.data)
-        setSubcategories(allTypesOfSpecies.data.categories)
+        setAllTypesOfSpecies(allTypesOfSpecies?.data)
+        setSubcategories(allTypesOfSpecies?.data.categories)
         console.log({ allTypesOfSpecies })
     }
     useEffect(() => {
@@ -71,12 +71,13 @@ const CommonDropDowns = ({
                     name={values?.type}
                     options={subCategories || []}
                     key="plants"
-                    getOptionLabel={(option) => option.subCategory || option}
+                    value={values?.type}
+                    getOptionLabel={(option) => option?.subCategory || option}
                     // sx={{ width: 300 }}
                     onChange={(e, value) => {
                         console.log({ value });
-                        setFieldValue("type", value.subCategory || value);
-                        let subGroups = allTypesOfSpecies.subGroups.filter((item) => item.subCategory == (value?.subCategory || value))
+                        setFieldValue("type", value?.subCategory || value);
+                        let subGroups = allTypesOfSpecies?.subGroups.filter((item) => item.subCategory == (value?.subCategory || value))
                         setSubGroups(subGroups)
                     }}
                     renderInput={(params) => (
@@ -107,9 +108,9 @@ const CommonDropDowns = ({
                     getOptionLabel={(option) => option?.subGroup || option}
                     value={values?.subGroup}
                     // sx={{ width: 300 }}
-                    onInputChange={(e, value) => {
+                    onChange={(e, value) => {
                         setFieldValue("subGroup", value?.subGroup || value);
-                        let kingdoms = allTypesOfSpecies.kingdoms.filter((item) => item.subGroup == (value?.subGroup || value))
+                        let kingdoms = allTypesOfSpecies?.kingdoms.filter((item) => item.subGroup == (value?.subGroup || value))
                         setKingdoms(kingdoms)
                     }}
                     renderInput={(params) => (
@@ -139,9 +140,9 @@ const CommonDropDowns = ({
                     getOptionLabel={(option) => option?.kingdom || option}
                     value={values?.kingdom}
                     // sx={{ width: 300 }}
-                    onInputChange={(e, value) => {
+                    onChange={(e, value) => {
                         setFieldValue("kingdom", value?.kingdom || value);
-                        let phylums = allTypesOfSpecies.phylums.filter((item) => item.kingdom == (value?.kingdom || value))
+                        let phylums = allTypesOfSpecies?.phylums.filter((item) => item.kingdom == (value?.kingdom || value))
                         setPhylums(phylums)
                     }}
                     renderInput={(params) => (
@@ -170,10 +171,10 @@ const CommonDropDowns = ({
                     getOptionLabel={(option) => option?.phylum || option}
                     value={values?.phylum}
                     // sx={{ width: 300 }}
-                    onInputChange={(e, value) => {
+                    onChange={(e, value) => {
                         console.log(value)
                         setFieldValue("phylum", value?.phylum || value);
-                        let classes = allTypesOfSpecies.classes.filter((item) => item.phylum == (value?.phylum || value))
+                        let classes = allTypesOfSpecies?.classes.filter((item) => item.phylum == (value?.phylum || value))
                         setClassNames(classes)
 
                     }}
@@ -202,9 +203,9 @@ const CommonDropDowns = ({
                     getOptionLabel={(option) => option?.class_name || option}
                     value={values?.class_name}
                     // sx={{ width: 300 }}
-                    onInputChange={(e, value) => {
+                    onChange={(e, value) => {
                         setFieldValue("class_name", value?.class_name || value);
-                        let orders = allTypesOfSpecies.orders.filter((item) => item.class_name == (value?.class_name || value))
+                        let orders = allTypesOfSpecies?.orders.filter((item) => item.class_name == (value?.class_name || value))
                         setOrderNames(orders)
                     }}
                     renderInput={(params) => (
@@ -236,9 +237,9 @@ const CommonDropDowns = ({
                     getOptionLabel={(option) => option?.order_name || option}
                     value={values?.order_name}
                     // sx={{ width: 300 }}
-                    onInputChange={(e, value) => {
+                    onChange={(e, value) => {
                         setFieldValue("order_name", value?.order_name || value);
-                        let families = allTypesOfSpecies.families.filter((item) => item.order_name == (value?.order_name || value))
+                        let families = allTypesOfSpecies?.families.filter((item) => item.order_name == (value?.order_name || value))
                         setFamilies(families)
                     }}
                     renderInput={(params) => (
@@ -270,9 +271,9 @@ const CommonDropDowns = ({
                     getOptionLabel={(option) => option?.family || option}
                     value={values?.family}
                     // sx={{ width: 300 }}
-                    onInputChange={(e, value) => {
+                    onChange={(e, value) => {
                         setFieldValue("family", value?.family || value);
-                        let genuses = allTypesOfSpecies.genuses.filter((item) => item.family == (value?.family || value))
+                        let genuses = allTypesOfSpecies?.genuses.filter((item) => item.family == (value?.family || value))
                         setGenuses(genuses)
                     }}
                     renderInput={(params) => (
@@ -300,9 +301,9 @@ const CommonDropDowns = ({
                     getOptionLabel={(option) => option?.genus || option}
                     value={values?.genus}
                     // sx={{ width: 300 }}
-                    onInputChange={(e, value) => {
+                    onChange={(e, value) => {
                         setFieldValue("genus", value?.genus || value);
-                        let species = allTypesOfSpecies.speciesListFromServer.filter((item) => item.genus == (value?.genus || value))
+                        let species = allTypesOfSpecies?.speciesListFromServer.filter((item) => item.genus == (value?.genus || value))
                         setSpeciesListFromServer(species)
                     }}
                     renderInput={(params) => (
@@ -330,9 +331,9 @@ const CommonDropDowns = ({
                     getOptionLabel={(option) => option?.species || option}
                     value={values?.species}
                     // sx={{ width: 300 }}
-                    onInputChange={(e, value) => {
+                    onChange={(e, value) => {
                         setFieldValue("species", value?.species || value);
-                        let subSpeciesList = allTypesOfSpecies.subSpeciesList.filter((item) => item.species == (value?.species || value))
+                        let subSpeciesList = allTypesOfSpecies?.subSpeciesList.filter((item) => item.species == (value?.species || value))
                         setSubSpeciesList(subSpeciesList)
                     }}
                     renderInput={(params) => (
@@ -360,9 +361,9 @@ const CommonDropDowns = ({
                     getOptionLabel={(option) => option?.sub_species || option}
                     value={values?.sub_species}
                     // sx={{ width: 300 }}
-                    onInputChange={(e, value) => {
+                    onChange={(e, value) => {
                         setFieldValue("sub_species", value?.sub_species || value);
-                        let varieties = allTypesOfSpecies.varieties
+                        let varieties = allTypesOfSpecies?.varieties
                         setVarieties(varieties)
                     }}
                     renderInput={(params) => (
@@ -394,9 +395,9 @@ const CommonDropDowns = ({
                     getOptionLabel={(option) => option?.variety || option}
                     value={values?.variety}
                     // sx={{ width: 300 }}
-                    onInputChange={(e, value) => {
+                    onChange={(e, value) => {
                         setFieldValue("variety", value?.variety || value);
-                        let subVarieties = allTypesOfSpecies.subVarieties.filter((item) => item.variety == (value?.variety || value))
+                        let subVarieties = allTypesOfSpecies?.subVarieties.filter((item) => item.variety == (value?.variety || value))
                         setSubVarieties(subVarieties)
                     }}
                     renderInput={(params) => (
@@ -424,9 +425,9 @@ const CommonDropDowns = ({
                     getOptionLabel={(option) => option?.sub_variety || option}
                     value={values?.sub_variety}
                     // sx={{ width: 300 }}
-                    onInputChange={(e, value) => {
+                    onChange={(e, value) => {
                         setFieldValue("sub_variety", value?.sub_variety || value);
-                        let clones = allTypesOfSpecies.clones
+                        let clones = allTypesOfSpecies?.clones
                         setClones(clones)
                     }}
                     renderInput={(params) => (
@@ -458,9 +459,9 @@ const CommonDropDowns = ({
                     getOptionLabel={(option) => option?.clone || option}
                     value={values?.clone}
                     // sx={{ width: 300 }}
-                    onInputChange={(e, value) => {
+                    onChange={(e, value) => {
                         setFieldValue("clone", value?.clone || value);
-                        let formas = allTypesOfSpecies.formas.filter((item) => item.clone == (value?.clone || value))
+                        let formas = allTypesOfSpecies?.formas.filter((item) => item.clone == (value?.clone || value))
                         setFormas(formas)
                     }}
                     renderInput={(params) => (
@@ -488,7 +489,7 @@ const CommonDropDowns = ({
                     getOptionLabel={(option) => option?.forma || option}
                     value={values?.forma}
                     // sx={{ width: 300 }}
-                    onInputChange={(e, value) => {
+                    onChange={(e, value) => {
                         setFieldValue("forma", value?.forma || value);
                     }}
                     renderInput={(params) => (

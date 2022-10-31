@@ -1,4 +1,4 @@
-const { getTable, executeQuery, uniqueIdGenerator, tableTypes, log, createQueryForSpecies, isValidImageOrMarker, returnValidJson } = require('../config/common');
+const { getTable, executeQuery, uniqueIdGenerator, tableTypes, log, createQueryForSpecies, isValidImageOrMarker, returnValidJson, callGeocoderApi } = require('../config/common');
 
 const DB = require("../config/connectToDatabase");
 
@@ -23,12 +23,10 @@ exports.BIOGetSpeciesBySerial = async (req, res, next) => {
                 let districts = []
                 if (item.district.includes('+')) {
                     let splittedValue = item.district.split('+')
-                    splittedValue.map((item) => {
-                        districts.push({
-                            place_name: item,
-                            center: null
-                        })
-                    })
+                    for (let district of splittedValue) {
+                        let response = await callGeocoderApi(district)
+                        districts.push(response)
+                    }
                 }
                 else {
                     if (item.district.includes('{'))
@@ -38,7 +36,7 @@ exports.BIOGetSpeciesBySerial = async (req, res, next) => {
                 }
                 let addtionalCategories = await returnValidJson(item.addtionalCategories)
                 let identificationFeatures = await returnValidJson(item.identificationFeatures)
-                console.log({identificationFeatures})
+                console.log({ identificationFeatures })
                 let additional_files = item?.additional_files?.split(',') || []
                 additional_files = additional_files.filter((item) => {
                     if (isValidImageOrMarker(item)) {

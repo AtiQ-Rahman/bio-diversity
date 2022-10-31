@@ -37,21 +37,21 @@ let imageProps = {
 }
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
    [`&.${tableCellClasses.head}`]: {
-       backgroundColor: "#c44d34",
-       color: theme.palette.common.white,
+      backgroundColor: "#c44d34",
+      color: theme.palette.common.white,
    },
    [`&.${tableCellClasses.body}`]: {
-       fontSize: 20,
-       fontFamily: "Times New Roman"
+      fontSize: 20,
+      fontFamily: "Times New Roman"
    },
 }));
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
    '&:nth-of-type(odd)': {
-       backgroundColor: theme.palette.action.hover,
+      backgroundColor: theme.palette.action.hover,
    },
    // hide last border
    '&:last-child td, &:last-child th': {
-       border: 0,
+      border: 0,
    },
 }));
 const EcosystemDiversity = () => {
@@ -64,9 +64,11 @@ const EcosystemDiversity = () => {
    const [allTypesOfSpecies, setAllTypesOfSpecies] = useState([])
    const [subGroups, setSubGroups] = useState([])
    const [subValues, setSubValues] = useState({})
+   const [searchValues, setSearchValues] = React.useState(null)
+
    useEffect(() => {
       async function fetchData() {
-         let allTypesOfSpecies = await callApi("/get-unique-types-of-species", {});
+         let allTypesOfSpecies = await callApi("/get-unique-types-of-species", {category : pageGroups.eco});
          console.log({ allTypesOfSpecies })
          setAllTypesOfSpecies(allTypesOfSpecies.data)
 
@@ -88,10 +90,12 @@ const EcosystemDiversity = () => {
                searchParameters,
             });
             console.log("response", res);
+            setSearchValues(searchParameters)
             setSpeciesList(res?.data);
             localStorage.removeItem(`allowed${pageGroups.eco.replaceAll(" ", "")}`)
          }
          else {
+            setSearchValues(initialValues)
             localStorage.removeItem(pageGroups.eco.replaceAll(" ", ""))
          }
          if (response.data.length > 0) {
@@ -118,122 +122,122 @@ const EcosystemDiversity = () => {
 
 
          {/* breadcrumb */}
+         {searchValues ? (
+            <Formik
+               initialValues={searchValues}
+               validationSchema={Yup.object().shape({
+                  // species: Yup.object().shape({
+                  //    english: Yup.string().required(
+                  //       "Patient english name is required"
+                  //    ),
+                  //    bangla: Yup.string().required("patient bangla is required"),
+                  //    commonName: Yup.string().required("patient commonName is required"),
+                  //    synonym: Yup.string().required("patient commonName is required"),
 
-         <Formik
-            initialValues={initialValues}
-            validationSchema={Yup.object().shape({
-               // species: Yup.object().shape({
-               //    english: Yup.string().required(
-               //       "Patient english name is required"
-               //    ),
-               //    bangla: Yup.string().required("patient bangla is required"),
-               //    commonName: Yup.string().required("patient commonName is required"),
-               //    synonym: Yup.string().required("patient commonName is required"),
+                  //    // gender: Yup.string().required("patient gender is required"),
+                  //    // address: Yup.string().required("patient adressis required"),
+                  // }),
+                  // serial: Yup.string("Add serial").required("Add serial"),
+                  // kingdom: Yup.string("Add kingdom").required("Add kingdom"),
+                  // phylum: Yup.string("Add phylum").required("Add phylum"),
+                  // class: Yup.string("Add class").required("Add class"),
+                  // order: Yup.string("Add order").required("Add order"),
+                  // genus: Yup.string("Add genus").required("Add genus"),
+                  // species: Yup.string("Add species").required("Add species"),
+                  // subSpecies: Yup.string("Add subSpecies").required("Add subSpecies"),
+                  // variety: Yup.string("Add variety").required("Add variety"),
+                  // subVariety: Yup.string("Add subVariety").required("Add subVariety"),
+                  // clone: Yup.string("Add clone").required("Add clone"),
+                  // forma: Yup.string("Add forma").required("Add forma"),
+               })}
+               onSubmit={async (
+                  values,
+                  { resetForm, setErrors, setStatus, setSubmitting, setFieldValue }
+               ) => {
+                  try {
+                     console.log({ values });
+                     // console.log(values.reportfile.name);
+                     values.category = 'Ecosystem Diversity'
 
-               //    // gender: Yup.string().required("patient gender is required"),
-               //    // address: Yup.string().required("patient adressis required"),
-               // }),
-               // serial: Yup.string("Add serial").required("Add serial"),
-               // kingdom: Yup.string("Add kingdom").required("Add kingdom"),
-               // phylum: Yup.string("Add phylum").required("Add phylum"),
-               // class: Yup.string("Add class").required("Add class"),
-               // order: Yup.string("Add order").required("Add order"),
-               // genus: Yup.string("Add genus").required("Add genus"),
-               // species: Yup.string("Add species").required("Add species"),
-               // subSpecies: Yup.string("Add subSpecies").required("Add subSpecies"),
-               // variety: Yup.string("Add variety").required("Add variety"),
-               // subVariety: Yup.string("Add subVariety").required("Add subVariety"),
-               // clone: Yup.string("Add clone").required("Add clone"),
-               // forma: Yup.string("Add forma").required("Add forma"),
-            })}
-            onSubmit={async (
-               values,
-               { resetForm, setErrors, setStatus, setSubmitting, setFieldValue }
-            ) => {
-               try {
-                  console.log({ values });
-                  // console.log(values.reportfile.name);
-                  values.category = 'Ecosystem Diversity'
+                     let searchParameters = values;
+                     localStorage.setItem(`${values.category.replaceAll(" ", '')}`, JSON.stringify(searchParameters))
 
-                  let searchParameters = values;
-                  localStorage.setItem(`${values.category.replaceAll(" ", '')}`, JSON.stringify(searchParameters))
+                     // console.log({ loggedUser: loggedUser.userId });
+                     // data.append("reportfile", values.reportfile);
+                     let res = await callApi("/search-species-by-field", { searchParameters })
+                     console.log("response", res);
+                     setSpeciesList(res?.data)
+                     setSearchMessage(res?.message)
+                     // enqueueSnackbar("Report  Uploaded Successfully", {
+                     //    variant: "success",
+                     //    // action: <Button>See all</Button>
+                     // });
+                     setErrors(false);
 
-                  // console.log({ loggedUser: loggedUser.userId });
-                  // data.append("reportfile", values.reportfile);
-                  let res = await callApi("/search-species-by-field", { searchParameters })
-                  console.log("response", res);
-                  setSpeciesList(res?.data)
-                  setSearchMessage(res?.message)
-                  // enqueueSnackbar("Report  Uploaded Successfully", {
-                  //    variant: "success",
-                  //    // action: <Button>See all</Button>
-                  // });
-                  setErrors(false);
+                  } catch (error) {
+                     console.log({ error });
 
-               } catch (error) {
-                  console.log({ error });
-
-                  setStatus({ success: false });
-                  setErrors({ submit: error.message });
-                  setSubmitting(false);
-               }
-            }}
-         >
-            {({
-               errors,
-               handleBlur,
-               handleChange,
-               handleSubmit,
-               isSubmitting,
-               touched,
-               values,
-               setFieldValue,
-            }) => (
-               <Form onSubmit={handleSubmit}>
-                  <Grid sx={{ p: 10, background: "white" }}>
-                     <Typography
-                        gutterBottom
-                        variant="h3"
-                        sx={{ pt: 8 }}
-                     >
-                        Enter Your Details
-                     </Typography>
-                     <br></br>
-                     <Grid container spacing={3}>
-                        {category?.keyList?.length > 0 ?
-                           category.keyList.map((category, index) => {
-                              if (category.name.toLowerCase() !== 'description') {
-                                 return (
-                                    <>
-                                       <Grid item xs={2} key={`keyList${index}`}>
-                                          <Autocomplete
-                                             freeSolo
-                                             size="small"
-                                             disablePortal
-                                             id="subGroups"
-                                             name={`${category.name.toLowerCase()}`}
-                                             options={subValues[`${processNames(category.name)}s`]}
-                                             key={`dropdowns${index}`}
-                                             // value={values?.kingdom}
-                                             getOptionLabel={(option) => option[`${processNames(category.name)}`] || option}
-                                             value={values[`${processNames(category?.name)}`]}
-                                             // sx={{ width: 300 }}
-                                             onInputChange={(e, value) => {
-                                                console.log({value})
-                                                setFieldValue(`${processNames(category.name)}`, value);
-                                             }}
-                                             renderInput={(params) => (
-                                                <TextField
-                                                   {...params}
-                                                   style={{ padding: "2px" }}
-                                                   label={`${category.name}`}
-                                                   variant="outlined"
-                                                   placeholder="Select"
-                                                   value={values[`${processNames(category?.name)}`]}
-                                                />
-                                             )}
-                                          />
-                                          {/* <TextField
+                     setStatus({ success: false });
+                     setErrors({ submit: error.message });
+                     setSubmitting(false);
+                  }
+               }}
+            >
+               {({
+                  errors,
+                  handleBlur,
+                  handleChange,
+                  handleSubmit,
+                  isSubmitting,
+                  touched,
+                  values,
+                  setFieldValue,
+               }) => (
+                  <Form onSubmit={handleSubmit}>
+                     <Grid sx={{ p: 10, background: "white" }}>
+                        <Typography
+                           gutterBottom
+                           variant="h3"
+                           sx={{ pt: 8 }}
+                        >
+                           Enter Your Details
+                        </Typography>
+                        <br></br>
+                        <Grid container spacing={3}>
+                           {category?.keyList?.length > 0 ?
+                              category.keyList.map((category, index) => {
+                                 if (category.name.toLowerCase() !== 'description') {
+                                    return (
+                                       <>
+                                          <Grid item xs={2} key={`keyList${index}`}>
+                                             <Autocomplete
+                                                freeSolo
+                                                size="small"
+                                                disablePortal
+                                                id="subGroups"
+                                                name={`${category.name.toLowerCase()}`}
+                                                options={subValues[`${processNames(category.name)}s`]}
+                                                key={`dropdowns${index}`}
+                                                // value={values?.kingdom}
+                                                getOptionLabel={(option) => option[`${processNames(category.name)}`] || option}
+                                                value={values[`${processNames(category?.name)}`]}
+                                                // sx={{ width: 300 }}
+                                                onInputChange={(e, value) => {
+                                                   console.log({ value })
+                                                   setFieldValue(`${processNames(category.name)}`, value);
+                                                }}
+                                                renderInput={(params) => (
+                                                   <TextField
+                                                      {...params}
+                                                      style={{ padding: "2px" }}
+                                                      label={`${category.name}`}
+                                                      variant="outlined"
+                                                      placeholder="Select"
+                                                      value={values[`${processNames(category?.name)}`]}
+                                                   />
+                                                )}
+                                             />
+                                             {/* <TextField
                                              id={`${category.name + index}`}
                                              name={`${category.name.toLowerCase()}`}
                                              // margin="normal"
@@ -243,97 +247,99 @@ const EcosystemDiversity = () => {
                                              fullWidth
                                              variant="outlined"
                                           /> */}
-                                       </Grid>
-                                    </>
-                                 )
-                              }
+                                          </Grid>
+                                       </>
+                                    )
+                                 }
 
-                           })
-                           : null}
+                              })
+                              : null}
+
+                        </Grid>
+                        <Grid container spacing={2}>
+                           <Grid item xs={3}>
+                              <TextField
+
+                                 id="Species"
+                                 name="nameOfSpecies.english"
+                                 margin="normal"
+                                 size="small"
+                                 label="English Name"
+                                 fullWidth
+                                 onChange={handleChange}
+                                 autoComplete="English Name"
+                                 variant="outlined"
+                              />
+                           </Grid>
+                           <Grid item xs={3}>
+                              <TextField
+
+                                 id="banglaName"
+                                 name="nameOfSpecies.bangla"
+                                 margin="normal"
+                                 size="small"
+                                 label="Bangla Name"
+                                 fullWidth
+                                 onChange={handleChange}
+                                 autoComplete="Bangla Name"
+                                 variant="outlined"
+                              />
+                           </Grid>
+                           <Grid item xs={3}>
+                              <TextField
+
+                                 id="commonName"
+                                 name="nameOfSpecies.commonName"
+                                 margin="normal"
+                                 size="small"
+                                 label="Common Name"
+                                 fullWidth
+                                 autoComplete="commonName"
+                                 onChange={handleChange}
+                                 variant="outlined"
+                              />
+                           </Grid>
+                           <Grid item xs={3}>
+                              <TextField
+
+                                 id="synonym"
+                                 name="nameOfSpecies.synonym"
+                                 margin="normal"
+                                 size="small"
+                                 label="Synonym"
+                                 fullWidth
+                                 autoComplete="synonym"
+                                 variant="outlined"
+                                 onChange={handleChange}
+                              />
+                           </Grid>
+                        </Grid>
+
+                        <br />
+                        <Button
+                           className={styles.bg_primary}
+                           type="submit"
+                           // disabled={isSubmitting}
+                           style={{
+                              width: "80px",
+                              maxHeight: "80px",
+                              minWidth: "40px",
+                              minHeight: "40px",
+                              color: "white",
+                              boxShadow: "1px 1px 4px grey",
+                              marginBottom: "10px",
+                           }}
+                           sx={{ mb: 1, mr: 1 }}
+                        >
+                           Search
+                        </Button>
 
                      </Grid>
-                     <Grid container spacing={2}>
-                        <Grid item xs={3}>
-                           <TextField
+                  </Form>
+               )}
+            </Formik>
+         ) : null}
 
-                              id="Species"
-                              name="nameOfSpecies.english"
-                              margin="normal"
-                              size="small"
-                              label="English Name"
-                              fullWidth
-                              onChange={handleChange}
-                              autoComplete="English Name"
-                              variant="outlined"
-                           />
-                        </Grid>
-                        <Grid item xs={3}>
-                           <TextField
-
-                              id="banglaName"
-                              name="nameOfSpecies.bangla"
-                              margin="normal"
-                              size="small"
-                              label="Bangla Name"
-                              fullWidth
-                              onChange={handleChange}
-                              autoComplete="Bangla Name"
-                              variant="outlined"
-                           />
-                        </Grid>
-                        <Grid item xs={3}>
-                           <TextField
-
-                              id="commonName"
-                              name="nameOfSpecies.commonName"
-                              margin="normal"
-                              size="small"
-                              label="Common Name"
-                              fullWidth
-                              autoComplete="commonName"
-                              onChange={handleChange}
-                              variant="outlined"
-                           />
-                        </Grid>
-                        <Grid item xs={3}>
-                           <TextField
-
-                              id="synonym"
-                              name="nameOfSpecies.synonym"
-                              margin="normal"
-                              size="small"
-                              label="Synonym"
-                              fullWidth
-                              autoComplete="synonym"
-                              variant="outlined"
-                              onChange={handleChange}
-                           />
-                        </Grid>
-                     </Grid>
-
-                     <br />
-                     <Button
-                        className={styles.bg_primary}
-                        type="submit"
-                        // disabled={isSubmitting}
-                        style={{
-                           width: "80px",
-                           maxHeight: "80px",
-                           minWidth: "40px",
-                           minHeight: "40px",
-                           color: "white",
-                           boxShadow: "1px 1px 4px grey",
-                           marginBottom: "10px",
-                        }}
-                        sx={{ mb: 1, mr: 1 }}
-                     >
-                        Search
-                     </Button>
-
-                  </Grid>
-               </Form>
-            )}
-         </Formik>
          <Grid container sx={{ borderRadius: "10px", px: 10 }} >
             <Grid item xs={12} paddingBottom={10}>
                {speciesList?.length > 0 ? (
@@ -341,7 +347,7 @@ const EcosystemDiversity = () => {
                      Total Species Found : {speciesList.length}
                   </Typography>
                      <TableContainer component={Paper}    >
-                        <Table sx={{ minWidth: 700,pl: 7  }} aria-label="customized table" >
+                        <Table sx={{ minWidth: 700, pl: 7 }} aria-label="customized table" >
                            <TableHead>
                               <TableRow>
                                  <StyledTableCell><b>SI</b></StyledTableCell>
@@ -349,8 +355,6 @@ const EcosystemDiversity = () => {
                                  <StyledTableCell align="center">Species Name</StyledTableCell>
                                  <StyledTableCell align="center">Descripton</StyledTableCell>
                                  <StyledTableCell align="center">Family</StyledTableCell>
-                                 <StyledTableCell align="center">C-Production</StyledTableCell>
-                                 <StyledTableCell align="center">Lng/Lat</StyledTableCell>
                                  <StyledTableCell align="center">Action</StyledTableCell>
                               </TableRow>
                            </TableHead>
@@ -372,61 +376,62 @@ const EcosystemDiversity = () => {
                                           loader={imageLoader} src={imageUrl + '/' + row.profile_image}></Image>
                                     </StyledTableCell>
                                     <StyledTableCell align="center">
-                                       {row.name.commonName}
+                                       {row.bangla}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">{row.identificationFeatures.description}</StyledTableCell>
 
                                     <StyledTableCell align="center">{row.family}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.production}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.lng} ,{row.lat}</StyledTableCell>
-                                    <StyledTableCell align="center" sx={{ pl: 10 }} >
-                                       <Grid container spacing={1} >
+                                    <StyledTableCell align="center" sx={{ alignItems: "center" }} >
+                                       <Grid container spacing={1} sx={{
+                                          width: "fit-content",
+                                          margin: "0 auto"
+                                       }} >
                                           {/* <Grid item xs={12}> */}
-                                             <Button
-                                                style={{
-                                                   width: "110px",
-                                                   maxHeight: "80px",
-                                                   minWidth: "40px",
-                                                   minHeight: "40px"
-                                               }}
-                                                type="button"
-                                                onClick={() => router.push({
-                                                   pathname: "/details",
-                                                   query: {
-                                                      serial: row.serial,
-                                                      category: pageGroups.eco,
-                                                      initial: false
-                                                   }
-                                                })}
-                                                variant="outlined"
-                                             >
-                                                View Details
-                                             </Button>
+                                          <Button
+                                             style={{
+                                                width: "110px",
+                                                maxHeight: "80px",
+                                                minWidth: "40px",
+                                                minHeight: "40px"
+                                             }}
+                                             type="button"
+                                             onClick={() => router.push({
+                                                pathname: "/details",
+                                                query: {
+                                                   serial: row.serial,
+                                                   category: pageGroups.eco,
+                                                   initial: false
+                                                }
+                                             })}
+                                             variant="outlined"
+                                          >
+                                             View Details
+                                          </Button>
                                           {/* </Grid> */}
                                           {/* <Grid item xs={12}> */}
-                                             <Button
-                                                className={styles.bg_primary}
-                                                style={{
-                                                   width: "130px",
-                                                   maxHeight: "80px",
-                                                   minWidth: "40px",
-                                                   minHeight: "40px",
-                                                   color: "white"
-                                                }}
-                                                type="button"
-                                                onClick={() => router.push({
-                                                   pathname: "/map",
-                                                   query: {
-                                                      serial: row.serial,
-                                                      category: pageGroups.eco,
-                                                      initial: false
-                                                   }
-                                                })}
-                                                sx={{ ml: 1 }}
-                                             // variant="outlined"
-                                             >
-                                                View  map
-                                             </Button>
+                                          <Button
+                                             className={styles.bg_primary}
+                                             style={{
+                                                width: "130px",
+                                                maxHeight: "80px",
+                                                minWidth: "40px",
+                                                minHeight: "40px",
+                                                color: "white"
+                                             }}
+                                             type="button"
+                                             onClick={() => router.push({
+                                                pathname: "/map",
+                                                query: {
+                                                   serial: row.serial,
+                                                   category: pageGroups.eco,
+                                                   initial: false
+                                                }
+                                             })}
+                                             sx={{ ml: 1 }}
+                                          // variant="outlined"
+                                          >
+                                             View  map
+                                          </Button>
                                           {/* </Grid> */}
 
                                        </Grid>

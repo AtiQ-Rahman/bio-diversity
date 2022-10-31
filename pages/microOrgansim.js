@@ -35,6 +35,7 @@ const MicroOrgansim = () => {
    const [searchMessage, setSearchMessage] = React.useState('')
    const [speciesList, setSpeciesList] = React.useState()
    const router = useRouter();
+   const [searchValues, setSearchValues] = React.useState(null)
 
    useEffect(() => {
       async function fetchData() {
@@ -50,10 +51,12 @@ const MicroOrgansim = () => {
                searchParameters,
             });
             console.log("response", res);
+            setSearchValues(searchParameters)
             setSpeciesList(res?.data);
             localStorage.removeItem(`allowed${pageGroups.micro}`)
          }
          else {
+            setSearchValues(initialValues)
             localStorage.removeItem(pageGroups.micro)
          }
       }
@@ -74,112 +77,114 @@ const MicroOrgansim = () => {
 
 
          {/* breadcrumb */}
+         {searchValues ? (
+            <Formik
+               initialValues={searchValues}
+               validationSchema={Yup.object().shape({
+                  // species: Yup.object().shape({
+                  //    english: Yup.string().required(
+                  //       "Patient english name is required"
+                  //    ),
+                  //    bangla: Yup.string().required("patient bangla is required"),
+                  //    commonName: Yup.string().required("patient commonName is required"),
+                  //    synonym: Yup.string().required("patient commonName is required"),
 
-         <Formik
-            initialValues={initialValues}
-            validationSchema={Yup.object().shape({
-               // species: Yup.object().shape({
-               //    english: Yup.string().required(
-               //       "Patient english name is required"
-               //    ),
-               //    bangla: Yup.string().required("patient bangla is required"),
-               //    commonName: Yup.string().required("patient commonName is required"),
-               //    synonym: Yup.string().required("patient commonName is required"),
+                  //    // gender: Yup.string().required("patient gender is required"),
+                  //    // address: Yup.string().required("patient adressis required"),
+                  // }),
+                  // serial: Yup.string("Add serial").required("Add serial"),
+                  // kingdom: Yup.string("Add kingdom").required("Add kingdom"),
+                  // phylum: Yup.string("Add phylum").required("Add phylum"),
+                  // class: Yup.string("Add class").required("Add class"),
+                  // order: Yup.string("Add order").required("Add order"),
+                  // genus: Yup.string("Add genus").required("Add genus"),
+                  // species: Yup.string("Add species").required("Add species"),
+                  // subSpecies: Yup.string("Add subSpecies").required("Add subSpecies"),
+                  // variety: Yup.string("Add variety").required("Add variety"),
+                  // subVariety: Yup.string("Add subVariety").required("Add subVariety"),
+                  // clone: Yup.string("Add clone").required("Add clone"),
+                  // forma: Yup.string("Add forma").required("Add forma"),
+               })}
+               onSubmit={async (
+                  values,
+                  { resetForm, setErrors, setStatus, setSubmitting, setFieldValue }
+               ) => {
+                  try {
+                     console.log({ values });
+                     // console.log(values.reportfile.name);
+                     values.category = 'Microorganisms'
 
-               //    // gender: Yup.string().required("patient gender is required"),
-               //    // address: Yup.string().required("patient adressis required"),
-               // }),
-               // serial: Yup.string("Add serial").required("Add serial"),
-               // kingdom: Yup.string("Add kingdom").required("Add kingdom"),
-               // phylum: Yup.string("Add phylum").required("Add phylum"),
-               // class: Yup.string("Add class").required("Add class"),
-               // order: Yup.string("Add order").required("Add order"),
-               // genus: Yup.string("Add genus").required("Add genus"),
-               // species: Yup.string("Add species").required("Add species"),
-               // subSpecies: Yup.string("Add subSpecies").required("Add subSpecies"),
-               // variety: Yup.string("Add variety").required("Add variety"),
-               // subVariety: Yup.string("Add subVariety").required("Add subVariety"),
-               // clone: Yup.string("Add clone").required("Add clone"),
-               // forma: Yup.string("Add forma").required("Add forma"),
-            })}
-            onSubmit={async (
-               values,
-               { resetForm, setErrors, setStatus, setSubmitting, setFieldValue }
-            ) => {
-               try {
-                  console.log({ values });
-                  // console.log(values.reportfile.name);
-                  values.category = 'Microorganisms'
+                     let searchParameters = values;
+                     localStorage.setItem(`${values.category}`, JSON.stringify(searchParameters))
 
-                  let searchParameters = values;
-                  localStorage.setItem(`${values.category}`, JSON.stringify(searchParameters))
+                     // console.log({ loggedUser: loggedUser.userId });
+                     // data.append("reportfile", values.reportfile);
+                     let res = await callApi("/search-species-by-field", { searchParameters })
+                     console.log("response", res);
+                     setSpeciesList(res?.data)
+                     setSearchMessage(res?.message)
+                     // enqueueSnackbar("Report  Uploaded Successfully", {
+                     //    variant: "success",
+                     //    // action: <Button>See all</Button>
+                     // });
+                     setErrors(false);
 
-                  // console.log({ loggedUser: loggedUser.userId });
-                  // data.append("reportfile", values.reportfile);
-                  let res = await callApi("/search-species-by-field", { searchParameters })
-                  console.log("response", res);
-                  setSpeciesList(res?.data)
-                  setSearchMessage(res?.message)
-                  // enqueueSnackbar("Report  Uploaded Successfully", {
-                  //    variant: "success",
-                  //    // action: <Button>See all</Button>
-                  // });
-                  setErrors(false);
+                  } catch (error) {
+                     console.log({ error });
 
-               } catch (error) {
-                  console.log({ error });
+                     setStatus({ success: false });
+                     setErrors({ submit: error.message });
+                     setSubmitting(false);
+                  }
+               }}
+            >
+               {({
+                  errors,
+                  handleBlur,
+                  handleChange,
+                  handleSubmit,
+                  isSubmitting,
+                  touched,
+                  values,
+                  setFieldValue,
+               }) => (
+                  <Form onSubmit={handleSubmit}>
+                     <Grid sx={{ p: 10, background: "white" }}>
+                        <Typography
+                           gutterBottom
+                           variant="h3"
+                           sx={{ pt: 8 }}
+                        >
+                           Enter Your Details
+                        </Typography>
+                        <Grid container spacing={3}>
+                           <CommonDropDowns values={values} setFieldValue={setFieldValue} touched={touched} handleChange={handleChange} errors={errors} category={pageGroups.micro}></CommonDropDowns>
+                        </Grid>
+                        <br />
+                        <Button
+                           className={styles.bg_primary}
+                           type="submit"
+                           // disabled={isSubmitting}
+                           style={{
+                              width: "80px",
+                              maxHeight: "80px",
+                              minWidth: "40px",
+                              minHeight: "40px",
+                              color: "white",
+                              boxShadow: "1px 1px 4px grey",
+                              marginBottom: "10px",
+                           }}
+                           sx={{ mb: 1, mr: 1 }}
+                        >
+                           Search
+                        </Button>
 
-                  setStatus({ success: false });
-                  setErrors({ submit: error.message });
-                  setSubmitting(false);
-               }
-            }}
-         >
-            {({
-               errors,
-               handleBlur,
-               handleChange,
-               handleSubmit,
-               isSubmitting,
-               touched,
-               values,
-               setFieldValue,
-            }) => (
-               <Form onSubmit={handleSubmit}>
-                  <Grid sx={{ p: 10, background: "white" }}>
-                     <Typography
-                        gutterBottom
-                        variant="h3"
-                        sx={{ pt: 8 }}
-                     >
-                        Enter Your Details
-                     </Typography>
-                     <Grid container spacing={3}>
-                        <CommonDropDowns values={values} setFieldValue={setFieldValue} touched={touched} handleChange={handleChange} errors={errors} category={pageGroups.micro}></CommonDropDowns>
                      </Grid>
-                     <br />
-                     <Button
-                        className={styles.bg_primary}
-                        type="submit"
-                        // disabled={isSubmitting}
-                        style={{
-                           width: "80px",
-                           maxHeight: "80px",
-                           minWidth: "40px",
-                           minHeight: "40px",
-                           color: "white",
-                           boxShadow: "1px 1px 4px grey",
-                           marginBottom: "10px",
-                        }}
-                        sx={{ mb: 1, mr: 1 }}
-                     >
-                        Search
-                     </Button>
+                  </Form>
+               )}
+            </Formik>
+         ) : null}
 
-                  </Grid>
-               </Form>
-            )}
-         </Formik>
          <Grid container sx={{ borderRadius: "10px", px: 10 }} paddingBottom={6} >
             <Grid item xs={12}>
                {speciesList?.length > 0 ? (

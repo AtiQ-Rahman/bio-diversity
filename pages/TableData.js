@@ -43,7 +43,7 @@ const TableData = (props) => {
                 </Typography>
                     <br />
                     <TableContainer component={Paper}  >
-                        <Table sx={{ minWidth: 700,pl: 7  }} aria-label="customized table">
+                        <Table sx={{ minWidth: 700, pl: 7 }} aria-label="customized table">
                             <TableHead>
                                 <TableRow>
                                     <StyledTableCell sx={{ pl: 4 }}><b>SI</b></StyledTableCell>
@@ -52,14 +52,13 @@ const TableData = (props) => {
                                     <StyledTableCell align="center"><b>Type</b></StyledTableCell>
                                     <StyledTableCell align="center"><b>Family</b></StyledTableCell>
                                     <StyledTableCell align="center"><b>Order name</b></StyledTableCell>
-                                    <StyledTableCell align="center"><b>Lng/Lat</b></StyledTableCell>
-                                    <StyledTableCell  align="center" sx={{ pr: 10 }} ><b>Action</b></StyledTableCell>
+                                    <StyledTableCell align="center" ><b>Action</b></StyledTableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody   >
                                 {props.speciesList.map((row, index) => (
                                     <StyledTableRow
-                                        key={row.index}
+                                        key={`details${row.index}`}
                                         sx={{
                                             "&:last-child td, &:last-child th": { border: 0 },
                                         }}
@@ -68,19 +67,22 @@ const TableData = (props) => {
                                         <StyledTableCell component="th" scope="row" sx={{ pl: 4 }}>
                                             {index + 1}
                                         </StyledTableCell >
-                                        <StyledTableCell component="td" scope="row" width={200}>
+                                        <StyledTableCell scope="row" width={200}>
                                             <Image {...imageProps} objectFit="cover" loader={imageLoader} src={imageUrl + '/' + row.profile_image} alt={row.name.commonName}></Image>
                                         </StyledTableCell >
                                         <StyledTableCell align="center">
-                                            {row.name.commonName}
+                                            {row.bangla}
                                         </StyledTableCell >
-                                        <StyledTableCell align="center">{row.identificationFeatures.subCategory.name}</StyledTableCell >
+                                        <StyledTableCell align="center">{row.identificationFeatures.subCategory?.name || row.identificationFeatures.subCategory}</StyledTableCell >
 
                                         <StyledTableCell align="center">{row.family}</StyledTableCell >
                                         <StyledTableCell align="center">{row.order_name}</StyledTableCell >
-                                        <StyledTableCell align="center">{row.lng},<br />{row.lat}</StyledTableCell >
-                                        <StyledTableCell sx={{ pl: 10 }}  align="center">
-                                            <Grid container spacing={1}  >
+
+                                        <StyledTableCell align="center">
+                                            <Grid container spacing={1} sx={{
+                                                width: "fit-content",
+                                                margin: "0 auto"
+                                            }}>
                                                 {/* <Grid item xs={12}> */}
                                                 <Button
                                                     style={{
@@ -90,14 +92,19 @@ const TableData = (props) => {
                                                         minHeight: "40px"
                                                     }}
                                                     type="button"
-                                                    onClick={() => router.push({
-                                                        pathname: "/details",
-                                                        query: {
-                                                            serial: row.serial,
-                                                            category: props.category,
-                                                            initial: false
-                                                        }
-                                                    })}
+                                                    onClick={() => {
+                                                        localStorage.setItem(`initialValues${props.category}`, JSON.stringify(props.values))
+                                                        router.push({
+                                                            pathname: "/details",
+
+                                                            query: {
+                                                                serial: row.serial,
+                                                                category: props.category,
+                                                                initial: false
+                                                            }
+                                                        })
+                                                    }
+                                                    }
                                                     variant="outlined"
                                                 >
                                                     Details

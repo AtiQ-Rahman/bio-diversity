@@ -36,6 +36,7 @@ let imageProps = {
 let imageProps2 = {
   height: "100px",
   width: "200px",
+  objectFit: "cover"
   // border: "3px solid #d76d2e !important",
   // filter: " drop-shadow(2px 4px 6px grey) !important",
 
@@ -45,19 +46,19 @@ const StyledSlider = styled((props) => <Slider {...props} />)({
     width: "200px",
     height: "100px",
     margin: "0px 4px",
-    
+
   },
-  
+
   "& .slick-dots": {
     // display: "block",
-   
+
     position: "relative",
   },
   "& .slick-slider span": {
     // display: "block",
     width: "150% !important",
     height: "400px !important",
-    
+
   },
   "& ul .slick-active": {
     border: "3px solid #d76d2e !important",
@@ -69,10 +70,14 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
     width: 30,
+    textAlign: "end"
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 18,
   },
+  "&.MuiTableCell-root": {
+    border: "1px solid black"
+  }
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
@@ -201,42 +206,42 @@ const AllDetailsPage = () => {
       <Grid item xs={8} style={{ background: "white", margin: "0 auto" }}>
         <Item sx={{ pt: 10 }}>
           {speciesDetails.additionalFiles?.length > 0 ? (
-              <div>
-                <Slider ref={slider => setSlider(slider)} {...settings} >
-                  {speciesDetails.additionalFiles.map((speciesImage, index) => {
-                    return (
-                      <Image
-                        key={`speciesAdditional${index}`}
-                        {...imageProps}
-                        loader={imageLoader}
-                        alt="Additional Image"
-                        src={imageUrl + "/" + speciesImage}
-                      />
-                    );
-                  })}
-                </Slider>
-              </div>
-            ) : (
-              <Image
-                loader={imageLoader}
-                src={imageUrl + "/" + speciesDetails?.profile_image}
-                alt="species-image"
-                width="345"
-                height={200}
-              ></Image>
-            )}
-            {speciesDetails?.additionalFiles?.length > 0 ? (
-              <div>
-                <Slider {...settingsForAddition}>
-                  {speciesDetails.additionalFiles.map((speciesImage, index) => (
-                    <Image key={`slideImage2${index}`} alt="No Slider Image" {...imageProps2} loader={imageLoader} src={imageUrl + "/" + speciesImage} onClick={(e) => {
-                      slider?.slickGoTo(index)
-                      setCurrentIndex(index)
-                    }} />
-                  ))}
-                </Slider>
-              </div>
-            ) : null}
+            <div>
+              <Slider ref={slider => setSlider(slider)} {...settings} >
+                {speciesDetails.additionalFiles.map((speciesImage, index) => {
+                  return (
+                    <Image
+                      key={`speciesAdditional${index}`}
+                      {...imageProps}
+                      loader={imageLoader}
+                      alt="Additional Image"
+                      src={imageUrl + "/" + speciesImage}
+                    />
+                  );
+                })}
+              </Slider>
+            </div>
+          ) : (
+            <Image
+              loader={imageLoader}
+              src={imageUrl + "/" + speciesDetails?.profile_image}
+              alt="species-image"
+              width="345"
+              height={200}
+            ></Image>
+          )}
+          {speciesDetails?.additionalFiles?.length > 0 ? (
+            <div>
+              <Slider {...settingsForAddition}>
+                {speciesDetails.additionalFiles.map((speciesImage, index) => (
+                  <Image key={`slideImage2${index}`} alt="No Slider Image" {...imageProps2} loader={imageLoader} src={imageUrl + "/" + speciesImage} onClick={(e) => {
+                    slider?.slickGoTo(index)
+                    setCurrentIndex(index)
+                  }} />
+                ))}
+              </Slider>
+            </div>
+          ) : null}
         </Item>
 
         <Typography
@@ -251,7 +256,7 @@ const AllDetailsPage = () => {
             color: "#c44d34",
           }}
         >
-          {speciesDetails?.name?.commonName}
+          {speciesDetails?.bangla}
         </Typography>
 
         <TableContainer component={Paper}>
@@ -274,7 +279,10 @@ const AllDetailsPage = () => {
 
                     return (
                       <StyledTableRow key={row}>
-                        <StyledTableCell component="th" scope="row" align="end">
+                        <StyledTableCell component="th" scope="row" sx={{
+                          textAlign: "end",
+                          width: 40
+                        }}>
                           <b> {title}</b>
                         </StyledTableCell>
                         <StyledTableCell align="left">
@@ -291,7 +299,11 @@ const AllDetailsPage = () => {
                       <StyledTableCell
                         component="th"
                         scope="row"
-                        sx={{ pl: 10 }}
+                        sx={{
+                          pl: 10,
+                          textAlign: "end",
+                          width: 40
+                        }}
                       >
                         <b> {title} :</b>
                       </StyledTableCell>
