@@ -70,7 +70,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
-    width: 30,
+    width: 70,
     textAlign: "end"
   },
   [`&.${tableCellClasses.body}`]: {
@@ -86,14 +86,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     backgroundColor: theme.palette.action.hover,
   },
   
- 
-
-  
-  // hide last border
-  "&:last-child td, &:last-child th": {
-    border: 2,
-   
-  },
 }));
 const AllDetailsPage = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -281,13 +273,11 @@ const AllDetailsPage = () => {
                     let title = processKeys(
                       `${modifiedSpeciesDetails[row]}.${objKey}`
                     );
-                    console.log(modifiedSpeciesDetails[row][objKey]);
-
                     return (
                       <StyledTableRow key={row}>
                         <StyledTableCell component="th" scope="row" sx={{
                           textAlign: "end",
-                          width: 40
+                          width: 100
                         }}>
                           <b> {title}</b>
                         </StyledTableCell>
@@ -305,13 +295,14 @@ const AllDetailsPage = () => {
                       <StyledTableCell
                         component="th"
                         scope="row"
-                        sx={{ pr:30 }}
-                        align="right"
-                        className={styles.table}
+                        sx={{
+                          textAlign: "end",
+                          width: 100
+                        }}
                       >
                         <b> {title} :</b>
                       </StyledTableCell>
-                      <StyledTableCell align="left"  sx={{ pl:20 }}>
+                      <StyledTableCell align="left" >
                         {modifiedSpeciesDetails[row]}
                       </StyledTableCell>
                     </StyledTableRow>
