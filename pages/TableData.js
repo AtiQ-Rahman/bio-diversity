@@ -29,7 +29,7 @@ const TableData = (props) => {
     //  const [speciesList, setSpeciesList] = React.useState([]);
     //  const [searchMessage, setSearchMessage] = React.useState('');
     let imageProps = {
-        height: "100px",
+        height: "80px",
         width: "200px",
     }
     const imageLoader = ({ src }) => `${src}`
