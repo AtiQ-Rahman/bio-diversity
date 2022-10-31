@@ -131,7 +131,8 @@ const Distribution = () => {
     map.current.on("zoom", () => {
       const zoom = map.current.getZoom();
       for (const el of elements) {
-        const scalePercent = 1 + (zoom - 8) * 0.4;
+        const scalePercent = 1 + (zoom - 6) * 0.4;
+
         // const el = marker.getElement()
         let top = scalePercent * 40;
         let height = scalePercent * 70;
