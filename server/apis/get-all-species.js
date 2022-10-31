@@ -1,4 +1,4 @@
-const { getTable, executeQuery, uniqueIdGenerator, speciesTableTypes, log, createQueryForSpecies, returnValidJson, isValidImageOrMarker } = require('../config/common');
+const { getTable, executeQuery, uniqueIdGenerator, speciesTableTypes, log, createQueryForSpecies, returnValidJson, isValidImageOrMarker, callGeocoderApi } = require('../config/common');
 
 const DB = require("../config/connectToDatabase");
 
@@ -14,12 +14,10 @@ exports.getAllSpecies = async (req, res, next) => {
                 let districts = []
                 if (item.district.includes('+')) {
                     let splittedValue = item.district.split('+')
-                    splittedValue.map((item) => {
-                        districts.push({
-                            place_name: item,
-                            center: null
-                        })
-                    })
+                    for (let district of splittedValue) {
+                        let response = await callGeocoderApi(district)
+                        districts.push(response)
+                    }
                 }
                 else {
                     if (item.district.includes('{'))
