@@ -19,6 +19,7 @@ import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import { style } from "@mui/system/Stack/createStack";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -79,9 +80,14 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(odd)": {
     backgroundColor: theme.palette.action.hover,
   },
+  
+ 
+
+  
   // hide last border
   "&:last-child td, &:last-child th": {
-    border: 1,
+    border: 2,
+   
   },
 }));
 const AllDetailsPage = () => {
@@ -287,15 +293,17 @@ const AllDetailsPage = () => {
                 } else {
                   let title = processKeys(row);
                   return (
-                    <StyledTableRow key={row}>
+                    <StyledTableRow key={row} className={styles.table}>
                       <StyledTableCell
                         component="th"
                         scope="row"
-                        sx={{ pl: 10 }}
+                        sx={{ pr:30 }}
+                        align="right"
+                        className={styles.table}
                       >
                         <b> {title} :</b>
                       </StyledTableCell>
-                      <StyledTableCell align="left" sx={{ pr: 15 }}>
+                      <StyledTableCell align="left"  sx={{ pl:20 }}>
                         {modifiedSpeciesDetails[row]}
                       </StyledTableCell>
                     </StyledTableRow>
