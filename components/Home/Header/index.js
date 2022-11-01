@@ -1,30 +1,19 @@
 import * as React from "react";
-import { styled, alpha } from "@mui/material/styles";
 import { AppBar, Grid } from "@mui/material";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import InputBase from "@mui/material/InputBase";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
-import SearchIcon from "@mui/icons-material/Search";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import SearchSection from "./SearchSection";
 import styles from "../../../styles/Home.module.css";
-import HomeIcon from "@mui/icons-material/Home";
-import ImageIcon from "@mui/icons-material/Image";
-import ContactsIcon from "@mui/icons-material/Contacts";
-import YardIcon from '@mui/icons-material/Yard';
 import Link from "next/link";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import AddIcon from "@mui/icons-material/Add";
 import { makeStyles } from "@mui/styles";
-import { useLocation } from "react-router-dom";
 import LogoSection from '../LogoSection';
-import PetsIcon from '@mui/icons-material/Pets';
+
 // const {
 
 //   Button,

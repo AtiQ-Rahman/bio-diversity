@@ -36,7 +36,6 @@ exports.BIOGetSpeciesBySerial = async (req, res, next) => {
                 }
                 let addtionalCategories = await returnValidJson(item.addtionalCategories)
                 let identificationFeatures = await returnValidJson(item.identificationFeatures)
-                console.log({ identificationFeatures })
                 let additional_files = item?.additional_files?.split(',') || []
                 additional_files = additional_files.filter((item) => {
                     if (isValidImageOrMarker(item)) {

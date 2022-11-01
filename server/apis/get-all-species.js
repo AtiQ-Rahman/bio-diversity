@@ -26,7 +26,6 @@ exports.getAllSpecies = async (req, res, next) => {
                         districts = item?.district || []
                 }
                 let identificationFeatures = await returnValidJson(item.identificationFeatures)
-                console.log({identificationFeatures})
                 let additional_files = item?.additional_files?.split(',') || []
                 additional_files = additional_files.filter((item) => {
                     if (isValidImageOrMarker(item)) {
@@ -46,7 +45,11 @@ exports.getAllSpecies = async (req, res, next) => {
         }
     }
 
-    console.log(modifiedList.length)
+    modifiedList = modifiedList.sort((a, b) => {
+        if (a.createdDatetimeStamp > b.createdDatetimeStamp) return -1;
+        if (a.createdDatetimeStamp < b.createdDatetimeStamp) return 1;
+        return 0;
+      });
     res.status(200).json({
         success: true,
         data: modifiedList,

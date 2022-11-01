@@ -230,14 +230,10 @@ export default function ManageHome() {
   const [openUpload, setOpenUpload] = React.useState(false);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(20);
-  const [force, setForce] = React.useState(false);
   const { enqueueSnackbar } = useSnackbar();
 
   const [imageList, setImageList] = React.useState([]);
   const [selectedTemplate, setSelectedTemplate] = React.useState({});
-  const [selectedRecentSightings, setSelectedRecentSightings] = React.useState(
-    []
-  );
   const initialValues = {
     name: "",
     serial: null,
@@ -261,8 +257,6 @@ export default function ManageHome() {
   const handleLeftDrawerToggle = () => {
     dispatch({ type: SET_MENU, opened: !leftDrawerOpened });
   };
-  const changeCategory = (e) => {};
-
   async function fetchData() {
     let response = await callApi("/get-all-images", {});
     setImageList(response.data);
@@ -271,29 +265,7 @@ export default function ManageHome() {
     let sliderImages = result?.sliderImages?.split(",").filter((item) => item);
     result.sliderImages = sliderImages;
     setSelectedTemplate(result);
-    let modifiedList = templateResponse.data;
-    if (modifiedList[0]) {
-      let allSpecies = await callApi("/get-species-list", {});
-      if (allSpecies.data.length > 0) {
-        console.log(allSpecies.data);
-        let speciesList = allSpecies.data;
-        speciesList = speciesList.sort((a, b) => {
-          if (a.createdDatetimeStamp > b.createdDatetimeStamp) return -1;
-          if (a.createdDatetimeStamp < b.createdDatetimeStamp) return 1;
-          return 0;
-        });
-        console.log(
-          speciesList.slice(0, parseInt(modifiedList[0]?.recentSighting))
-        );
-        if (speciesList.length < parseInt(modifiedList[0]?.recentSighting)) {
-          setSelectedRecentSightings(speciesList);
-        } else {
-          setSelectedRecentSightings(
-            speciesList.slice(0, parseInt(modifiedList[0]?.recentSighting))
-          );
-        }
-      }
-    }
+
   }
   useEffect(() => {
     dispatch({ type: SET_MENU, opened: !matchDownMd });
@@ -461,11 +433,13 @@ export default function ManageHome() {
                             >
                               <Card sx={{ maxWidth: 345 }}>
                                 <CardActionArea>
-                                  <CardMedia
-                                    component="img"
-                                    height="140"
+                                  <Image
+                                    height={200}
+                                    width= {345}
+                                    objectFit="cover"
+                                    loader={imageLoader}
                                     alt="NO IMAGE"
-                                    image={imageUrl + "/" + item}
+                                    src={imageUrl + "/" + item}
                                   />
                                   {selectedTemplate?.sliderImages?.includes(
                                     item

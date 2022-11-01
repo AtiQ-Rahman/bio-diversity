@@ -6,9 +6,10 @@ import themes from '../theme';
 import { CssBaseline } from "@mui/material";
 import '../styles/mapPopUp.css'
 import { SnackbarProvider } from "notistack";
+import { motion, AnimatePresence } from "framer-motion"
 // import { BrowserRouter } from "react-router-dom";
 import Footer from "../components/Home/Footer/Footer";
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps, router }) {
   // const customization = useSelector((state) => state.customization);
 
   return (
@@ -17,9 +18,21 @@ function MyApp({ Component, pageProps }) {
       <ThemeProvider theme={themes({ fontFamily: 'Raleway, Arial' })}>
         <SnackbarProvider>
           <CssBaseline />
-          <Component {...pageProps} />
-        </SnackbarProvider>
+          <AnimatePresence>
+            <motion.div key={router.route} initial="pageInitial" animate="pageAnimate" exit="pageExit" variants={{
 
+              pageAnimate: {
+                opacity: 1
+              },
+              pageExit: {
+                backgroundColor: "white",
+                opacity: 0
+              }
+            }}>
+              <Component {...pageProps} />
+            </motion.div>
+          </AnimatePresence>
+        </SnackbarProvider>
         {/* <Footer /> */}
       </ThemeProvider>
       {/* </BrowserRouter> */}

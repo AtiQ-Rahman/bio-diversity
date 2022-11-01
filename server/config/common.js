@@ -68,7 +68,6 @@ exports.callGeocoderApi = async (value) => {
     let url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${value}.json?access_token=${process.env.MAPBOX_KEY}&bbox=88.007207%2C20.4817039%2C92.679485%2C26.638142`
     let response = await fetch(url)
     let data = await response.json()
-    console.log({data})
     return data.features[0]
 }
 exports.executeQuery = async (query) => {
