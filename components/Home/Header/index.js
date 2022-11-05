@@ -47,7 +47,7 @@ const options = [
   },
   {
     name: "Team",
-    url: "/team"
+    url: "/teams"
   },
   {
     name: "Links",

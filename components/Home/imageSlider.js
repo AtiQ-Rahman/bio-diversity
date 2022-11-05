@@ -41,11 +41,12 @@ const StyledSlider = styled((props) => (
     }
 });
 let imageProps = {
-    height: "800px !important",
-    width: "100%",
+    objectFit: "cover",
+
+    height: 800,
+    // layout:"fill",
     // width:"auto",
-    // width:"1500px",
-    objectFit: "cover"
+    width: 100,
 }
 
 const sliderStyles = {
