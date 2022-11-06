@@ -32,6 +32,15 @@
   margin-top: 2%;
   height: 100%;
 }
+.main_box1 {
+  /* border: 1px solid var(--app-border); */
+  padding: 30px;
+  width: 80%;
+  /* background: var(--app-secondary-color); */
+  margin: 0 auto;
+  margin-top: 2%;
+  height: 100%;
+}
 .main_box2 {
   /* border: 1px solid var(--app-border); */
   padding: 70px;
