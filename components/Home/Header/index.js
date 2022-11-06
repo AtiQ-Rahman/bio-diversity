@@ -13,6 +13,7 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import AddIcon from "@mui/icons-material/Add";
 import { makeStyles } from "@mui/styles";
 import LogoSection from '../LogoSection';
+import { useRouter } from "next/router";
 
 // const {
 
@@ -102,6 +103,7 @@ const options = [
 
 const ITEM_HEIGHT = 48;
 export default function PrimarySearchAppBar(props) {
+  const router = useRouter()
   const [navBg, setNavBg] = React.useState("black");
   // const location = useLocation();
   React.useEffect(() => {
@@ -121,7 +123,7 @@ export default function PrimarySearchAppBar(props) {
 
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [anchorEl1, setAnchorEl1] = React.useState(null);
+  const [anchorel1, setAnchorEl1] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -146,16 +148,16 @@ export default function PrimarySearchAppBar(props) {
         },
       }}
     >
-      {options.map((option) => (
+      {options.map((option, index) => (
         <MenuItem
-          key={option}
+          key={`options${index}`}
 
-          onClick={handleClose}
+          onClick={(e) => {
+            router.push(option.url)
+            handleClose(e)
+          }}
         >
-          <Link href={option.url}>
-            {option.name}
-
-          </Link>
+          <a>{option.name}</a>
         </MenuItem>
       ))}
     </Menu>
@@ -287,7 +289,7 @@ export default function PrimarySearchAppBar(props) {
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
-  const isMenuOpen = Boolean(anchorEl1);
+  const isMenuOpen = Boolean(anchorel1);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   // const [pages, setPages] = React.useState([])
   const [force, setForce] = React.useState(false);
@@ -297,10 +299,6 @@ export default function PrimarySearchAppBar(props) {
   //     setPages(pages);
   //     setForce(!force)
   // }, [])
-
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl1(event.currentTarget);
-  };
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
@@ -318,7 +316,7 @@ export default function PrimarySearchAppBar(props) {
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
-      anchorEl1={anchorEl1}
+      anchorel1={anchorel1}
       anchorOrigin={{
         vertical: "top",
         horizontal: "right",
@@ -341,7 +339,7 @@ export default function PrimarySearchAppBar(props) {
   const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
     <Menu
-      anchorEl1={mobileMoreAnchorEl}
+      anchorel1={mobileMoreAnchorEl}
       anchorOrigin={{
         vertical: "top",
         horizontal: "right",
@@ -407,7 +405,7 @@ export default function PrimarySearchAppBar(props) {
                     padding: "10px"
                   }}>
 
-                    Biodiversity of 
+                    Biodiversity of
                     <span style={{
                       fontWeight: '600',
                       color: "#c44d34",

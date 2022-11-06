@@ -19,16 +19,22 @@ let cardProps = {
       cursor: "pointer",
       transform: "scale(1.1)",
       zIndex: 2000
-    }
-    , maxWidth: 345
+    },
+    margin: "0 auto",
+    maxWidth: 345
   }
 }
 const team = () => {
   return (
     <Box>
       <Header index={7} />
-      <Grid sx={{ m: 15 }}>
-        <Typography component="h2" variant="h2">
+      <Grid style={{ margin: "0 auto", marginTop: "5%", width: "80%" }}>
+        <Typography component="h2" variant="h2" sx={{
+          fontFamily: "Airbnb Cereal App,sans-serif !important",
+          fontWeight: "800",
+          fontSize: "3rem",
+          py: 3
+        }}>
           "<span style={{ color: "grey" }}>Under the current project title </span>
           ‘Mapping and Monitoring of Plant Biodiversity Resources of Bangladesh’
           <span style={{ color: "grey" }}>recruited team members from the Department of Botany, University of Dhaka, Bangladesh are as follows</span>
@@ -37,10 +43,6 @@ const team = () => {
         <Grid container>
           <Grid item xs={12} md={4}>
             <Card {...cardProps}>
-              <CardHeader
-                title="Principal Investigator"
-              // subheader="September 14, 2016"
-              />
               <CardActionArea>
                 <CardMedia
                   component="img"
@@ -49,10 +51,19 @@ const team = () => {
                   alt="green iguana"
                 />
                 <CardContent>
+                  <Typography gutterBottom component="h5" variant="h5" sx={{
+                    background: "green",
+                    borderRadius: "8px",
+                    color: "white",
+                    px: 1,
+                    py: 0.5,
+                    width: "fit-content",
+                    fontWeight: "bold"
+                  }}>Principal Investigator</Typography>
                   <Typography gutterBottom variant="h3" component="div">
                     Dr. Mohammad Azmal Hossain Bhuiyan, Ph.D. (Japan)
                   </Typography>
-                  <Typography variant="body2" color="text.secondary">
+                  <Typography variant="body2" color="grey">
                     Professor, Department of Botany, University of Dhaka, Dhaka
                     1000.
 
@@ -64,10 +75,6 @@ const team = () => {
 
           <Grid item xs={12} md={4}>
             <Card {...cardProps}>
-              <CardHeader
-                title="Co-Investigator-1"
-              // subheader="September 14, 2016"
-              />
               <CardActionArea>
                 <CardMedia
                   component="img"
@@ -76,10 +83,19 @@ const team = () => {
                   alt="green iguana"
                 />
                 <CardContent>
+                  <Typography gutterBottom component="h5" variant="h5" sx={{
+                    background: "green",
+                    borderRadius: "8px",
+                    color: "white",
+                    px: 1,
+                    py: 0.5,
+                    width: "fit-content",
+                    fontWeight: "bold"
+                  }}>Co-Investigator-1</Typography>
                   <Typography gutterBottom variant="h3" component="div">
                     Dr. MoniruzzamanKhondker, Ph.D. (Austria)
                   </Typography>
-                  <Typography variant="body2" color="text.secondary">
+                  <Typography variant="body2" color="grey">
                     Supernumerary Professor, Department of Botany, University of
                     Dhaka, Dhaka -1000.
 
@@ -91,10 +107,6 @@ const team = () => {
 
           <Grid item xs={12} md={4}>
             <Card {...cardProps}>
-              <CardHeader
-                title="Co-Investigator-2"
-              // subheader="September 14, 2016"
-              />
               <CardActionArea>
                 <CardMedia
                   component="img"
@@ -103,10 +115,19 @@ const team = () => {
                   alt="green iguana"
                 />
                 <CardContent>
+                  <Typography gutterBottom component="h5" variant="h5" sx={{
+                    background: "green",
+                    borderRadius: "8px",
+                    color: "white",
+                    px: 1,
+                    py: 0.5,
+                    width: "fit-content",
+                    fontWeight: "bold"
+                  }}>Co-Investigator-2</Typography>
                   <Typography gutterBottom variant="h3" component="div">
                     Md Saeed Siddik, M. Sc. in Software Engineering
                   </Typography>
-                  <Typography variant="body2" color="text.secondary">
+                  <Typography variant="body2" color="grey">
                     Assistant
                     Professor, Institute of Information Technology (IIT), University of
                     Dhaka (now on study leave)

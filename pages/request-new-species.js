@@ -154,6 +154,8 @@ const AddNewSpecies = () => {
     profileImage: "",
   };
   const [allTypesOfSpecies, setAllTypesOfSpecies] = useState([])
+  const [subGroups, setSubGroups] = useState([]);
+  const [subCategories, setSubcategories] = useState([])
   const [kingdoms, setKingdoms] = useState([])
   const [phylums, setPhylums] = useState([])
   const [classes, setClassNames] = useState([])
@@ -183,9 +185,6 @@ const AddNewSpecies = () => {
 
   useEffect(() => {
     async function fetchData(query, cbfn) {
-      let allTypesOfSpecies = await callApi("/get-unique-types-of-species", {});
-      setAllTypesOfSpecies(allTypesOfSpecies.data)
-      setKingdoms(allTypesOfSpecies.data.kingdoms)
       let response = await callApi("/get-categories-list", {});
       if (query?.category) {
         let searchParameters = query;
@@ -346,11 +345,161 @@ const AddNewSpecies = () => {
             setFieldValue,
           }) => (
             <Form onSubmit={handleSubmit}>
-              <Grid sx={{ p: 10, mt:5, background: "white" }}>
+              <Grid sx={{ p: 10, mt: 5, background: "white" }}>
                 <Typography gutterBottom variant="h3">
                   Request A Species
                 </Typography>
                 <Grid container spacing={3}>
+                  <Grid item xs={2}>
+                    <Autocomplete
+                      size="small"
+                      id="species"
+                      name={values?.category}
+                      value={values?.category}
+                      options={categoryList}
+                      key="categorySpecies"
+                      getOptionLabel={(option) =>
+                        option.name || option
+                      }
+                      isOptionEqualToValue={(option, value) =>
+                        option.serial === value.serial
+                      }
+                      required
+                      // sx={{ width: 300 }}
+                      onChange={async (e, value) => {
+                        setFieldValue("category", value);
+                        let allTypesOfSpecies = await callApi("/get-unique-types-of-species", { category: value.name });
+                        setAllTypesOfSpecies(allTypesOfSpecies.data);
+                        setSubcategories(allTypesOfSpecies?.data.categories)
+
+                        setSubGroups(allTypesOfSpecies.data.subGroups)
+                        setKingdoms(allTypesOfSpecies.data.kingdoms);
+                      }}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          error={Boolean(
+                            touched?.category && errors?.category
+                          )}
+                          helperText={
+                            touched?.category && errors?.category
+                          }
+                          style={{ padding: "2px" }}
+                          label="Major Bio-Diversity"
+                          variant="outlined"
+                          placeholder="Select"
+                          required
+                          value={values?.category}
+                        />
+                      )}
+                    />
+                  </Grid>
+                  {values?.category?.type === "Dropdown" ? (
+                    <Grid item xs={2}>
+                      <Autocomplete
+                        size="small"
+                        disablePortal
+                        id="species"
+                        name={
+                          values?.identificationFeatures?.subCategory
+                        }
+                        value={values?.identificationFeatures.subCategory}
+                        options={subCategories}
+                        getOptionLabel={(option) => option?.subCategory || option}
+                        // sx={{ width: 300 }}
+
+                        onChange={(e, value) => {
+                          setFieldValue(
+                            "identificationFeatures.subCategory",
+                            value?.subCategory || value
+                          );
+                        }}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            error={Boolean(
+                              touched?.identificationFeatures
+                                ?.subCategory &&
+                              errors?.identificationFeatures
+                                ?.subCategory
+                            )}
+                            helperText={
+                              touched?.identificationFeatures
+                                ?.subCategory &&
+                              errors?.identificationFeatures
+                                ?.subCategory
+                            }
+                            style={{ padding: "2px" }}
+                            label=" Bio-Diversity Group"
+                            variant="outlined"
+                            placeholder="Select"
+                            required
+                            value={values?.identificationFeatures.subCategory}
+                          />
+                        )}
+                      />
+                    </Grid>
+                  ) : (
+                    values?.category?.keyList?.map((item, index) => {
+                      return (
+                        <Grid
+                          key={`identificationFeaturesCate${index}`}
+                          item
+                          xs={2}
+                        >
+                          <TextField
+                            required
+                            id={`key${index}`}
+                            key={`key${index}`}
+                            name={`identificationFeatures.${item.key}`}
+                            // margin="normal"
+                            size="small"
+                            label={item.name}
+                            fullWidth
+                            value={values?.identificationFeatures[processNames(item?.name)]}
+                            onChange={(e) => {
+                              values.identificationFeatures[
+                                processNames(item?.name)
+                              ] = e.target.value;
+                            }}
+                            autoComplete={item.name}
+                            variant="outlined"
+                          />
+                        </Grid>
+                      );
+                    })
+                  )}
+
+                  <Grid item xs={2}>
+                    <Autocomplete
+                      freeSolo
+                      size="small"
+                      disablePortal
+                      id="subGroup"
+                      name={values?.subGroup}
+                      options={subGroups}
+                      key="subGroup"
+                      // value={values?.kingdom}
+                      getOptionLabel={(option) => option?.subGroup || option}
+                      value={values?.subGroup}
+                      // sx={{ width: 300 }}
+                      onInputChange={(e, value) => {
+                        setFieldValue("subGroup", value?.subGroup || value);
+                      }}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          error={Boolean(touched?.subGroup && errors?.subGroup)}
+                          helperText={touched?.subGroup && errors?.subGroup}
+                          style={{ padding: "2px" }}
+                          label="---Sub Group---"
+                          variant="outlined"
+                          placeholder="Select"
+                          value={values?.subGroup}
+                        />
+                      )}
+                    />
+                  </Grid>
                   <Grid item xs={2}>
                     <Autocomplete
                       freeSolo
@@ -1114,122 +1263,6 @@ const AddNewSpecies = () => {
                         >
                           Add New Category
                         </Button>
-                        <Grid container spacing={2}>
-                          <Grid item xs={2}>
-                            <Autocomplete
-                              size="small"
-                              disablePortal
-                              id="species"
-                              name={values?.category}
-                              value={values?.category}
-                              options={categoryList}
-                              key="categorySpecies"
-                              getOptionLabel={(option) =>
-                                option.name || option
-                              }
-                              isOptionEqualToValue={(option, value) =>
-                                option.serial === value.serial
-                              }
-                              required
-                              // sx={{ width: 300 }}
-                              onChange={(e, value) => {
-                                setFieldValue("category", value);
-                              }}
-                              renderInput={(params) => (
-                                <TextField
-                                  {...params}
-                                  error={Boolean(
-                                    touched?.category && errors?.category
-                                  )}
-                                  helperText={
-                                    touched?.category && errors?.category
-                                  }
-                                  style={{ padding: "2px" }}
-                                  label="Select Category"
-                                  variant="outlined"
-                                  placeholder="Select"
-                                  required
-                                  value={values?.category}
-                                />
-                              )}
-                            />
-                          </Grid>
-                          {values?.category?.type === "Dropdown" ? (
-                            <Grid item xs={2}>
-                              <Autocomplete
-                                size="small"
-                                disablePortal
-                                id="species"
-                                name={
-                                  values?.identificationFeatures?.subCategory
-                                }
-                                options={values?.category?.keyList}
-                                isOptionEqualToValue={(option, value) =>
-                                  option.key === value.key
-                                }
-                                getOptionLabel={(option) => option.name}
-                                // sx={{ width: 300 }}
-                                onChange={(e, value) => {
-                                  setFieldValue(
-                                    "identificationFeatures.subCategory",
-                                    value
-                                  );
-                                }}
-                                renderInput={(params) => (
-                                  <TextField
-                                    {...params}
-                                    error={Boolean(
-                                      touched?.identificationFeatures
-                                        ?.subCategory &&
-                                      errors?.identificationFeatures
-                                        ?.subCategory
-                                    )}
-                                    helperText={
-                                      touched?.identificationFeatures
-                                        ?.subCategory &&
-                                      errors?.identificationFeatures
-                                        ?.subCategory
-                                    }
-                                    style={{ padding: "2px" }}
-                                    label="Select Sub Category"
-                                    variant="outlined"
-                                    placeholder="Select"
-                                    required
-                                    value={values?.category}
-                                  />
-                                )}
-                              />
-                            </Grid>
-                          ) : (
-                            values?.category?.keyList?.map((item, index) => {
-                              return (
-                                <Grid
-                                  key={`identificationFeaturesCate${index}`}
-                                  item
-                                  xs={2}
-                                >
-                                  <TextField
-                                    required
-                                    id={`key${index}`}
-                                    key={`key${index}`}
-                                    name={`identificationFeatures.${item.key}`}
-                                    // margin="normal"
-                                    size="small"
-                                    label={item.name}
-                                    fullWidth
-                                    onChange={(e) => {
-                                      values.identificationFeatures[
-                                        item.key
-                                      ] = e.target.value;
-                                    }}
-                                    autoComplete={item.name}
-                                    variant="outlined"
-                                  />
-                                </Grid>
-                              );
-                            })
-                          )}
-                        </Grid>
                       </Grid>
 
                       <Grid item xs={3}>
