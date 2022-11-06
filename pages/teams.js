@@ -28,17 +28,17 @@ const team = () => {
   return (
     <Box>
       <Header index={7} />
-      <Grid style={{ margin: "0 auto", marginTop: "5%", width: "80%" }}>
+      <Grid style={{ margin: "0 auto", marginTop: "5%", width: "80%", height: "800px" }}>
         <Typography component="h2" variant="h2" sx={{
           fontFamily: "Airbnb Cereal App,sans-serif !important",
           fontWeight: "800",
-          fontSize: "3rem",
+          fontSize: "2rem",
           py: 3
         }}>
-          "<span style={{ color: "grey" }}>Under the current project title </span>
+          <span style={{ color: "grey" }}>Under the current project title </span>
           ‘Mapping and Monitoring of Plant Biodiversity Resources of Bangladesh’
           <span style={{ color: "grey" }}>recruited team members from the Department of Botany, University of Dhaka, Bangladesh are as follows</span>
-          "
+
         </Typography>
         <Grid container>
           <Grid item xs={12} md={4}>

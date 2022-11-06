@@ -104,7 +104,7 @@ const options = [
 const ITEM_HEIGHT = 48;
 export default function PrimarySearchAppBar(props) {
   const router = useRouter()
-  const [navBg, setNavBg] = React.useState("black");
+  const [navBg, setNavBg] = React.useState("rgba(0,0,0)");
   // const location = useLocation();
   React.useEffect(() => {
     // if (typeof window !== 'undefined') {
@@ -113,7 +113,7 @@ export default function PrimarySearchAppBar(props) {
     //     console.log('You are on the server')
     //   }
 
-    if (window.location.pathname === "/") {
+    if (router.pathname === "/") {
       setNavBg("rgba(0,0,0,.5)");
     } else {
       setNavBg("black");
@@ -149,16 +149,15 @@ export default function PrimarySearchAppBar(props) {
       }}
     >
       {options.map((option, index) => (
-        <MenuItem
-          key={`options${index}`}
-
-          onClick={(e) => {
-            router.push(option.url)
-            handleClose(e)
-          }}
-        >
-          <a>{option.name}</a>
-        </MenuItem>
+        <Link key={`option${index}`} href={option.url}>
+          <MenuItem
+            onClick={(e) => {
+              handleClose(e)
+            }}
+          >
+            <a>{option.name}</a>
+          </MenuItem>
+        </Link>
       ))}
     </Menu>
   );
