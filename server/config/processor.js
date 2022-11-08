@@ -1,8 +1,8 @@
 exports.processKeys = async (label) => {
-    let list = await matchKey()
+    let list = await this.matchKey()
     console.log(label.trim() === list[0].label.trim())
     for (let item of list) {
-        
+
         if (label.trim().toLowerCase() == item.label.trim().toLowerCase()) {
             return item.key
         }
@@ -11,7 +11,7 @@ exports.processKeys = async (label) => {
 
 
 }
-async function matchKey() {
+exports.matchKey = async () => {
     let list = [
         {
             label: 'Major Bio-diversity Components',
@@ -19,7 +19,7 @@ async function matchKey() {
         },
         {
             label: 'Category Data',
-            key: 'addtionalCategories.category'
+            key: 'addtionalCategories.data'
         },
         {
             label: 'Bio-Diversity Group',

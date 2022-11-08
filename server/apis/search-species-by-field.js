@@ -1,6 +1,7 @@
 const { getTable, executeQuery, uniqueIdGenerator, tableTypes, log, createQueryForSpecies } = require('../config/common');
 
 const DB = require("../config/connectToDatabase");
+const { matchKey } = require('../config/processor');
 
 exports.BIOGSearchParamsByField = async (req, res, next) => {
     let searchParameters = req.body.searchParameters
@@ -61,6 +62,18 @@ exports.BIOGSearchParamsByField = async (req, res, next) => {
     if (searchParameters?.nameOfSpecies?.synonym) {
         searchQuery += ` and synonym REGEXP '${searchParameters.nameOfSpecies.synonym}?'`
     }
+    let list = await matchKey()
+    for (let item of list) {
+        // console.log(uploadedSpecies[item])
+        let splittedKey = item.key.split('.')
+        if (splittedKey.length > 1) {
+            console.log(splittedKey)
+            if (searchParameters.identificationFeatures[splittedKey[1]]) {
+                searchQuery += ` and JSON_EXTRACT(${splittedKey[0]}, "$.${splittedKey[1]}") REGEXP '${searchParameters.identificationFeatures[splittedKey[1]]}?'`
+
+            }
+        }
+    }
     if (searchParameters?.csequestration) {
         searchQuery += ` and JSON_EXTRACT(identificationFeatures, "$.csequestration") REGEXP '${searchParameters?.csequestration}?'`
     }
@@ -79,8 +92,8 @@ exports.BIOGSearchParamsByField = async (req, res, next) => {
     if (searchParameters?.speciestaxa) {
         searchQuery += ` and JSON_EXTRACT(identificationFeatures, "$.speciestaxa") REGEXP '${searchParameters?.speciestaxa}?'`
     }
-    if(!searchQuery.includes('where')){
-        searchQuery = searchQuery.replace('and' , 'where')
+    if (!searchQuery.includes('where')) {
+        searchQuery = searchQuery.replace('and', 'where')
     }
     console.log(searchQuery)
     let response = await executeQuery(searchQuery)
@@ -95,14 +108,14 @@ exports.BIOGSearchParamsByField = async (req, res, next) => {
             })
         }
         res.status(200).json({
-            message:"Found",
+            message: "Found",
             success: true,
             data: modifiedResponse,
         })
     }
     else {
         res.status(200).json({
-            message:"No Species Found",
+            message: "No Species Found",
             success: true,
             data: [],
         })

@@ -161,7 +161,7 @@ function matchKey() {
         },
         {
             label: 'Category Data',
-            key: 'addtionalCategories.category'
+            key: 'addtionalCategories.data'
         },
         {
             label: 'Sub Category',
