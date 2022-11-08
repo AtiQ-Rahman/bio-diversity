@@ -1,4 +1,4 @@
- import { Card, CardHeader, Grid } from '@mui/material';
+import { Card, CardHeader, Grid } from '@mui/material';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
@@ -12,36 +12,44 @@ const member2 = require('../assets/images/member2.jpg')
 const member3 = require('../assets/images/member3.jpg')
 let cardProps = {
   sx: {
-    border: "1px solid #eee", filter: "drop-shadow(2px 2px 10px #eee)",
+    border: "1px solid #eee",
     transition: "all .2s ease-in-out",
-    "&:hover": {
-      filter: "drop-shadow(10px 2px 20px gray)",
-      cursor: "pointer",
-      transform: "scale(1.1)",
-      zIndex: 2000
-    },
-    margin: "0 auto",
-    maxWidth: 345
+    // "&:hover": {
+    //   cursor: "pointer",
+    //   transform: "scale(1.1)",
+    //   zIndex: 2000
+    // },
+    maxWidth: 345,
+    maxHeight: 500,
+    minHeight: 500,
   }
 }
 const team = () => {
   return (
     <Box>
       <Header index={7} />
-      <Grid style={{ margin: "0 auto", marginTop: "5%", width: "80%", height: "800px" }}>
-        <Typography component="h2" variant="h2" sx={{
-          fontFamily: "Airbnb Cereal App,sans-serif !important",
-          fontWeight: "800",
-          fontSize: "2rem",
-          py: 3
-        }}>
-          <span style={{ color: "grey" }}>Under the current project title </span>
-          ‘Mapping and Monitoring of Plant Biodiversity Resources of Bangladesh’
-          <span style={{ color: "grey" }}>recruited team members from the Department of Botany, University of Dhaka, Bangladesh are as follows</span>
+      <Grid style={{ margin: "0 auto", marginTop: "10%", width: "90%", height: "600px" }}>
 
-        </Typography>
         <Grid container>
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={3} sx={{
+            background: "#21ad53",
+            color: "white",
+            p: 2,
+          }}>
+            <Typography component="h1" variant="h2" sx={{
+              fontFamily: "Airbnb Cereal App,sans-serif !important",
+              fontWeight: "600",
+              py: 3,
+              color: "white",
+              textAlign: "justify"
+            }}>
+              Under the current project title
+              <span style={{ color: "black" }}> ‘Mapping and Monitoring of Plant Biodiversity Resources of Bangladesh’ </span>
+              recruited team members from the Department of Botany, University of Dhaka, Bangladesh are as follows
+
+            </Typography>
+          </Grid>
+          <Grid item xs={12} md={3}>
             <Card {...cardProps}>
               <CardActionArea>
                 <CardMedia
@@ -73,7 +81,7 @@ const team = () => {
             </Card>
           </Grid>
 
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={3}>
             <Card {...cardProps}>
               <CardActionArea>
                 <CardMedia
@@ -105,7 +113,7 @@ const team = () => {
             </Card>
           </Grid>
 
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={3}>
             <Card {...cardProps}>
               <CardActionArea>
                 <CardMedia

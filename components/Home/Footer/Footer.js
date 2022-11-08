@@ -8,6 +8,7 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import RoomIcon from '@mui/icons-material/Room';
 import CallIcon from '@mui/icons-material/Call';
+import { Icon } from '@iconify/react';
 import EmailIcon from '@mui/icons-material/Email';
 const Footer = (props) => {
   const router = useRouter()
@@ -21,11 +22,11 @@ const Footer = (props) => {
         <p className={styles.footerLinks}>
 
 
-    {/* <a href="#"  className={styles.link}>Blog </a> */}
-   
+          {/* <a href="#"  className={styles.link}>Blog </a> */}
 
-          <a  href="#" className={styles.link} type="button"
-                              onClick={() => router.push("/form")}> Form </a>
+
+          <a href="#" className={styles.link} type="button"
+            onClick={() => router.push("/form")}> Form </a>
 
           <a href="#">About</a>
 
@@ -38,21 +39,25 @@ const Footer = (props) => {
       <div className={styles.footerCenter}>
 
         <div>
-          <i><RoomIcon></RoomIcon>
+          <i><Icon icon="ep:avatar" />
           </i>
-          <p><span>444 S. Cedros Ave</span> Solana Beach, California</p>
-        </div>
-
-        <div>
-          <i><CallIcon></CallIcon></i>
-          <p>+1.555.555.5555</p>
+          <p>Professor Dr. Mohammad Azmal Hossain Bhuiyan</p>
         </div>
 
         <div>
           <i> <EmailIcon></EmailIcon></i>
-          <p><a href="mailto:support@company.com">support@company.com</a></p>
+          <p><a href="mailto:bhuiyan.azmal@du.ac.bd">bhuiyan.azmal@du.ac.bd</a></p>
+        </div>
+        <div>
+          <i><Icon icon="ep:avatar" />
+          </i>
+          <p>Dr. MoniruzzamanKhondker, Supernumerary Professor</p>
         </div>
 
+        <div>
+          <i> <EmailIcon></EmailIcon></i>
+          <p><a href="mailto:mkhondker@du.ac.bd">mkhondker@du.ac.bd</a></p>
+        </div>
       </div>
 
       <div className={styles.footerRight}>

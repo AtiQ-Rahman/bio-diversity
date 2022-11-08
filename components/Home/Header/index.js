@@ -55,7 +55,7 @@ const options = [
     url: "/links"
   },
   {
-    name: "Contact",
+    name: "Contact & help",
     url: "/contact"
   },
   {
@@ -66,10 +66,6 @@ const options = [
   //   name:"Team",
   //   url:"/comingSoon"
   //  },
-  {
-    name: "Help",
-    url: "/help"
-  },
   {
     name: "Content",
     url: "/content"
