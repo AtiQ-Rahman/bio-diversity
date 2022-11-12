@@ -1,4 +1,4 @@
-const { getTable, executeQuery, uniqueIdGenerator, tableTypes, log, createQueryForSpecies } = require('../config/common');
+const { getTable, executeQuery, uniqueIdGenerator, tableTypes, log, createQueryForSpecies, speciesTableTypes } = require('../config/common');
 
 const DB = require("../config/connectToDatabase");
 

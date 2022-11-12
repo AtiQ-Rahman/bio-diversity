@@ -61,6 +61,8 @@ import { useSnackbar } from "notistack";
 
 import * as XLSX from 'xlsx';
 import Footer from "../components/Home/Footer/Footer";
+import Link from "next/link";
+import { pageGroups } from "../utils/utils";
 const species7 = require("../assets/images/species7.jpg")
 const species8 = require("../assets/images/species8.jpg")
 const species9 = require("../assets/images/species9.jpg")
@@ -172,14 +174,36 @@ export default function database() {
                           fontSize: '2rem',
                           color: "green"
                         }}>{row.totalItem} </span>
-
+                        
                       </Typography>
                     </Grid>
                     <Grid item xs={9}>
                       <Typography component="div" variant="h4"
                         sx={{
                           pl: 2,
-                        }} >
+                        }} 
+                        onClick={(e) => {
+                          let url
+                          if (row.name == pageGroups.plants) {
+                            url = '/plants'
+                          }
+                          else if (row.name == pageGroups.animals) {
+                            url = '/animals'
+                          }
+                          else if (row.name == pageGroups.fungi) {
+                            url = '/fungi'
+                          }
+                          else if (row.name == pageGroups.micro) {
+                            url = '/microOrgansim'
+                          }
+                          else if (row.name == pageGroups.eco) {
+                            url = '/ecosystemDiversity'
+                          }
+                          else if (row.name == pageGroups.genetic) {
+                            url = '/geneticSubCellularDiversity'
+                          }
+                          router.push(url)
+                        }}>
                         {row.name}
                       </Typography>
                       <Typography component="a" variant="link"

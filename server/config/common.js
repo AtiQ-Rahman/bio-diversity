@@ -47,6 +47,14 @@ exports.speciesTableTypes = {
     eco: "ecosystemdiversity",
     genetic: "geneticsubcellulardiversity"
 }
+exports.pageGroups = {
+    plants: 'Plants',
+    animals: 'Animals',
+    fungi: 'Fungi',
+    micro: 'Microorganisms',
+    eco: 'Ecosystem Diversity',
+    genetic: 'Genetic & Sub-Cellular Diversity'
+}
 exports.tableTypes = {
     categories: 'categories',
     subcategories: 'subcategories',
@@ -54,6 +62,7 @@ exports.tableTypes = {
     requestedSpecies: 'requestedspecies',
     deletedSpecies: 'deletedspecies',
 }
+
 exports.getTableNameFromSql = async (sql) => {
     let matchIndex = sql.match(/bio_diversity/i).index
     let tableName = sql.slice(matchIndex, sql.length).split(/[\s]+/)[0]

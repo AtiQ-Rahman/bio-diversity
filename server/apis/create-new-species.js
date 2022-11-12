@@ -1,4 +1,4 @@
-const { getTable, executeQuery, uniqueIdGenerator, log, callGeocoderApi, tableTypes, speciesTableTypes } = require('../config/common');
+const { getTable, executeQuery, uniqueIdGenerator, log, callGeocoderApi, tableTypes, speciesTableTypes, pageGroups } = require('../config/common');
 const DB = require("../config/connectToDatabase");
 const moment = require("moment/moment");
 const { processKeys } = require('../config/processor');
@@ -118,21 +118,27 @@ exports.uploadSpeciesByExcel = async (req, res, next) => {
             let table
             if (object.category.match(/plant/i)) {
                 table = await getTable(speciesTableTypes.plants)
+                object.category = pageGroups.plants
             }
             else if (object.category.match(/animal/i)) {
                 table = await getTable(speciesTableTypes.animals)
+                object.category = pageGroups.animals
             }
             else if (object.category.match(/micro/i)) {
                 table = await getTable(speciesTableTypes.microOrgan)
+                object.category = pageGroups.microOrgan
             }
             else if (object.category.match(/fungi/i)) {
                 table = await getTable(speciesTableTypes.fungi)
+                object.category = pageGroups.fungi
             }
             else if (object.category.match(/eco/i)) {
                 table = await getTable(speciesTableTypes.eco)
+                object.category = pageGroups.eco
             }
             else if (object.category.match(/genetic/i)) {
                 table = await getTable(speciesTableTypes.genetic)
+                object.category = pageGroups.genetic
             }
             else {
                 table = await getTable(object.category)

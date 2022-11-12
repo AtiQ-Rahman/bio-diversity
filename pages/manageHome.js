@@ -60,6 +60,9 @@ import {
   FormControl,
   Select,
   InputLabel,
+  ImageListItem,
+  ImageList,
+  ImageListItemBar,
 } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Link from "next/link";
@@ -231,6 +234,8 @@ export default function ManageHome() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(20);
   const { enqueueSnackbar } = useSnackbar();
+  const [selectedRecentSightings, setSelectedRecentSightings] = React.useState([]);
+  const [ready, setReady] = React.useState(false);
 
   const [imageList, setImageList] = React.useState([]);
   const [selectedTemplate, setSelectedTemplate] = React.useState({});
@@ -243,7 +248,12 @@ export default function ManageHome() {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
-
+  const handleLoad = (event) => {
+    event.persist();
+    if (event.target.srcset) {
+      setReady(true);
+    }
+  };
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
@@ -262,6 +272,8 @@ export default function ManageHome() {
     setImageList(response.data);
     let templateResponse = await callApi("/get-selected-template", {});
     let result = templateResponse?.data[0];
+    setSelectedRecentSightings(templateResponse.data[0].recentSightings)
+
     let sliderImages = result?.sliderImages?.split(",").filter((item) => item);
     result.sliderImages = sliderImages;
     setSelectedTemplate(result);
@@ -372,6 +384,45 @@ export default function ManageHome() {
                           <MenuItem value={10}>last 10 sights</MenuItem>
                         </Select>
                       </FormControl>
+                      <ImageList
+                        gap={40}
+                        sx={{ width: 1100 }}
+                        cols={3}
+                        rowHeight={250}
+                        className={styles.imageList}
+                      >
+                        {selectedRecentSightings.map((item) => (
+                          <ImageListItem
+                            className={styles.overlay}
+                            key={item.img}
+                            style={{
+                              opacity: ready ? 1 : 0,
+                              transition: "all .3s ease-in",
+                            }}
+                          >
+                            <Image
+                              src={imageUrl + '/' + item.profile_image}
+                              layout="fill"
+
+                              loader={imageLoader}
+                              onLoad={handleLoad}
+                              // srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                              alt={item.common}
+                            // loading="lazy"
+                            />
+                            <ImageListItemBar
+                              title={item.english}
+                              subtitle={item.category}
+                              position="bottom"
+                              sx={{
+                                background:
+                                  "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, " +
+                                  "rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)",
+                              }}
+                            />
+                          </ImageListItem>
+                        ))}
+                      </ImageList>
                     </Box>
                   </Grid>
                   {/* <Grid container md={12}>
@@ -406,10 +457,10 @@ export default function ManageHome() {
                     item
                     xs={12}
                     sx={{ b: 1, mb: 3 }}
-                    style={{ borderRadius: "10px",paddingTop:"30px" }}
+                    style={{ borderRadius: "10px", paddingTop: "30px" }}
                   >
                     <Typography variant="h3">All Images</Typography>
-                    <Grid container style={{ paddingTop:"30px" }}>
+                    <Grid container style={{ paddingTop: "30px" }}>
                       {imageList
                         ?.slice(
                           page * rowsPerPage,
@@ -435,7 +486,7 @@ export default function ManageHome() {
                                 <CardActionArea>
                                   <Image
                                     height={200}
-                                    width= {345}
+                                    width={345}
                                     objectFit="cover"
                                     loader={imageLoader}
                                     alt="NO IMAGE"
@@ -444,7 +495,7 @@ export default function ManageHome() {
                                   {selectedTemplate?.sliderImages?.includes(
                                     item
                                   ) ? (
-                                    
+
                                     <CardContent
                                       style={{
                                         position: "absolute",
@@ -456,9 +507,9 @@ export default function ManageHome() {
                                         borderRadius: "5px 0px 0px 5px",
                                       }}
                                     >
-                                      
-                                       <LibraryAddCheckIcon></LibraryAddCheckIcon>
-                                      
+
+                                      <LibraryAddCheckIcon></LibraryAddCheckIcon>
+
                                     </CardContent>
                                   ) : null}
                                 </CardActionArea>
@@ -674,64 +725,64 @@ export default function ManageHome() {
                         <Grid item xs={12}>
                           {values?.sliderImages?.length > 0
                             ? Array.from(values.sliderImages)
-                                .slice(0, 5)
-                                .map((file, index) => {
-                                  return (
-                                    <Grid
-                                      key={`additionalFiles${index}`}
-                                      item
-                                      xs={12}
-                                      style={{
-                                        border: "1px solid #eee",
-                                        borderRadius: "10px",
-                                        marginRight: "5px",
-                                      }}
-                                    >
-                                      <Grid container style={{ padding: 10 }}>
-                                        <Grid
-                                          item
-                                          xs={1}
-                                          md={2}
-                                          style={{ paddingTop: 2 }}
+                              .slice(0, 5)
+                              .map((file, index) => {
+                                return (
+                                  <Grid
+                                    key={`additionalFiles${index}`}
+                                    item
+                                    xs={12}
+                                    style={{
+                                      border: "1px solid #eee",
+                                      borderRadius: "10px",
+                                      marginRight: "5px",
+                                    }}
+                                  >
+                                    <Grid container style={{ padding: 10 }}>
+                                      <Grid
+                                        item
+                                        xs={1}
+                                        md={2}
+                                        style={{ paddingTop: 2 }}
+                                      >
+                                        <Icon icon="bi:image" />
+                                      </Grid>
+                                      <Grid
+                                        item
+                                        xs={10}
+                                        md={9}
+                                        style={{ paddingLeft: 2 }}
+                                      >
+                                        <Typography
+                                          component="div"
+                                          variant="body"
                                         >
-                                          <Icon icon="bi:image" />
-                                        </Grid>
-                                        <Grid
-                                          item
-                                          xs={10}
-                                          md={9}
-                                          style={{ paddingLeft: 2 }}
-                                        >
-                                          <Typography
-                                            component="div"
-                                            variant="body"
-                                          >
-                                            {file?.name || file}
-                                          </Typography>
-                                        </Grid>
-                                        <Grid
-                                          item
-                                          xs={1}
-                                          style={{ paddingTop: 2 }}
-                                        >
-                                          <Icon
-                                            icon="fluent:delete-32-filled"
-                                            onClick={(e) => {
-                                              let list = Array.from(
-                                                values.sliderImages
-                                              );
-                                              list.splice(index, 1);
-                                              setFieldValue(
-                                                "sliderImages",
-                                                list
-                                              );
-                                            }}
-                                          />
-                                        </Grid>
+                                          {file?.name || file}
+                                        </Typography>
+                                      </Grid>
+                                      <Grid
+                                        item
+                                        xs={1}
+                                        style={{ paddingTop: 2 }}
+                                      >
+                                        <Icon
+                                          icon="fluent:delete-32-filled"
+                                          onClick={(e) => {
+                                            let list = Array.from(
+                                              values.sliderImages
+                                            );
+                                            list.splice(index, 1);
+                                            setFieldValue(
+                                              "sliderImages",
+                                              list
+                                            );
+                                          }}
+                                        />
                                       </Grid>
                                     </Grid>
-                                  );
-                                })
+                                  </Grid>
+                                );
+                              })
                             : null}
                         </Grid>
                       </Grid>
