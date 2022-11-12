@@ -199,7 +199,8 @@ const ManageSpeciesTable = () => {
   const [open, setOpen] = React.useState(false);
   const [openUpload, setOpenUpload] = React.useState(false);
   const { enqueueSnackbar } = useSnackbar();
-
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(20);
   // const handleOpen = () => setOpen(true);
   // const handleClose = () => setOpen(false);
   const uploadToClient = (event) => {
@@ -210,7 +211,14 @@ const ManageSpeciesTable = () => {
       setCreateObjectURL(URL.createObjectURL(i));
     }
   };
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
 
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
   const router = useRouter();
   const handleClickOpen = () => {
     setOpen(true);
@@ -609,7 +617,10 @@ const ManageSpeciesTable = () => {
                           </TableRow>
                         </TableHead>
                         <TableBody>
-                          {speciesList?.map((row, index) => (
+                          {speciesList?.slice(
+                                page * rowsPerPage,
+                                page * rowsPerPage + rowsPerPage
+                              ).map((row, index) => (
                             <StyledTableRow
                               key={`species${index}`}
                               sx={{
@@ -688,6 +699,15 @@ const ManageSpeciesTable = () => {
                         </TableBody>
                       </Table>
                     </TableContainer>
+                    <TablePagination
+                        rowsPerPageOptions={[100, 50]}
+                        component="div"
+                        count={speciesList?.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                      />
                     {/* <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"

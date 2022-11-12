@@ -12,7 +12,14 @@ import {
 import { useState } from "react";
 import { useEffect } from "react";
 import callApi from "../utils/callApi";
-
+const props = {
+    ListboxProps: {
+        sx: {
+            border: "1px solid #b5b5b5",
+            borderRadius: '5px'
+        }
+    }
+}
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     "& .MuiDialogContent-root": {
         padding: theme.spacing(2),
@@ -21,7 +28,6 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
         padding: theme.spacing(1),
     },
 }));
-
 const CommonDropDowns = ({
     values,
     setFieldValue,
@@ -66,6 +72,7 @@ const CommonDropDowns = ({
             <Grid item xs={2}>
                 <Autocomplete
                     size="small"
+                    {...props}
                     disablePortal
                     id="plants"
                     name={values?.type}
@@ -97,7 +104,7 @@ const CommonDropDowns = ({
             <Grid item xs={2}>
 
                 <Autocomplete
-                    freeSolo
+                    {...props}
                     size="small"
                     disablePortal
                     id="subGroups"
@@ -129,7 +136,7 @@ const CommonDropDowns = ({
             </Grid>
             <Grid item xs={2}>
                 <Autocomplete
-                    freeSolo
+                    {...props}
                     size="small"
                     disablePortal
                     id="kingdoms"
@@ -161,7 +168,8 @@ const CommonDropDowns = ({
             </Grid>
             <Grid item xs={2}>
                 <Autocomplete
-                    freeSolo
+                    {...props}
+                    
                     size="small"
                     disablePortal
                     id="phylums"
@@ -194,6 +202,7 @@ const CommonDropDowns = ({
             </Grid>
             <Grid item xs={2}>
                 <Autocomplete
+                    {...props}
                     size="small"
                     disablePortal
                     id="classes"
@@ -228,6 +237,7 @@ const CommonDropDowns = ({
             </Grid>
             <Grid item xs={2}>
                 <Autocomplete
+                    {...props}
                     size="small"
                     disablePortal
                     id="orders"
@@ -262,6 +272,7 @@ const CommonDropDowns = ({
             </Grid>
             <Grid item xs={2}>
                 <Autocomplete
+                    {...props}
                     size="small"
                     disablePortal
                     id="families"
@@ -292,6 +303,7 @@ const CommonDropDowns = ({
             </Grid>
             <Grid item xs={2}>
                 <Autocomplete
+                    {...props}
                     size="small"
                     disablePortal
                     id="genuses"
@@ -322,6 +334,7 @@ const CommonDropDowns = ({
             </Grid>
             <Grid item xs={2}>
                 <Autocomplete
+                    {...props}
                     size="small"
                     disablePortal
                     id="species"
@@ -352,6 +365,7 @@ const CommonDropDowns = ({
             </Grid>
             <Grid item xs={2}>
                 <Autocomplete
+                    {...props}
                     size="small"
                     disablePortal
                     id="sub_species"
@@ -386,6 +400,7 @@ const CommonDropDowns = ({
             </Grid>
             <Grid item xs={2}>
                 <Autocomplete
+                    {...props}
                     size="small"
                     disablePortal
                     id="variety"
@@ -416,6 +431,7 @@ const CommonDropDowns = ({
             </Grid>
             <Grid item xs={2}>
                 <Autocomplete
+                    {...props}
                     size="small"
                     disablePortal
                     id="sub_variety"
@@ -450,6 +466,7 @@ const CommonDropDowns = ({
             </Grid>
             <Grid item xs={2}>
                 <Autocomplete
+                    {...props}
                     size="small"
                     disablePortal
                     id="clone"
@@ -480,6 +497,7 @@ const CommonDropDowns = ({
             </Grid>
             <Grid item xs={2}>
                 <Autocomplete
+                    {...props}
                     size="small"
                     disablePortal
                     id="forma"

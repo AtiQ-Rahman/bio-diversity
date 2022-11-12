@@ -1,6 +1,5 @@
 exports.processKeys = async (label) => {
     let list = await this.matchKey()
-    console.log(label.trim() === list[0].label.trim())
     for (let item of list) {
 
         if (label.trim().toLowerCase() == item.label.trim().toLowerCase()) {

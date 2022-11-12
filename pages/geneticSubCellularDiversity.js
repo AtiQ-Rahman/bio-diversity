@@ -69,7 +69,7 @@ const GeneticSubCellularDiversity = () => {
 
    useEffect(() => {
       async function fetchData() {
-         let allTypesOfSpecies = await callApi("/get-unique-types-of-species", {});
+         let allTypesOfSpecies = await callApi("/get-unique-types-of-species", { category: pageGroups.genetic });
          console.log({ allTypesOfSpecies })
          setAllTypesOfSpecies(allTypesOfSpecies.data)
          setSubGroups(allTypesOfSpecies.data.subGroups)

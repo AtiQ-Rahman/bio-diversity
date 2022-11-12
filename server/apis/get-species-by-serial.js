@@ -21,19 +21,10 @@ exports.BIOGetSpeciesBySerial = async (req, res, next) => {
             let modifiedResponse = []
             for (let item of response) {
                 let districts = []
-                if (item.district.includes('+')) {
-                    let splittedValue = item.district.split('+')
-                    for (let district of splittedValue) {
-                        let response = await callGeocoderApi(district)
-                        districts.push(response)
-                    }
-                }
-                else {
-                    if (item.district.includes('{'))
-                        districts = item?.district ? JSON.parse(item.district) : []
-                    else
-                        districts = item?.district || []
-                }
+                if (item.district.includes('{'))
+                    districts = item?.district ? JSON.parse(item.district) : []
+                else
+                    districts = item?.district || []
                 let addtionalCategories = await returnValidJson(item.addtionalCategories)
                 let identificationFeatures = await returnValidJson(item.identificationFeatures)
                 let additional_files = item?.additional_files?.split(',') || []

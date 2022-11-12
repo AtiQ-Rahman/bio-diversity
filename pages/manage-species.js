@@ -60,6 +60,7 @@ import callApi from "../utils/callApi";
 import { useSnackbar } from "notistack";
 
 import * as XLSX from 'xlsx';
+import { LoadingButton } from "@mui/lab";
 const species7 = require("../assets/images/species7.jpg")
 const species8 = require("../assets/images/species8.jpg")
 const species9 = require("../assets/images/species9.jpg")
@@ -171,7 +172,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 export default function ManageSpecies() {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
   const [openUpload, setOpenUpload] = React.useState(false);
   const [uploadedSpecies, setUploadedSpecies] = React.useState([]);
   const { enqueueSnackbar } = useSnackbar();
@@ -200,7 +201,7 @@ export default function ManageSpecies() {
                 }
               })
             }>
-               <CardMedia
+              <CardMedia
                 component="img"
                 sx={{ height: 200 }}
                 image={species[`species${index + 7}`].default.src}
@@ -212,10 +213,10 @@ export default function ManageSpecies() {
                     {row.name} ({row.totalItem})
 
                   </Typography>
-                 
+
                 </CardContent>
               </Box>
-             
+
             </Card>
           </Grid>
         ))}
@@ -243,7 +244,6 @@ export default function ManageSpecies() {
         var data = [];
         for (let row = range.s.r; row <= range.e.r; row++) {
           let i = data.length;
-          console.log(i)
           data.push([]);
           for (let col = range.s.c; col <= range.e.c; col++) {
             let cell = worksheet[XLSX.utils.encode_cell({ r: row, c: col })];
@@ -260,13 +260,16 @@ export default function ManageSpecies() {
     }
   };
   async function uploadSpeciesTapped() {
+    setLoading(true)
     if (uploadedSpecies.length > 0) {
+      console.log({ uploadedSpecies })
       let data = {
-        uploadedSpecies,
+        uploadedSpecies: JSON.stringify(uploadedSpecies),
         type: 'xlsx'
       }
       let res = await callApi('upload-species-by-excel', data)
       console.log("response", res);
+      setLoading(false)
       if (res.success) {
         enqueueSnackbar("Species Uploaded Successfully", {
           variant: "success",
@@ -304,7 +307,7 @@ export default function ManageSpecies() {
   }, []);
   return (
     <div className={styles.body}>
-      <Box sx={{ display: "flex",pt:5 }} >
+      <Box sx={{ display: "flex", pt: 5 }} >
         <CssBaseline />
         {/* header */}
         <AppBar
@@ -444,7 +447,10 @@ export default function ManageSpecies() {
 
             </DialogContent>
             <DialogActions>
-              <Button
+              <LoadingButton loading={loading} loadingIndicator="Uploading…" variant="outlined" onClick={uploadSpeciesTapped}>
+                Upload
+              </LoadingButton>
+              {/* <Button
                 className={styles.bg_primary}
                 size="small"
                 style={{
@@ -455,7 +461,7 @@ export default function ManageSpecies() {
                 onClick={uploadSpeciesTapped}
               >
                 Upload
-              </Button>
+              </Button> */}
               <Button
                 size="small"
                 className={styles.bg_primary}

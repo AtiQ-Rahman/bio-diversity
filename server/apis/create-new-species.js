@@ -1,4 +1,4 @@
-const { getTable, executeQuery, uniqueIdGenerator, log } = require('../config/common');
+const { getTable, executeQuery, uniqueIdGenerator, log, callGeocoderApi, tableTypes, speciesTableTypes } = require('../config/common');
 const DB = require("../config/connectToDatabase");
 const moment = require("moment/moment");
 const { processKeys } = require('../config/processor');
@@ -85,6 +85,7 @@ exports.uploadSpeciesByExcel = async (req, res, next) => {
         let files = req.files
         let modifiedData = []
         let { uploadedSpecies, type } = data
+        uploadedSpecies = JSON.parse(uploadedSpecies)
         let headersArray = uploadedSpecies[0]
         let headers = {}
         headersArray.forEach(element => {
@@ -114,10 +115,28 @@ exports.uploadSpeciesByExcel = async (req, res, next) => {
                     else { object[splittedKey[0]] = uploadedSpecies[item][idx].replaceAll("'", "") }
                 }
             }
-            console.log(object.category)
-
-            let table = await getTable(object.category)
-            console.log(table)
+            let table
+            if (object.category.match(/plant/i)) {
+                table = await getTable(speciesTableTypes.plants)
+            }
+            else if (object.category.match(/animal/i)) {
+                table = await getTable(speciesTableTypes.animals)
+            }
+            else if (object.category.match(/micro/i)) {
+                table = await getTable(speciesTableTypes.microOrgan)
+            }
+            else if (object.category.match(/fungi/i)) {
+                table = await getTable(speciesTableTypes.fungi)
+            }
+            else if (object.category.match(/eco/i)) {
+                table = await getTable(speciesTableTypes.eco)
+            }
+            else if (object.category.match(/genetic/i)) {
+                table = await getTable(speciesTableTypes.genetic)
+            }
+            else {
+                table = await getTable(object.category)
+            }
 
             let { serial,
                 kingdom, phylum, class_name, order_name, family, genus, english, bangla, common, synonym, sub_species, variety, sub_variety, clone, forma, species,
@@ -128,10 +147,40 @@ exports.uploadSpeciesByExcel = async (req, res, next) => {
             // keyList = JSON.stringify(keyList)
             let createdDatetimeStamp = moment().format("YYYY-MM-DD HH:mm:ss");
             let modifiedIdentifications = JSON.stringify(identificationFeatures)
+            let districts = []
+            if (district.includes('+')) {
+                // district = district.replaceAll(`"` , ``)
+                let splittedValue = item.district.split('+')
+                for (let district of splittedValue) {
+                    let response = await callGeocoderApi(district)
+                    if (response) {
+                        let modifiedResponse = {
+                            place_name : response.place_name.replaceAll(`'`, ``),
+                            center : response.center
+                        }
+                        districts.push(modifiedResponse)
+                    }
+                }
+            }
+            else {
+                // district = district.replaceAll(`"` , ``)
+                let response = await callGeocoderApi(district)
+                if (response) {
+                    let modifiedResponse = {
+                        place_name : response.place_name.replaceAll(`'`, ``),
+                        center : response.center
+                    }
+                    districts.push(modifiedResponse)
+
+                }
+                else {
+                    districts.push([])
+                }
+            }
             console.log(modifiedIdentifications)
             let insertQuery = `insert into ${table} 
                     (serial, kingdom, phylum, class_name, category, order_name, family, genus, english, bangla, common, synonym, sub_species, variety, sub_variety, clone, forma, species, district ,subGroup, identificationFeatures, additional_files, profile_image, lng, lat,marker, createdDatetimeStamp, addtionalCategories)
-                    VALUES('${serial}','${kingdom}','${phylum}','${class_name}','${category}','${order_name}','${family}','${genus}','${english}','${bangla}','${common}','${synonym}','${sub_species}','${variety}','${sub_variety}','${clone}','${forma}','${species}','${district}','${subGroup}','${modifiedIdentifications}','${additional_files}','${profile_image}','${lng}','${lat}','${marker}','${createdDatetimeStamp}','${JSON.stringify(addtionalCategories)}')`
+                    VALUES('${serial}','${kingdom}','${phylum}','${class_name}','${category}','${order_name}','${family}','${genus}','${english}','${bangla}','${common}','${synonym}','${sub_species}','${variety}','${sub_variety}','${clone}','${forma}','${species}','${JSON.stringify(districts)}','${subGroup}','${modifiedIdentifications}','${additional_files}','${profile_image}','${lng}','${lat}','${marker}','${createdDatetimeStamp}','${JSON.stringify(addtionalCategories)}')`
             // console.log(insertQuery)
             let response = await executeQuery(insertQuery)
             console.log(response)

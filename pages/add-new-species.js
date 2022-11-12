@@ -219,7 +219,7 @@ const AddNewSpecies = () => {
             let response = await fetch(url)           //api for the get request
             let value = await response.json()
             console.log(value)
-            let district = value.features[1]
+            let district = value.features[0]
             setSelectedDistricts([district])
             setForce(!force)
 
@@ -370,7 +370,7 @@ const AddNewSpecies = () => {
                 let districts = [];
                 selectedDistricts.map((district) => {
                   districts.push({
-                    place_name: district.place_name,
+                    place_name: district.place_name.replaceAll(`"`,``),
                     center: district.center,
                   });
                 });

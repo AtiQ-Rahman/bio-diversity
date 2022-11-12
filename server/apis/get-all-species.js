@@ -12,19 +12,11 @@ exports.getAllSpecies = async (req, res, next) => {
             let modifiedResponse = []
             for (let item of response) {
                 let districts = []
-                if (item.district.includes('+')) {
-                    let splittedValue = item.district.split('+')
-                    for (let district of splittedValue) {
-                        let response = await callGeocoderApi(district)
-                        districts.push(response)
-                    }
-                }
-                else {
-                    if (item.district.includes('{'))
-                        districts = item?.district ? JSON.parse(item.district) : []
-                    else
-                        districts = item?.district || []
-                }
+                if (item.district.includes('{'))
+                    districts = item?.district ? JSON.parse(item.district) : []
+                else
+                    districts = item?.district || []
+
                 let identificationFeatures = await returnValidJson(item.identificationFeatures)
                 let additional_files = item?.additional_files?.split(',') || []
                 additional_files = additional_files.filter((item) => {
@@ -32,7 +24,7 @@ exports.getAllSpecies = async (req, res, next) => {
                         return item
                     }
                 })
-                
+
                 modifiedResponse.push({
                     ...item,
                     identificationFeatures: identificationFeatures,
@@ -49,7 +41,7 @@ exports.getAllSpecies = async (req, res, next) => {
         if (a.createdDatetimeStamp > b.createdDatetimeStamp) return -1;
         if (a.createdDatetimeStamp < b.createdDatetimeStamp) return 1;
         return 0;
-      });
+    });
     res.status(200).json({
         success: true,
         data: modifiedList,
