@@ -29,11 +29,17 @@ const createTypeObject = () => {
 }
 const getDetailsByQuery = async (searchQuery, key, modifiedList, typeObject) => {
     let response = await executeQuery(searchQuery)
-    console.log({response})
+    console.log({ response })
     if (response?.length > 0) {
         for (let item of response) {
+
             if (typeof item[key] == 'object' && item[key]) {
                 item[key] = item[key].name
+            }
+            else if (typeof item[key] == 'string') {
+                if (item[key].includes(`"`)) {
+                    item.key = JSON.parse(item[key])
+                }
             }
             let isExist = typeObject[modifiedList].findIndex((modifiedItem) => item[key]?.trim()?.toLowerCase() == modifiedItem[key].trim()?.toLowerCase())
             if (isExist == -1) {
