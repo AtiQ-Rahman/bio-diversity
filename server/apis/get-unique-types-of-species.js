@@ -99,8 +99,8 @@ exports.getUniqueTypes = async (req, res, next) => {
 
             }
             else {
-                searchQuery = `select ${item.parent} , ${item.child} from ${table} group by ${item.parent}`
-                await getDetailsByQuery(searchQuery, item.parent, item.list, typeObject)
+                searchQuery = `select ${item.parent} , ${item.child} from ${table} group by ${item.child}`
+                await getDetailsByQuery(searchQuery, item.child, item.list, typeObject)
             }
         }
         console.log(searchQuery)
