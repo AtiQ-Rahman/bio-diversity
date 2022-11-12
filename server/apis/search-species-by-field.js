@@ -69,7 +69,7 @@ exports.BIOGSearchParamsByField = async (req, res, next) => {
         if (splittedKey.length > 1) {
             console.log(splittedKey)
             if (searchParameters.identificationFeatures[splittedKey[1]]) {
-                searchQuery += ` and JSON_EXTRACT(${splittedKey[0]}, "$.${splittedKey[1]}") REGEXP '${searchParameters.identificationFeatures[splittedKey[1]]}?'`
+                searchQuery += ` and LOWER(JSON_EXTRACT(${splittedKey[0]}, "$.${splittedKey[1]}")) like JSON_QUOTE(LOWER("%${searchParameters.identificationFeatures[splittedKey[1]]}%"))`
 
             }
         }
