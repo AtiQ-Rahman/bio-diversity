@@ -17,6 +17,7 @@ import CuroselCard from "../components/Home/curoselCard";
 import Footer from "../components/Home/Footer/Footer";
 import callApi, { imageUrl } from "../utils/callApi";
 import { imageLoader } from "../utils/utils";
+import Link from "next/link";
 
 export default function Home() {
   const [slides, setSlides] = React.useState([]);
@@ -28,7 +29,7 @@ export default function Home() {
     if (response.data.length > 0) {
       let sliderImages = response.data[0].sliderImages.split(',')
       setSelectedRecentSightings(response.data[0].recentSightings)
-      if(slides.length == 0) {
+      if (slides.length == 0) {
         sliderImages.map((item) => {
           slides.push({
             url: imageUrl + '/' + item,
@@ -96,35 +97,45 @@ export default function Home() {
                     className={styles.imageList}
                   >
                     {selectedRecentSightings.map((item) => (
-                      <ImageListItem
-                        className={styles.overlay}
-                        key={item.img}
-                        style={{
-                          opacity: ready ? 1 : 0,
-                          transition: "all .3s ease-in",
-                        }}
-                      >
-                        <Image
-                          src={imageUrl + '/' + item.profile_image}
-                          layout="fill"
-                          
-                          loader={imageLoader}
-                          onLoad={handleLoad}
-                          // srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                          alt={item.common}
-                        // loading="lazy"
-                        />
-                        <ImageListItemBar
-                          title={item.english}
-                          subtitle={item.category}
-                          position="bottom"
-                          sx={{
-                            background:
-                              "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, " +
-                              "rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)",
+                      <Link href={{
+                        pathname: '/details',
+                        query: {
+                          serial: item.serial,
+                          category: item.category
+                        }
+                      }}>
+                        <ImageListItem
+                          className={styles.overlay}
+                          key={item.img}
+                          style={{
+                            opacity: ready ? 1 : 0,
+                            transition: "all .3s ease-in",
                           }}
-                        />
-                      </ImageListItem>
+                        >
+
+                          <Image
+                            src={imageUrl + '/' + item.profile_image}
+                            layout="fill"
+
+                            loader={imageLoader}
+                            onLoad={handleLoad}
+                            // srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                            alt={item.common}
+                          // loading="lazy"
+                          />
+                          <ImageListItemBar
+                            title={item.english}
+                            subtitle={item.category}
+                            position="bottom"
+                            sx={{
+                              background:
+                                "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, " +
+                                "rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)",
+                            }}
+                          />
+                        </ImageListItem>
+                      </Link>
+
                     ))}
                   </ImageList>
                 </Grid>

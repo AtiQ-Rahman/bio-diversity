@@ -376,55 +376,58 @@ export default function PrimarySearchAppBar(props) {
         }}
       >
         <Toolbar>
-          <Box
-            component="span" sx={{ display: { md: 'block' }, flexGrow: 1 }}
-          >
-
-            <Grid
-              container
-              direction="row"
-              // justifyContent="center"
-              alignItems="center"
-
+          <Link href="/">
+            <Box
+              component="span" sx={{ display: { md: 'block' }, flexGrow: 1, cursor: "pointer" }}
             >
-              <Box> <LogoSection /></Box>
-              <Box
-                direction="column"
-              // justifyContent="center"
+
+              <Grid
+                container
+                direction="row"
+                // justifyContent="center"
+                alignItems="center"
+
               >
-                <Box>
-                  <Typography variant="body" component="h2" style={{
-                    fontFamily: "Comic Sans MS",
-                    // fontSize: "25px",
+                <Box> <LogoSection /></Box>
+                <Box
+                  direction="column"
+                // justifyContent="center"
+                >
+                  <Box>
+                    <Typography variant="body" component="h2" style={{
+                      fontFamily: "Comic Sans MS",
+                      // fontSize: "25px",
+                      color: "white",
+                      padding: "10px"
+                    }}>
+
+                      Biodiversity of
+                      <span style={{
+                        fontWeight: '600',
+                        color: "#c44d34",
+
+                      }}>Bangladesh
+                      </span>
+
+                    </Typography>
+                  </Box>
+                  <Box ><span style={{
+                    fontFamily: "Gabriola",
+                    fontSize: "20px",
                     color: "white",
                     padding: "10px"
-                  }}>
+                  }}>Database and Mapping
+                  </span>
 
-                    Biodiversity of
-                    <span style={{
-                      fontWeight: '600',
-                      color: "#c44d34",
-
-                    }}>Bangladesh
-                    </span>
-
-                  </Typography>
+                  </Box>
                 </Box>
-                <Box ><span style={{
-                  fontFamily: "Gabriola",
-                  fontSize: "20px",
-                  color: "white",
-                  padding: "10px"
-                }}>Database and Mapping
-                </span>
-
-                </Box>
-              </Box>
-            </Grid>
+              </Grid>
 
 
 
-          </Box>
+            </Box>
+          </Link>
+
 
           <Box sx={{ flexGrow: 1 }} />
           {/* <SearchSection /> */}
