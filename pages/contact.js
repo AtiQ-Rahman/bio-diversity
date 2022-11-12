@@ -32,7 +32,7 @@ const contact = () => {
         </Typography>
         <Grid container spacing={4} sx={{ mb: 5 }}>
 
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={12}>
             <Box sx={{ minWidth: 275 }}>
               <Card variant="outlined">
                 <CardContent>
@@ -50,7 +50,7 @@ const contact = () => {
               </Card>
             </Box>
           </Grid>
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={12}>
             <Box sx={{ minWidth: 275 }}>
               <Card variant="outlined">
                 <CardContent>
@@ -70,7 +70,7 @@ const contact = () => {
           </Grid>
         </Grid>
         <Card variant="outlined" sx={{
-          background: "#ffe3d6"
+          background: "#e7e7e7"
         }}>
           <CardContent>
             <Typography sx={{ fontSize: 25 }} color="#20acb3" gutterBottom>
