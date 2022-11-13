@@ -19,6 +19,7 @@ exports.getAllSpecies = async (req, res, next) => {
 
                 let identificationFeatures = await returnValidJson(item.identificationFeatures)
                 let additional_files = item?.additional_files?.split(',') || []
+                let profile_image = isValidImageOrMarker(item.profile_image) ? item.profile_image : null
                 additional_files = additional_files.filter((item) => {
                     if (isValidImageOrMarker(item)) {
                         return item
@@ -27,6 +28,7 @@ exports.getAllSpecies = async (req, res, next) => {
 
                 modifiedResponse.push({
                     ...item,
+                    profile_image,
                     identificationFeatures: identificationFeatures,
                     additionalFiles: additional_files,
                     districts: districts,

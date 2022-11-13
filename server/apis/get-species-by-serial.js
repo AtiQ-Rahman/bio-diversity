@@ -27,6 +27,7 @@ exports.BIOGetSpeciesBySerial = async (req, res, next) => {
                     districts = item?.district || []
                 let addtionalCategories = await returnValidJson(item.addtionalCategories)
                 let identificationFeatures = await returnValidJson(item.identificationFeatures)
+                let profile_image = isValidImageOrMarker(item.profile_image) ? item.profile_image : null
                 let additional_files = item?.additional_files?.split(',') || []
                 additional_files = additional_files.filter((item) => {
                     if (isValidImageOrMarker(item)) {
@@ -35,6 +36,7 @@ exports.BIOGetSpeciesBySerial = async (req, res, next) => {
                 })
                 modifiedResponse.push({
                     ...item,
+                    profile_image,
                     identificationFeatures: identificationFeatures,
                     addtionalCategories: [addtionalCategories],
                     additionalFiles: additional_files,
