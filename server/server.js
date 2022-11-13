@@ -9,8 +9,9 @@ const dev = process.env.NODE_ENV || 'production'
 const shell = require('shelljs');
 
 var fs = require('fs'),
-    http = require('http'),
-    https = require('https')
+  http = require('http'),
+  https = require('https');
+const { speciesTableTypes } = require('./config/common');
 var dir = '../public/uploads';
 // var options = {
 //     key: fs.readFileSync('./ssl-cert/pkey'),
@@ -23,36 +24,40 @@ const start = async () => {
 
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir , { recursive: true });
+    for (let item of Object.keys(speciesTableTypes)) {
+      let newDir = dir + `/${speciesTableTypes[item]}`
+      fs.mkdirSync(newDir, { recursive: true });
+    }
   }
 
-//   server.prepare().then(() => {
-    const app = require("./app");
-    const argv = yargs.argv
-    // let server;
-    // else {
-    //     server = https.createServer(options, app).listen(process.env.PORT, function () {
-    //         console.log(`Server is working on http://localhost:${process.env.PORT}`);
-    //     });
+  //   server.prepare().then(() => {
+  const app = require("./app");
+  const argv = yargs.argv
+  // let server;
+  // else {
+  //     server = https.createServer(options, app).listen(process.env.PORT, function () {
+  //         console.log(`Server is working on http://localhost:${process.env.PORT}`);
+  //     });
 
-    // }
-    // app.get("*", (req, res) => {
-    //     return handle(req, res)
-    // })
-    app.listen(port, () => {
-        console.log(`Server is working on http://localhost:${port}`)
-    });
-    process.on("uncaughtException", (err) => {
-        console.log(`Error: ${err}`);
-        console.log("Shutting down the server due to unhandle uncauht!");
-        process.exit(1)
-    })
+  // }
+  // app.get("*", (req, res) => {
+  //     return handle(req, res)
+  // })
+  app.listen(port, () => {
+    console.log(`Server is working on http://localhost:${port}`)
+  });
+  process.on("uncaughtException", (err) => {
+    console.log(`Error: ${err}`);
+    console.log("Shutting down the server due to unhandle uncauht!");
+    process.exit(1)
+  })
 
-// }).catch(err => {
-//     console.log(`Error: ${err}`);
-//     console.log("Shutting down the server due to unhandle promise rejection!");
-//     process.exit(1)
+  // }).catch(err => {
+  //     console.log(`Error: ${err}`);
+  //     console.log("Shutting down the server due to unhandle promise rejection!");
+  //     process.exit(1)
 
-// })
+  // })
 }
 
 start()

@@ -76,15 +76,15 @@ const DropFileInput = ({ setFieldValue, additionalFiles }) => {
                                 Array.from(additionalFiles).map((item, index) => (
                                     <div key={index} className={styles.dropFilePreview__item}>
                                         {item.name ? (
-                                        <Image height={40} width={50} src={ImageConfig[item.type.split('/')[1]] || ImageConfig['default']} alt="" ></Image>
+                                            <Image height={40} width={50} src={ImageConfig[item.type.split('/')[1]] || ImageConfig['default']} alt="" ></Image>
 
                                         )
-                                    :(
-                                        <Image height={40} width={50} src={ImageConfig[item.split('.').pop()] || ImageConfig['default']} alt="" ></Image>
-                                    
-                                    )}
+                                            : (
+                                                <Image height={40} width={50} src={ImageConfig[item.split('.').pop()] || ImageConfig['default']} alt="" ></Image>
+
+                                            )}
                                         <div className={styles.dropFilePreview__item__info}>
-                                            <p>{item?.name || item}</p>
+                                            <p>{item?.name || (item.split('/')[1] ?? item)}</p>
                                         </div>
                                         <span className={styles.dropFilePreview__item__del} onClick={() => fileRemove(item)}>x</span>
                                     </div>
@@ -93,7 +93,7 @@ const DropFileInput = ({ setFieldValue, additionalFiles }) => {
                         </div>
                     ) :
                         <>
-                            
+
                             <Typography
                                 sx={{ p: 5 }}
                                 component="h4"

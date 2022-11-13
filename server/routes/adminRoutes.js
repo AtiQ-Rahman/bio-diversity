@@ -16,7 +16,17 @@ const { deleteItemFromTable } = require("../apis/delete-item-from-table");
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, '../public/uploads');
+        let dir = `../public/uploads`
+        let category = JSON.parse(req.body.data).category
+        category = category.name || category
+        let splittedName = category.split(/[\s-&]+/)
+        let joinedName = splittedName.join('')
+        category = joinedName.toLowerCase()
+        if (category) {
+            dir += `/${category}`
+        }
+
+        cb(null, dir);
     },
     filename: (req, file, cb) => {
         cb(null, Date.now() + file.originalname);

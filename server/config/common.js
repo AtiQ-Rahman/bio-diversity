@@ -42,7 +42,7 @@ exports.log = (message = '', value = '') => {
 exports.speciesTableTypes = {
     plants: "plants",
     animals: "animals",
-    microOrgan: "microorganisms",
+    micro: "microorganisms",
     fungi: "fungi",
     eco: "ecosystemdiversity",
     genetic: "geneticsubcellulardiversity"

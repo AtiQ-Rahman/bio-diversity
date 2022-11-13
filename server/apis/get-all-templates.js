@@ -46,7 +46,7 @@ exports.BIOGetGetSelectedTemplate = async (req, res, next) => {
         if (modifiedList.length >= recentSighting) {
             recentSightings = modifiedList.slice(0, recentSighting)
         }
-        else{
+        else {
             recentSightings = modifiedList
         }
         response[0].recentSightings = recentSightings

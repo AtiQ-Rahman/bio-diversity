@@ -186,14 +186,13 @@ const AddNewSpecies = () => {
     async function fetchData(query, cbfn) {
       let allTypesOfSpecies = await callApi("/get-unique-types-of-species", { category: query.category });
       setAllTypesOfSpecies(allTypesOfSpecies.data);
-      setSubcategories(allTypesOfSpecies?.data.categories)
 
       setSubGroups(allTypesOfSpecies.data.subGroups)
       setKingdoms(allTypesOfSpecies.data.kingdoms);
       console.log({ allTypesOfSpecies });
 
       let response = await callApi("/get-categories-list", {});
-      console.log({ query });
+      console.log({ response });
       if (query?.category && query?.serial) {
         let searchParameters = query;
         let species = await callApi("/get-species-by-serial", {
@@ -232,6 +231,8 @@ const AddNewSpecies = () => {
           let response = await callApi("/get-categories-by-name", { name: data.category });
           console.log({ response })
           data.category = response.data[0]
+          setSubcategories(data.category.keyList)
+
           // set(isValidImage(data.marker) ? data.marker : null);
           setLng(parseFloat(data.lng));
           setLat(parseFloat(data.lat));
@@ -245,6 +246,7 @@ const AddNewSpecies = () => {
         let response = await callApi("/get-categories-by-name", { name: query.category });
         console.log({ response })
         initialValues.category = response.data[0]
+        setSubcategories(initialValues.category.keyList)
         setSpeciesData(initialValues);
         cbfn();
       }
@@ -370,7 +372,7 @@ const AddNewSpecies = () => {
                 let districts = [];
                 selectedDistricts.map((district) => {
                   districts.push({
-                    place_name: district.place_name.replaceAll(`"`,``),
+                    place_name: district.place_name.replaceAll(`"`, ``),
                     center: district.center,
                   });
                 });
@@ -487,13 +489,13 @@ const AddNewSpecies = () => {
                           }
                           value={values?.identificationFeatures.subCategory}
                           options={subCategories}
-                          getOptionLabel={(option) => option?.subCategory || option}
+                          getOptionLabel={(option) => option?.name || option}
                           // sx={{ width: 300 }}
 
                           onChange={(e, value) => {
                             setFieldValue(
                               "identificationFeatures.subCategory",
-                              value?.subCategory || value
+                              value?.name || value
                             );
                           }}
                           renderInput={(params) => (

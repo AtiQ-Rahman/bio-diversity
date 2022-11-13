@@ -12,7 +12,12 @@ exports.createNewSpecies = async (req, res, next) => {
         let fileNameOnServer = []
         let files = req.files
         Promise.all(files.map((file) => {
-            fileNameOnServer.push(file.filename)
+            let category = speciesData.category
+            category = category.name || category
+            let splittedName = category.split(/[\s-&]+/)
+            let joinedName = splittedName.join('')
+            category = joinedName.toLowerCase()
+            fileNameOnServer.push(category + '/' + file.filename)
         })
         ).then(async () => {
             let table = await getTable(speciesData.category.name)
@@ -125,8 +130,8 @@ exports.uploadSpeciesByExcel = async (req, res, next) => {
                 object.category = pageGroups.animals
             }
             else if (object.category.match(/micro/i)) {
-                table = await getTable(speciesTableTypes.microOrgan)
-                object.category = pageGroups.microOrgan
+                table = await getTable(speciesTableTypes.micro)
+                object.category = pageGroups.micro
             }
             else if (object.category.match(/fungi/i)) {
                 table = await getTable(speciesTableTypes.fungi)
@@ -161,8 +166,8 @@ exports.uploadSpeciesByExcel = async (req, res, next) => {
                     let response = await callGeocoderApi(district)
                     if (response) {
                         let modifiedResponse = {
-                            place_name : response.place_name.replaceAll(`'`, ``),
-                            center : response.center
+                            place_name: response.place_name.replaceAll(`'`, ``),
+                            center: response.center
                         }
                         districts.push(modifiedResponse)
                     }
@@ -173,8 +178,8 @@ exports.uploadSpeciesByExcel = async (req, res, next) => {
                 let response = await callGeocoderApi(district)
                 if (response) {
                     let modifiedResponse = {
-                        place_name : response.place_name.replaceAll(`'`, ``),
-                        center : response.center
+                        place_name: response.place_name.replaceAll(`'`, ``),
+                        center: response.center
                     }
                     districts.push(modifiedResponse)
 
