@@ -61,7 +61,7 @@
 .footerDistributed .footerLinks a{
 	display:inline-block;
 	line-height: 1.8;
-  font-weight:400;
+  	font-weight:400;
 	text-decoration: none;
 	color:  inherit;
 }
@@ -118,7 +118,7 @@
 }
 
 .footerDistributed .footerLinks a:before {
-  content: "|";
+  content: " | ";
   font-weight:300;
   font-size: 20px;
   left: 0;

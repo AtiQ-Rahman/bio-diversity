@@ -33,7 +33,7 @@ const Footer = (props) => {
           <a href="#">Contact</a>
         </p>
 
-        <p className={styles.footerCompanyName}>Company Name © H.Tech</p>
+        <p className={styles.footerCompanyName}>Company Name © H.Tech Soft</p>
       </div>
 
       <div className={styles.footerCenter}>

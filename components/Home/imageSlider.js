@@ -19,6 +19,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { imageLoader } from "../../utils/utils";
 import { Box } from "@mui/system";
+import callApi from "../../utils/callApi";
+import { useRouter } from "next/router";
 const StyledSlider = styled((props) => (
     <Slider
         {...props}
@@ -69,7 +71,9 @@ const dotStyle = {
 };
 const ImageSlider = ({ slides }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [searchText, setSearchText] = useState(0);
     const slider = useRef()
+    const router = useRouter()
     const settings = {
         dots: true,
         dotsClass: "slick-dots slick-thumb",
@@ -169,7 +173,9 @@ const ImageSlider = ({ slides }) => {
                         sx={{ width: "25ch" }}
                         className={styles.search}
                     >
-                        <OutlinedInput placeholder="Please enter text" />
+                        <OutlinedInput placeholder="Please enter text" onChange={(e, value) => {
+                            setSearchText(e.target.value)
+                        }} />
                     </FormControl>
                     <Button
                         type="button"
@@ -181,6 +187,14 @@ const ImageSlider = ({ slides }) => {
                             fontWeight: 600,
                             backgroundColor: "#c44d34",
                             width: "140px",
+                        }}
+                        onClick={async (e) => {
+                            router.push({
+                                pathname: '/searchSpecies',
+                                query: {
+                                    searchText
+                                }
+                            })
                         }}
                     >
                         <SearchIcon /> Search

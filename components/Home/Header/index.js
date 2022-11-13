@@ -362,7 +362,7 @@ export default function PrimarySearchAppBar(props) {
     <Box sx={{ flexGrow: 1, zIndex: 1301 }}>
       <AppBar
         enableColorOnDark
-        position="absolute"
+        position={props.relative ? "relative" : "absolute"}
         color=""
         style={{
           // borderBottom: "1px solid #e5e5e5",
