@@ -1,5 +1,6 @@
 const { getTable, executeQuery, uniqueIdGenerator, speciesTableTypes, log, createQueryForSpecies, tableTypes } = require('../config/common');
 const moment = require("moment/moment");
+const { matchKey } = require('../config/processor');
 
 exports.searchSpeciesDynamically = async (req, res, next) => {
     let searchText = req.body.searchText
@@ -17,8 +18,18 @@ exports.searchSpeciesDynamically = async (req, res, next) => {
          UPPER(family) LIKE UPPER('%${searchText}%') or UPPER(genus) LIKE UPPER('%${searchText}%') or
          UPPER(species) LIKE UPPER('%${searchText}%') or UPPER(sub_species) LIKE UPPER('%${searchText}%') or
          UPPER(variety) LIKE UPPER('%${searchText}%') or UPPER(sub_variety) LIKE UPPER('%${searchText}%') or
-         UPPER(clone) LIKE UPPER('%${searchText}%') or UPPER(forma) LIKE UPPER('%${searchText}%') 
+         UPPER(clone) LIKE UPPER('%${searchText}%') or UPPER(forma) LIKE UPPER('%${searchText}%')
          `
+        let list = await matchKey()
+        for (let item of list) {
+            // console.log(uploadedSpecies[item])
+            let splittedKey = item.key.split('.')
+            if (splittedKey.length > 1) {
+                console.log(splittedKey)
+                searchQuery += ` or UPPER(JSON_EXTRACT(${splittedKey[0]}, "$.${splittedKey[1]}")) like JSON_QUOTE(UPPER("%${searchText}%"))`
+
+            }
+        }
         let response = await executeQuery(searchQuery)
         // console.log({ response })
         if (response.length > 0) {

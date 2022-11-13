@@ -23,11 +23,14 @@ import callApi, { imageUrl } from "../utils/callApi";
 import CommonDropDowns from "../components/CommonDropDowns";
 import TableData from "./TableData";
 import { useRouter } from "next/router";
-import { initialValues, pageGroups } from "../utils/utils";
+import { pageGroups } from "../utils/utils";
 
 const SearchSpecies = () => {
   const router = useRouter();
-  const [searchText, setSearchText] = React.useState("");
+  const initialValues = {
+    searchText: router?.query?.searchText || ""
+  }
+  const [searchText, setSearchText] = React.useState(router.query.searchText);
   const [category, setCatgory] = React.useState();
   const query = router.query
   const [speciesList, setSpeciesList] = React.useState([]);
@@ -56,7 +59,7 @@ const SearchSpecies = () => {
 
 
       <Formik
-        initialValues={searchValues}
+        initialValues={initialValues}
         validationSchema={Yup.object().shape({})}
         onSubmit={async (
           values,
@@ -64,7 +67,9 @@ const SearchSpecies = () => {
         ) => {
           try {
             console.log({ searchText })
-            let response = await callApi('search-species-dynamically', { searchText })
+            // setSearchText(null)
+            setSearchText(values.searchText)
+            let response = await callApi('search-species-dynamically', { searchText: values.searchText })
             console.log({ response })
             console.log("response", response);
             setSpeciesList(response?.data);
@@ -94,44 +99,47 @@ const SearchSpecies = () => {
           setFieldValue,
         }) => (
           <Form onSubmit={handleSubmit}>
-            <Grid sx={{ p: 10, background: "white" }}>
+            <Grid sx={{pt:8 , pl:10 , background: "white" }}>
 
               <Grid container spacing={3}>
                 <Grid item xs={12}>
                   <Typography
                     gutterBottom
-                    variant="h3"
+                    variant="h1"
                   // sx={{ pt: 8 }}
                   >
-                    Enter Your Details
-                  </Typography> </Grid>
-                <FormControl
-                  sx={{ width: "25ch" }}
-                  className={styles.search}
-                >
-                  <OutlinedInput placeholder="Please enter text" onChange={(e, value) => {
-                    setSearchText(e.target.value)
+                    Search all over databases
+                  </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField placeholder="Please enter text" size="small" value={values?.searchText} onChange={(e, value) => {
+                    setFieldValue('searchText', e.target.value)
                   }} />
-                </FormControl>
+                  <Button
+                    className={styles.bg_primary}
+                    type="submit"
+                    // disabled={isSubmitting}
+                    style={{
+                      marginLeft: "10px",
+                      width: "80px",
+                      maxHeight: "80px",
+                      minWidth: "40px",
+                      minHeight: "40px",
+                      color: "white",
+                      boxShadow: "1px 1px 4px grey",
+                      marginBottom: "10px",
+                    }}
+                    sx={{ mb: 1, mr: 1 }}
+                  >
+                    Search
+                  </Button>
+                </Grid>
+
+
+
               </Grid>
               <br />
-              <Button
-                className={styles.bg_primary}
-                type="submit"
-                // disabled={isSubmitting}
-                style={{
-                  width: "80px",
-                  maxHeight: "80px",
-                  minWidth: "40px",
-                  minHeight: "40px",
-                  color: "white",
-                  boxShadow: "1px 1px 4px grey",
-                  marginBottom: "10px",
-                }}
-                sx={{ mb: 1, mr: 1 }}
-              >
-                Search
-              </Button>
+
             </Grid>
           </Form>
         )}
@@ -141,7 +149,15 @@ const SearchSpecies = () => {
 
 
       {speciesList?.length > 0 ? (
-        <TableData speciesList={speciesList} category={pageGroups.plants}></TableData>
+        <>
+          {searchText ? (
+            <Typography variant="h2" component="h2" color='text.primary' sx={{ px: 10 }} gutterBottom>
+              Search result for : "{searchText}"
+            </Typography>
+          ) : null}
+
+          <TableData speciesList={speciesList} category={pageGroups.plants}></TableData>
+        </>
       ) : (
         <Typography variant="h1" component="h1" align="center" paddingBottom={20} paddingTop={10}>
           {searchMessage ?? ""}

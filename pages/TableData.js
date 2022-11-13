@@ -40,7 +40,7 @@ const TableData = (props) => {
         <Grid container sx={{ borderRadius: "10px", px: 10 }} paddingBottom={7}>
             <Grid item xs={12}>
                 {/* {props.length > 0 ? ( */}
-                <><Typography variant="h2" component="h2" align="center" gutterBottom>
+                <><Typography variant="h2" component="h2"  gutterBottom>
                     Total Species Found : {props.speciesList.length}
                 </Typography>
                     <br />

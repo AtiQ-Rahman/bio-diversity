@@ -18,7 +18,7 @@ exports.matchKey = async () => {
         },
         {
             label: 'Category Data',
-            key: 'addtionalCategories.data'
+            key: 'addtionalCategories'
         },
         {
             label: 'Bio-Diversity Group',
