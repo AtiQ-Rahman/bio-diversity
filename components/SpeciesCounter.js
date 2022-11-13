@@ -18,7 +18,7 @@ export const SpecicesCounter = (props) => (
        
            <DefaultCounterCard
            
-            count={2000}
+            count={props.counter}
             suffix="+"
             title="Species"
             description="From teknaf to tetulia"

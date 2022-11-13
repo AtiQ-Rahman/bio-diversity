@@ -17,7 +17,8 @@ export const RequestCounter = (props) => (
         <Grid item>
        
         <DefaultCounterCard
-              count={1000}
+            count={props.counter}
+            // count={1000}
               suffix="+"
               title="Request"
               description="For adding on our server"

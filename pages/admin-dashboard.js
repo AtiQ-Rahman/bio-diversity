@@ -27,6 +27,7 @@ import Counters from "../components/Home/counters";
 import { SpecicesCounter } from "../components/SpeciesCounter";
 import { ImagesCounter } from "../components/ImagesCounter";
 import { RequestCounter } from "../components/RequestCounter";
+import callApi from "../utils/callApi";
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
   ({ theme, open }) => ({
@@ -75,7 +76,9 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
 export default function Home() {
   const theme = useTheme();
   const matchDownMd = useMediaQuery(theme.breakpoints.down("lg"));
-
+  const [totalImages, setTotalImages] = useState([])
+  const [totalAvailable, setTotalAvailable] = useState([])
+  const [totalRequested, setTotalRequested] = useState([])
   // Handle left drawer
   const leftDrawerOpened = useSelector((state) => state.customization.opened);
   const dispatch = useDispatch();
@@ -85,6 +88,15 @@ export default function Home() {
 
   useEffect(() => {
     dispatch({ type: SET_MENU, opened: !matchDownMd });
+    async function fetchData() {
+      let response = await callApi("/count-all-species", {});
+      if (response.data) {
+        setTotalImages(response.data.totalAvailableImages)
+        setTotalAvailable(response.data.totalAvailable)
+        setTotalRequested(response.data.totalRequestedSpecies)
+      }
+    }
+    fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [matchDownMd]);
   return (
@@ -119,7 +131,7 @@ export default function Home() {
       />
 
       {/* main content */}
-      <Main theme={theme} open={leftDrawerOpened} sx={{mt:5}}>
+      <Main theme={theme} open={leftDrawerOpened} sx={{ mt: 5 }}>
         {/* breadcrumb */}
         <Breadcrumbs
           separator={IconChevronRight}
@@ -128,19 +140,19 @@ export default function Home() {
           title
           rightAlign
         />
-        <div> 
+        <div>
           <Box component="section"  >
             <Box
               component="main"
               sx={{
                 flexGrow: 1,
                 py: 8,
-                
+
               }}
             >
               <Container maxWidth={false}>
                 <Grid container spacing={3}>
-               
+
                   {/* <Grid
             item
             xl={3}
@@ -156,35 +168,35 @@ export default function Home() {
                   {/* <Grid item lg={4} md={6} xl={3} xs={12}>
                     <TrafficByDevice sx={{ height: "100%" }} />
                   </Grid> */}
-                     <Grid
-          
-          item
-          lg={4}
-          sm={6}
-          xl={4}
-          xs={12}
-        >
-          <SpecicesCounter  className={styles.dashboard}/>
-          {/* <Counters /> */}
-        </Grid>
-                <Grid
-          item
-          xl={4}
-          lg={4}
-          sm={6}
-          xs={12}
-        >
-          <ImagesCounter className={styles.dashboard}/>
-        </Grid>
-                <Grid
-          item
-          xl={4}
-          lg={4}
-          sm={6}
-          xs={12}
-        >
-          <RequestCounter className={styles.dashboard} />
-        </Grid>
+                  <Grid
+
+                    item
+                    lg={4}
+                    sm={6}
+                    xl={4}
+                    xs={12}
+                  >
+                    <SpecicesCounter className={styles.dashboard} counter ={totalAvailable}/>
+                    {/* <Counters /> */}
+                  </Grid>
+                  <Grid
+                    item
+                    xl={4}
+                    lg={4}
+                    sm={6}
+                    xs={12}
+                  >
+                    <ImagesCounter className={styles.dashboard} counter ={totalImages}/>
+                  </Grid>
+                  <Grid
+                    item
+                    xl={4}
+                    lg={4}
+                    sm={6}
+                    xs={12}
+                  >
+                    <RequestCounter className={styles.dashboard} counter ={totalRequested}/>
+                  </Grid>
                 </Grid>
               </Container>
             </Box>

@@ -17,7 +17,7 @@ export const ImagesCounter = (props) => (
         <Grid item>
        
         <DefaultCounterCard
-              count={3000}
+            count={props.counter}
               suffix="+"
               // backgroundColor="#2c8f7c"
 

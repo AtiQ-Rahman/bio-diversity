@@ -37,7 +37,7 @@ import { useEffect, useState } from "react";
 import callApi from "../../utils/callApi";
 
 function Counters() {
-  const [totalSpecies, setTotalSpecies] = useState([])
+  const [totalImages, setTotalImages] = useState([])
   const [totalAvailable, setTotalAvailable] = useState([])
   const [totalRequested, setTotalRequested] = useState([])
 
@@ -45,7 +45,7 @@ function Counters() {
     async function fetchData() {
       let response = await callApi("/count-all-species", {});
       if (response.data) {
-        setTotalSpecies(response.data.total)
+        setTotalImages(response.data.totalAvailableImages)
         setTotalAvailable(response.data.totalAvailable)
         setTotalRequested(response.data.totalRequestedSpecies)
       }
@@ -61,7 +61,7 @@ function Counters() {
         {/* <Icon icon="material-symbols:biotech-outline" /> */}
         <DefaultCounterCard
 
-          count={totalSpecies}
+          count={totalAvailable}
           suffix="+"
           // title="Species"
           description="From teknaf to tetulia"
@@ -78,7 +78,7 @@ function Counters() {
       </Grid>
       <Grid item xs={12} md={4}>
         <DefaultCounterCard
-          count={totalAvailable}
+          count={totalImages}
           suffix="+"
           // backgroundColor="#2c8f7c"
 
