@@ -28,10 +28,10 @@ const team = () => {
   return (
     <Box>
       <Header index={7} />
-      <Grid style={{ margin: "0 auto", marginTop: "10%", width: "90%", height: "600px" }}>
+      <Grid style={{ margin: " auto", marginTop: "5%", width: "90%", height: "800px" }}>
 
         <Grid container>
-          <Grid item xs={12} md={3} sx={{
+          <Grid item xs={12} md={12} sx={{
             background: "#21ad53",
             color: "white",
             p: 2,
@@ -42,6 +42,7 @@ const team = () => {
               py: 3,
               color: "white",
               textAlign: "justify"
+              
             }}>
               Under the current project title
               <span style={{ color: "black" }}> ‘Mapping and Monitoring of Plant Biodiversity Resources of Bangladesh’ </span>
@@ -49,7 +50,7 @@ const team = () => {
 
             </Typography>
           </Grid>
-          <Grid item xs={12} md={3}>
+          <Grid item xs={12} md={3} sx={{pt:5,m:8}}>
             <Card {...cardProps}>
               <CardActionArea>
                 <CardMedia
@@ -81,7 +82,7 @@ const team = () => {
             </Card>
           </Grid>
 
-          <Grid item xs={12} md={3}>
+          <Grid item xs={12} md={3} sx={{pt:5,m:8}}>
             <Card {...cardProps}>
               <CardActionArea>
                 <CardMedia
@@ -113,7 +114,7 @@ const team = () => {
             </Card>
           </Grid>
 
-          <Grid item xs={12} md={3}>
+          <Grid item xs={12} md={3} sx={{pt:5,m:8}}>
             <Card {...cardProps}>
               <CardActionArea>
                 <CardMedia
@@ -148,7 +149,7 @@ const team = () => {
         </Grid>
 
       </Grid>
-      <Footer />
+      <Footer  />
     </Box>
   );
 };
