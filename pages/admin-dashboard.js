@@ -79,6 +79,7 @@ export default function Home() {
   const [totalImages, setTotalImages] = useState([])
   const [totalAvailable, setTotalAvailable] = useState([])
   const [totalRequested, setTotalRequested] = useState([])
+  const [totalSpeciesByDivisions, setTotalSpeciesByDivisions] = useState({})
   // Handle left drawer
   const leftDrawerOpened = useSelector((state) => state.customization.opened);
   const dispatch = useDispatch();
@@ -94,6 +95,7 @@ export default function Home() {
         setTotalImages(response.data.totalAvailableImages)
         setTotalAvailable(response.data.totalAvailable)
         setTotalRequested(response.data.totalRequestedSpecies)
+        setTotalSpeciesByDivisions(response.data.totalSpeciesByDivisions)
       }
     }
     fetchData();
@@ -163,7 +165,7 @@ export default function Home() {
             <TotalProfit sx={{ height: '100%' }} />
           </Grid> */}
                   <Grid item lg={12} md={12} xl={12} xs={12} >
-                    <Sales />
+                    <Sales divisionsCounter={totalSpeciesByDivisions} />
                   </Grid>
                   {/* <Grid item lg={4} md={6} xl={3} xs={12}>
                     <TrafficByDevice sx={{ height: "100%" }} />
@@ -176,7 +178,7 @@ export default function Home() {
                     xl={4}
                     xs={12}
                   >
-                    <SpecicesCounter className={styles.dashboard} counter ={totalAvailable}/>
+                    <SpecicesCounter className={styles.dashboard} counter={totalAvailable} />
                     {/* <Counters /> */}
                   </Grid>
                   <Grid
@@ -186,7 +188,7 @@ export default function Home() {
                     sm={6}
                     xs={12}
                   >
-                    <ImagesCounter className={styles.dashboard} counter ={totalImages}/>
+                    <ImagesCounter className={styles.dashboard} counter={totalImages} />
                   </Grid>
                   <Grid
                     item
@@ -195,7 +197,7 @@ export default function Home() {
                     sm={6}
                     xs={12}
                   >
-                    <RequestCounter className={styles.dashboard} counter ={totalRequested}/>
+                    <RequestCounter className={styles.dashboard} counter={totalRequested} />
                   </Grid>
                 </Grid>
               </Container>
