@@ -152,7 +152,7 @@ const SearchSpecies = () => {
         <>
           {searchText ? (
             <Typography variant="h2" component="h2" color='text.primary' sx={{ px: 10 }} gutterBottom>
-              Search result for : "{searchText}"
+              Search result for : &quot;{searchText}&quot;
             </Typography>
           ) : null}
 

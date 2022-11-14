@@ -10,7 +10,7 @@ ChartJS.register(CategoryScale);
 
 export const Sales = (props) => {
   const theme = useTheme();
-
+  let values = Object.values(props.divisionsCounter)
   const data = {
     datasets: [
       {
@@ -19,7 +19,7 @@ export const Sales = (props) => {
         barThickness: 12,
         borderRadius: 4,
         categoryPercentage: 0.5,
-        data: [18, 5, 19, 27, 29, 19, 20,12],
+        data: values,
         label: 'This year',
         maxBarThickness: 10
       },

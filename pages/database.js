@@ -123,7 +123,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 
 }));
-export default function database() {
+export default function Database() {
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
   const [openUpload, setOpenUpload] = React.useState(false);

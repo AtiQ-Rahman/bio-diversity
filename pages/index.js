@@ -96,17 +96,18 @@ export default function Home() {
                     rowHeight={250}
                     className={styles.imageList}
                   >
-                    {selectedRecentSightings.map((item) => (
-                      <Link href={{
-                        pathname: '/details',
-                        query: {
-                          serial: item.serial,
-                          category: item.category
-                        }
-                      }}>
+                    {selectedRecentSightings.map((item, index) => (
+                      <Link
+                        key={`recent${index}`}
+                        href={{
+                          pathname: '/details',
+                          query: {
+                            serial: item.serial,
+                            category: item.category
+                          }
+                        }}>
                         <ImageListItem
                           className={styles.overlay}
-                          key={item.img}
                           style={{
                             opacity: ready ? 1 : 0,
                             transition: "all .3s ease-in",
