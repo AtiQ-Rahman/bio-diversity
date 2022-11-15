@@ -17,6 +17,8 @@ import {
   TableCell,
   TableBody,
   TextField,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import React, { useState, useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
@@ -29,7 +31,12 @@ import "mapbox-gl/dist/mapbox-gl.css";
 mapboxgl.accessToken = process.env.mapbox_key;
 import callApi, { imageUrl } from "../utils/callApi";
 import Slider from "react-slick";
-
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Slide from '@mui/material/Slide';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import {
@@ -38,8 +45,6 @@ import {
   imageLoader,
   twoDecimal,
 } from "../utils/utils";
-const imageSrc = require("../assets/images/species1.jpg");
-const map = require("../assets/images/map.png");
 const fullscreenControlStyle = {
   position: "relative",
   top: 0,
@@ -53,37 +58,78 @@ const navStyle = {
   left: 0,
   padding: "10px",
 };
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 const Distribution = () => {
   const mapContainer = useRef(null);
   const map = useRef(null);
-  const [lng, setLng] = useState(90.399452);
-  const [lat, setLat] = useState(23.777176);
-  const [zoom, setZoom] = useState(6.52);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [force, setForce] = React.useState(false);
+  const open = Boolean(anchorEl);
+  const handleClick = (event, index) => {
+    setAnchorEl(event.currentTarget);
+    setChangeColorIndex(index)
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+
+  const [dialogopen, setDialogOpen] = React.useState(false);
+
+  const handleClickOpenDialog = () => {
+    setDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setDialogOpen(false);
+  };
+  const [color, setColor] = useState(null);
+
+  const changeColor = () => {
+
+    modifiedList[changeColorIndex].markerColor = color
+    setForce(!force)
+    handleCloseDialog()
+  }
+  const initialLngLatZoom = {
+    lng: 92.0227,
+    lat: 23.7469,
+    zoom: 6.80
+  }
+  const [lng, setLng] = useState(initialLngLatZoom.lng);
+  const [lat, setLat] = useState(initialLngLatZoom.lat);
+  const [zoom, setZoom] = useState(initialLngLatZoom.zoom);
+  const [changeColorIndex, setChangeColorIndex] = useState(null);
   const [elements, setElements] = useState([]);
   const [speciesList, setSpeciesList] = useState([]);
   const [modifiedList, setModifiedList] = useState([]);
   async function fetchData(cbfn) {
     let response = await callApi("/get-species-list", {});
     setSpeciesList(response.data);
-    let list = [];
-    Promise.all(
-      response.data.map(async (item) => {
-        if (typeof item.districts == "string") {
-          let url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${item.districts}.json?access_token=${process.env.mapbox_key}&bbox=88.007207%2C20.4817039%2C92.679485%2C26.638142`;
-          let response = await fetch(url); //api for the get request
-          let data = await response.json();
-          item.districts = data.features;
-          list.push(item);
-          return item;
-        } else {
-          list.push(item);
-          return item;
-        }
-      })
-    ).then(() => {
-      console.log({ list });
-      setModifiedList(list);
-    });
+    setModifiedList(response.data);
+
+    // let list = [];
+    // Promise.all(
+    //   response.data.map(async (item) => {
+    //     if (typeof item.districts == "string") {
+    //       let url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${item.districts}.json?access_token=${process.env.mapbox_key}&bbox=88.007207%2C20.4817039%2C92.679485%2C26.638142`;
+    //       let response = await fetch(url); //api for the get request
+    //       let data = await response.json();
+    //       item.districts = data.features;
+    //       list.push(item);
+    //       return item;
+    //     } else {
+    //       list.push(item);
+    //       return item;
+    //     }
+    //   })
+    // ).then(() => {
+    //   console.log({ list });
+    //   setModifiedList(list);
+    // });
     let speciesList = response.data;
     console.log({ speciesList });
     speciesList.length > 0 ? cbfn(speciesList) : cbfn([]);
@@ -116,7 +162,7 @@ const Distribution = () => {
           el,
           styles,
           elements,
-          speciesData.marker,
+          speciesData.markerColor,
           map
         );
         await createMapboxMarkerForDistribution(
@@ -131,18 +177,16 @@ const Distribution = () => {
     map.current.on("zoom", () => {
       const zoom = map.current.getZoom();
       for (const el of elements) {
-        const scalePercent = 1 + (zoom - 6) * 0.4;
-
-        // const el = marker.getElement()
-        let top = scalePercent * 40;
-        let height = scalePercent * 70;
-        let width = scalePercent * 70;
+        const scalePercent = 1 + (zoom - 7) * 0.4;
+        let top = scalePercent * 10
+        let height = scalePercent * 20
+        let width = scalePercent * 20
         el.style.height = `${height}px`;
         el.style.width = `${width}px`;
         el.style.top = `-${top}px`;
       }
     });
-  }, [modifiedList]);
+  }, [modifiedList, force]);
   return (
     <Grid
       container
@@ -168,10 +212,6 @@ const Distribution = () => {
         <Box className={styles.details_bar}>
           <Card sx={{ maxWidth: 345, height: "100%" }}>
             <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                Total Species {modifiedList.length}
-              </Typography>
-
               <Grid item xs={12}>
                 <TextField
                   id="Species"
@@ -202,6 +242,9 @@ const Distribution = () => {
                   variant="outlined"
                 />
               </Grid>
+              <Typography gutterBottom variant="h5" component="div">
+                Total Species {modifiedList.length}
+              </Typography>
               {modifiedList.length > 0 ? (
                 <TableContainer component={Paper} sx={{ maxHeight: 440 }}>
                   <Table sx={{ maxWidth: 340 }} aria-label="customized table">
@@ -215,13 +258,34 @@ const Distribution = () => {
                             }}
                           >
                             <TableCell component="td" scope="row" width={50}>
-                              {species.marker !== "N/A" && species.marker !== 'null' ? (
+                              {/* {species.marker !== "N/A" && species.marker !== 'null' ? (
                                 <Image
                                   height={50}
                                   alt="Marker Icon"
                                   width={40}
                                   src={species.marker}
                                 ></Image>
+                              ) : null} */}
+                              {species.markerColor ? (
+                                <Box>
+                                  <Box className={styles.marker}
+                                    aria-controls={open ? 'basic-menu' : undefined}
+                                    aria-haspopup="true"
+                                    aria-expanded={open ? 'true' : undefined}
+                                    onClick={(e) => {
+                                      setColor(species.markerColor)
+                                      handleClick(e, index)
+                                    }}
+                                    style={{
+                                      backgroundColor: species.markerColor,
+                                      borderRadius: "100px",
+                                      height: 30,
+                                      width: 30,
+                                      border: "5px solid #e7e7e7"
+                                    }}></Box>
+
+                                </Box>
+
                               ) : null}
                             </TableCell>
                             <TableCell align="center">
@@ -240,6 +304,20 @@ const Distribution = () => {
                         </>
                       ))}
                     </TableBody>
+                    <Menu
+                      id="basic-menu"
+                      anchorEl={anchorEl}
+                      open={open}
+                      onClose={handleClose}
+                      MenuListProps={{
+                        'aria-labelledby': 'basic-button',
+                      }}
+                    >
+                      <MenuItem onClick={(e) => {
+                        handleClickOpenDialog()
+                        handleClose()
+                      }}>Change Color</MenuItem>
+                    </Menu>
                   </Table>
                 </TableContainer>
               ) : null}
@@ -254,9 +332,29 @@ const Distribution = () => {
               </Typography>
             </CardContent>
           </Card>
+
         </Box>
         <div ref={mapContainer} className={styles.map_container}></div>
       </Grid>
+      <Dialog
+        open={dialogopen}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleCloseDialog}
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle>{"Pick a color"}</DialogTitle>
+        <DialogContent>
+          <input type="color" name="markerColor" value={color} onChange={e => {
+            setColor(e.target.value);
+          }
+          } />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog}>Cancel</Button>
+          <Button onClick={changeColor}>Change</Button>
+        </DialogActions>
+      </Dialog>
     </Grid>
   );
 };

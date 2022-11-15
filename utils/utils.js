@@ -7,7 +7,7 @@ export const isMarker = (marker) => {
     }
 }
 export const isValidImage = (marker) => {
-    if (marker == '' || marker == 'N/A' || marker == 'null') {
+    if (!marker || marker == '' || marker?.toLowerCase()?.trim() == 'n/a' || marker?.toLowerCase()?.trim() == 'null') {
         return false
     }
     else {
@@ -15,7 +15,7 @@ export const isValidImage = (marker) => {
     }
 }
 export const createMapboxMarkerForDistribution = async (el, mapboxgl, imageUrl, speciesData, map) => {
-    new mapboxgl.Marker(isMarker(speciesData.marker) ? el : "")
+    new mapboxgl.Marker(el)
         .setLngLat([speciesData.districts[0].center[0], speciesData.districts[0].center[1]])
         .setPopup(new mapboxgl.Popup({ offset: 30 }).setHTML(`
         <div >
@@ -40,7 +40,7 @@ export const createMapboxMarkerForDistribution = async (el, mapboxgl, imageUrl, 
         .addTo(map.current);
 }
 export const createMapboxMarker = async (el, mapboxgl, marker, district, map) => {
-    new mapboxgl.Marker(isMarker(marker) ? el : "")
+    new mapboxgl.Marker(el)
         .setLngLat([district.center[0], district.center[1]])
         .addTo(map.current)
         .setPopup(new mapboxgl.Popup({ offset: 30 }).setHTML(`
@@ -60,21 +60,43 @@ export const createMapboxMarker = async (el, mapboxgl, marker, district, map) =>
 
         ))
 }
+// export const createMarkerElement = async (el, styles, elements, marker, map) => {
+//     el.className = styles.marker;
+//     el.style.backgroundImage = `url('${marker}')`;
+//     el.style.backgroundStyle = 'cover'
+//     el.style.backgroundRepeat = 'no-repeat'
+//     el.style.backgroundPosition = 'center top'
+//     const zoom = map.current.getZoom();
+//     const scalePercent = 1 + (zoom - 6) * 0.4;
+//     let top = scalePercent * 40
+//     let height = scalePercent * 70
+//     let width = scalePercent * 70
+//     el.style.height = `${height}px`
+//     el.style.width = `${width}px`
+//     el.style.top = `-${top}px`;
+//     el.style.backgroundSize = 'contain';
+//     elements.push(el)
+// }
+
 export const createMarkerElement = async (el, styles, elements, marker, map) => {
     el.className = styles.marker;
-    el.style.backgroundImage = `url('${marker}')`;
-    el.style.backgroundStyle = 'cover'
-    el.style.backgroundRepeat = 'no-repeat'
-    el.style.backgroundPosition = 'center top'
+    // el.style.backgroundImage = `url('${marker}')`;
+    // el.style.backgroundStyle = 'cover'
+    el.style.background = marker
+    el.style.border = "3px solid #fff"
+    el.style.boxShadow = "2px 2px 10px #black"
+
+    // el.style.backgroundRepeat = 'no-repeat'
+    // el.style.backgroundPosition = 'center top'
     const zoom = map.current.getZoom();
-    const scalePercent = 1 + (zoom - 6) * 0.4;
-    let top = scalePercent * 40
-    let height = scalePercent * 70
-    let width = scalePercent * 70
+    const scalePercent = 1 + (zoom - 7) * 0.4;
+    let top = scalePercent * 10
+    let height = scalePercent * 20
+    let width = scalePercent * 20
     el.style.height = `${height}px`
     el.style.width = `${width}px`
     el.style.top = `-${top}px`;
-    el.style.backgroundSize = 'contain';
+    // el.style.backgroundSize = 'contain';
     elements.push(el)
 }
 
@@ -103,6 +125,8 @@ export const initialValues = {
     subGroup: null,
     variety: null,
     subVariety: null,
+    category: null,
+    subCategory: null,
     clone: null,
     forma: null,
     type: null,
@@ -126,8 +150,8 @@ export const initialValues = {
 export const twoDecimal = (num) => {
     return (Math.round(parseFloat(num) * 100000) / 100000).toFixed(5);
 }
-export const processNames = (name)=>{
-    return name?.toLowerCase()?.replaceAll('-','').replaceAll(' ','').replaceAll('/','')
+export const processNames = (name) => {
+    return name?.toLowerCase()?.replaceAll('-', '').replaceAll(' ', '').replaceAll('/', '')
 }
 export const processSpeciesObject = (speciesDetails) => {
     let mainObject = {}
@@ -161,11 +185,11 @@ function matchKey() {
         },
         {
             label: 'Category Data',
-            key: 'addtionalCategories.data'
+            key: 'addtionalCategories'
         },
         {
             label: 'Sub Category',
-            key: 'identificationFeatures.subCategory'
+            key: 'subCategory'
         },
         {
             label: 'Kingdom',

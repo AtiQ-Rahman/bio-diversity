@@ -12,6 +12,7 @@ const requestSpeciesTable = (table) => {
             district varchar(1000),
             profile_image longtext,
             category varchar(255),
+            subCategory varchar(255),
             identificationFeatures longtext,
             additional_files longtext,
             kingdom varchar(255),
@@ -33,6 +34,7 @@ const requestSpeciesTable = (table) => {
             lng varchar(255),
             lat varchar(255),
             marker longtext,
+            markerColor varchar(100),
             PRIMARY KEY (id)
         );`
 
@@ -50,6 +52,7 @@ const speciesTable = (table) => {
         subGroup varchar(255),
         profile_image longtext,
         category varchar(255),
+        subCategory varchar(255),
         identificationFeatures longtext,
         additional_files longtext,
         kingdom varchar(255),
@@ -71,6 +74,7 @@ const speciesTable = (table) => {
         lng varchar(255),
         lat varchar(255),
         marker longtext,
+        markerColor varchar(100),
         PRIMARY KEY (id)
     );`
 }

@@ -194,11 +194,13 @@
   flex-grow: 1;
 }
 .marker {
-  display: block;
-  border: none;
+  /* display: block; */
+  border: "10px solid #e7e7e7 !important";
   /* border-radius: 50%; */
   cursor: pointer;
   padding: 0;
+  border-radius: 100px;
+
   }
 .bg_primary {
   background: var(--app-primary-color);

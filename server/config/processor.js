@@ -22,7 +22,7 @@ exports.matchKey = async () => {
         },
         {
             label: 'Bio-Diversity Group',
-            key: 'identificationFeatures.subCategory'
+            key: 'subCategory'
         },
         {
             label: 'SubGroup',

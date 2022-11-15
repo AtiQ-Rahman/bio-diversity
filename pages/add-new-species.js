@@ -143,6 +143,9 @@ const AddNewSpecies = () => {
     lng,
     lat,
     subGroup: "",
+    category: "",
+    subCategory: "",
+    markerColor: "",
     addtionalCategories: [],
     nameOfSpecies: {
       bangla: "",
@@ -226,7 +229,9 @@ const AddNewSpecies = () => {
           else {
             setSelectedDistricts(data.districts)
           }
-          setCreateObjectURL(isValidImage(data.profile_image) ? imageUrl + '/' + data.profile_image : null)
+          if (isValidImage(data.profile_image)) {
+            setCreateObjectURL(imageUrl + '/' + data.profile_image)
+          }
           setMarkerUrl(isValidImage(data.marker) ? data.marker : null);
           let response = await callApi("/get-categories-by-name", { name: data.category });
           console.log({ response })
@@ -485,16 +490,16 @@ const AddNewSpecies = () => {
                           disablePortal
                           id="species"
                           name={
-                            values?.identificationFeatures?.subCategory
+                            values?.subCategory
                           }
-                          value={values?.identificationFeatures.subCategory}
+                          value={values?.subCategory}
                           options={subCategories}
                           getOptionLabel={(option) => option?.name || option}
                           // sx={{ width: 300 }}
 
                           onChange={(e, value) => {
                             setFieldValue(
-                              "identificationFeatures.subCategory",
+                              "subCategory",
                               value?.name || value
                             );
                           }}
@@ -502,23 +507,19 @@ const AddNewSpecies = () => {
                             <TextField
                               {...params}
                               error={Boolean(
-                                touched?.identificationFeatures
-                                  ?.subCategory &&
-                                errors?.identificationFeatures
-                                  ?.subCategory
+                                touched?.subCategory &&
+                                errors?.subCategory
                               )}
                               helperText={
-                                touched?.identificationFeatures
-                                  ?.subCategory &&
-                                errors?.identificationFeatures
-                                  ?.subCategory
+                                touched?.subCategory &&
+                                errors?.subCategory
                               }
                               style={{ padding: "2px" }}
                               label=" Bio-Diversity Group"
                               variant="outlined"
                               placeholder="Select"
                               required
-                              value={values?.identificationFeatures.subCategory}
+                              value={values?.subCategory}
                             />
                           )}
                         />
@@ -1121,14 +1122,16 @@ const AddNewSpecies = () => {
 
                         </Grid>
                         <Grid item xs={12} md={6} sx={{ mb: 3 }}>
-                          <Typography gutterBottom component="h3" variant="h3">
-                            Add Marker
-                          </Typography>
+
                           <Grid container spacing={2}>
+                            <Grid item md={4}>
+                              <Typography component="h4" variant="h4" align="center">
+                                Pick A Color for Marker :
+                              </Typography>
+                            </Grid>
+                            <Grid item md={8} xs={12}>
 
-                            <Grid item md={12} xs={12}>
-
-                              {markerUrl ? (
+                              {/* {markerUrl ? (
                                 <Image
                                   src={markerUrl}
                                   height="200"
@@ -1141,9 +1144,12 @@ const AddNewSpecies = () => {
                                   width="70"
                                   height="80"
                                 />
-                              )}
-
-                              <TextField
+                              )} */}
+                              <input type="color" name="markerColor" value={values?.markerColor} onChange={e => {
+                                setFieldValue("markerColor", e.target.value);
+                              }
+                              } />
+                              {/* <TextField
                                 sx={{
                                   flexGrow: 1,
 
@@ -1153,7 +1159,7 @@ const AddNewSpecies = () => {
                                 type="file"
                                 name="marker"
                                 onChange={getMarkerUrl}
-                              />
+                              /> */}
 
                             </Grid>
 

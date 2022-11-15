@@ -37,8 +37,12 @@ const getDetailsByQuery = async (searchQuery, key, modifiedList, typeObject) => 
                 item[key] = item[key].name
             }
             else if (typeof item[key] == 'string') {
-                if (item[key].includes(`"`)) {
+                if (item[key].includes(`{`)) {
                     item.key = JSON.parse(item[key])
+
+                }
+                else if (item[key].includes(`"`)) {
+                    item.key = item.key.replaceAll(`"`)
                 }
             }
             let isExist = typeObject[modifiedList].findIndex((modifiedItem) => item[key]?.trim()?.toLowerCase() == modifiedItem[key].trim()?.toLowerCase())
@@ -60,9 +64,13 @@ const getDetailsByQuery = async (searchQuery, key, modifiedList, typeObject) => 
 }
 exports.getUniqueTypes = async (req, res, next) => {
     let category = req.body.category
+    let searchJson = false
+    if (category.match(/eco/i) || category.match(/genetic/i)) {
+        searchJson = true
+    }
     let typeObject = createTypeObject()
     let fetchSequences = [
-        { parent: null, child: 'subCategory', list: 'categories', isJson: true },
+        { parent: null, child: 'subCategory', list: 'categories' },
         { parent: "subCategory", child: 'subGroup', list: 'subGroups' },
         { parent: 'subGroup', child: 'kingdom', list: 'kingdoms' },
         { parent: 'kingdom', child: 'phylum', list: 'phylums' },
@@ -90,24 +98,18 @@ exports.getUniqueTypes = async (req, res, next) => {
     for (let item of fetchSequences) {
         let searchQuery;
         if (!item.parent) {
-            if (item.isJson) {
+            if (item.isJson && searchJson) {
                 searchQuery = `select JSON_EXTRACT(identificationFeatures ,"$.${item.child}") as ${item.child} from ${table} group by JSON_EXTRACT(identificationFeatures ,"$.${item.child}")`
+                await getDetailsByQuery(searchQuery, item.child, item.list, typeObject)
             }
-            else {
-                searchQuery = `select  ${item.child} from ${table} group by ${item.child}`
+            else if (!item.isJson) {
+                searchQuery = `select ${item.child} from ${table} group by ${item.child}`
+                await getDetailsByQuery(searchQuery, item.child, item.list, typeObject)
             }
-            await getDetailsByQuery(searchQuery, item.child, item.list, typeObject)
         }
         else {
-            if (item.child == "subGroup") {
-                searchQuery = `select JSON_EXTRACT(identificationFeatures ,"$.${item.parent}") as ${item.parent} , ${item.child} from ${table} group by ${item.child}`
-                await getDetailsByQuery(searchQuery, item.child, item.list, typeObject)
-
-            }
-            else {
-                searchQuery = `select ${item.parent} , ${item.child} from ${table} group by ${item.child}`
-                await getDetailsByQuery(searchQuery, item.child, item.list, typeObject)
-            }
+            searchQuery = `select ${item.parent} , ${item.child} from ${table} group by ${item.child}`
+            await getDetailsByQuery(searchQuery, item.child, item.list, typeObject)
         }
         console.log(searchQuery)
     }
