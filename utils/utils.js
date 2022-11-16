@@ -60,6 +60,21 @@ export const createMapboxMarker = async (el, mapboxgl, marker, district, map) =>
 
         ))
 }
+export const mapBounds =
+    [
+        {
+            lng: 86.4011,
+            lat: 20.8769
+        },
+        {
+            lng: 94.6011,
+            lat: 26.7469
+        }
+
+        // [92.1227, 23.2469], // Southwest coordinates
+        // [92.3327, 23.8469] // Northeast coordinates
+    ]
+
 // export const createMarkerElement = async (el, styles, elements, marker, map) => {
 //     el.className = styles.marker;
 //     el.style.backgroundImage = `url('${marker}')`;

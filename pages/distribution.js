@@ -43,6 +43,7 @@ import {
   createMapboxMarkerForDistribution,
   createMarkerElement,
   imageLoader,
+  mapBounds,
   twoDecimal,
 } from "../utils/utils";
 const fullscreenControlStyle = {
@@ -95,8 +96,8 @@ const Distribution = () => {
     handleCloseDialog()
   }
   const initialLngLatZoom = {
-    lng: 92.0227,
-    lat: 23.7469,
+    lng: 90.5011,
+    lat: 23.8913,
     zoom: 6.80
   }
   const [lng, setLng] = useState(initialLngLatZoom.lng);
@@ -142,8 +143,17 @@ const Distribution = () => {
       container: mapContainer.current,
       style: process.env.mapStyle,
       center: [lng, lat],
-      zoom: zoom,
+      maxBounds: mapBounds,
+      zoom: initialLngLatZoom.zoom,
     });
+    map.current.setZoom(initialLngLatZoom.zoom)
+
+    map.current.setMinZoom(initialLngLatZoom.zoom)
+    map.current.setZoom(initialLngLatZoom.zoom)
+    console.log('mapbounds', map.current.getBounds()._ne)
+    console.log('mapbounds', mapBounds)
+    const getBoundsFromViewport = [map.current.getBounds()._sw, map.current.getBounds()._ne];
+    // map.current.setMaxBounds(getBoundsFromViewport);
     map.current.on("move", () => {
       setLng(map.current.getCenter().lng.toFixed(4));
       setLat(map.current.getCenter().lat.toFixed(4));
@@ -156,7 +166,6 @@ const Distribution = () => {
         speciesData.districts[0]?.center[0] &&
         speciesData.districts[0]?.center[1]
       ) {
-        console.log({ index });
         const el = document.createElement("div");
         await createMarkerElement(
           el,
@@ -192,7 +201,7 @@ const Distribution = () => {
       container
       style={{
         width: "100%",
-        height: "100vh",
+        // height: "100vh",
         overflow: "auto",
       }}
     >
@@ -202,15 +211,19 @@ const Distribution = () => {
           width: "100%",
           height: "100%",
         }}
-        md={12}
-        xl={12}
-        xs={12}
+        md={10}
+        xl={10}
+        xs={10}
       >
         <div className={styles.sidebar}>
           Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
         </div>
+
+        <div ref={mapContainer} className={styles.map_container}></div>
+      </Grid>
+      <Grid item xs={2}>
         <Box className={styles.details_bar}>
-          <Card sx={{ maxWidth: 345, height: "100%" }}>
+          <Card sx={{ height: "100%" }}>
             <CardContent>
               <Grid item xs={12}>
                 <TextField
@@ -334,7 +347,6 @@ const Distribution = () => {
           </Card>
 
         </Box>
-        <div ref={mapContainer} className={styles.map_container}></div>
       </Grid>
       <Dialog
         open={dialogopen}
