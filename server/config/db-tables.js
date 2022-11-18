@@ -29,6 +29,12 @@ const requestSpeciesTable = (table) => {
             variety varchar(255),
             sub_variety varchar(255),
             forma varchar(255),
+            csequestration varchar(255)
+            cproduction varchar(255)
+            ecosystemstatus varchar(255)
+            ecosystemvalue varchar(255)
+            speciestaxa varchar(255)
+            geneticdata varchar(255)
             lastModified datetime,
             createdDatetimeStamp datetime,
             lng varchar(255),
@@ -69,6 +75,12 @@ const speciesTable = (table) => {
         variety varchar(255),
         sub_variety varchar(255),
         forma varchar(255),
+        csequestration varchar(255)
+        cproduction varchar(255)
+        ecosystemstatus varchar(255)
+        ecosystemvalue varchar(255)
+        speciestaxa varchar(255)
+        geneticdata varchar(255)
         createdDatetimeStamp datetime,
         lastModified datetime,
         lng varchar(255),

@@ -27,7 +27,7 @@ import Image from "next/image";
 
 import mapboxgl from "mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import "mapbox-gl/dist/mapbox-gl.css";
-
+import { Icon } from '@iconify/react';
 mapboxgl.accessToken = process.env.mapbox_key;
 import callApi, { imageUrl } from "../utils/callApi";
 import Slider from "react-slick";
@@ -80,12 +80,35 @@ const Distribution = () => {
 
   const [dialogopen, setDialogOpen] = React.useState(false);
 
+  //dialog for change color
   const handleClickOpenDialog = () => {
     setDialogOpen(true);
   };
 
   const handleCloseDialog = () => {
     setDialogOpen(false);
+  };
+
+  // Dialog for removing all species 
+  const [openRemoveDialog, setOpenRemoveDialog] = React.useState(false);
+
+  const handleClickOpenRemoveDialog = () => {
+    setOpenRemoveDialog(true);
+  };
+
+  const handleCloseRemoveDialog = () => {
+    setOpenRemoveDialog(false);
+  };
+
+  // Dialog for adding all species 
+  const [openAvailableDialog, setOpenAvailableDialog] = React.useState(false);
+
+  const handleClickOpenAvailableDialog = () => {
+    setOpenAvailableDialog(true);
+  };
+
+  const handleCloseAvailableDialog = () => {
+    setOpenAvailableDialog(false);
   };
   const [color, setColor] = useState(null);
 
@@ -107,6 +130,8 @@ const Distribution = () => {
   const [elements, setElements] = useState([]);
   const [speciesList, setSpeciesList] = useState([]);
   const [modifiedList, setModifiedList] = useState([]);
+  const [availableList, setAvailableList] = useState([]);
+
   async function fetchData(cbfn) {
     let response = await callApi("/get-species-list", {});
     setSpeciesList(response.data);
@@ -143,17 +168,21 @@ const Distribution = () => {
       container: mapContainer.current,
       style: process.env.mapStyle,
       center: [lng, lat],
-      maxBounds: mapBounds,
+      // maxBounds: mapBounds,
       zoom: initialLngLatZoom.zoom,
+    });
+    map.current.fitBounds(mapBounds, {
+      linear: true,
+      duration: 0
     });
     map.current.setZoom(initialLngLatZoom.zoom)
 
     map.current.setMinZoom(initialLngLatZoom.zoom)
     map.current.setZoom(initialLngLatZoom.zoom)
-    console.log('mapbounds', map.current.getBounds()._ne)
+    console.log('mapbounds', map.current.getBounds())
     console.log('mapbounds', mapBounds)
-    const getBoundsFromViewport = [map.current.getBounds()._sw, map.current.getBounds()._ne];
-    // map.current.setMaxBounds(getBoundsFromViewport);
+    const getBoundsFromViewport = map.current.getBounds();
+    map.current.setMaxBounds(getBoundsFromViewport);
     map.current.on("move", () => {
       setLng(map.current.getCenter().lng.toFixed(4));
       setLat(map.current.getCenter().lat.toFixed(4));
@@ -223,55 +252,74 @@ const Distribution = () => {
       </Grid>
       <Grid item xs={2}>
         <Box className={styles.details_bar}>
-          <Card sx={{ height: "100%" }}>
+          <Card sx={{ height: "100%", overflowY: "scroll" }}>
             <CardContent>
-              <Grid item xs={12}>
-                <TextField
-                  id="Species"
-                  name="name"
-                  margin="normal"
-                  size="small"
-                  label="Search By English Name"
-                  fullWidth
-                  onChange={(e) => {
-                    let modifiedList = speciesList.filter((species) => {
-                      let value = e.target.value.toLocaleLowerCase();
-                      // if(species?.name?.commonName.toLocaleLowerCase().includes(value)
-                      // || species?.name?.bangla.toLocaleLowerCase().includes(value)
-                      // || species?.name?.english.toLocaleLowerCase().includes(value)
-                      // || species?.name?.synonym.toLocaleLowerCase().includes(value)) {
-                      //     return species
-                      // }
-                      if (
-                        species?.english.toLocaleLowerCase().includes(value)
-                      ) {
-                        return species;
-                      }
-                    });
-                    setModifiedList(modifiedList);
-                    console.log({ modifiedList });
-                  }}
-                  autoComplete="Search By Common Name"
-                  variant="outlined"
-                />
-              </Grid>
-              <Typography gutterBottom variant="h5" component="div">
-                Total Species {modifiedList.length}
-              </Typography>
-              {modifiedList.length > 0 ? (
-                <TableContainer component={Paper} sx={{ maxHeight: 440 }}>
-                  <Table sx={{ maxWidth: 340 }} aria-label="customized table">
-                    <TableBody>
-                      {modifiedList.map((species, index) => (
-                        <>
-                          <TableRow
-                            key={index}
-                            sx={{
-                              "&:last-child td, &:last-child th": { border: 0 },
-                            }}
-                          >
-                            <TableCell component="td" scope="row" width={50}>
-                              {/* {species.marker !== "N/A" && species.marker !== 'null' ? (
+              <Grid container>
+                <Grid item xs={12}>
+                  <TextField
+                    id="Species"
+                    name="name"
+                    margin="normal"
+                    size="small"
+                    label="Search By English Name"
+                    fullWidth
+                    onChange={(e) => {
+                      let modifiedList = speciesList.filter((species) => {
+                        let value = e.target.value.toLocaleLowerCase();
+                        // if(species?.name?.commonName.toLocaleLowerCase().includes(value)
+                        // || species?.name?.bangla.toLocaleLowerCase().includes(value)
+                        // || species?.name?.english.toLocaleLowerCase().includes(value)
+                        // || species?.name?.synonym.toLocaleLowerCase().includes(value)) {
+                        //     return species
+                        // }
+                        if (
+                          species?.english.toLocaleLowerCase().includes(value)
+                        ) {
+                          return species;
+                        }
+                      });
+                      setModifiedList(modifiedList);
+                      console.log({ modifiedList });
+                    }}
+                    autoComplete="Search By Common Name"
+                    variant="outlined"
+                  />
+                </Grid>
+                <Grid item xs={12} md={12}>
+                  <Typography gutterBottom variant="h5" component="div">
+                    Total: {modifiedList.length}
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <Button variant="outlined" size="small" startIcon={<Icon icon="material-symbols:add-circle-rounded" />}
+                    onClick={handleClickOpenAvailableDialog}
+                  >
+                    Add to list
+                  </Button>
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <Button variant="outlined" size="small" startIcon={<Icon icon="ic:round-delete" />}
+                    onClick={handleClickOpenRemoveDialog}
+                  >
+                    Remove All
+                  </Button>
+                </Grid>
+
+
+                {modifiedList.length > 0 ? (
+                  <TableContainer component={Paper} sx={{ height: 700, background: "#f1f1f1", my: 2 }}>
+                    <Table aria-label="customized table">
+                      <TableBody>
+                        {modifiedList.map((species, index) => (
+                          <>
+                            <TableRow
+                              key={index}
+                              sx={{
+                                "&:last-child td, &:last-child th": { border: 0 },
+                              }}
+                            >
+                              <TableCell component="td" scope="row" width={50}>
+                                {/* {species.marker !== "N/A" && species.marker !== 'null' ? (
                                 <Image
                                   height={50}
                                   alt="Marker Icon"
@@ -279,75 +327,90 @@ const Distribution = () => {
                                   src={species.marker}
                                 ></Image>
                               ) : null} */}
-                              {species.markerColor ? (
-                                <Box>
-                                  <Box className={styles.marker}
-                                    aria-controls={open ? 'basic-menu' : undefined}
-                                    aria-haspopup="true"
-                                    aria-expanded={open ? 'true' : undefined}
-                                    onClick={(e) => {
-                                      setColor(species.markerColor)
-                                      handleClick(e, index)
-                                    }}
-                                    style={{
-                                      backgroundColor: species.markerColor,
-                                      borderRadius: "100px",
-                                      height: 30,
-                                      width: 30,
-                                      border: "5px solid #e7e7e7"
-                                    }}></Box>
+                                {species.markerColor ? (
+                                  <Box>
+                                    <Box className={styles.marker}
+                                      aria-controls={open ? 'basic-menu' : undefined}
+                                      aria-haspopup="true"
+                                      aria-expanded={open ? 'true' : undefined}
+                                      onClick={(e) => {
+                                        setColor(species.markerColor)
+                                        handleClick(e, index)
+                                      }}
+                                      style={{
+                                        backgroundColor: species.markerColor,
+                                        borderRadius: "100px",
+                                        height: 30,
+                                        width: 30,
+                                        border: "5px solid #e7e7e7"
+                                      }}></Box>
 
-                                </Box>
+                                  </Box>
 
-                              ) : null}
-                            </TableCell>
-                            <TableCell align="center">
-                              <Typography variant="body2" color="text.primary">
-                                <b>{species.english}</b>
-                              </Typography>
-                            </TableCell>
-                            {/* <TableCell>
+                                ) : null}
+                              </TableCell>
+                              <TableCell align="center">
+                                <Typography variant="body2" color="text.primary">
+                                  <b>{species.english}</b>
+                                </Typography>
+                              </TableCell>
+                              <TableCell align="center">
+                                <Icon icon="ic:baseline-remove" width="24" height="24" style={{
+                                  cursor: "pointer",
+                                  border: "1px solid grey",
+                                  borderRadius: "30px"
+
+                                }} onClick={(e) => {
+                                  availableList.push(species)
+                                  modifiedList.splice(index, 1)
+                                  setForce(!force)
+                                }} />
+                              </TableCell>
+                              {/* <TableCell>
                               <Typography variant="caption">
                                 {twoDecimal(species?.districts?.[0]?.center[0])}{" "}
                                 ,
                                 {twoDecimal(species?.districts?.[0]?.center[1])}
                               </Typography>
                             </TableCell> */}
-                          </TableRow>
-                        </>
-                      ))}
-                    </TableBody>
-                    <Menu
-                      id="basic-menu"
-                      anchorEl={anchorEl}
-                      open={open}
-                      onClose={handleClose}
-                      MenuListProps={{
-                        'aria-labelledby': 'basic-button',
-                      }}
-                    >
-                      <MenuItem onClick={(e) => {
-                        handleClickOpenDialog()
-                        handleClose()
-                      }}>Change Color</MenuItem>
-                    </Menu>
-                  </Table>
-                </TableContainer>
-              ) : null}
+                            </TableRow>
+                          </>
+                        ))}
+                      </TableBody>
+                      <Menu
+                        id="basic-menu"
+                        anchorEl={anchorEl}
+                        open={open}
+                        onClose={handleClose}
+                        MenuListProps={{
+                          'aria-labelledby': 'basic-button',
+                        }}
+                      >
+                        <MenuItem onClick={(e) => {
+                          handleClickOpenDialog()
+                          handleClose()
+                        }}>Change Color</MenuItem>
+                      </Menu>
+                    </Table>
+                  </TableContainer>
+                ) : null}
 
-              <Typography variant="body2" color="text.secondary">
-                The full name of the genus or species can be inserted, or you
-                can type the first four letters of the generic name and/or the
-                first four letters of the species (or other) epithet in upper or
-                lower case (e.g. Mere micr or mere micr for Meredithia
-                microphylla). A full list of the species and subspecific
-                entities in each genus can be obtained in the genus database.
-              </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  The full name of the genus or species can be inserted, or you
+                  can type the first four letters of the generic name and/or the
+                  first four letters of the species (or other) epithet in upper or
+                  lower case (e.g. Mere micr or mere micr for Meredithia
+                  microphylla). A full list of the species and subspecific
+                  entities in each genus can be obtained in the genus database.
+                </Typography>
+              </Grid>
+
             </CardContent>
           </Card>
 
         </Box>
       </Grid>
+      {/******** Dialog component change color ********/}
       <Dialog
         open={dialogopen}
         TransitionComponent={Transition}
@@ -366,6 +429,147 @@ const Distribution = () => {
           <Button onClick={handleCloseDialog}>Cancel</Button>
           <Button onClick={changeColor}>Change</Button>
         </DialogActions>
+      </Dialog>
+
+      {/*********Dialog component Remove Species ********/}
+
+      <Dialog
+        open={openRemoveDialog}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleCloseRemoveDialog}
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle>{"Are you sure?"}</DialogTitle>
+        <DialogActions>
+          <Button onClick={handleCloseRemoveDialog}>No</Button>
+          <Button onClick={(e) => {
+            setModifiedList([])
+            setAvailableList(speciesList)
+            setForce(!force)
+            handleCloseRemoveDialog()
+          }}>Yes</Button>
+        </DialogActions>
+      </Dialog>
+
+
+      <Dialog
+        open={openAvailableDialog}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleCloseAvailableDialog}
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle>
+          <Typography gutterBottom variant="h5" component="div">
+            Available For Add: {availableList.length}
+          </Typography>
+        </DialogTitle>
+        <DialogActions>
+          {/* <Grid item xs={12}>
+            <TextField
+              id="Species"
+              name="name"
+              margin="normal"
+              size="small"
+              label="Search By English Name"
+              fullWidth
+              onChange={(e) => {
+                let modifiedList = speciesList.filter((species) => {
+                  let value = e.target.value.toLocaleLowerCase();
+                  // if(species?.name?.commonName.toLocaleLowerCase().includes(value)
+                  // || species?.name?.bangla.toLocaleLowerCase().includes(value)
+                  // || species?.name?.english.toLocaleLowerCase().includes(value)
+                  // || species?.name?.synonym.toLocaleLowerCase().includes(value)) {
+                  //     return species
+                  // }
+                  if (
+                    species?.english.toLocaleLowerCase().includes(value)
+                  ) {
+                    return species;
+                  }
+                });
+                setAvailableList(modifiedList);
+                console.log({ modifiedList });
+              }}
+              autoComplete="Search By Common Name"
+              variant="outlined"
+            />
+          </Grid> */}
+          {availableList.length > 0 ? (
+            <TableContainer component={Paper} sx={{ background: "#f1f1f1", my: 2 }}>
+              <Table aria-label="customized table">
+                <TableBody>
+                  {availableList.map((species, index) => (
+                    <>
+                      <TableRow
+                        key={index}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                      >
+                        <TableCell component="td" scope="row" width={50}>
+                          {/* {species.marker !== "N/A" && species.marker !== 'null' ? (
+                                <Image
+                                  height={50}
+                                  alt="Marker Icon"
+                                  width={40}
+                                  src={species.marker}
+                                ></Image>
+                              ) : null} */}
+                          {species.markerColor ? (
+                            <Box>
+                              <Box className={styles.marker}
+                                aria-controls={open ? 'basic-menu' : undefined}
+                                aria-haspopup="true"
+                                aria-expanded={open ? 'true' : undefined}
+                                style={{
+                                  backgroundColor: species.markerColor,
+                                  borderRadius: "100px",
+                                  height: 30,
+                                  width: 30,
+                                  border: "5px solid #e7e7e7"
+                                }}></Box>
+
+                            </Box>
+
+                          ) : null}
+                        </TableCell>
+                        <TableCell align="center">
+                          <Typography variant="body2" color="text.primary">
+                            <b>{species.english}</b>
+                          </Typography>
+                        </TableCell>
+                        <TableCell align="center">
+                          <Icon icon="material-symbols:add-circle-rounded" width="24" height="24" style={{
+                            cursor: "pointer",
+                            border: "1px solid grey",
+                            borderRadius: "30px"
+
+                          }} onClick={(e) => {
+                            modifiedList.push(species)
+                            availableList.splice(index, 1)
+                            setForce(!force)
+
+
+                          }} />
+                        </TableCell>
+                        {/* <TableCell>
+                              <Typography variant="caption">
+                                {twoDecimal(species?.districts?.[0]?.center[0])}{" "}
+                                ,
+                                {twoDecimal(species?.districts?.[0]?.center[1])}
+                              </Typography>
+                            </TableCell> */}
+                      </TableRow>
+                    </>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          ) : null}
+        </DialogActions>
+
       </Dialog>
     </Grid>
   );

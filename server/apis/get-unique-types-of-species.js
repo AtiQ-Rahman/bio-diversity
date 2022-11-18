@@ -84,12 +84,12 @@ exports.getUniqueTypes = async (req, res, next) => {
         { parent: 'variety', child: 'sub_variety', list: 'subVarieties' },
         { parent: null, child: 'clone', list: 'clones' },
         { parent: 'clone', child: 'forma', list: 'formas' },
-        { parent: null, child: 'csequestration', list: 'cSequestrations', isJson: true },
-        { parent: null, child: 'cproduction', list: 'cProductions', isJson: true },
-        { parent: null, child: 'ecosystemstatus', list: 'ecosystemStatuses', isJson: true },
-        { parent: null, child: 'ecosystemvalue', list: 'ecosystemValues', isJson: true },
-        { parent: null, child: 'speciestaxa', list: 'speciestaxas', isJson: true },
-        { parent: null, child: 'geneticdata', list: 'geneticdatas', isJson: true },
+        { parent: null, child: 'csequestration', list: 'cSequestrations' },
+        { parent: null, child: 'cproduction', list: 'cProductions' },
+        { parent: null, child: 'ecosystemstatus', list: 'ecosystemStatuses' },
+        { parent: null, child: 'ecosystemvalue', list: 'ecosystemValues' },
+        { parent: null, child: 'speciestaxa', list: 'speciestaxas' },
+        { parent: null, child: 'geneticdata', list: 'geneticdatas' },
     ]
     // for (let key of Object.keys(speciesTableTypes)) {
     let table = await getTable(category)
