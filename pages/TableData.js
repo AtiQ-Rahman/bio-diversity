@@ -18,6 +18,7 @@ import React from "react";
 import styles from "../styles/Home.module.css";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { isValidImage } from "../utils/utils";
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: "#c44d34",
@@ -112,15 +113,15 @@ const TableData = (props) => {
                           {searchMessage ?? ""}
                         </Typography>
                       )} */}
-                     {row?.profile_image?(
+                      {isValidImage(row?.profile_image) ? (
                         <Image
-                        {...imageProps}
-                        objectFit="cover"
-                        loader={imageLoader}
-                        src={imageUrl + "/" + row.profile_image}
-                        alt="No_image"
-                      ></Image>
-                     ):(<Image
+                          {...imageProps}
+                          objectFit="cover"
+                          loader={imageLoader}
+                          src={imageUrl + "/" + row.profile_image}
+                          alt="No_image"
+                        ></Image>
+                      ) : (<Image
                         height="170px"
                         objectFit="cover"
                         loader={imageLoader}

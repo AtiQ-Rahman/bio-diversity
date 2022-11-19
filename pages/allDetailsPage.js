@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { imageLoader, processKeys, processSpeciesObject } from "../utils/utils";
+import { imageLoader, isValidImage, processKeys, processSpeciesObject } from "../utils/utils";
 import callApi, { imageUrl } from "../utils/callApi";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
@@ -20,6 +20,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { style } from "@mui/system/Stack/createStack";
+const member1 = require('../assets/images/no-image.png')
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -85,7 +86,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(odd)": {
     backgroundColor: theme.palette.action.hover,
   },
-  
+
 }));
 const AllDetailsPage = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -219,15 +220,22 @@ const AllDetailsPage = () => {
                 })}
               </Slider>
             </div>
-          ) : (
-            <Image
+          ) :
+            isValidImage(speciesDetails?.profile_image) ? (
+              <Image
+                loader={imageLoader}
+                src={imageUrl + "/" + speciesDetails?.profile_image}
+                alt="species-image"
+                width="345"
+                height={200}
+              ></Image>
+            ) : (<Image
+              height="170px"
+              objectFit="cover"
               loader={imageLoader}
-              src={imageUrl + "/" + speciesDetails?.profile_image}
-              alt="species-image"
-              width="345"
-              height={200}
-            ></Image>
-          )}
+              src={member1}
+              alt="No_image"
+            ></Image>)}
           {speciesDetails?.additionalFiles?.length > 0 ? (
             <div>
               <Slider {...settingsForAddition}>

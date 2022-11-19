@@ -37,7 +37,7 @@ const Footer = (props) => {
           <a href="#">Contact</a>
         </p>
         
-        <p className={styles.footerCompanyName}> Company Name © H.Tech Soft</p>
+        <p className={styles.footerCompanyName}> All rights reserved. 2022 © H.Tech Soft</p>
       </div>
 
       <div className={styles.footerCenter}>
@@ -89,7 +89,7 @@ const Footer = (props) => {
               <FacebookIcon></FacebookIcon>
             </i>
           </a>
-          <a href="#">
+          {/* <a href="#">
             <i>
               <GitHubIcon></GitHubIcon>
             </i>
@@ -98,7 +98,7 @@ const Footer = (props) => {
             <i>
               <InstagramIcon></InstagramIcon>
             </i>
-          </a>
+          </a> */}
           {/* <a href="#"><i ></i></a>
     <a href="#"><i></i></a> */}
         </div>
