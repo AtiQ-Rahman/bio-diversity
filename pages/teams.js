@@ -28,11 +28,11 @@ const team = () => {
   return (
     <Box>
       <Header index={7} />
-      <Grid style={{ margin: " auto", marginTop: "5%", width: "90%", height: "800px" }}>
+      <Grid style={{ margin: " auto", marginTop: "8%", width: "90%", height: "800px" }}>
 
         <Grid container>
           <Grid item xs={12} md={12} sx={{
-            background: "#21ad53",
+            background: "IndianRed",
             color: "white",
             p: 2,
           }}>
