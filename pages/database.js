@@ -1,23 +1,23 @@
-import Head from "next/head";
-import Image from "next/image";
+// import Head from "next/head";
+// import Image from "next/image";
 
 import { styled, useTheme } from "@mui/material/styles";
 import { useEffect, useState } from "react";
 import styles from "../styles/Home.module.css";
 
-import Breadcrumbs from "../components/Home/ui-component/extended/Breadcrumbs";
+// import Breadcrumbs from "../components/Home/ui-component/extended/Breadcrumbs";
 import { useDispatch, useSelector } from "react-redux";
-import { IconChevronRight } from "@tabler/icons";
-import navigation from "../components/Admin/menu-items";
-import { drawerWidth } from "../store/constant";
-import { SET_MENU } from "../store/actions";
+// import { IconChevronRight } from "@tabler/icons";
+// import navigation from "../components/Admin/menu-items";
+// import { drawerWidth } from "../store/constant";
+// import { SET_MENU } from "../store/actions";
 import React from "react";
 import { useRouter } from "next/router";
 import CloseIcon from "@mui/icons-material/Close";
 import PropTypes from "prop-types";
-import { Icon } from "@iconify/react";
-import Collapse from "@mui/material/Collapse";
-import AddIcon from "@mui/icons-material/Add";
+// import { Icon } from "@iconify/react";
+// import Collapse from "@mui/material/Collapse";
+// import AddIcon from "@mui/icons-material/Add";
 import Header from "../components/Home/Header";
 import {
   AppBar,
@@ -28,15 +28,15 @@ import {
   useMediaQuery,
   Grid,
   Typography,
-  TextField,
-  TableCell,
-  TableRow,
-  TableBody,
-  TableHead,
-  Table,
-  TableContainer,
-  Button,
-  Modal,
+  // TextField,
+  // TableCell,
+  // TableRow,
+  // TableBody,
+  // TableHead,
+  // Table,
+  // TableContainer,
+  // Button,
+  // Modal,
   Divider,
   Card,
   CardActions,
@@ -59,10 +59,11 @@ import Paper from "@mui/material/Paper";
 import callApi from "../utils/callApi";
 import { useSnackbar } from "notistack";
 
-import * as XLSX from 'xlsx';
-import Footer from "../components/Home/Footer/Footer";
-import Link from "next/link";
+// import * as XLSX from 'xlsx';
+// import Footer from "../components/Home/Footer/Footer";
+// import Link from "next/link";
 import { pageGroups } from "../utils/utils";
+import Footer from "../components/Home/Footer/Footer";
 const species7 = require("../assets/images/species7.jpg")
 const species8 = require("../assets/images/species8.jpg")
 const species9 = require("../assets/images/species9.jpg")
@@ -125,10 +126,10 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 export default function Database() {
   const router = useRouter();
-  const [open, setOpen] = React.useState(false);
-  const [openUpload, setOpenUpload] = React.useState(false);
-  const [uploadedSpecies, setUploadedSpecies] = React.useState([]);
-  const { enqueueSnackbar } = useSnackbar();
+  // const [open, setOpen] = React.useState(false);
+  // const [openUpload, setOpenUpload] = React.useState(false);
+  // const [uploadedSpecies, setUploadedSpecies] = React.useState([]);
+  // const { enqueueSnackbar } = useSnackbar();
   const [categoryList, setCatgoryList] = React.useState([]);
   function FormRow() {
     return (
@@ -236,19 +237,19 @@ export default function Database() {
     );
   }
 
-  const handleClickUpload = () => {
-    setOpenUpload(true);
-  };
-  const handleCloseUpload = () => {
-    setOpenUpload(false);
-  };
+  // const handleClickUpload = () => {
+  //   setOpenUpload(true);
+  // };
+  // const handleCloseUpload = () => {
+  //   setOpenUpload(false);
+  // };
   // Handle left drawer
   const leftDrawerOpened = useSelector((state) => state.customization.opened);
   const dispatch = useDispatch();
-  const handleLeftDrawerToggle = () => {
-    dispatch({ type: SET_MENU, opened: !leftDrawerOpened });
-  };
-  const changeCategory = (e) => { };
+  // const handleLeftDrawerToggle = () => {
+  //   dispatch({ type: SET_MENU, opened: !leftDrawerOpened });
+  // };
+  // const changeCategory = (e) => { };
 
   async function fetchData() {
     // let value = eval('species10')

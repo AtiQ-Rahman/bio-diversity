@@ -118,13 +118,14 @@
 }
 
 .footerDistributed .footerLinks a:before {
-  content: " | ";
+  content: "|";
   font-weight:300;
   font-size: 20px;
   left: 0;
   color: #fff;
   display: inline-block;
   padding-right: 5px;
+  padding-left: 5px;
 }
 
 .footerDistributed .footerLinks .link:before {
