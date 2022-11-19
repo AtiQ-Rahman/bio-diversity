@@ -63,11 +63,11 @@ export const createMapboxMarker = async (el, mapboxgl, marker, district, map) =>
 export const mapBounds =
     [
         {
-            lng: 86.4011,
+            lng: 87.4011,
             lat: 20.8769
         },
         {
-            lng: 94.6011,
+            lng: 93.6011,
             lat: 26.7469
         }
 

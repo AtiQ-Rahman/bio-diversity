@@ -131,6 +131,10 @@ const Distribution = () => {
   const [speciesList, setSpeciesList] = useState([]);
   const [modifiedList, setModifiedList] = useState([]);
   const [availableList, setAvailableList] = useState([]);
+  const [modifiedAvailableList, setModifiedAvailableList] = useState([]);
+  const [showUndo, setShowUndo] = useState(null);
+  const [updateIndex, setUpdateIndex] = useState(null);
+  const [timeOutId, setTimeOutId] = useState(null);
 
   async function fetchData(cbfn) {
     let response = await callApi("/get-species-list", {});
@@ -181,7 +185,7 @@ const Distribution = () => {
     map.current.setZoom(initialLngLatZoom.zoom)
     console.log('mapbounds', map.current.getBounds())
     console.log('mapbounds', mapBounds)
-    const getBoundsFromViewport = map.current.getBounds();
+    const getBoundsFromViewport = mapBounds;
     map.current.setMaxBounds(getBoundsFromViewport);
     map.current.on("move", () => {
       setLng(map.current.getCenter().lng.toFixed(4));
@@ -307,7 +311,10 @@ const Distribution = () => {
 
 
                 {modifiedList.length > 0 ? (
-                  <TableContainer component={Paper} sx={{ height: 700, background: "#f1f1f1", my: 2 }}>
+                  <TableContainer component={Paper} sx={{
+                    height: 700, my: 2, border: "1px solid #dfdfdf",
+                    padding: "10px"
+                  }}>
                     <Table aria-label="customized table">
                       <TableBody>
                         {modifiedList.map((species, index) => (
@@ -355,16 +362,33 @@ const Distribution = () => {
                                 </Typography>
                               </TableCell>
                               <TableCell align="center">
-                                <Icon icon="ic:baseline-remove" width="24" height="24" style={{
-                                  cursor: "pointer",
-                                  border: "1px solid grey",
-                                  borderRadius: "30px"
+                                {showUndo && updateIndex == index ? (
+                                  <Button icon="ic:baseline-remove" width="24" height="24" onClick={async (e) => {
+                                    setShowUndo(false)
+                                    clearTimeout(timeOutId)
+                                  }} >Undo</Button>
+                                ) : (
+                                  <Icon icon="ic:baseline-remove" width="24" height="24" style={{
+                                    cursor: "pointer",
+                                    border: "1px solid grey",
+                                    borderRadius: "30px"
 
-                                }} onClick={(e) => {
-                                  availableList.push(species)
-                                  modifiedList.splice(index, 1)
-                                  setForce(!force)
-                                }} />
+                                  }} onClick={(e) => {
+                                    setUpdateIndex(index)
+                                    setShowUndo(true)
+                                    let timeOutId = setTimeout(() => {
+                                      setShowUndo(null)
+                                      setTimeOutId(null)
+                                      setUpdateIndex(null)
+                                      availableList.push(species)
+                                      modifiedList.splice(index, 1)
+                                      setModifiedAvailableList(availableList)
+                                      setForce(!force)
+                                    }, 3000)
+                                    setTimeOutId(timeOutId)
+                                  }} />
+                                )}
+
                               </TableCell>
                               {/* <TableCell>
                               <Typography variant="caption">
@@ -446,6 +470,7 @@ const Distribution = () => {
           <Button onClick={(e) => {
             setModifiedList([])
             setAvailableList(speciesList)
+            setModifiedAvailableList(speciesList)
             setForce(!force)
             handleCloseRemoveDialog()
           }}>Yes</Button>
@@ -461,55 +486,59 @@ const Distribution = () => {
         aria-describedby="alert-dialog-slide-description"
       >
         <DialogTitle>
-          <Typography gutterBottom variant="h5" component="div">
+          <Typography variant="h3" component="h3">
             Available For Add: {availableList.length}
           </Typography>
         </DialogTitle>
         <DialogActions>
-          {/* <Grid item xs={12}>
-            <TextField
-              id="Species"
-              name="name"
-              margin="normal"
-              size="small"
-              label="Search By English Name"
-              fullWidth
-              onChange={(e) => {
-                let modifiedList = speciesList.filter((species) => {
-                  let value = e.target.value.toLocaleLowerCase();
-                  // if(species?.name?.commonName.toLocaleLowerCase().includes(value)
-                  // || species?.name?.bangla.toLocaleLowerCase().includes(value)
-                  // || species?.name?.english.toLocaleLowerCase().includes(value)
-                  // || species?.name?.synonym.toLocaleLowerCase().includes(value)) {
-                  //     return species
-                  // }
-                  if (
-                    species?.english.toLocaleLowerCase().includes(value)
-                  ) {
-                    return species;
-                  }
-                });
-                setAvailableList(modifiedList);
-                console.log({ modifiedList });
-              }}
-              autoComplete="Search By Common Name"
-              variant="outlined"
-            />
-          </Grid> */}
-          {availableList.length > 0 ? (
-            <TableContainer component={Paper} sx={{ background: "#f1f1f1", my: 2 }}>
-              <Table aria-label="customized table">
-                <TableBody>
-                  {availableList.map((species, index) => (
-                    <>
-                      <TableRow
-                        key={index}
-                        sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
-                        }}
-                      >
-                        <TableCell component="td" scope="row" width={50}>
-                          {/* {species.marker !== "N/A" && species.marker !== 'null' ? (
+          <Grid container>
+            <Grid item xs={12} md={12}>
+              <TextField
+                id="Species"
+                name="name"
+                margin="normal"
+                size="small"
+                label="Search"
+                fullWidth
+                onChange={(e) => {
+                  let modifiedList = availableList.filter((species) => {
+                    let value = e.target.value.toLocaleLowerCase();
+                    // if(species?.name?.commonName.toLocaleLowerCase().includes(value)
+                    // || species?.name?.bangla.toLocaleLowerCase().includes(value)
+                    // || species?.name?.english.toLocaleLowerCase().includes(value)
+                    // || species?.name?.synonym.toLocaleLowerCase().includes(value)) {
+                    //     return species
+                    // }
+                    if (
+                      species?.english.toLocaleLowerCase().includes(value)
+                    ) {
+                      return species;
+                    }
+                  });
+                  setModifiedAvailableList(modifiedList);
+                  console.log({ modifiedList });
+                }}
+                autoComplete="Search By Common Name"
+                variant="outlined"
+              />
+            </Grid>
+            {modifiedAvailableList.length > 0 ? (
+              <TableContainer component={Paper} sx={{
+                my: 2, border: "1px solid #dfdfdf",
+                padding: "10px"
+              }}>
+                <Table aria-label="customized table">
+                  <TableBody>
+                    {modifiedAvailableList.map((species, index) => (
+                      <>
+                        <TableRow
+                          key={index}
+                          sx={{
+                            "&:last-child td, &:last-child th": { border: 0 },
+                          }}
+                        >
+                          <TableCell component="td" scope="row" width={50}>
+                            {/* {species.marker !== "N/A" && species.marker !== 'null' ? (
                                 <Image
                                   height={50}
                                   alt="Marker Icon"
@@ -517,57 +546,75 @@ const Distribution = () => {
                                   src={species.marker}
                                 ></Image>
                               ) : null} */}
-                          {species.markerColor ? (
-                            <Box>
-                              <Box className={styles.marker}
-                                aria-controls={open ? 'basic-menu' : undefined}
-                                aria-haspopup="true"
-                                aria-expanded={open ? 'true' : undefined}
-                                style={{
-                                  backgroundColor: species.markerColor,
-                                  borderRadius: "100px",
-                                  height: 30,
-                                  width: 30,
-                                  border: "5px solid #e7e7e7"
-                                }}></Box>
+                            {species.markerColor ? (
+                              <Box>
+                                <Box className={styles.marker}
+                                  aria-controls={open ? 'basic-menu' : undefined}
+                                  aria-haspopup="true"
+                                  aria-expanded={open ? 'true' : undefined}
+                                  style={{
+                                    backgroundColor: species.markerColor,
+                                    borderRadius: "100px",
+                                    height: 30,
+                                    width: 30,
+                                    border: "5px solid #e7e7e7"
+                                  }}></Box>
 
-                            </Box>
+                              </Box>
 
-                          ) : null}
-                        </TableCell>
-                        <TableCell align="center">
-                          <Typography variant="body2" color="text.primary">
-                            <b>{species.english}</b>
-                          </Typography>
-                        </TableCell>
-                        <TableCell align="center">
-                          <Icon icon="material-symbols:add-circle-rounded" width="24" height="24" style={{
-                            cursor: "pointer",
-                            border: "1px solid grey",
-                            borderRadius: "30px"
+                            ) : null}
+                          </TableCell>
+                          <TableCell align="center">
+                            <Typography variant="body2" color="text.primary">
+                              <b>{species.english}</b>
+                            </Typography>
+                          </TableCell>
+                          <TableCell align="center">
+                            {showUndo && updateIndex == index ? (
+                              <Button icon="ic:baseline-remove" width="24" height="24" onClick={async (e) => {
+                                setShowUndo(false)
+                                clearTimeout(timeOutId)
+                              }} >Undo</Button>
+                            ) : (<Icon icon="material-symbols:add-circle-rounded" width="24" height="24" style={{
+                              cursor: "pointer",
+                              border: "1px solid grey",
+                              borderRadius: "30px"
 
-                          }} onClick={(e) => {
-                            modifiedList.push(species)
-                            availableList.splice(index, 1)
-                            setForce(!force)
+                            }} onClick={(e) => {
+                              setUpdateIndex(index)
+                              setShowUndo(true)
+                              let timeOutId = setTimeout(() => {
+                                setShowUndo(null)
+                                setTimeOutId(null)
+                                setUpdateIndex(null)
+                                modifiedList.push(species)
+                                modifiedAvailableList.splice(index, 1)
+                                setAvailableList(modifiedAvailableList)
+                                setForce(!force)
+                              }, 3000)
+                              setTimeOutId(timeOutId)
 
 
-                          }} />
-                        </TableCell>
-                        {/* <TableCell>
+
+                            }} />)}
+
+                          </TableCell>
+                          {/* <TableCell>
                               <Typography variant="caption">
                                 {twoDecimal(species?.districts?.[0]?.center[0])}{" "}
                                 ,
                                 {twoDecimal(species?.districts?.[0]?.center[1])}
                               </Typography>
                             </TableCell> */}
-                      </TableRow>
-                    </>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          ) : null}
+                        </TableRow>
+                      </>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            ) : null}
+          </Grid>
+
         </DialogActions>
 
       </Dialog>
