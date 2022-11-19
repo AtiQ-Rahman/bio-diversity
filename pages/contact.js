@@ -39,10 +39,12 @@ const contact = () => {
                   <Typography sx={{ fontSize: 20 }} color="text.primary" gutterBottom>
                     Professor Dr. Mohammad Azmal Hossain Bhuiyan
                   </Typography>
-                  <Typography variant="h5" component="div">
-                    <Icon icon="dashicons:email-alt" color="red" />
-                    <a href="mailto:bhuiyan.azmal@du.ac.bd" style={{ paddingLeft: "2px" }}>bhuiyan.azmal@du.ac.bd</a>
-                  </Typography>
+                  <Box sx={{ display: "flex" }}>
+                    <Icon icon="dashicons:email-alt" color="red" height={20} />
+                    <Typography variant="h5" component="div" sx={{ ml: 1 }}>
+                      <a href="mailto:bhuiyan.azmal@du.ac.bd" style={{ paddingLeft: "2px" }}>bhuiyan.azmal@du.ac.bd</a>
+                    </Typography>
+                  </Box>
                 </CardContent>
                 {/* <CardActions>
                 <Button size="small">Learn More</Button>
@@ -57,10 +59,14 @@ const contact = () => {
                   <Typography sx={{ fontSize: 20 }} color="text.primary" gutterBottom>
                     Dr. MoniruzzamanKhondker, Supernumerary Professor
                   </Typography>
-                  <Typography variant="h5" component="div">
-                    <Icon icon="dashicons:email-alt" color="red" />
-                    <a href="mailto:mkhondker@du.ac.bd" style={{ paddingLeft: "2px" }}>mkhondker@du.ac.bd</a>
-                  </Typography>
+                  <Box sx={{ display: "flex" }}>
+                    <Icon icon="dashicons:email-alt" color="red" height={20} />
+
+                    <Typography variant="h5" component="div" sx={{ ml: 1 }}>
+                      <a href="mailto:mkhondker@du.ac.bd" style={{ paddingLeft: "2px" }}>mkhondker@du.ac.bd</a>
+                    </Typography>
+                  </Box>
+
                 </CardContent>
                 {/* <CardActions>
                 <Button size="small">Learn More</Button>
@@ -73,9 +79,12 @@ const contact = () => {
           background: "#e7e7e7"
         }}>
           <CardContent>
-            <Typography sx={{ fontSize: 25 }} color="#20acb3" gutterBottom>
-              <Icon icon="carbon:warning-filled" /> For Help
-            </Typography>
+            <Box sx={{ display: "flex" }} color="#20acb3">
+              <Icon icon="carbon:warning-filled" height={25}/>
+              <Typography sx={{ fontSize: 25, ml: 1 }} gutterBottom>
+                For Help
+              </Typography>
+            </Box>
             <Typography sx={{ fontSize: 20 }} component="div">
               The project’s domain has been thought to create a help line to all types of users of the components of the Biodiversity of Bangladesh. To know the geographical distribution of a particular species on the geo-political map of Bangladesh including its various other features
             </Typography>
