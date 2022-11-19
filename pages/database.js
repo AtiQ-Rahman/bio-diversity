@@ -137,6 +137,28 @@ export default function Database() {
         {categoryList?.map((row, index) => (
           <Grid item xs={4}
             key={`Category${index}`}
+            onClick={(e) => {
+              let url
+              if (row.name == pageGroups.plants) {
+                url = '/plants'
+              }
+              else if (row.name == pageGroups.animals) {
+                url = '/animals'
+              }
+              else if (row.name == pageGroups.fungi) {
+                url = '/fungi'
+              }
+              else if (row.name == pageGroups.micro) {
+                url = '/microOrgansim'
+              }
+              else if (row.name == pageGroups.eco) {
+                url = '/ecosystemDiversity'
+              }
+              else if (row.name == pageGroups.genetic) {
+                url = '/geneticSubCellularDiversity'
+              }
+              router.push(url)
+            }}
           >
             <Card sx={{
               border: "1px solid #eee", filter: "drop-shadow(2px 2px 10px #eee)",
@@ -183,28 +205,8 @@ export default function Database() {
                         sx={{
                           pl: 2,
                         }} 
-                        onClick={(e) => {
-                          let url
-                          if (row.name == pageGroups.plants) {
-                            url = '/plants'
-                          }
-                          else if (row.name == pageGroups.animals) {
-                            url = '/animals'
-                          }
-                          else if (row.name == pageGroups.fungi) {
-                            url = '/fungi'
-                          }
-                          else if (row.name == pageGroups.micro) {
-                            url = '/microOrgansim'
-                          }
-                          else if (row.name == pageGroups.eco) {
-                            url = '/ecosystemDiversity'
-                          }
-                          else if (row.name == pageGroups.genetic) {
-                            url = '/geneticSubCellularDiversity'
-                          }
-                          router.push(url)
-                        }}>
+
+                        >
                         {row.name}
                       </Typography>
                       <Typography component="a" variant="link"
