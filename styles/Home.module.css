@@ -374,6 +374,10 @@
 } */
 
 /* imageList */
+
+.imageList {
+  cursor: pointer;
+}
 .overlay {
   /* position: absolute; */
   top: 0;
@@ -388,7 +392,8 @@
 }
 .imageList:hover.overlay {
   opacity:1;
-  color:#c44d34; 
+  color:#c44d34;
+  cursor: pointer;
 }
 .container {
   height: calc(79vh - 100px);

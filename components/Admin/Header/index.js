@@ -60,6 +60,7 @@ const Header = ({ handleLeftDrawerToggle }) => {
                             transition: 'all .2s ease-in-out',
                             background: theme.palette.secondary.light,
                             color: theme.palette.secondary.dark,
+                            height: "fit-content",
                             '&:hover': {
                                 background: theme.palette.secondary.dark,
                                 color: theme.palette.secondary.light

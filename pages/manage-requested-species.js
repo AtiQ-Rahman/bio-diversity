@@ -295,7 +295,7 @@ export default function ManageRequestedSpecies() {
                   {/* TABLE */}
                   <Divider></Divider>
 
-                  <h1>Requested Species (5)</h1>
+                  <h1>Requested Species ({requestedSpecies.length})</h1>
                   <br />
                   <Grid
                     item
