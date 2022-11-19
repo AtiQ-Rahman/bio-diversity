@@ -37,6 +37,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
+
+import { SketchPicker } from 'react-color';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import {
@@ -442,16 +444,22 @@ const Distribution = () => {
         onClose={handleCloseDialog}
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle>{"Pick a color"}</DialogTitle>
-        <DialogContent>
-          <input type="color" name="markerColor" value={color} onChange={e => {
-            setColor(e.target.value);
+
+        <SketchPicker
+          color={color ?? "#fffff"}
+          onChangeComplete={e => {
+            setColor(e.hex);
           }
-          } />
-        </DialogContent>
+          }>
+
+        </SketchPicker >
+
         <DialogActions>
           <Button onClick={handleCloseDialog}>Cancel</Button>
-          <Button onClick={changeColor}>Change</Button>
+          <Button style={{
+            backgroundColor: "green",
+            color: "white"
+          }} onClick={changeColor}>Change</Button>
         </DialogActions>
       </Dialog>
 

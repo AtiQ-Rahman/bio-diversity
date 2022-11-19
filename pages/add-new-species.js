@@ -36,6 +36,7 @@ import styles from "../styles/Home.module.css";
 import dropStyles from "../styles/DropFile.module.css";
 import { styled, useTheme } from "@mui/material/styles";
 import callApi, { imageUrl } from "../utils/callApi";
+import { SketchPicker } from 'react-color';
 import Image from "next/image";
 import { teal } from "@mui/material/colors";
 import { useRouter } from "next/router";
@@ -1124,12 +1125,12 @@ const AddNewSpecies = () => {
                         <Grid item xs={12} md={6} sx={{ mb: 3 }}>
 
                           <Grid container spacing={2}>
-                            <Grid item md={4}>
+                            <Grid item md={12}>
                               <Typography component="h4" variant="h4" align="center">
                                 Pick A Color for Marker :
                               </Typography>
                             </Grid>
-                            <Grid item md={8} xs={12}>
+                            <Grid item md={12} xs={12} align="center">
 
                               {/* {markerUrl ? (
                                 <Image
@@ -1145,10 +1146,15 @@ const AddNewSpecies = () => {
                                   height="80"
                                 />
                               )} */}
-                              <input type="color" name="markerColor" value={values?.markerColor} onChange={e => {
-                                setFieldValue("markerColor", e.target.value);
-                              }
-                              } />
+                              <SketchPicker
+                                color={values.markerColor ?? "#fffff"}
+                                onChangeComplete={e => {
+                                  setFieldValue("markerColor", e.hex);
+
+                                }
+                                }>
+
+                              </SketchPicker >
                               {/* <TextField
                                 sx={{
                                   flexGrow: 1,
