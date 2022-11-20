@@ -510,7 +510,8 @@ const SubCategories = () => {
                             sx={{
                               width: 370,
                               height: 170,
-                              boxShadow: "3px 1px 10px #f1f1f1",
+                              boxShadow: "30px 10px 20px #f1f1f1",
+                              backgroundColor:"GhostWhite",
                               border: "1px solid #f3c4b8",
                               px: 1,
                               py: 2,
