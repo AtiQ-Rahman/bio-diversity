@@ -432,7 +432,7 @@ const SubCategories = () => {
         />
 
         {/* main content */}
-        <Main theme={theme} open={leftDrawerOpened} sx={{ mt: 5 }}>
+        <Main theme={theme} open={leftDrawerOpened} sx={{ mt: 8 }}>
           <Breadcrumbs
             separator={IconChevronRight}
             navigation={navigation}
