@@ -406,7 +406,7 @@ export default function PrimarySearchAppBar(props) {
                         fontWeight: '600',
                         color: "#c44d34",
 
-                      }}>Bangladesh
+                      }}> Bangladesh
                       </span>
 
                     </Typography>
