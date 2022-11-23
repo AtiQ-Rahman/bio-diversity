@@ -21,7 +21,8 @@ console.log(process.env.mapbox_key);
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { createMapboxMarker, createMarkerElement, imageLoader } from "../utils/utils";
+import { createMapboxMarker, createMarkerElement, imageLoader, isValidImage } from "../utils/utils";
+const member1 = require('../assets/images/no-image.png')
 let imageProps = {
   height: "300px",
   width: "400px",
@@ -154,7 +155,11 @@ const Map = () => {
             console.log(data)
             let district = data.features[0]
             const el = document.createElement('div');
-            await createMarkerElement(el, styles, elements, speciesData.marker, map)
+            await createMarkerElement(el,
+              styles,
+              elements,
+              speciesData.markerColor,
+              map)
             await createMapboxMarker(el, mapboxgl, speciesData.marker, district, map)
             // const width = "auto";
             // map.current.on('zoom', () => {
@@ -171,7 +176,11 @@ const Map = () => {
       else {
         speciesData.districts.map(async (district, index) => {
           const el = document.createElement('div');
-          await createMarkerElement(el, styles, elements, speciesData.marker, map)
+          await createMarkerElement(el,
+            styles,
+            elements,
+            speciesData.markerColor,
+            map)
           await createMapboxMarker(el, mapboxgl, speciesData.marker, district, map)
         })
       }
@@ -195,11 +204,12 @@ const Map = () => {
   }, [query]);
 
   return (
+
     <Grid
       container
       style={{
         width: "100%",
-        height: "100vh",
+        // height: "100vh",
         overflow: "auto",
       }}
     >
@@ -209,152 +219,182 @@ const Map = () => {
           width: "100%",
           height: "100%",
         }}
-        md={12}
-        xl={12}
-        xs={12}
-      // style={{ borderRadius: "10px" }}
-      // style={{  paddingRight: "20px" }}
+        md={10}
+        xl={10}
+        xs={10}
       >
         <div className={styles.sidebar}>
           Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
         </div>
-        <div className={styles.details_bar}>
-          <Card sx={{ maxWidth: 345, height: "100%" }}>
-            {speciesData?.additionalFiles?.length > 0 ? (
-              <div>
-                <Slider ref={slider => setSlider(slider)} {...settings} >
-                  {speciesData.additionalFiles.map((speciesImage, index) => {
-                    return (
-                      <Image
-                        key={`speciesAdditional${index}`}
-                        {...imageProps}
-                        loader={myLoader}
-                        alt="Additional Image"
-                        src={imageUrl + "/" + speciesImage}
-                      />
-                    );
-                  })}
-                </Slider>
-              </div>
-            ) : (
-              <Image
-                loader={myLoader}
-                src={imageUrl + "/" + speciesData?.profile_image}
-                alt="species-image"
-                width="345"
-                height={200}
-              ></Image>
-            )}
-            {speciesData?.additionalFiles?.length > 0 ? (
-              <div>
-                <Slider {...settingsForAddition}>
-                  {speciesData.additionalFiles.map((speciesImage, index) => (
-                    <Image key={`slideImage2${index}`} alt="No Slider Image" {...imageProps2} loader={imageLoader} src={imageUrl + "/" + speciesImage} onClick={(e) => {
-                      slider?.slickGoTo(index)
-                      setCurrentIndex(index)
-                    }} />
-                  ))}
-                </Slider>
-              </div>
-            ) : null}
-            <br />
-            <Divider />
-            <CardContent>
-              <Typography gutterBottom variant="h1" component="div" fontFamily='Times New Roman' fontSize={30}>
-                {speciesData?.name?.commonName}
-              </Typography>
-              <Typography variant="body2" color="text.secondary" fontFamily='Times New Roman' fontSize={30}>
-                {speciesData?.description}
-              </Typography>
-              <Grid item xs={12} >
-                <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
-                  <b>Kindom</b>:{speciesData.kingdom}
-                </Typography>
-              </Grid>
-              <Grid item xs={12} >
-                <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
-                  <b>Phylum</b>:{speciesData.phylum}
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
-                  <b>class</b>:{speciesData.class_name}
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
-                  <b>order</b>:{speciesData.order_name}
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
-                  <b>family</b>:{speciesData.family}
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
-                  <b>Genus</b>:{speciesData.genus}
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
-                  <b>Species</b>:{speciesData.species}
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
-                  <b>Variety</b>:{speciesData.variety}
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
-                  <b>Sub Variety</b>:{speciesData.subVariety}
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
-                  <b>clone</b>:{speciesData.clone}
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
-                  <b>forma</b>:{speciesData.forma}
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
-                  <b>English</b>:{speciesData.english}
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
-                  <b>Bangla</b>:{speciesData.bangla}
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
-                  <b>Synonym</b>:{speciesData.synonym}
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
-                  <b>Common</b>:{speciesData.common}
-                </Typography>
-              </Grid>
+
+        <div ref={mapContainer} className={styles.map_container}></div>
+      </Grid>
+      <Grid item xs={2}>
+        <Grid
+          container
+          style={{
+            width: "100%",
+            height: "100vh",
+            overflow: "auto",
+          }}
+        >
+          <Grid
+            item
+            style={{
+              width: "100%",
+              height: "100%",
+            }}
+            md={12}
+            xl={12}
+            xs={12}
+          // style={{ borderRadius: "10px" }}
+          // style={{  paddingRight: "20px" }}
+          >
+            <div className={styles.sidebar}>
+              Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
+            </div>
+            <div className={styles.details_bar}>
+              <Card sx={{ maxWidth: 345, height: "100%" }}>
+                {speciesData?.additionalFiles?.length > 0 ? (
+                  <div>
+                    <Slider ref={slider => setSlider(slider)} {...settings} >
+                      {speciesData.additionalFiles.map((speciesImage, index) => {
+                        return (
+                          <Image
+                            key={`speciesAdditional${index}`}
+                            {...imageProps}
+                            loader={myLoader}
+                            alt="Additional Image"
+                            src={imageUrl + "/" + speciesImage}
+                          />
+                        );
+                      })}
+                    </Slider>
+                  </div>
+                ) : isValidImage(speciesData?.profile_image) ? (
+                  <Image
+                    {...imageProps}
+                    objectFit="cover"
+                    loader={imageLoader}
+                    src={imageUrl + "/" + speciesData.profile_image}
+                    alt="No_image"
+                  ></Image>
+                ) : (<Image
+                  height="170px"
+                  objectFit="cover"
+                  loader={imageLoader}
+                  src={member1}
+                  alt="No_image"
+                ></Image>)
+               }
+                {speciesData?.additionalFiles?.length > 0 ? (
+                  <div>
+                    <Slider {...settingsForAddition}>
+                      {speciesData.additionalFiles.map((speciesImage, index) => (
+                        <Image key={`slideImage2${index}`} alt="No Slider Image" {...imageProps2} loader={imageLoader} src={imageUrl + "/" + speciesImage} onClick={(e) => {
+                          slider?.slickGoTo(index)
+                          setCurrentIndex(index)
+                        }} />
+                      ))}
+                    </Slider>
+                  </div>
+                ) : null}
+                <br />
+                <Divider />
+                <CardContent>
+                  <Typography gutterBottom variant="h1" component="div" fontFamily='Times New Roman' fontSize={30}>
+                    {speciesData?.name?.commonName}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" fontFamily='Times New Roman' fontSize={30}>
+                    {speciesData?.description}
+                  </Typography>
+                  <Grid item xs={12} >
+                    <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
+                      <b>Kindom</b>:{speciesData.kingdom}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12} >
+                    <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
+                      <b>Phylum</b>:{speciesData.phylum}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
+                      <b>class</b>:{speciesData.class_name}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
+                      <b>order</b>:{speciesData.order_name}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
+                      <b>family</b>:{speciesData.family}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
+                      <b>Genus</b>:{speciesData.genus}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
+                      <b>Species</b>:{speciesData.species}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
+                      <b>Variety</b>:{speciesData.variety}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
+                      <b>Sub Variety</b>:{speciesData.subVariety}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
+                      <b>clone</b>:{speciesData.clone}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
+                      <b>forma</b>:{speciesData.forma}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
+                      <b>English</b>:{speciesData.english}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
+                      <b>Bangla</b>:{speciesData.bangla}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
+                      <b>Synonym</b>:{speciesData.synonym}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
+                      <b>Common</b>:{speciesData.common}
+                    </Typography>
+                  </Grid>
 
 
-            </CardContent>
+                </CardContent>
 
-          </Card>
+              </Card>
 
-        </div>
-        <div
-          ref={mapContainer}
-          // style={{position: "absolute",top: 0, bottom: 0, width: "100%"}}
-          className={styles.map_container}
-        ></div>
+            </div>
+          </Grid>
+        </Grid>
       </Grid>
     </Grid>
+
   );
 };
 Map.getInitialProps = ({ query }) => {
