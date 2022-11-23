@@ -187,11 +187,10 @@ const Map = () => {
       map.current.on('zoom', () => {
         const zoom = map.current.getZoom();
         for (const el of elements) {
-          const scalePercent = 1 + (zoom - 6) * 0.4;
-          // const el = marker.getElement()
-          let top = scalePercent * 40
-          let height = scalePercent * 70
-          let width = scalePercent * 70
+          const scalePercent = 1 + (zoom - 7) * 0.4;
+          let top = scalePercent * 10
+          let height = scalePercent * 20
+          let width = scalePercent * 20
           el.style.height = `${height}px`
           el.style.width = `${width}px`
           el.style.top = `-${top}px`;
