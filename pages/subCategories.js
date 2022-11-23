@@ -222,7 +222,7 @@ const SubCategories = () => {
   const router = useRouter();
 
   const [open, setOpen] = React.useState(false);
-  const [openUpload, setOpenUpload] = React.useState(false);
+  const [openDelete, setOpenDelete] = React.useState(false);
   // const handleOpen = () => setOpen(true);
   // const handleClose = () => setOpen(false);
   const [page, setPage] = React.useState(0);
@@ -241,26 +241,7 @@ const SubCategories = () => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
-  const uploadToClient = (event) => {
-    if (event.target.files && event.target.files[0]) {
-      const i = event.target.files[0];
 
-      setImage(i);
-      setCreateObjectURL(URL.createObjectURL(i));
-    }
-  };
-  const uploadCSV = (event) => {
-    if (event.target.files && event.target.files[0]) {
-      const i = event.target.files[0];
-
-      setImage(i);
-      setCreateObjectURL(URL.createObjectURL(i));
-    }
-  };
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -268,22 +249,23 @@ const SubCategories = () => {
     setKeyIndex(-1);
     setOpen(false);
   };
-  const handleClickUpload = () => {
-    setOpenUpload(true);
+  const handleClickOpenDelete = () => {
+    setOpenDelete(true);
   };
-  const handleCloseUpload = () => {
-    setOpenUpload(false);
+  const handleCloseUploadDelete = () => {
+    setOpenDelete(false);
   };
   // Handle left drawer
   const leftDrawerOpened = useSelector((state) => state.customization.opened);
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
-  const pointer = { cursor: "pointer" };
+  const pointer = { cursor: "pointer", width: "100%" };
+  let markerColor = () => { return '#' + Math.floor(Math.random() * 16777215).toString(16) }
 
   const handleLeftDrawerToggle = () => {
     dispatch({ type: SET_MENU, opened: !leftDrawerOpened });
   };
-  const changeCategory = (e) => {};
+  const changeCategory = (e) => { };
   function FormRow(props) {
     const { row, index } = props;
     const [openCategory, setOpenCategory] = React.useState(false);
@@ -322,7 +304,7 @@ const SubCategories = () => {
                   </Box>
 
                   <Grid container spacing={2}>
-                    {columns.map((column , index) => {
+                    {columns.map((column, index) => {
                       const value = row[column.id];
                       if (column.id !== "button") {
                         return (
@@ -491,72 +473,73 @@ const SubCategories = () => {
                   <Grid
                     item
                     xs={12}
-                    sx={{ b: 1, mb: 3 }}
+                    sx={{ b: 1, mb: 3, pt: 0 }}
                     style={{ borderRadius: "10px" }}
                   >
                     <Grid container spacing={3}>
-                      {/* {columns.map((column) => (
-                               
-                                  <Typography>{column.label}</Typography>
-                              
-                              ))}: */}
                       {subCategoryList.map((row, index) => {
                         return (
                           <Grid
                             item
-                            xs={3}
+                            xs={6}
                             md={2}
                             key={`subCategory${index}`}
                             sx={{
-                              width: 370,
-                              height: 170,
-                              boxShadow: "30px 10px 20px #f1f1f1",
-                              backgroundColor:"GhostWhite",
+                              width: "fit-content",
+                              height: 100,
+                              boxShadow: "15px 5px 20px #f1f1f1",
+                              backgroundColor: "GhostWhite",
                               border: "1px solid #f3c4b8",
                               px: 1,
-                              py: 2,
-                              m: 2,
+                              py: 1,
+                              m: 1,
+                              pb: 3,
+                              borderRadius: 2
                             }}
                           >
-                            <Grid container>
-                              <Grid item xs={12} md={10}>
-                                <Typography
-                                  component="h4"
-                                  fontSize={25}
-                                  align="center"
-                                  sx={{ pt: 7, pl: 2,  }}
-                                >
-                                  <b>{row.name}</b>
-                                </Typography>
-                              </Grid>
-                              <Grid item xs={12} md={2}>
+                            <Grid container >
+                              <Grid item xs={12} md={12} >
                                 <Box
                                   style={{
                                     ...pointer,
                                     justifyContent: "end",
                                     display: "flex",
-                                    
+
                                   }}
                                 >
-                                  <Grid paddingRight={2}>
-                                  <Icon
-                                    fontSize={20}
-                                    icon="dashicons:edit-large"
-                                    color="#c44d34"
-                                
-                                    onClick={(e) => {
-                                      setSubCategoriesValues(row);
-                                      handleClickOpen();
-                                    }}
-                                  />
+                                  <Grid paddingRight={1}>
+                                    <Icon
+                                      fontSize={18}
+                                      icon="dashicons:edit-large"
+                                      color="#3874cf"
+
+                                      onClick={(e) => {
+                                        setSubCategoriesValues(row);
+                                        handleClickOpen();
+                                      }}
+                                    />
                                   </Grid>
                                   <Grid><Icon
-                                    fontSize={20}
+                                    fontSize={18}
                                     icon="fluent:delete-16-filled"
-                                    color="#c44d34"
+                                    color="#c4393b"
+                                    onClick={(e) => {
+                                      setSubCategoriesValues(row);
+                                      handleClickOpenDelete();
+                                    }}
                                   /></Grid>
                                 </Box>
                               </Grid>
+                              <Grid item xs={12} md={12}>
+                                <Typography
+                                  noWrap
+                                  component="div"
+                                  align="center"
+                                >
+                                  <b>{row.name}</b>
+                                </Typography>
+                              </Grid>
+
                             </Grid>
                           </Grid>
 
@@ -715,6 +698,43 @@ const SubCategories = () => {
               </Formik>
             </DialogContent>
           </BootstrapDialog>
+          <Dialog
+            onClose={handleClickOpenDelete}
+            aria-labelledby="customized-dialog-title"
+            open={openDelete}>
+            <DialogTitle> Are you sure you want to delete ? </DialogTitle>
+            <DialogActions>
+              <Button
+
+                type="submit"
+                size="small"
+                className={styles.bg_primary}
+                sx={{ color: "white" }}
+                onClick={async (e) => {
+                  console.log(subCategoryValues)
+                  let response = await callApi(
+                    "/delete-subcategories",
+                    { values: subCategoryValues }
+                  );
+                  handleCloseUploadDelete()
+                  window.location.reload()
+                }}
+              >
+                Yes
+              </Button>
+              <Button
+                size="small"
+                className={styles.bg_primary}
+                sx={{ color: "white" }}
+                onClick={(e) => {
+                  handleCloseUploadDelete()
+
+                }}
+              >
+                No
+              </Button>
+            </DialogActions>
+          </Dialog>
           {/* <Dialog
             fullScreen
             open={openUpload}

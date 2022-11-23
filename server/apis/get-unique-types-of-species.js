@@ -38,11 +38,11 @@ const getDetailsByQuery = async (searchQuery, key, modifiedList, typeObject) => 
             }
             else if (typeof item[key] == 'string') {
                 if (item[key].includes(`{`)) {
-                    item.key = JSON.parse(item[key])
+                    item[key] = JSON.parse(item[key]).name
 
                 }
                 else if (item[key].includes(`"`)) {
-                    item.key = item.key.replaceAll(`"`)
+                    item[key] = item[key].replaceAll(`"`, '')
                 }
             }
             let isExist = typeObject[modifiedList].findIndex((modifiedItem) => item[key]?.trim()?.toLowerCase() == modifiedItem[key].trim()?.toLowerCase())
