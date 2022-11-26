@@ -196,7 +196,6 @@ const AddNewSpecies = () => {
       console.log({ allTypesOfSpecies });
 
       let response = await callApi("/get-categories-list", {});
-      console.log({ response });
       if (query?.category && query?.serial) {
         let searchParameters = query;
         let species = await callApi("/get-species-by-serial", {

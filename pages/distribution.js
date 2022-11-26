@@ -19,6 +19,7 @@ import {
   TextField,
   Menu,
   MenuItem,
+  Autocomplete,
 } from "@mui/material";
 import React, { useState, useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
@@ -131,6 +132,9 @@ const Distribution = () => {
   const [changeColorIndex, setChangeColorIndex] = useState(null);
   const [elements, setElements] = useState([]);
   const [speciesList, setSpeciesList] = useState([]);
+  const [categoryList, setCatgoryList] = useState([{ name: "All", serial: 0 }]);
+  const [category, setCategory] = useState("All");
+  const [filterName, setFilterName] = useState(null);
   const [modifiedList, setModifiedList] = useState([]);
   const [availableList, setAvailableList] = useState([]);
   const [modifiedAvailableList, setModifiedAvailableList] = useState([]);
@@ -142,6 +146,9 @@ const Distribution = () => {
     let response = await callApi("/get-species-list", {});
     setSpeciesList(response.data);
     setModifiedList(response.data);
+    let categoryResponse = await callApi("/get-categories-list", {});
+
+    setCatgoryList([...categoryList, ...categoryResponse.data]);
 
     // let list = [];
     // Promise.all(
@@ -201,35 +208,38 @@ const Distribution = () => {
         speciesData.districts[0]?.center[0] &&
         speciesData.districts[0]?.center[1]
       ) {
-        const el = document.createElement("div");
-        await createMarkerElement(
-          el,
-          styles,
-          elements,
-          speciesData.markerColor,
-          map
-        );
-        await createMapboxMarkerForDistribution(
-          el,
-          mapboxgl,
-          imageUrl,
-          speciesData,
-          map
-        );
+        for (let district of speciesData.districts) {
+          const el = document.createElement("div");
+          await createMarkerElement(
+            el,
+            styles,
+            elements,
+            speciesData.markerColor,
+            map
+          );
+          await createMapboxMarkerForDistribution(
+            el,
+            mapboxgl,
+            imageUrl,
+            speciesData,
+            map,
+            district
+          );
+        }
       }
     });
-    map.current.on("zoom", () => {
-      const zoom = map.current.getZoom();
-      for (const el of elements) {
-        const scalePercent = 1 + (zoom - 7) * 0.4;
-        let top = scalePercent * 10
-        let height = scalePercent * 20
-        let width = scalePercent * 20
-        el.style.height = `${height}px`;
-        el.style.width = `${width}px`;
-        el.style.top = `-${top}px`;
-      }
-    });
+    // map.current.on("zoom", () => {
+    //   const zoom = map.current.getZoom();
+    //   for (const el of elements) {
+    //     const scalePercent = 1 + (zoom - 7) * 0.4;
+    //     let top = scalePercent * 10
+    //     let height = scalePercent * 20
+    //     let width = scalePercent * 20
+    //     el.style.height = `${height}px`;
+    //     el.style.width = `${width}px`;
+    //     el.style.top = `-${top}px`;
+    //   }
+    // });
   }, [modifiedList, force]);
   return (
     <Grid
@@ -262,6 +272,58 @@ const Distribution = () => {
             <CardContent>
               <Grid container>
                 <Grid item xs={12}>
+                  <Autocomplete
+                    size="small"
+                    id="species"
+                    value={category ?? ''}
+                    options={categoryList}
+                    key="categorySpecies"
+                    getOptionLabel={(option) =>
+                      option.name || option
+                    }
+                    isOptionEqualToValue={(option, value) =>
+                      option.serial === value.serial
+                    }
+                    // sx={{ width: 300 }}
+                    onChange={(e, value) => {
+                      console.log({ value })
+                      setCategory(value?.name || value);
+                      if (!value || value?.name == 'All' || value == 'All') {
+                        setModifiedList(speciesList)
+                        setForce(!force)
+                      }
+                      else {
+                        let list = speciesList.filter((item) => {
+                          if (filterName && filterName != "") {
+                            if (item.category == (value?.name || value) && item?.english.toLocaleLowerCase().includes(filterName)) {
+                              return item
+                            }
+                          }
+                          else {
+                            if (item.category == (value?.name || value)) {
+                              return item
+                            }
+                          }
+
+                        })
+                        setModifiedList(list)
+                        setForce(!force)
+                      }
+
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        style={{ padding: "2px" }}
+                        label="Filter By Group"
+                        variant="outlined"
+                        placeholder="Select"
+                        value={category ?? ''}
+                      />
+                    )}
+                  />
+                </Grid>
+                <Grid item xs={12}>
                   <TextField
                     id="Species"
                     name="name"
@@ -269,7 +331,9 @@ const Distribution = () => {
                     size="small"
                     label="Search By English Name"
                     fullWidth
+                    value={filterName ?? ""}
                     onChange={(e) => {
+                      setFilterName(e.target.value.toLocaleLowerCase())
                       let modifiedList = speciesList.filter((species) => {
                         let value = e.target.value.toLocaleLowerCase();
                         // if(species?.name?.commonName.toLocaleLowerCase().includes(value)
@@ -278,10 +342,15 @@ const Distribution = () => {
                         // || species?.name?.synonym.toLocaleLowerCase().includes(value)) {
                         //     return species
                         // }
-                        if (
-                          species?.english.toLocaleLowerCase().includes(value)
-                        ) {
-                          return species;
+                        if (category && category !== 'All') {
+                          if (species?.english.toLocaleLowerCase().includes(value) && species.category == category) {
+                            return species;
+                          }
+                        }
+                        else {
+                          if (species?.english.toLocaleLowerCase().includes(value)) {
+                            return species;
+                          }
                         }
                       });
                       setModifiedList(modifiedList);
