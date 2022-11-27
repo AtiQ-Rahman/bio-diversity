@@ -55,17 +55,9 @@ import * as Yup from "yup";
 import { useSnackbar } from "notistack";
 import callApi from "../utils/callApi";
 import DetailsIcon from "@mui/icons-material/Details";
-const kingdoms = require("../utils/kingdoms");
-const genuses = require("../utils/kingdoms");
+import { initialValues } from "../utils/utils";
 
-const initialValues = {
-  kingdom: "",
-  phylum: "",
-  class: "",
-  order: "",
-  family: "",
-  genus: "",
-};
+
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
     padding: theme.spacing(2),
@@ -199,6 +191,13 @@ const ManageSpeciesTable = () => {
   const [open, setOpen] = React.useState(false);
   const [openUpload, setOpenUpload] = React.useState(false);
   const { enqueueSnackbar } = useSnackbar();
+  const [allTypesOfSpecies, setAllTypesOfSpecies] = useState(null)
+  const [subCategories, setSubcategories] = useState([])
+  const [subGroups, setSubGroups] = useState([])
+  const [kingdoms, setKingdoms] = useState([])
+  const [families, setFamilies] = useState([])
+  const [speciesListFromServer, setSpeciesListFromServer] = useState([])
+
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(20);
   // const handleOpen = () => setOpen(true);
@@ -242,21 +241,28 @@ const ManageSpeciesTable = () => {
   };
   async function fetchData(query, cbfn) {
     let searchParameters = query;
-    console.log(searchParameters);
     let response = await callApi("/get-species-by-category", {
       searchParameters,
     });
+
     if (response.data.length > 0) {
       console.log(response.data);
       setSpeciesList(response.data);
       let speciesList = response.data;
-      speciesList = speciesList.sort((a, b) => {
-        if (a.createdDatetimeStamp > b.createdDatetimeStamp) return -1;
-        if (a.createdDatetimeStamp < b.createdDatetimeStamp) return 1;
-        return 0;
-      });
       console.log({ speciesList });
-      speciesList.length > 0 ? cbfn(speciesList) : cbfn([]);
+      if(speciesList.length > 0){
+        let allTypesOfSpecies = await callApi("/get-unique-types-of-species", { category: searchParameters.category });
+        setAllTypesOfSpecies(allTypesOfSpecies?.data)
+        setSubcategories(allTypesOfSpecies?.data.categories)
+        setSubGroups(allTypesOfSpecies.data.subGroups)
+        setKingdoms(allTypesOfSpecies.data.kingdoms)
+        setFamilies(allTypesOfSpecies.data.families)
+        setSpeciesListFromServer(allTypesOfSpecies.data.speciesListFromServer)
+        cbfn(speciesList)
+      }
+      else {
+        cbfn([])
+      }
     }
   }
   useEffect(() => {
@@ -324,30 +330,6 @@ const ManageSpeciesTable = () => {
                   >
                     <Formik
                       initialValues={initialValues}
-                      validationSchema={Yup.object().shape({
-                        species: Yup.object().shape({
-                          english: Yup.string().required(
-                            "Patient english name is required"
-                          ),
-                          bangla: Yup.string().required(
-                            "patient bangla is required"
-                          ),
-
-                          // gender: Yup.string().required("patient gender is required"),
-                          // address: Yup.string().required("patient adressis required"),
-                        }),
-
-                        kingdom:
-                          Yup.string("Add Remarks").required("Add Remark"),
-                        phylum:
-                          Yup.string("Add filmType").required("Add filmType"),
-                        class:
-                          Yup.string("Add priority").required("Add priority"),
-                        order:
-                          Yup.string("Add priority").required("Add priority"),
-                        genus:
-                          Yup.string("Add priority").required("Add priority"),
-                      })}
                       onSubmit={async (
                         values,
                         {
@@ -358,37 +340,14 @@ const ManageSpeciesTable = () => {
                           setFieldValue,
                         }
                       ) => {
+                        values.category = router.query.category
+
                         try {
-                          // console.log({ values });
-                          // // console.log(values.reportfile.name);
-                          // let xrayData = values;
-                          // xrayData.createdBy = {
-                          //   name: loggedUser.name,
-                          //   userId: loggedUser.userId,
-                          // };
-                          // xrayData.createdAt = new Date().getTime();
-                          // console.log({ loggedUser: loggedUser.userId });
-                          // const data = new FormData();
-                          // data.append("data", JSON.stringify(xrayData));
-                          // let files = values.reportfile;
-                          // if (files.length != 0) {
-                          //   for (const single_file of files) {
-                          //     data.append('reportfile', single_file)
-                          //   }
-                          // }
-                          // // data.append("reportfile", values.reportfile);
-                          // callApi.post("/xray/new", data, {
-                          //   headers: {
-                          //     "Content-Type": "multipart/form-data"
-                          //   }
-                          // }).then((res) => {\
-                          //   console.log("response", res);
-                          //   enqueueSnackbar("Report  Uploaded Successfully", {
-                          //     variant: "success",
-                          //     // action: <Button>See all</Button>
-                          //   });
-                          //   setErrors(false);
-                          // });
+                          let res = await callApi("/search-species-by-field", {
+                            searchParameters: values,
+                          });
+                          console.log("response", res);
+                          setSpeciesList(res?.data)
                         } catch (error) {
                           console.log({ error });
 
@@ -411,30 +370,47 @@ const ManageSpeciesTable = () => {
                         <Form onSubmit={handleSubmit}>
                           <Grid container spacing={3}>
                             <Grid item xs={2}>
+                              <TextField
+                                size="small"
+                                error={Boolean(
+                                  touched?.nameOfSpecies?.bangla && errors?.nameOfSpecies?.bangla
+                                )}
+                                helperText={
+                                  touched?.nameOfSpecies?.bangla && errors?.nameOfSpecies?.bangla
+                                }
+                                label="Bangla Name"
+                                variant="outlined"
+                                placeholder="Select"
+                                name="nameOfSpecies.bangla"
+                                value={values?.nameOfSpecies?.bangla}
+                                onChange={handleChange}
+                              />
+                            </Grid>
+                            <Grid item xs={2}>
                               <Autocomplete
                                 size="small"
                                 disablePortal
-                                id="genuses"
-                                name={values?.genus}
-                                options={genuses}
-                                key="genuses"
-                                getOptionLabel={(option) => option.name}
+                                id="subGroups"
+                                name={values?.subGroup || ""}
+                                options={subGroups}
+                                key="subGroups"
+                                getOptionLabel={(option) => option.subGroup || option}
                                 // sx={{ width: 300 }}
                                 onChange={(e, value) => {
-                                  setFieldValue("genus", value);
+                                  setFieldValue("subGroup", value?.subGroup || value);
                                 }}
                                 renderInput={(params) => (
                                   <TextField
                                     {...params}
                                     error={Boolean(
-                                      touched?.genus && errors?.genus
+                                      touched?.subGroup && errors?.subGroup
                                     )}
-                                    helperText={touched?.genus && errors?.genus}
+                                    helperText={touched?.subGroup && errors?.subGroup}
                                     style={{ padding: "2px" }}
-                                    label="Select genus"
+                                    label="Sub Groups"
                                     variant="outlined"
                                     placeholder="Select"
-                                    value={values?.genus}
+                                    value={values?.subGroup || ""}
                                   />
                                 )}
                               />
@@ -447,10 +423,73 @@ const ManageSpeciesTable = () => {
                                 name={values?.kingdom}
                                 options={kingdoms}
                                 key="kingdoms"
-                                getOptionLabel={(option) => option.name}
+                                getOptionLabel={(option) => option.kingdom || option}
                                 // sx={{ width: 300 }}
                                 onChange={(e, value) => {
-                                  setFieldValue("kingdom", value);
+                                  setFieldValue("kingdom", value?.kingdom || value);
+                                }}
+                                renderInput={(params) => (
+                                  <TextField
+                                    {...params}
+                                    error={Boolean(
+                                      touched?.kingdom && errors?.kingdom
+                                    )}
+                                    helperText={
+                                      touched?.kingdom && errors?.kingdom
+                                    }
+                                    style={{ padding: "2px" }}
+                                    label="Kingdoms"
+                                    variant="outlined"
+                                    placeholder="Select"
+                                    value={values?.kingdom || ""}
+                                  />
+                                )}
+                              />
+                            </Grid>
+                            <Grid item xs={2}>
+                              <Autocomplete
+                                size="small"
+                                disablePortal
+                                id="kingdoms"
+                                name={values?.family}
+                                options={families}
+                                key="kingdoms"
+                                getOptionLabel={(option) => option.family || option}
+                                // sx={{ width: 300 }}
+                                onChange={(e, value) => {
+                                  setFieldValue("family", value?.family || value);
+                                }}
+                                renderInput={(params) => (
+                                  <TextField
+                                    {...params}
+                                    error={Boolean(
+                                      touched?.family && errors?.family
+                                    )}
+                                    helperText={
+                                      touched?.family && errors?.family
+                                    }
+                                    style={{ padding: "2px" }}
+                                    label="Families"
+                                    variant="outlined"
+                                    placeholder="Select"
+                                    value={values?.family || ""}
+                                  />
+                                )}
+                              />
+                            </Grid>
+
+                            <Grid item xs={2}>
+                              <Autocomplete
+                                size="small"
+                                disablePortal
+                                id="kingdoms"
+                                name={values?.species}
+                                options={speciesListFromServer}
+                                key="kingdoms"
+                                getOptionLabel={(option) => option.species || option}
+                                // sx={{ width: 300 }}
+                                onChange={(e, value) => {
+                                  setFieldValue("species", value?.species || value);
                                 }}
                                 renderInput={(params) => (
                                   <TextField
@@ -462,62 +501,21 @@ const ManageSpeciesTable = () => {
                                       touched?.species && errors?.species
                                     }
                                     style={{ padding: "2px" }}
-                                    label="Select Species"
+                                    label="Species"
                                     variant="outlined"
                                     placeholder="Select"
-                                    value={values?.kingdom}
+                                    value={values?.species || ""}
                                   />
                                 )}
                               />
                             </Grid>
-                            <Grid item xs={2}>
-                              <TextField
-                                size="small"
-                                error={Boolean(
-                                  touched?.commonName && errors?.commonName
-                                )}
-                                helperText={
-                                  touched?.commonName && errors?.commonName
-                                }
-                                label="Common Name"
-                                variant="outlined"
-                                placeholder="Select"
-                                value={values?.commonName}
-                              />
-                            </Grid>
-                            <Grid item xs={2}>
-                              <TextField
-                                size="small"
-                                error={Boolean(
-                                  touched?.taxonomy && errors?.taxonomy
-                                )}
-                                helperText={
-                                  touched?.taxonomy && errors?.taxonomy
-                                }
-                                label="Higher Taxonomy"
-                                variant="outlined"
-                                placeholder="Select"
-                                value={values?.taxonomy}
-                              />
-                            </Grid>
-                            <Grid item xs={2}>
-                              <TextField
-                                size="small"
-                                error={Boolean(
-                                  touched?.distribution && errors?.distribution
-                                )}
-                                helperText={
-                                  touched?.distribution && errors?.distribution
-                                }
-                                label="Distribution"
-                                variant="outlined"
-                                placeholder="Select"
-                                value={values?.distribution}
-                              />
-                            </Grid>
+
+
                             <Grid item xs={2}>
                               <Button
                                 className={styles.bg_primary}
+                                type="submit"
+
                                 style={{
                                   width: "80px",
                                   maxHeight: "80px",
@@ -600,7 +598,7 @@ const ManageSpeciesTable = () => {
                               Bangla Name
                             </StyledTableCell>
                             <StyledTableCell align="center">
-                              Category
+                              Sub Group
                             </StyledTableCell>
                             <StyledTableCell align="center">
                               Family
@@ -618,9 +616,9 @@ const ManageSpeciesTable = () => {
                         </TableHead>
                         <TableBody>
                           {speciesList?.slice(
-                                page * rowsPerPage,
-                                page * rowsPerPage + rowsPerPage
-                              ).map((row, index) => (
+                            page * rowsPerPage,
+                            page * rowsPerPage + rowsPerPage
+                          ).map((row, index) => (
                             <StyledTableRow
                               key={`species${index}`}
                               sx={{
@@ -634,7 +632,7 @@ const ManageSpeciesTable = () => {
                               </StyledTableCell>
                               <StyledTableCell align="center">
                                 <Typography component="div" variant="div">
-                                  {row.category}
+                                  {row.subGroup}
                                 </Typography>
                               </StyledTableCell>
                               <StyledTableCell align="center">
@@ -671,7 +669,7 @@ const ManageSpeciesTable = () => {
                                     sx={{ mb: 1, mr: 0.5 }}
                                   // variant="outlined"
                                   >
-                                     Details
+                                    Details
                                   </Button>
 
                                   {/* =======MODAL===== */}
@@ -700,14 +698,14 @@ const ManageSpeciesTable = () => {
                       </Table>
                     </TableContainer>
                     <TablePagination
-                        rowsPerPageOptions={[100, 50]}
-                        component="div"
-                        count={speciesList?.length}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        onPageChange={handleChangePage}
-                        onRowsPerPageChange={handleChangeRowsPerPage}
-                      />
+                      rowsPerPageOptions={[100, 50]}
+                      component="div"
+                      count={speciesList?.length}
+                      rowsPerPage={rowsPerPage}
+                      page={page}
+                      onPageChange={handleChangePage}
+                      onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
                     {/* <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"

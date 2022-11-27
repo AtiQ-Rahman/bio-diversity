@@ -67,7 +67,6 @@ exports.BIOGSearchParamsByField = async (req, res, next) => {
         // console.log(uploadedSpecies[item])
         let splittedKey = item.key.split('.')
         if (splittedKey.length > 1) {
-            console.log(splittedKey)
             if (searchParameters.identificationFeatures[splittedKey[1]]) {
                 searchQuery += ` and LOWER(JSON_EXTRACT(${splittedKey[0]}, "$.${splittedKey[1]}")) like JSON_QUOTE(LOWER("%${searchParameters.identificationFeatures[splittedKey[1]]}%"))`
 
@@ -107,6 +106,11 @@ exports.BIOGSearchParamsByField = async (req, res, next) => {
                 name: item?.name ? JSON.parse(item.name) : {},
             })
         }
+        modifiedResponse = modifiedResponse.sort((a, b) => {
+            if (a.createdDatetimeStamp > b.createdDatetimeStamp) return -1;
+            if (a.createdDatetimeStamp < b.createdDatetimeStamp) return 1;
+            return 0;
+          });
         res.status(200).json({
             message: "Found",
             success: true,
