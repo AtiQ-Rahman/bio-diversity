@@ -165,14 +165,14 @@ export const twoDecimal = (num) => {
 export const processNames = (name) => {
     return name?.toLowerCase()?.replaceAll('-', '').replaceAll(' ', '').replaceAll('/', '')
 }
-export const processSpeciesObject = (speciesDetails) => {
+export const processSpeciesObject = async (speciesDetails) => {
     let mainObject = {}
     let skippedObject = speciesDetails
     let priorityKeys = ['kingdom', 'phylum', 'class_name', 'order_name', 'species', 'family', 'genus', 'clone', 'forma', 'sub_species', 'variety', 'sub_variety']
     priorityKeys.map((key) => {
         mainObject[key] = speciesDetails[key]
     })
-    let skippedKeys = ['id', 'additional_files', 'additionaL_files', 'marker', 'serial', 'idenitificationFeatures', 'profile_image', 'createdDatetimeStamp', 'district']
+    let skippedKeys = ['id', 'additional_files', 'additionaL_files', 'marker', 'serial', 'idenitificationFeatures', 'profile_image', 'createdDatetimeStamp', 'lng', 'lat']
     skippedKeys = skippedKeys.concat(priorityKeys)
     skippedKeys.map((key) => {
         delete skippedObject[key]
