@@ -538,8 +538,7 @@ export default function ManageSpecies() {
                     console.log(values);
                     if (
                       !values.name ||
-                      !values.type ||
-                      values.keyList.length == 0
+                      !values.type 
                     ) {
                       return;
                     }

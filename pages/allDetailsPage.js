@@ -298,6 +298,18 @@ const AllDetailsPage = () => {
                   });
                 } else {
                   let title = processKeys(row);
+                  let value = modifiedSpeciesDetails[row]
+                  let parsedDistrict
+                  if (title == 'District') {
+                    parsedDistrict = JSON.parse(modifiedSpeciesDetails[row])
+                    console.log({ parsedDistrict })
+                    value = ""
+                    for (let index = 0; index < parsedDistrict.length; index++) {
+                      let district = parsedDistrict[index]
+                        value += index + 1 + '. ' + district.place_name + '. '
+                    }
+                  }
+
                   return (
                     <StyledTableRow key={row} className={styles.table}>
                       <StyledTableCell
@@ -311,7 +323,7 @@ const AllDetailsPage = () => {
                         <b> {title} :</b>
                       </StyledTableCell>
                       <StyledTableCell align="left" >
-                        {modifiedSpeciesDetails[row]}
+                        {value}
                       </StyledTableCell>
                     </StyledTableRow>
                   );

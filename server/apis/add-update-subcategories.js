@@ -35,3 +35,23 @@ exports.addUpdateSubCategories = async (req, res, next) => {
     }
 
 }
+exports.deleteSubCategories = async (req, res, next) => {
+    console.log(req.body)
+    let table = await getTable(tableTypes.subcategories)
+    let { values } = req.body
+
+    let searchQuery = `select * from ${table} where id = ${values.key}`
+    // let response = await executeQuery(searchQuery)
+    let response = await executeQuery(searchQuery)
+    console.log({ response, searchQuery })
+    if (response?.length > 0) {
+        let modifiedDatetime = moment().format("YYYY-MM-DD HH:mm:ss");
+        let deleteQuery = `delete from ${table} where id = '${values.key}'`
+        await executeQuery(deleteQuery)
+        res.status(200).json({
+            success: true,
+            data: "Deleted",
+        })
+    }
+
+}

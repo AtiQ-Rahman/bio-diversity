@@ -9,7 +9,7 @@ exports.BIOGSearchParamsByField = async (req, res, next) => {
     let table = await getTable(searchParameters.category)
     let searchQuery = `select * from ${table}`
     if (searchParameters.type) {
-        searchQuery += ` where JSON_EXTRACT(identificationFeatures, "$.subCategory") REGEXP '${searchParameters.type}?'`
+        searchQuery += ` where subCategory = '${searchParameters.type}'`
     }
     if (searchParameters.subGroup) {
         searchQuery += ` and subGroup = '${searchParameters.subGroup}'`
@@ -67,7 +67,6 @@ exports.BIOGSearchParamsByField = async (req, res, next) => {
         // console.log(uploadedSpecies[item])
         let splittedKey = item.key.split('.')
         if (splittedKey.length > 1) {
-            console.log(splittedKey)
             if (searchParameters.identificationFeatures[splittedKey[1]]) {
                 searchQuery += ` and LOWER(JSON_EXTRACT(${splittedKey[0]}, "$.${splittedKey[1]}")) like JSON_QUOTE(LOWER("%${searchParameters.identificationFeatures[splittedKey[1]]}%"))`
 
@@ -75,22 +74,22 @@ exports.BIOGSearchParamsByField = async (req, res, next) => {
         }
     }
     if (searchParameters?.csequestration) {
-        searchQuery += ` and JSON_EXTRACT(identificationFeatures, "$.csequestration") REGEXP '${searchParameters?.csequestration}?'`
+        searchQuery += ` and csequestration = '${searchParameters?.csequestration}'`
     }
     if (searchParameters?.cproduction) {
-        searchQuery += ` and JSON_EXTRACT(identificationFeatures, "$.cproduction") REGEXP '${searchParameters?.cproduction}?'`
+        searchQuery += ` and cproduction = '${searchParameters?.cproduction}'`
     }
     if (searchParameters?.ecosystemstatus) {
-        searchQuery += ` and JSON_EXTRACT(identificationFeatures, "$.ecosystemstatus") REGEXP '${searchParameters?.ecosystemstatus}?'`
+        searchQuery += ` and ecosystemstatus = '${searchParameters?.ecosystemstatus}'`
     }
     if (searchParameters?.ecosystemvalue) {
-        searchQuery += ` and JSON_EXTRACT(identificationFeatures, "$.ecosystemvalue") REGEXP '${searchParameters?.ecosystemvalue}?'`
+        searchQuery += ` and ecosystemvalue = '${searchParameters?.ecosystemvalue}'`
     }
     if (searchParameters?.geneticdata) {
-        searchQuery += ` and JSON_EXTRACT(identificationFeatures, "$.geneticdata") REGEXP '${searchParameters?.geneticdata}?'`
+        searchQuery += ` and geneticdata = '${searchParameters?.geneticdata}'`
     }
     if (searchParameters?.speciestaxa) {
-        searchQuery += ` and JSON_EXTRACT(identificationFeatures, "$.speciestaxa") REGEXP '${searchParameters?.speciestaxa}?'`
+        searchQuery += ` and speciestaxa = '${searchParameters?.speciestaxa}'`
     }
     if (!searchQuery.includes('where')) {
         searchQuery = searchQuery.replace('and', 'where')
@@ -107,6 +106,11 @@ exports.BIOGSearchParamsByField = async (req, res, next) => {
                 name: item?.name ? JSON.parse(item.name) : {},
             })
         }
+        modifiedResponse = modifiedResponse.sort((a, b) => {
+            if (a.createdDatetimeStamp > b.createdDatetimeStamp) return -1;
+            if (a.createdDatetimeStamp < b.createdDatetimeStamp) return 1;
+            return 0;
+          });
         res.status(200).json({
             message: "Found",
             success: true,

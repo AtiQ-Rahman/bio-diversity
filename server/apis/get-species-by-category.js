@@ -29,6 +29,11 @@ exports.BIOGetSpeciesByCategory = async (req, res, next) => {
                     additionalFiles: item?.additional_files?.split(',') || '',
                 })
             }
+            modifiedResponse = modifiedResponse.sort((a, b) => {
+                if (a.createdDatetimeStamp > b.createdDatetimeStamp) return -1;
+                if (a.createdDatetimeStamp < b.createdDatetimeStamp) return 1;
+                return 0;
+              });
             res.status(200).json({
                 success: true,
                 data: modifiedResponse,

@@ -184,18 +184,18 @@ const Map = () => {
           await createMapboxMarker(el, mapboxgl, speciesData.marker, district, map)
         })
       }
-      map.current.on('zoom', () => {
-        const zoom = map.current.getZoom();
-        for (const el of elements) {
-          const scalePercent = 1 + (zoom - 7) * 0.4;
-          let top = scalePercent * 10
-          let height = scalePercent * 20
-          let width = scalePercent * 20
-          el.style.height = `${height}px`
-          el.style.width = `${width}px`
-          el.style.top = `-${top}px`;
-        }
-      });
+      // map.current.on('zoom', () => {
+      //   const zoom = map.current.getZoom();
+      //   for (const el of elements) {
+      //     const scalePercent = 1 + (zoom - 7) * 0.4;
+      //     let top = scalePercent * 10
+      //     let height = scalePercent * 20
+      //     let width = scalePercent * 20
+      //     el.style.height = `${height}px`
+      //     el.style.width = `${width}px`
+      //     el.style.top = `-${top}px`;
+      //   }
+      // });
 
     })
 

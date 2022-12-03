@@ -39,6 +39,11 @@ exports.searchSpeciesDynamically = async (req, res, next) => {
 
         }
     }
+    searchResult = searchResult.sort((a, b) => {
+        if (a.createdDatetimeStamp > b.createdDatetimeStamp) return -1;
+        if (a.createdDatetimeStamp < b.createdDatetimeStamp) return 1;
+        return 0;
+      });
     res.status(200).json({
         success: true,
         data: searchResult,

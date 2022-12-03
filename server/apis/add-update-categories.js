@@ -13,7 +13,7 @@ exports.addUpdateCategories = async (req, res, next) => {
     let searchQuery = `select * from ${table} where serial = '${serial}'`
     // let response = await executeQuery(searchQuery)
     let response = await executeQuery(searchQuery)
-    console.log({response , searchQuery})
+    console.log({ response, searchQuery })
     if (response?.length > 0) {
         let modifiedDatetime = moment().format("YYYY-MM-DD HH:mm:ss");
         let updateQuery = `update ${table} set name = '${name}', type = '${type}', lastModified = '${modifiedDatetime}' where serial = '${response[0].serial}'`
@@ -24,11 +24,14 @@ exports.addUpdateCategories = async (req, res, next) => {
         })
     }
     else {
+        if (!keyList) {
+            keyList = []
+        }
         keyList = JSON.stringify(keyList)
         let createdDatetimeStamp = moment().format("YYYY-MM-DD HH:mm:ss");
         let insertQuery = `insert into ${table} 
-            (name, serial, type, createdDatetimeStamp)
-            VALUES('${name}','${serial}','${type}','${createdDatetimeStamp}')`
+            (name, serial, type, keyList, createdDatetimeStamp)
+            VALUES('${name}','${serial}','${type}','${keyList}','${createdDatetimeStamp}')`
         let response = await executeQuery(insertQuery)
         console.log(response)
         res.status(200).json({

@@ -8,7 +8,7 @@ const { BIOGetAllCategories } = require('../apis/get-all-categories');
 const { BIOGetAllTemplates, BIOUpdateSelectedTemplate } = require('../apis/get-all-templates');
 const { addUpdateCategories } = require('../apis/add-update-categories');
 const { BIOGetSpeciesByCategory } = require('../apis/get-species-by-category');
-const { addUpdateSubCategories } = require("../apis/add-update-subcategories");
+const { addUpdateSubCategories, deleteSubCategories } = require("../apis/add-update-subcategories");
 const { createNewTemplate, updateSelectedTemplate } = require("../apis/create-new-templates");
 const { getAllImages, getBLOBFromFileName } = require("../apis/get-all-images");
 const { requestNewSpecies, getAllRequestedSpecies } = require("../apis/manage-requested-species");
@@ -44,6 +44,7 @@ router.post("/get-categories-list", BIOGetAllCategories);
 router.post("/add-update-categories", addUpdateCategories);
 router.post("/get-species-by-category", BIOGetSpeciesByCategory)
 router.post("/add-update-subcategories", addUpdateSubCategories);
+router.post("/delete-subcategories", deleteSubCategories);
 
 router.post("/create-new-template", upload.array("sliderImages", 100), createNewTemplate)
 router.post("/get-template-list", BIOGetAllTemplates);

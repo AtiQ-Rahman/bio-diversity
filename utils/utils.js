@@ -14,30 +14,30 @@ export const isValidImage = (marker) => {
         return true
     }
 }
-export const createMapboxMarkerForDistribution = async (el, mapboxgl, imageUrl, speciesData, map) => {
+export const createMapboxMarkerForDistribution = async (el, mapboxgl, imageUrl, speciesData, map, district) => {
     new mapboxgl.Marker(el)
-        .setLngLat([speciesData.districts[0].center[0], speciesData.districts[0].center[1]])
+        .setLngLat([district.center[0], district.center[1]])
         .setPopup(new mapboxgl.Popup({ offset: 30 }).setHTML(`
-        <div >
-        ${speciesData.profile_image !== '' ? ` <div style="height: 150px; width:200px;margin:8px; background-image: url('${imageUrl + '/' + speciesData.profile_image}'); background-size : cover ; background-repeat : no-repeat"></div>
-        `: ''}
-        <div className="popup">
-            <h3 className="route-name">${speciesData.bangla}</h3>
-            <div className="route-metric-row">
-                <h4 className="row-title">Kingdom #</h4>
-                <div className="row-value">${speciesData.kingdom}</div>
-            </div>
-            <div className="route-metric-row">
-                <h4 className="row-title">species</h4>
-                <div className="row-value">${speciesData.species}</div>
-            </div>
-            <p className="route-speciesData">Lng/Lat ${twoDecimal(speciesData.districts[0].center[0])},${twoDecimal(speciesData.districts[0].center[1])}</p>
-        </div>
-    </div>`
-
-
+                <div >
+                ${speciesData.profile_image !== '' ? ` <div style="height: 150px; width:200px;margin:8px; background-image: url('${imageUrl + '/' + speciesData.profile_image}'); background-size : cover ; background-repeat : no-repeat"></div>
+                `: ''}
+                <div className="popup">
+                    <h3 className="route-name">${speciesData.bangla}</h3>
+                    <div className="route-metric-row">
+                        <h4 className="row-title">Kingdom #</h4>
+                        <div className="row-value">${speciesData.kingdom}</div>
+                    </div>
+                    <div className="route-metric-row">
+                        <h4 className="row-title">species</h4>
+                        <div className="row-value">${speciesData.species}</div>
+                    </div>
+                    <p className="route-speciesData">Lng/Lat ${twoDecimal(district.center[0])},${twoDecimal(district.center[1])}</p>
+                </div>
+            </div>`
         ))
         .addTo(map.current);
+
+
 }
 export const createMapboxMarker = async (el, mapboxgl, marker, district, map) => {
     new mapboxgl.Marker(el)
@@ -70,9 +70,6 @@ export const mapBounds =
             lng: 93.6011,
             lat: 26.7469
         }
-
-        // [92.1227, 23.2469], // Southwest coordinates
-        // [92.3327, 23.8469] // Northeast coordinates
     ]
 
 // export const createMarkerElement = async (el, styles, elements, marker, map) => {
@@ -106,8 +103,8 @@ export const createMarkerElement = async (el, styles, elements, marker, map) => 
     const zoom = map.current.getZoom();
     const scalePercent = 1 + (zoom - 7) * 0.4;
     let top = scalePercent * 10
-    let height = scalePercent * 20
-    let width = scalePercent * 20
+    let height = 15
+    let width = 15
     el.style.height = `${height}px`
     el.style.width = `${width}px`
     el.style.top = `-${top}px`;
@@ -168,14 +165,14 @@ export const twoDecimal = (num) => {
 export const processNames = (name) => {
     return name?.toLowerCase()?.replaceAll('-', '').replaceAll(' ', '').replaceAll('/', '')
 }
-export const processSpeciesObject = (speciesDetails) => {
+export const processSpeciesObject = async (speciesDetails) => {
     let mainObject = {}
     let skippedObject = speciesDetails
     let priorityKeys = ['kingdom', 'phylum', 'class_name', 'order_name', 'species', 'family', 'genus', 'clone', 'forma', 'sub_species', 'variety', 'sub_variety']
     priorityKeys.map((key) => {
         mainObject[key] = speciesDetails[key]
     })
-    let skippedKeys = ['id', 'additional_files', 'additionaL_files', 'marker', 'serial', 'idenitificationFeatures', 'profile_image', 'createdDatetimeStamp', 'district']
+    let skippedKeys = ['id', 'additional_files', 'additionaL_files', 'marker', 'serial', 'idenitificationFeatures', 'profile_image', 'createdDatetimeStamp', 'lng', 'lat']
     skippedKeys = skippedKeys.concat(priorityKeys)
     skippedKeys.map((key) => {
         delete skippedObject[key]
