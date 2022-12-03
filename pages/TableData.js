@@ -122,7 +122,7 @@ const TableData = (props) => {
                           alt="No_image"
                         ></Image>
                       ) : (<Image
-                        height="170px"
+                        height="150px"
                         objectFit="cover"
                         loader={imageLoader}
                         src={member1}
