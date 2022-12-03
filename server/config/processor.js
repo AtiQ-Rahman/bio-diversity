@@ -10,6 +10,12 @@ exports.processKeys = async (label) => {
 
 
 }
+
+exports.getColumnsWithValues = async (object) => {
+    let { serial,
+        kingdom, phylum, class_name, order_name, family, genus, english, bangla, common, synonym, sub_species, variety, sub_variety, clone, forma, species,
+        identificationFeatures, profile_image, additional_files, lng, lat, marker, category, subCategory, addtionalCategories, district, subGroup } = object
+}
 exports.matchKey = async () => {
     let list = [
         {

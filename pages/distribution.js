@@ -205,8 +205,8 @@ const Distribution = () => {
     map.current.addControl(new mapboxgl.NavigationControl(), "top-left");
     modifiedList.map(async (speciesData, index) => {
       if (
-        speciesData.districts[0]?.center[0] &&
-        speciesData.districts[0]?.center[1]
+        speciesData?.districts?.[0]?.center?.[0] &&
+        speciesData?.districts?.[0]?.center?.[1]
       ) {
         for (let district of speciesData.districts) {
           const el = document.createElement("div");
