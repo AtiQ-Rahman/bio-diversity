@@ -103,8 +103,8 @@ export const createMarkerElement = async (el, styles, elements, marker, map) => 
     const zoom = map.current.getZoom();
     const scalePercent = 1 + (zoom - 7) * 0.4;
     let top = scalePercent * 10
-    let height = 15
-    let width = 15
+    let height = 17
+    let width = 17
     el.style.height = `${height}px`
     el.style.width = `${width}px`
     el.style.top = `-${top}px`;

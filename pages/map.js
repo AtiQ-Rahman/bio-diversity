@@ -155,12 +155,14 @@ const Map = () => {
             console.log(data)
             let district = data.features[0]
             const el = document.createElement('div');
-            await createMarkerElement(el,
-              styles,
-              elements,
-              speciesData.markerColor,
-              map)
-            await createMapboxMarker(el, mapboxgl, speciesData.marker, district, map)
+            if (district) {
+              await createMarkerElement(el,
+                styles,
+                elements,
+                speciesData.markerColor,
+                map)
+              await createMapboxMarker(el, mapboxgl, speciesData.marker, district, map)
+            }
             // const width = "auto";
             // map.current.on('zoom', () => {
             //     const zoom = map.current.getZoom();
@@ -176,12 +178,15 @@ const Map = () => {
       else {
         speciesData.districts.map(async (district, index) => {
           const el = document.createElement('div');
-          await createMarkerElement(el,
-            styles,
-            elements,
-            speciesData.markerColor,
-            map)
-          await createMapboxMarker(el, mapboxgl, speciesData.marker, district, map)
+          if (district?.center[0]) {
+            await createMarkerElement(el,
+              styles,
+              elements,
+              speciesData.markerColor,
+              map)
+            await createMapboxMarker(el, mapboxgl, speciesData.marker, district, map)
+          }
+
         })
       }
       // map.current.on('zoom', () => {
@@ -285,7 +290,7 @@ const Map = () => {
                   src={member1}
                   alt="No_image"
                 ></Image>)
-               }
+                }
                 {speciesData?.additionalFiles?.length > 0 ? (
                   <div>
                     <Slider {...settingsForAddition}>
