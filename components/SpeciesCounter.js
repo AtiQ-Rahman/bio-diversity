@@ -17,8 +17,7 @@ export const SpecicesCounter = (props) => (
         <Grid item>
        
            <DefaultCounterCard
-           
-            count={props.counter}
+            count={Number(props.counter)}
             suffix="+"
             title="Species"
             description="From teknaf to tetulia"

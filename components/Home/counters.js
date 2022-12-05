@@ -60,8 +60,7 @@ function Counters() {
       <Grid item xs={12} md={4} >
         {/* <Icon icon="material-symbols:biotech-outline" /> */}
         <DefaultCounterCard
-
-          count={totalAvailable}
+          count={Number(totalAvailable)}
           suffix="+"
           title="Species"
           description="From teknaf to tetulia"
@@ -78,7 +77,7 @@ function Counters() {
       </Grid>
       <Grid item xs={12} md={4}>
         <DefaultCounterCard
-          count={totalImages}
+          count={Number(totalImages)}
           suffix="+"
           // backgroundColor="#2c8f7c"
 
@@ -96,7 +95,7 @@ function Counters() {
       </Grid>
       <Grid item xs={12} md={4} >
         <DefaultCounterCard
-          count={totalRequested}
+          count={Number(totalRequested)}
           suffix="+"
           title="Request"
           description="For adding on our server"

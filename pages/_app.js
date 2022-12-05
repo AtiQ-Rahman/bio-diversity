@@ -9,6 +9,11 @@ import { SnackbarProvider } from "notistack";
 import { motion, AnimatePresence } from "framer-motion"
 // import { BrowserRouter } from "react-router-dom";
 import Footer from "../components/Home/Footer/Footer";
+import Router from 'next/router';
+import NProgress from 'nprogress'; //nprogress module
+import 'nprogress/nprogress.css'; //styles of nprogress
+//Binding events. 
+Router.events.on('routeChangeStart', () => NProgress.start()); Router.events.on('routeChangeComplete', () => NProgress.done()); Router.events.on('routeChangeError', () => NProgress.done());
 function MyApp({ Component, pageProps, router }) {
   // const customization = useSelector((state) => state.customization);
 
@@ -18,7 +23,7 @@ function MyApp({ Component, pageProps, router }) {
       <ThemeProvider theme={themes({ fontFamily: 'Raleway, Arial' })}>
         <SnackbarProvider>
           <CssBaseline />
-          <AnimatePresence>
+          {/* <AnimatePresence>
             <motion.div key={router.route} initial="pageInitial" animate="pageAnimate" exit="pageExit" variants={{
 
               pageAnimate: {
@@ -28,10 +33,10 @@ function MyApp({ Component, pageProps, router }) {
                 backgroundColor: "white",
                 opacity: 0
               }
-            }}>
+            }}> */}
               <Component {...pageProps} />
-            </motion.div>
-          </AnimatePresence>
+            {/* </motion.div>
+          </AnimatePresence> */}
         </SnackbarProvider>
         {/* <Footer /> */}
       </ThemeProvider>

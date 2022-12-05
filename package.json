@@ -41,6 +41,7 @@
     "mysql2": "^2.3.3",
     "next": "12.3.0",
     "notistack": "^2.0.5",
+    "nprogress": "^0.2.0",
     "prop-types": "^15.8.1",
     "react": "18.2.0",
     "react-chartjs-2": "^4.3.1",

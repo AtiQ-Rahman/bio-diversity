@@ -88,7 +88,7 @@ const TableData = (props) => {
               <TableBody>
                 {props.speciesList.map((row, index) => (
                   <StyledTableRow
-                    key={`details${row.index}`}
+                    key={`details${index}`}
                     sx={{
                       "&:last-child td, &:last-child th": { border: 0 },
                     }}

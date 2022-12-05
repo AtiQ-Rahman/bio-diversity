@@ -71,7 +71,7 @@ const dotStyle = {
 };
 const ImageSlider = ({ slides }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [searchText, setSearchText] = useState(0);
+    let searchText;
     const slider = useRef()
     const router = useRouter()
     const settings = {
@@ -174,7 +174,7 @@ const ImageSlider = ({ slides }) => {
                         className={styles.search}
                     >
                         <OutlinedInput placeholder="Please enter text" onChange={(e, value) => {
-                            setSearchText(e.target.value)
+                            searchText = e.target.value
                         }} />
                     </FormControl>
                     <Button
