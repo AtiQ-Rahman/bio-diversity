@@ -1181,11 +1181,8 @@ const AddNewSpecies = () => {
                         </Grid>
 
 
-
                         <Grid item md={6} xs={12} rowSpacing={4}>
-                          <Typography gutterBottom component="h3" variant="h3">
-                            Identification Features
-                          </Typography>
+
                           <Autocomplete
                             multiple
                             fullWidth
@@ -1215,6 +1212,12 @@ const AddNewSpecies = () => {
                           />
 
                         </Grid>
+                        <Grid item md={12} xs={12}>
+                          <Typography gutterBottom component="h3" variant="h3">
+                            Identification Features
+                          </Typography>
+                        </Grid>
+
                         <Grid item xs={12}>
 
 
