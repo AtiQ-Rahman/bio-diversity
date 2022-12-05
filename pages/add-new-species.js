@@ -444,7 +444,7 @@ const AddNewSpecies = () => {
 
                   </Typography>
                   <Grid container spacing={3} sx={{ pt: 5, mb: 5 }}>
-                    <Grid item xs={2}>
+                    <Grid item xs={4} md={2}>
                       <Autocomplete
                         size="small"
                         disabled
@@ -484,15 +484,13 @@ const AddNewSpecies = () => {
                       />
                     </Grid>
                     {values?.category?.type === "Dropdown" ? (
-                      <Grid item xs={2}>
+                      <Grid item xs={4} md={2}>
                         <Autocomplete
                           size="small"
                           disablePortal
-                          id="species"
-                          name={
-                            values?.subCategory
-                          }
-                          value={values?.subCategory}
+                          id="subCategorIES"
+                          name="subCategory"
+                          value={values?.subCategory || ''}
                           options={subCategories}
                           getOptionLabel={(option) => option?.name || option}
                           // sx={{ width: 300 }}
@@ -555,7 +553,7 @@ const AddNewSpecies = () => {
                       })
                     )}
 
-                    <Grid item xs={2}>
+                    <Grid item xs={4} md={2}>
                       <Autocomplete
                         freeSolo
                         size="small"
@@ -585,7 +583,7 @@ const AddNewSpecies = () => {
                         )}
                       />
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid item xs={4} md={2}>
                       <Autocomplete
                         freeSolo
                         size="small"
@@ -620,7 +618,7 @@ const AddNewSpecies = () => {
                       />
                     </Grid>
 
-                    <Grid item xs={2}>
+                    <Grid item xs={4} md={2}>
                       <Autocomplete
                         freeSolo
                         size="small"
@@ -654,7 +652,7 @@ const AddNewSpecies = () => {
                         )}
                       />
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid item xs={4} md={2}>
                       <Autocomplete
                         freeSolo
                         size="small"
@@ -697,7 +695,7 @@ const AddNewSpecies = () => {
                         )}
                       />
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid item xs={4} md={2}>
                       <Autocomplete
                         freeSolo
                         size="small"
@@ -740,7 +738,7 @@ const AddNewSpecies = () => {
                         )}
                       />
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid item xs={4} md={2}>
                       <Autocomplete
                         freeSolo
                         size="small"
@@ -773,7 +771,7 @@ const AddNewSpecies = () => {
                         )}
                       />
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid item xs={4} md={2}>
                       <Autocomplete
                         freeSolo
                         size="small"
@@ -807,7 +805,7 @@ const AddNewSpecies = () => {
                         )}
                       />
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid item xs={4} md={2}>
                       <Autocomplete
                         freeSolo
                         size="small"
@@ -842,7 +840,7 @@ const AddNewSpecies = () => {
                         )}
                       />
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid item xs={4} md={2}>
                       <Autocomplete
                         freeSolo
                         size="small"
@@ -882,7 +880,7 @@ const AddNewSpecies = () => {
                         )}
                       />
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid item xs={4} md={2}>
                       <Autocomplete
                         freeSolo
                         size="small"
@@ -917,7 +915,7 @@ const AddNewSpecies = () => {
                         )}
                       />
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid item xs={4} md={2}>
                       <Autocomplete
                         freeSolo
                         size="small"
@@ -957,7 +955,7 @@ const AddNewSpecies = () => {
                         )}
                       />
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid item xs={4} md={2}>
                       <Autocomplete
                         freeSolo
                         size="small"
@@ -990,7 +988,7 @@ const AddNewSpecies = () => {
                         )}
                       />
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid item xs={4} md={2}>
                       <Autocomplete
                         freeSolo
                         size="small"
@@ -1145,7 +1143,7 @@ const AddNewSpecies = () => {
                                   height="80"
                                 />
                               )} */}
-                              <SketchPicker
+                              {/* <SketchPicker
                                 color={values.markerColor ?? "#fffff"}
                                 onChangeComplete={e => {
                                   setFieldValue("markerColor", e.hex);
@@ -1153,7 +1151,9 @@ const AddNewSpecies = () => {
                                 }
                                 }>
 
-                              </SketchPicker >
+                              </SketchPicker > */}
+                              <input type="color" id="head" name="markerColor"
+                                value={values.markerColor ?? "#e66465"} onChange={handleChange}></input>
                               {/* <TextField
                                 sx={{
                                   flexGrow: 1,
@@ -1192,7 +1192,7 @@ const AddNewSpecies = () => {
                             id="tags-standard"
                             options={geocodeSearchResult}
                             getOptionLabel={(option) =>
-                              option.place_name || option
+                              option?.place_name || option
                             }
                             defaultValue={[]}
                             onInputChange={(e, value) => {
@@ -1290,7 +1290,7 @@ const AddNewSpecies = () => {
                             Add New Category
                           </Button>
                           {/* <Grid container spacing={2}>
-                            <Grid item xs={2}>
+                            <Grid item xs={4} md={2}>
                               <Autocomplete
                                 size="small"
                                 disablePortal
@@ -1330,7 +1330,7 @@ const AddNewSpecies = () => {
                               />
                             </Grid>
                             {values?.category?.type === "Dropdown" ? (
-                              <Grid item xs={2}>
+                              <Grid item xs={4} md={2}>
                                 <Autocomplete
                                   size="small"
                                   disablePortal

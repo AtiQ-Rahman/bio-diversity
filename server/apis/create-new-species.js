@@ -62,7 +62,7 @@ exports.createNewSpecies = async (req, res, next) => {
                 subCategory = '${subCategory}',order_name = '${order_name}',family = '${family}',genus = '${genus}',
                 variety = '${variety}',sub_variety = '${sub_variety}',clone = '${clone}',forma = '${forma}',species = '${species}',
                 csequestration = '${csequestration}',cproduction = '${cproduction}',ecosystemstatus = '${ecosystemstatus}',
-                ecosystemvalue = '${ecosystemvalue}',geneticdata = '${geneticdata}',speciestaxa = '${speciestaxa}',
+                ecosystemvalue = '${ecosystemvalue}',geneticdata = '${geneticdata}',speciestaxa = '${speciestaxa}', markerColor = '${markerColor}',
                 district = '${JSON.stringify(district)}',subGroup = '${subGroup}',identificationFeatures = '${JSON.stringify(identificationFeatures)}',
                 additional_files = '${fileNameOnServer}' ,profile_image = '${fileNameOnServer[profileIndex]}'
                 ,marker = '${marker}' ,lastModified = '${lastModified}' ,addtionalCategories = '${JSON.stringify(addtionalCategories)}' where serial = '${serial}'`
