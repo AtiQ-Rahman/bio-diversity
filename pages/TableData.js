@@ -116,13 +116,16 @@ const TableData = (props) => {
                       {isValidImage(row?.profile_image) ? (
                         <Image
                           {...imageProps}
+                          height="45px"
+                          width="100px"
                           objectFit="cover"
                           loader={imageLoader}
                           src={imageUrl + "/" + row.profile_image}
                           alt="No_image"
                         ></Image>
                       ) : (<Image
-                        height="150px"
+                        height="45px"
+                        width="90px"
                         objectFit="cover"
                         loader={imageLoader}
                         src={member1}

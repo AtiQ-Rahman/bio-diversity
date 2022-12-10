@@ -46,10 +46,10 @@ const options = [
     name: "Contribute",
     url: "/request-new-species"
   },
-  {
-    name: "Team",
-    url: "/teams"
-  },
+  // {
+  //   name: "Team",
+  //   url: "/teams"
+  // },
   {
     name: "Links",
     url: "/links"
@@ -224,6 +224,15 @@ export default function PrimarySearchAppBar(props) {
     {
       name: "Genetic & Sub-cellular Diversity ",
       path: "/geneticSubCellularDiversity",
+      color: "white",
+
+      // background: "white",
+      border: "none",
+      // icon: <PetsIcon style={{ fontSize: 19 }}></PetsIcon>,
+    },
+    {
+      name: "Team",
+      path: "/teams",
       color: "white",
 
       // background: "white",
