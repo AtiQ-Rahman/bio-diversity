@@ -3,7 +3,7 @@ const mode = 'production' // 'dev' or 'production
 
 const config = {
   dev: "http://localhost:8443/api/v1",
-  production: "https://66.29.151.71:8443/api/v1"
+  production: "http://66.29.151.71:8443/api/v1"
 }
 const axiosConfig = {
   baseURL: config[mode]
