@@ -62,20 +62,35 @@ const TableData = (props) => {
             <Table aria-label="customized table">
               <TableHead>
                 <TableRow>
-                  <StyledTableCell sx={{ pl: 4 }}>
+                  <StyledTableCell >
                     <b>SI</b>
                   </StyledTableCell>
-                  <StyledTableCell sx={{ pl: 7 }}>
+                  <StyledTableCell sx={{ pl: 4 }}>
                     <b>Images</b>
                   </StyledTableCell>
                   <StyledTableCell align="center">
                     <b>Species Name</b>
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    <b>Type</b>
+                    <b>Sub Group</b>
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    <b>Category</b>
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    <b>Kingdom</b>
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    <b>Phylum</b>
                   </StyledTableCell>
                   <StyledTableCell align="center">
                     <b>Family</b>
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                    <b>Genus</b>
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    <b>Species</b>
                   </StyledTableCell>
                   <StyledTableCell align="center">
                     <b>Order name</b>
@@ -93,7 +108,7 @@ const TableData = (props) => {
                       "&:last-child td, &:last-child th": { border: 0 },
                     }}
                   >
-                    <StyledTableCell component="th" scope="row" sx={{ pl: 4 }}>
+                    <StyledTableCell component="th" scope="row" >
                       {index + 1}
                     </StyledTableCell>
                     <StyledTableCell scope="row" width={200}>
@@ -116,13 +131,16 @@ const TableData = (props) => {
                       {isValidImage(row?.profile_image) ? (
                         <Image
                           {...imageProps}
+                          height="45px"
+                          width="100px"
                           objectFit="cover"
                           loader={imageLoader}
                           src={imageUrl + "/" + row.profile_image}
                           alt="No_image"
                         ></Image>
                       ) : (<Image
-                        height="150px"
+                        height="45px"
+                        width="90px"
                         objectFit="cover"
                         loader={imageLoader}
                         src={member1}
@@ -140,30 +158,47 @@ const TableData = (props) => {
                       {row.bangla}
                     </StyledTableCell>
                     <StyledTableCell align="center">
+                      {row.subGroup}
+                    </StyledTableCell>
+                    {/* <StyledTableCell align="center">
                       {row.identificationFeatures.subCategory?.name ||
                         row.identificationFeatures.subCategory}
+                    </StyledTableCell> */}
+                   <StyledTableCell align="center">
+                      {row.category}
                     </StyledTableCell>
-
+                    <StyledTableCell align="center">
+                      {row.kingdom}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {row.phylum}
+                    </StyledTableCell>
                     <StyledTableCell align="center">
                       {row.family}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {row.genus}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {row.species}
                     </StyledTableCell>
                     <StyledTableCell align="center">
                       {row.order_name}
                     </StyledTableCell>
 
-                    <StyledTableCell align="center">
+                    <StyledTableCell align="center" >
                       <Grid
-                        container
-                        spacing={1}
-                        sx={{
-                          width: "fit-content",
-                          margin: "0 auto",
-                        }}
+                        // container
+                        // spacing={1}
+                        // sx={{
+                        //   width: "fit-content",
+                        //   margin: "0 auto",
+                        // }}
                       >
                         {/* <Grid item xs={12}> */}
                         <Button
                           style={{
-                            width: "110px",
+                            width: "90px",
                             maxHeight: "80px",
                             minWidth: "40px",
                             minHeight: "40px",
@@ -190,11 +225,11 @@ const TableData = (props) => {
                         </Button>
                         {/* </Grid> */}
                         {/* <Grid item xs={12}> */}
-
+                          
                         <Button
                           className={styles.bg_primary}
                           style={{
-                            width: "110px",
+                            width: "90px",
                             maxHeight: "80px",
                             minWidth: "40px",
                             minHeight: "40px",
@@ -212,7 +247,7 @@ const TableData = (props) => {
                             })
                           }
                           // variant="outlined"
-                          sx={{ ml: 1 }}
+                          sx={{ mt: 0.1,ml:0.1 }}
                         >
                           View map
                         </Button>
