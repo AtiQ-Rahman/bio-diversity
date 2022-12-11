@@ -1,5 +1,5 @@
 import axios from "axios";
-const mode = 'production' // 'dev' or 'production
+export const mode = 'production' // 'dev' or 'production
 
 const config = {
   dev: "http://localhost:8443/api/v1",
