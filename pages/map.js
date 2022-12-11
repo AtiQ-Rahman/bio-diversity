@@ -21,7 +21,7 @@ console.log(process.env.mapbox_key);
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { createMapboxMarker, createMarkerElement, imageLoader, isValidImage } from "../utils/utils";
+import { createMapboxMarker, createMarkerElement, imageLoader, initialLngLatZoom, isValidImage, mapBounds } from "../utils/utils";
 const member1 = require('../assets/images/no-image.png')
 let imageProps = {
   height: "300px",
@@ -53,9 +53,9 @@ const Map = () => {
   const [query, setQuery] = useState(router.query)
   const mapContainer = useRef(null);
   const map = useRef(null);
-  const [lng, setLng] = useState(90.399452);
-  const [lat, setLat] = useState(23.777176);
-  const [zoom, setZoom] = useState(6.52);
+  const [lng, setLng] = useState(initialLngLatZoom.lng);
+  const [lat, setLat] = useState(initialLngLatZoom.lat);
+  const [zoom, setZoom] = useState(initialLngLatZoom.zoom);
   const [speciesData, setSpeciesData] = useState({})
   const [elements, setElements] = useState([])
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -141,10 +141,32 @@ const Map = () => {
         center: [lng, lat],
         zoom: zoom
       });
+      map.current.fitBounds(mapBounds, {
+        linear: true,
+        duration: 0
+      });
+      map.current.setZoom(initialLngLatZoom.zoom)
+      map.current.setMinZoom(initialLngLatZoom.zoom)
+      map.current.setZoom(initialLngLatZoom.zoom)
+      console.log('mapbounds', map.current.getBounds())
+      console.log('mapbounds', mapBounds)
+      const getBoundsFromViewport = mapBounds;
+      map.current.setMaxBounds(getBoundsFromViewport);
+      // map.current.setCenter([speciesData?.districts?.[0]?.center?.[0] || lng, speciesData?.districts?.[0]?.center?.[1] || lat])
+
       map.current.on('move', () => {
         setLng(map.current.getCenter().lng.toFixed(4));
         setLat(map.current.getCenter().lat.toFixed(4));
         setZoom(map.current.getZoom().toFixed(2));
+      });
+      map.current.flyTo({
+        center: [speciesData?.districts?.[0]?.center?.[0] || lng, speciesData?.districts?.[0]?.center?.[1] || lat],
+        zoom: 8,
+        bearing: 0,
+        pitch: 10, // Fly to the selected target
+        duration: 5000, // Animate over 12 seconds
+        essential: true // This animation is considered essential with
+        //respect to prefers-reduced-motion
       });
       map.current.addControl(new mapboxgl.NavigationControl(), 'top-left');
       if (typeof speciesData.districts == 'string') {
@@ -163,16 +185,6 @@ const Map = () => {
                 map)
               await createMapboxMarker(el, mapboxgl, speciesData.marker, district, map)
             }
-            // const width = "auto";
-            // map.current.on('zoom', () => {
-            //     const zoom = map.current.getZoom();
-            //     const scalePercent = 1 + (zoom - 8) * 0.4;
-            //     let height = scalePercent * 70
-            //     let width = scalePercent * 70
-            //     const el = marker.getElement().children[0]
-            //     el.style.height = `${height}px`
-            //     el.style.width = `${width}px`
-            // });
           });
       }
       else {

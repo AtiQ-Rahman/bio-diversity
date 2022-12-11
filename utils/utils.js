@@ -71,7 +71,11 @@ export const mapBounds =
             lat: 26.7469
         }
     ]
-
+export const initialLngLatZoom = {
+    lng: 90.5011,
+    lat: 23.8913,
+    zoom: 6.80
+}
 // export const createMarkerElement = async (el, styles, elements, marker, map) => {
 //     el.className = styles.marker;
 //     el.style.backgroundImage = `url('${marker}')`;
@@ -103,8 +107,8 @@ export const createMarkerElement = async (el, styles, elements, marker, map) => 
     const zoom = map.current.getZoom();
     const scalePercent = 1 + (zoom - 7) * 0.4;
     let top = scalePercent * 10
-    let height = 17
-    let width = 17
+    let height = 20
+    let width = 20
     el.style.height = `${height}px`
     el.style.width = `${width}px`
     el.style.top = `-${top}px`;

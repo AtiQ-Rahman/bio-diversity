@@ -35,6 +35,14 @@ exports.isValidImageOrMarker = (fileName) => {
         return true
     }
 }
+exports.isValidValueOrKey= (value) => {
+    if (!value || value == '' || value?.toLowerCase() == 'n/a') {
+        return false
+    }
+    else {
+        return true
+    }
+}
 exports.log = (message = '', value = '') => {
     if (value == '') return console.log(message)
     return console.log(message, value)

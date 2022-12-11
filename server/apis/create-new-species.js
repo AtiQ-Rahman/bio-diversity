@@ -132,6 +132,9 @@ exports.uploadSpeciesByExcel = async (req, res, next) => {
                     else { object[splittedKey[0]] = uploadedSpecies[item][idx].replaceAll("'", "") }
                 }
             }
+            if (!object.category) {
+                object.category = pageGroups.eco
+            }
             let table
             if (object.category.match(/plant/i)) {
                 table = await getTable(speciesTableTypes.plants)
@@ -160,7 +163,7 @@ exports.uploadSpeciesByExcel = async (req, res, next) => {
             else {
                 table = await getTable(object.category)
             }
-
+            console.log({ object })
             let { serial,
                 kingdom, phylum, class_name, order_name, family, genus, english, bangla, common, synonym, sub_species, variety, sub_variety, clone, forma, species,
                 identificationFeatures, profile_image, additional_files, lng, lat, marker, category, subCategory, addtionalCategories, district, subGroup } = object
@@ -171,7 +174,7 @@ exports.uploadSpeciesByExcel = async (req, res, next) => {
             let createdDatetimeStamp = moment().format("YYYY-MM-DD HH:mm:ss");
             let modifiedIdentifications = JSON.stringify(identificationFeatures)
             let districts = []
-            if (district.includes('+')) {
+            if (district?.includes('+')) {
                 // district = district.replaceAll(`"` , ``)
                 let splittedValue = item.district.split('+')
                 for (let district of splittedValue) {
@@ -185,7 +188,7 @@ exports.uploadSpeciesByExcel = async (req, res, next) => {
                     }
                 }
             }
-            else {
+            else if (district) {
                 // district = district.replaceAll(`"` , ``)
                 let response = await callGeocoderApi(district)
                 if (response) {
@@ -200,9 +203,12 @@ exports.uploadSpeciesByExcel = async (req, res, next) => {
                     districts.push([])
                 }
             }
-            console.log(modifiedIdentifications)
             let markerColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
-
+            object = {
+                ...object, serial,
+                kingdom, phylum, class_name, order_name, family, genus, english, bangla, common, synonym, sub_species, variety, sub_variety, clone, forma, species,
+                identificationFeatures, profile_image, additional_files, lng, lat, marker, category, subCategory, addtionalCategories, district, subGroup
+            }
             let insertQuery = `insert into ${table} 
                     (serial, kingdom, phylum, class_name, category,subCategory, order_name, family, genus,
                      english, bangla, common, synonym, sub_species, variety, sub_variety, clone, forma, species,

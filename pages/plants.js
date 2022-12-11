@@ -22,6 +22,7 @@ import CommonDropDowns from "../components/CommonDropDowns";
 import TableData from "./TableData";
 import { useRouter } from "next/router";
 import { initialValues, pageGroups } from "../utils/utils";
+import Loader from "../components/loader";
 
 const Plants = () => {
   const router = useRouter();
@@ -40,7 +41,7 @@ const Plants = () => {
         });
         setSpeciesList(res?.data);
         setSearchValues(searchParameters)
-        console.log({searchParameters})
+        console.log({ searchParameters })
         localStorage.removeItem(`allowed${pageGroups.plants}`)
       }
       else {
@@ -150,20 +151,25 @@ const Plants = () => {
             </Form>
           )}
         </Formik>
-      ) : null}
-
-
-
-      {speciesList?.length > 0 ? (
-        <TableData speciesList={speciesList} category={pageGroups.plants}></TableData>
       ) : (
-        <Typography variant="h1" component="h1" align="center" paddingBottom={20} paddingTop={10}>
-          {searchMessage ?? ""}
-        </Typography>
-      )}
+        null
+      )
+      }
+
+
+
+      {
+        speciesList?.length > 0 ? (
+          <TableData speciesList={speciesList} category={pageGroups.plants}></TableData>
+        ) : (
+          <Typography variant="h1" component="h1" align="center" paddingBottom={20} paddingTop={10}>
+            {searchMessage ?? ""}
+          </Typography>
+        )
+      }
 
       <Footer />
-    </Box>
+    </Box >
   );
 };
 Plants.getInitialProps = ({ query }) => {

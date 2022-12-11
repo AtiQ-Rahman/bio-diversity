@@ -5,6 +5,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import themes from '../theme';
 import { CssBaseline } from "@mui/material";
 import '../styles/mapPopUp.css'
+import '../styles/Spinner.scss'
 import { SnackbarProvider } from "notistack";
 import { motion, AnimatePresence } from "framer-motion"
 // import { BrowserRouter } from "react-router-dom";

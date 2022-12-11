@@ -1,8 +1,10 @@
+const { isValidValueOrKey } = require("./common");
+
 exports.processKeys = async (label) => {
     let list = await this.matchKey()
     for (let item of list) {
-
-        if (label.trim().toLowerCase() == item.label.trim().toLowerCase()) {
+        let matchRule = new RegExp(label.trim().toLowerCase());
+        if (item.label.trim().toLowerCase().match(matchRule, 'i')) {
             return item.key
         }
     }
@@ -11,10 +13,30 @@ exports.processKeys = async (label) => {
 
 }
 
-exports.getColumnsWithValues = async (object) => {
-    let { serial,
-        kingdom, phylum, class_name, order_name, family, genus, english, bangla, common, synonym, sub_species, variety, sub_variety, clone, forma, species,
-        identificationFeatures, profile_image, additional_files, lng, lat, marker, category, subCategory, addtionalCategories, district, subGroup } = object
+exports.getColumnsAndValues = async (object) => {
+    let queryColumns = '('
+    let queryValues = 'VALUES ('
+    let keys = Object.keys(object)
+    for (let idx = 0; idx < keys.length; idx++) {
+        let key = keys[idx]
+        if (idx !== keys.length - 1) {
+            if (isValidValueOrKey(object[key])) {
+                queryColumns += `${key},`
+                queryValues += `'${object[key]}',`
+            }
+        }
+        else {
+            if (isValidValueOrKey(object[key])) {
+                queryColumns += `${key})`
+                queryValues += `'${object[key]}')`
+            }
+            else {
+                queryColumns += `)`
+                queryValues += `)`
+            }
+        }
+    }
+    return queryColumns + queryValues
 }
 exports.matchKey = async () => {
     let list = [
@@ -31,7 +53,7 @@ exports.matchKey = async () => {
             key: 'subCategory'
         },
         {
-            label: 'SubGroup',
+            label: 'SubGroup / types',
             key: 'subGroup'
         },
         {
@@ -254,6 +276,27 @@ exports.matchKey = async () => {
             label: 'Miscellaneous',
             key: 'identificationFeatures.miscellaneous'
         },
+        {
+            label: 'c-sequestration',
+            key: 'csequestration'
+        },
+        {
+            label: 'c-production',
+            key: 'cproduction'
+        },
+        {
+            label: 'o2-production',
+            key: 'o2production'
+        },
+        {
+            label: 'ecosystem status',
+            key: 'ecosystemstatus'
+        },
+        {
+            label: 'ecosystem value',
+            key: 'ecosystemvalue'
+        },
+
 
     ]
     return list
