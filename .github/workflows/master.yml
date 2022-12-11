@@ -15,8 +15,8 @@ jobs:
         with:
             server: 66.29.151.71
             username: bio
-            password: /bio-diversity/
-            node-version: 16.13.1
+            password: bio_diversity
+            server-dir: /bio-diversity/
         
       - run: yarn install
       - run: yarn dev --if-present
