@@ -1,9 +1,9 @@
 import axios from "axios";
-const mode = 'dev' // 'dev' or 'production
+const mode = 'production' // 'dev' or 'production
 
 const config = {
   dev: "http://localhost:8443/api/v1",
-  production: "https://bio-diversity-server.herokuapp.com/api/v1"
+  production: "https://66.29.151.71:8443/api/v1"
 }
 const axiosConfig = {
   baseURL: config[mode]
