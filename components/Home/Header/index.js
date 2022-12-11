@@ -385,9 +385,12 @@ export default function PrimarySearchAppBar(props) {
         }}
       >
         <Toolbar>
-          <Link href="/">
+
             <Box
               component="span" sx={{ display: { md: 'block' }, flexGrow: 1, cursor: "pointer" }}
+              onClick={()=>{
+                router.push('/')
+              }}
             >
 
               <Grid
@@ -435,7 +438,7 @@ export default function PrimarySearchAppBar(props) {
 
 
             </Box>
-          </Link>
+
 
 
           <Box sx={{ flexGrow: 1 }} />

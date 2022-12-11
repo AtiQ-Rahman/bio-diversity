@@ -41,7 +41,7 @@ import {
 import { Formik, Form } from "formik";
 
 import callApi from "../utils/callApi";
-import AllDetailsPage from "./AllDetailsPage";
+import AllDetailsPage from "./allDetailsPage";
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
     padding: theme.spacing(2),

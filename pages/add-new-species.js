@@ -37,7 +37,7 @@ import dropStyles from "../styles/DropFile.module.css";
 import { styled, useTheme } from "@mui/material/styles";
 import callApi, { imageUrl } from "../utils/callApi";
 import { SketchPicker } from 'react-color';
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { teal } from "@mui/material/colors";
 import { useRouter } from "next/router";
 import Geocoder from "react-mapbox-gl-geocoder";

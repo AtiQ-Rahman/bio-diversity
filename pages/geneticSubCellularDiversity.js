@@ -31,7 +31,7 @@ import styles from "../styles/Home.module.css";
 import { styled, useTheme } from "@mui/material/styles";
 import callApi, { imageUrl } from "../utils/callApi";
 import { imageLoader, initialValues, pageGroups, processNames } from "../utils/utils";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { useRouter } from "next/router";
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
    [`&.${tableCellClasses.head}`]: {

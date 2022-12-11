@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import styles from "../styles/DropFile.module.css";
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 import { Box, Grid, Typography } from '@mui/material';
 import { Icon } from '@iconify/react';
 

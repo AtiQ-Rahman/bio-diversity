@@ -19,7 +19,7 @@ import {
     IconButton,
     Dialog,
 } from "@mui/material";
-import Image from "next/image";
+import Image from "next/legacy/image";
 const species1 = require("../assets/images/species5.jpg");
 const species2 = require("../assets/images/species6.jpg");
 const species3 = require("../assets/images/species7.jpg");

@@ -16,7 +16,7 @@ import { height, styled } from "@mui/system";
 import callApi, { imageUrl } from "../utils/callApi";
 import React from "react";
 import styles from "../styles/Home.module.css";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { useRouter } from "next/router";
 import { isValidImage } from "../utils/utils";
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -55,7 +55,7 @@ const TableData = (props) => {
         {/* {props.length > 0 ? ( */}
         <>
           <Typography variant="h2" component="h2" gutterBottom>
-            Total Species Found : {props.speciesList.length}
+            Total Species Found : {props?.speciesList?.length}
           </Typography>
           <br />
           <TableContainer component={Paper}>
@@ -101,7 +101,7 @@ const TableData = (props) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {props.speciesList.map((row, index) => (
+                {props.speciesList?.map((row, index) => (
                   <StyledTableRow
                     key={`details${index}`}
                     sx={{

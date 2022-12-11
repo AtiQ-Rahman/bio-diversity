@@ -28,7 +28,7 @@ import { SET_MENU } from "../store/actions";
 import styles from "../styles/Home.module.css";
 import { styled, useTheme } from "@mui/material/styles";
 import callApi, { imageUrl } from "../utils/callApi";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { imageLoader, initialValues, pageGroups, processNames } from "../utils/utils";
 import { useRouter } from "next/router";
 let imageProps = {

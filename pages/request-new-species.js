@@ -28,7 +28,7 @@ import { SET_MENU } from "../store/actions";
 import styles from "../styles/Home.module.css";
 import { styled, useTheme } from "@mui/material/styles";
 import callApi from "../utils/callApi";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import mapboxgl from "mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import "mapbox-gl/dist/mapbox-gl.css";
 import { teal } from "@mui/material/colors";

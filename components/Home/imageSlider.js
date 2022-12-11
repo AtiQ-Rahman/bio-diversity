@@ -12,7 +12,7 @@ import { Icon } from '@iconify/react';
 import styles from '../../styles/Home.module.css'
 import { styled } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
-import Image from "next/image";
+import Image from "next/legacy/image";
 
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";

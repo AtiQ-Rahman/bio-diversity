@@ -1,6 +1,6 @@
 import { Grid, Paper, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import React, { useEffect, useState } from "react";
 
 import styles from "../styles/Home.module.css";

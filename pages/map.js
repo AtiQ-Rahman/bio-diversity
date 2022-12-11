@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import React, { useState, useEffect, useRef } from "react";
 import styles from "../styles/Home.module.css";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import mapboxgl from "mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import "mapbox-gl/dist/mapbox-gl.css";
 import { useRouter } from "next/router";
