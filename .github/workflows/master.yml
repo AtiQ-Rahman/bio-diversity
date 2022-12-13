@@ -11,12 +11,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@main
       - name: Connect_to_server
-        uses: SamKirkland/FTP-Deploy-Action@3.1.2
+        uses: SamKirkland/FTP-Deploy-Action@4.3.3
         with:
-            ftp-server: ftp://66.29.151.71
-            ftp-username: bio
-            ftp-password: bio_diversity
-            local-dir: /home/bio/bio-diversity
+            server: ftp://66.29.151.71
+            username: bio
+            password: bio_diversity
+            local-dir: out/
+            server-dir: /home/bio/bio-diversity/out
         
       - run: yarn install
       - run: yarn dev --if-present
