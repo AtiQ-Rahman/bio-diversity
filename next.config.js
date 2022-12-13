@@ -11,12 +11,16 @@ const nextConfig = {
   },
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
-    },
+  },
+  images: {
+    loader: 'akamai',
+    path: '',
+  },
 }
 module.exports = withSass({
   /* bydefault config  option Read For More Optios
   here https://github.com/vercel/next-plugins/tree/master/packages/next-sass
   */
   cssModules: true
-  })
+})
 module.exports = nextConfig
