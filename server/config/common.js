@@ -1,7 +1,7 @@
 const db = require("./connectToDatabase");
 const fetch = require("node-fetch");
 const { categoryTable, homepageTable, subcategoriesTable, speciesTable, requestSpeciesTable, deletedSpeciesTable } = require("./db-tables");
-const dbName = process.env.DATABASE
+const dbName = process.env.DB_DATABASE
 
 const createQueryForSpecies = async (table) => {
     console.log({ table })
