@@ -14,7 +14,7 @@ const nextConfig = {
   },
   images: {
     loader: 'akamai',
-    path: '',
+    path: '.',
   },
 }
 module.exports = withSass({
