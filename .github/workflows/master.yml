@@ -16,8 +16,7 @@ jobs:
             server: ftp://66.29.151.71
             username: bio
             password: bio_diversity
-            local-dir: out/
-            server-dir: /home/bio/bio-diversity/out/
+            server-dir: /home/bio/bio-diversity/
         
       - run: yarn install
       - run: yarn dev --if-present
