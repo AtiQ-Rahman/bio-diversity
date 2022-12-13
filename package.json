@@ -7,7 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "preDeploy": "next export",
-    "deploy": "node deploy.js",
+    "deploy": "bash scripts/publish.sh",
     "start": "next start",
     "lint": "next lint"
   },
