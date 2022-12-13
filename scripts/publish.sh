@@ -11,6 +11,8 @@ export SERVER_USER=bio
 
 # Build app.
 echo "Building the production build for the app...."
+    npm run build
+    npm run preDeploy
     echo "Production build for the app built!" &&
     echo "Uploading files to web server..." &&
     echo 'put -r out/*' | sftp $SERVER_USER@$SERVER_HOST:$SERVER_DIR &&

@@ -12,10 +12,10 @@ const nextConfig = {
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
   },
-  // images: {
-  //   loader: 'akamai',
-  //   path: '.',
-  // },
+  images: {
+    loader: 'akamai',
+    path: '.',
+  },
 }
 module.exports = withSass({
   /* bydefault config  option Read For More Optios
