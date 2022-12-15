@@ -14,14 +14,11 @@ jobs:
       - run: yarn build
       - run: yarn preDeploy
       - name: Ftp Deploy
-        uses: SamKirkland/FTP-Deploy-Action@4.3.3
+        uses: SamKirkland/FTP-Deploy-Action@3.1.2
         with:
-            server: 66.29.151.71
-            username: bio
-            password: bio_diversity
-            local-dir: ./out/
-            server-dir: /home/bio/bio-diversity/out/
-            
-            
-      # - run: yarn add node-fetch@2
-      # - run: node server/deploy.js
+            ftp-server: ftp://66.29.151.71/home/bio/bio-diversity/out/ 
+            ftp-username: bio
+            ftp-password: bio_diversity
+            ftp-local-dir: out/
+      - run: yarn add node-fetch@2
+      - run: node server/deploy.js
