@@ -10,13 +10,18 @@ jobs:
     steps:
       - name: Checkout & Deploy
         uses: actions/checkout@main
+      - run: yarn install
+      - run: yarn install
+      - run: yarn preDeploy
       - name: Ftp Deploy
         uses: SamKirkland/FTP-Deploy-Action@4.3.3
         with:
             server: 66.29.151.71
             username: bio
             password: bio_diversity
-            server-dir: /home/bio/bio-diversity/
+            local-dir: ./out/
+            server-dir: /home/bio/bio-diversity/out/
+            
             
       # - run: yarn add node-fetch@2
       # - run: node server/deploy.js
