@@ -11,7 +11,7 @@ jobs:
       - name: Checkout & Deploy
         uses: actions/checkout@main
       - run: yarn install
-      - run: yarn install
+      - run: yarn build
       - run: yarn preDeploy
       - name: Ftp Deploy
         uses: SamKirkland/FTP-Deploy-Action@4.3.3
