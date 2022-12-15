@@ -231,8 +231,6 @@ export default function ManageSpecies() {
   }
   const uploadCSV = (evt) => {
     if (evt.target.files && evt.target.files[0]) {
-      const f = evt.target.files[0];
-      var name = f.name;
       const reader = new FileReader();
       reader.addEventListener("loadend", async (evt) => {
         // (B1) GET THE FIRST WORKSHEET
