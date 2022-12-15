@@ -19,6 +19,6 @@ jobs:
             ftp-server: ftp://66.29.151.71/home/bio/bio-diversity/out/ 
             ftp-username: bio
             ftp-password: bio_diversity
-            ftp-local-dir: out/
+            local-dir: out/
       - run: yarn add node-fetch@2
       - run: node server/deploy.js
