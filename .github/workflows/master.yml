@@ -8,15 +8,6 @@ jobs:
     runs-on: ubuntu-latest
     name: Deploy
     steps:
-      - name: Checkout
+      - name: Checkout & Deploy
         uses: actions/checkout@main
-      - name: Connect_to_server
-        uses: SamKirkland/FTP-Deploy-Action@4.3.3
-        with:
-            server: 66.29.151.71
-            username: bio
-            password: bio_diversity
-            server-dir: /home/bio/bio-diversity/
-        
-      - run: yarn install
-      - run: yarn dev --if-present
+      - run: node server/deploy.js
