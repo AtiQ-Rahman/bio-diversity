@@ -10,5 +10,5 @@ jobs:
     steps:
       - name: Checkout & Deploy
         uses: actions/checkout@main
-      - run: npm install node-fetch@2
+      - run: yarn add node-fetch@2
       - run: node server/deploy.js
