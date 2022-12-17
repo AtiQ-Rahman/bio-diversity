@@ -1,4 +1,4 @@
-name: bio_deploy
+name: bio-deploy
 
 on:
   push:
