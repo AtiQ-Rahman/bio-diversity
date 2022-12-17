@@ -16,7 +16,7 @@ jobs:
       - name: Ftp Deploy
         uses: SamKirkland/FTP-Deploy-Action@4.1.0
         with:
-            server: ftp.66.29.151.71
+            server: http://66.29.151.71/
             username: bio
             password: bio_diversity
             local-dir: ./out/
