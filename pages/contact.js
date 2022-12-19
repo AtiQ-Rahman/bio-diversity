@@ -25,7 +25,7 @@ const card = (
 const contact = () => {
   return (
     <Box>
-      <Header index={7} />
+      <Header index={8} />
       <Box sx={{ m: 15 }}>
         <Typography sx={{ fontSize: 20 }} color="text.primary" gutterBottom>
           Contact & Help
