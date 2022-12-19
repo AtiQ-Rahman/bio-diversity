@@ -443,7 +443,7 @@ export default function PrimarySearchAppBar(props) {
 
 
 
-          <Box sx={{ }} />
+          <Box sx={{ flexGrow: 1 }} />
           {/* <SearchSection /> */}
 
           <Box
