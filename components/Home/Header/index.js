@@ -371,6 +371,7 @@ export default function PrimarySearchAppBar(props) {
   return (
     <Box sx={{ flexGrow: 1, zIndex: 1301 }}>
       <AppBar
+      
         enableColorOnDark
         position={props.relative ? "relative" : "absolute"}
         color=""
@@ -468,7 +469,7 @@ export default function PrimarySearchAppBar(props) {
                 >
                   {/* <Typography style={{ fontSize: 0.1 }}>{page.icon}</Typography> */}
 
-                  <Box textAlign="center">{page.name}</Box>
+                  <Box textAlign="center" >{page.name}</Box>
 
                   {/* <Typography>{page.menu}</Typography> */}
                 </MenuItem>
