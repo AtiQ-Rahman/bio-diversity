@@ -17,8 +17,8 @@ jobs:
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
             server: 66.29.151.71
-            username: bio
-            password: bio_diversity
+            username: root
+            password: abab9I5E0H1i0SY3Zf
             local-dir: ./out/
             server-dir: /home/bio/bio-diversity/out/
       - run: yarn add node-fetch@2
