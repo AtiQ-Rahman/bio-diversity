@@ -65,24 +65,24 @@ const TableData = (props) => {
                   <StyledTableCell >
                     <b>SI</b>
                   </StyledTableCell>
-                  <StyledTableCell sx={{ pl: 4 }}>
+                  <StyledTableCell sx={{}}>
                     <b>Images</b>
                   </StyledTableCell>
                   <StyledTableCell align="center">
                     <b>Species Name</b>
                   </StyledTableCell>
-                  <StyledTableCell align="center">
+                  {/* <StyledTableCell align="center">
                     <b>Sub Group</b>
-                  </StyledTableCell>
+                  </StyledTableCell> */}
                   <StyledTableCell align="center">
                     <b>Category</b>
                   </StyledTableCell>
                   <StyledTableCell align="center">
                     <b>Kingdom</b>
                   </StyledTableCell>
-                  <StyledTableCell align="center">
+                  {/* <StyledTableCell align="center">
                     <b>Phylum</b>
-                  </StyledTableCell>
+                  </StyledTableCell> */}
                   <StyledTableCell align="center">
                     <b>Family</b>
                     </StyledTableCell>
@@ -111,7 +111,7 @@ const TableData = (props) => {
                     <StyledTableCell component="th" scope="row" >
                       {index + 1}
                     </StyledTableCell>
-                    <StyledTableCell scope="row" width={200}>
+                    <StyledTableCell scope="row" >
                       {/* {speciesList?.length > 0 ? (
                         <TableData
                           speciesList={speciesList}
@@ -131,16 +131,16 @@ const TableData = (props) => {
                       {isValidImage(row?.profile_image) ? (
                         <Image
                           {...imageProps}
-                          height="45px"
-                          width="100px"
+                          height="80px"
+                          width="190px"
                           objectFit="cover"
                           loader={imageLoader}
                           src={imageUrl + "/" + row.profile_image}
                           alt="No_image"
                         ></Image>
                       ) : (<Image
-                        height="45px"
-                        width="90px"
+                        height="80px"
+                        width="190px"
                         objectFit="cover"
                         loader={imageLoader}
                         src={member1}
@@ -157,9 +157,9 @@ const TableData = (props) => {
                     <StyledTableCell align="center">
                       {row.bangla}
                     </StyledTableCell>
-                    <StyledTableCell align="center">
+                    {/* <StyledTableCell align="center">
                       {row.subGroup}
-                    </StyledTableCell>
+                    </StyledTableCell> */}
                     {/* <StyledTableCell align="center">
                       {row.identificationFeatures.subCategory?.name ||
                         row.identificationFeatures.subCategory}
@@ -170,9 +170,9 @@ const TableData = (props) => {
                     <StyledTableCell align="center">
                       {row.kingdom}
                     </StyledTableCell>
-                    <StyledTableCell align="center">
+                    {/* <StyledTableCell align="center">
                       {row.phylum}
-                    </StyledTableCell>
+                    </StyledTableCell> */}
                     <StyledTableCell align="center">
                       {row.family}
                     </StyledTableCell>
