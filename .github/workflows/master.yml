@@ -18,7 +18,7 @@ jobs:
             server: www.biodiversitybangladesh.du.ac.bd
             username: bio
             password: bio_diversity
-            local-dir: ./.next/
-            server-dir: /home/bio/bio-diversity/.next/
+            local-dir: ./out/
+            server-dir: /home/bio/bio-diversity/out/
       - run: yarn add node-fetch@2
       - run: node server/deploy.js
