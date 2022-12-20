@@ -17,11 +17,11 @@ import { useRouter } from "next/router";
 mapboxgl.accessToken = process.env.mapbox_key;
 import callApi, { imageUrl } from "../utils/callApi";
 import { styled } from "@mui/material/styles";
-console.log(process.env.mapbox_key);
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { createMapboxMarker, createMarkerElement, imageLoader, initialLngLatZoom, isValidImage, mapBounds } from "../utils/utils";
+import _ from "lodash";
 const member1 = require('../assets/images/no-image.png')
 let imageProps = {
   height: "300px",
@@ -61,8 +61,9 @@ const Map = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [slider, setSlider] = useState(null)
   const fetchData = async (query, cbfn) => {
+    localStorage.setItem('mapQuery', JSON.stringify(query))
     let searchParameters = query
-    if (!query.initial) {
+    if (!query?.initial) {
       localStorage.setItem(`allowed${query.category.replaceAll(" ", '')}`, true)
     }
     delete searchParameters.initial
@@ -131,8 +132,17 @@ const Map = () => {
     ]
   };
   useEffect(() => {
-    if (!query) return; // initialize map only once
-    fetchData(query, (speciesData) => {
+    let mapQuery
+    if (!query) {
+      console.log("no query")
+      return
+    }; // initialize map only once
+    mapQuery = query
+    if (_.isEmpty(query)) {
+      console.log("empty")
+      mapQuery = JSON.parse(localStorage.getItem('mapQuery'))
+    }
+    fetchData(mapQuery, (speciesData) => {
       setLng(speciesData?.lng)
       setLat(speciesData?.lat)
       map.current = new mapboxgl.Map({

@@ -2,7 +2,7 @@ name: bio-deploy
 
 on:
   push:
-    branches: [ master, Development ]
+    branches: [ master ]
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -14,7 +14,7 @@ jobs:
       - run: yarn build
       - run: yarn preDeploy
       - name: Ftp Deploy
-        uses: SamKirkland/FTP-Deploy-Action@4.1.0
+        uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
             server: http://66.29.151.71/
             username: bio
