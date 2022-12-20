@@ -9,14 +9,14 @@ jobs:
     name: Deploy
     steps:
       - name: Checkout & Deploy
-        uses: actions/checkout@main
+        uses: actions/checkout@v2
       - run: yarn install
       - run: yarn build
       - run: yarn preDeploy
       - name: Ftp Deploy
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
-            server: http://66.29.151.71/
+            server: 66.29.151.71
             username: bio
             password: bio_diversity
             local-dir: ./out/
