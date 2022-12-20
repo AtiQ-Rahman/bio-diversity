@@ -38,7 +38,7 @@ let imageProps = {
 let imageProps2 = {
   height: "100px",
   width: "200px",
-  objectFit: "cover"
+  objectFit: "cover",
   // border: "3px solid #d76d2e !important",
   // filter: " drop-shadow(2px 4px 6px grey) !important",
 
@@ -210,6 +210,7 @@ const AllDetailsPage = () => {
                 {speciesDetails.additionalFiles.map((speciesImage, index) => {
                   return (
                     <Image
+                     
                       key={`speciesAdditional${index}`}
                       {...imageProps}
                       loader={imageLoader}
