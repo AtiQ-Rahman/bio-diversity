@@ -10,16 +10,16 @@ jobs:
     steps:
       - name: Checkout & Deploy
         uses: actions/checkout@v2
-      - run: yarn install
-      - run: yarn build
-      - run: yarn preDeploy
+      # - run: yarn install
+      # - run: yarn build
+      # - run: yarn preDeploy
       - name: Ftp Deploy
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
-            server: 66.29.151.71
-            username: root
-            password: abab9I5E0H1i0SY3Zf
-            local-dir: ./out/
-            server-dir: /home/bio/bio-diversity/out/
+            server: www.biodiversitybangladesh.du.ac.bd
+            username: bio
+            password: bio_diversity
+            local-dir: ./styles/
+            server-dir: /home/bio/bio-diversity/styles/
       - run: yarn add node-fetch@2
       - run: node server/deploy.js
