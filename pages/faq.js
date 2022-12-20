@@ -6,7 +6,7 @@ import Header from "../components/Home/Header";
 const faq = () => {
     return (
         <Box>
-              <Header index={7} />
+              <Header index={8} />
             <Grid sx={{ m: 15 }}>
             <Card style={{
                padding:"155px",
@@ -16,6 +16,8 @@ const faq = () => {
                 textAlign:"center"
                 // backgroundColor: "rgb(225, 253, 249)",
               }}><h5>FAQ</h5>
+                  <br></br>
+                  <br></br>
                 <h3>Under Development</h3></Card>
             </Grid>
             <Footer />

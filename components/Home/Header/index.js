@@ -164,6 +164,7 @@ export default function PrimarySearchAppBar(props) {
       // background: "white",
       color: "white",
       border: "none",
+      
 
 
       // icon: <HomeIcon style={{ fontSize: 19 }}></HomeIcon>,
@@ -370,6 +371,7 @@ export default function PrimarySearchAppBar(props) {
   return (
     <Box sx={{ flexGrow: 1, zIndex: 1301 }}>
       <AppBar
+      
         enableColorOnDark
         position={props.relative ? "relative" : "absolute"}
         color=""
@@ -445,25 +447,29 @@ export default function PrimarySearchAppBar(props) {
           {/* <SearchSection /> */}
 
           <Box
-            className={classes.flexGrow}
-            sx={{ display: { xs: "none", md: "flex" } }}
+            // className={classes.flexGrow}
+            sx={{ display: { xs: "none", md: "flex" ,} }}
           >
             {pages.map((page, index) => (
               <Link key={`pages${index}`} href={page.path}>
                 <MenuItem
                   className={styles.navbar}
                   key={page}
+                 
                   style={{
                     color: page.color,
                     border: page.border,
                     background: page.background,
+                    
+                    
+                  
                   }}
                   // className={page.background}
                   onClick={handleCloseNavMenu}
                 >
                   {/* <Typography style={{ fontSize: 0.1 }}>{page.icon}</Typography> */}
 
-                  <Box textAlign="center">{page.name}</Box>
+                  <Box textAlign="center" >{page.name}</Box>
 
                   {/* <Typography>{page.menu}</Typography> */}
                 </MenuItem>
@@ -479,7 +485,7 @@ export default function PrimarySearchAppBar(props) {
               onClick={handleMobileMenuOpen}
               color="inherit"
             >
-              <MoreIcon />
+             <MoreIcon /> 
             </IconButton>
           </Box>
         </Toolbar>

@@ -266,7 +266,7 @@ export default function Database() {
   }, [router.pathname]);
   return (
     <div className={styles.body}>
-      <Header index={7} />
+      <Header index={8} />
 
       <Box sx={{ display: "flex", pt: 5 }} >
 
