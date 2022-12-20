@@ -234,7 +234,7 @@ const AddNewSpecies = () => {
   return (
     <Box>
       {/* header */}
-      <Header index={7} />
+      <Header index={8} />
 
 
       {speciesData ? (
