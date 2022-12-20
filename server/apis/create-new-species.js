@@ -59,6 +59,7 @@ exports.createNewSpecies = async (req, res, next) => {
 
                 query = `update ${table} set 
                 kingdom = '${kingdom}',phylum = '${phylum}',class_name = '${class_name}',category = '${category.name}',
+                english = '${english}',bangla = '${bangla}',common = '${commonName}',synonym = '${synonym}',
                 subCategory = '${subCategory}',order_name = '${order_name}',family = '${family}',genus = '${genus}',
                 variety = '${variety}',sub_variety = '${sub_variety}',clone = '${clone}',forma = '${forma}',species = '${species}',
                 csequestration = '${csequestration}',cproduction = '${cproduction}',ecosystemstatus = '${ecosystemstatus}',

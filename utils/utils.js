@@ -14,6 +14,14 @@ export const isValidImage = (marker) => {
         return true
     }
 }
+export const isValidValueOrKey = (value) => {
+    if (!value || value == '' || value?.toLowerCase() == 'n/a' || value?.toLowerCase() == 'undefined') {
+        return false
+    }
+    else {
+        return true
+    }
+}
 export const createMapboxMarkerForDistribution = async (el, mapboxgl, imageUrl, speciesData, map, district) => {
     new mapboxgl.Marker(el)
         .setLngLat([district.center[0], district.center[1]])

@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { imageLoader, isValidImage, processKeys, processSpeciesObject } from "../utils/utils";
+import { imageLoader, isValidImage, isValidValueOrKey, processKeys, processSpeciesObject } from "../utils/utils";
 import callApi, { imageUrl } from "../utils/callApi";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
@@ -296,7 +296,7 @@ const AllDetailsPage = () => {
                       </StyledTableRow>
                     );
                   });
-                } else {
+                } else if(isValidValueOrKey(modifiedSpeciesDetails[row])){
                   let title = processKeys(row);
                   let value = modifiedSpeciesDetails[row]
                   let parsedDistrict
