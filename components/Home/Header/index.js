@@ -12,7 +12,7 @@ import Link from "next/link";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import AddIcon from "@mui/icons-material/Add";
 import { makeStyles } from "@mui/styles";
-import LogoSection from '../LogoSection';
+import LogoSection from "../LogoSection";
 import { useRouter } from "next/router";
 
 // const {
@@ -41,10 +41,9 @@ const useStyles = makeStyles({
 });
 
 const options = [
-
   {
     name: "Contribute",
-    url: "/request-new-species"
+    url: "/request-new-species",
   },
   // {
   //   name: "Team",
@@ -52,15 +51,15 @@ const options = [
   // },
   {
     name: "Links",
-    url: "/links"
+    url: "/links",
   },
   {
     name: "Contact & help",
-    url: "/contact"
+    url: "/contact",
   },
   {
     name: "About",
-    url: "/about"
+    url: "/about",
   },
   // {
   //   name:"Team",
@@ -68,23 +67,23 @@ const options = [
   //  },
   {
     name: "Content",
-    url: "/content"
+    url: "/content",
   },
   {
     name: "Mapping and Zoning",
-    url: "/distribution"
+    url: "/distribution",
   },
   {
     name: "Database",
-    url: "/database"
+    url: "/database",
   },
   {
     name: "Biodiversity Policy Acts",
-    url: "/BiodiversityPolicyActs"
+    url: "/BiodiversityPolicyActs",
   },
   {
     name: "FAQ",
-    url: "/faq"
+    url: "/faq",
   },
 
   // {
@@ -99,7 +98,7 @@ const options = [
 
 const ITEM_HEIGHT = 48;
 export default function PrimarySearchAppBar(props) {
-  const router = useRouter()
+  const router = useRouter();
   const [navBg, setNavBg] = React.useState("rgba(0,0,0)");
   // const location = useLocation();
   React.useEffect(() => {
@@ -148,7 +147,7 @@ export default function PrimarySearchAppBar(props) {
         <Link key={`option${index}`} href={option.url}>
           <MenuItem
             onClick={(e) => {
-              handleClose(e)
+              handleClose(e);
             }}
           >
             <a>{option.name}</a>
@@ -164,8 +163,6 @@ export default function PrimarySearchAppBar(props) {
       // background: "white",
       color: "white",
       border: "none",
-      
-
 
       // icon: <HomeIcon style={{ fontSize: 19 }}></HomeIcon>,
     },
@@ -256,21 +253,27 @@ export default function PrimarySearchAppBar(props) {
       border: "none",
 
       name: (
-        <Box>
-          <IconButton
+        <Box
+        
+          
+        >
+
+          
+          
+        
+          <Grid
+            sx={{ display: { xs: "none", md: "flex" } }}
             aria-label="more"
             id="long-button"
             aria-controls={open ? "long-menu" : undefined}
             aria-expanded={open ? "true" : undefined}
             aria-haspopup="true"
             onClick={handleClick}
-          >
-            <AddIcon style={{ fontSize: 19 }} sx={{ color: "white" }}></AddIcon>
-            <Typography sx={{ color: "white" }}>
-              More
-            </Typography>{" "}
+          ><AddIcon style={{ fontSize: 19 }} sx={{ color: "white" }}></AddIcon>
+            <Typography sx={{ color: "white" }}>More</Typography>{" "}
+
             <ArrowDropDownIcon sx={{ color: "white" }} />
-          </IconButton>
+          </Grid>
           {renderContribute}
         </Box>
       ),
@@ -371,7 +374,6 @@ export default function PrimarySearchAppBar(props) {
   return (
     <Box sx={{ flexGrow: 1, zIndex: 1301 }}>
       <AppBar
-      
         enableColorOnDark
         position={props.relative ? "relative" : "absolute"}
         color=""
@@ -387,89 +389,89 @@ export default function PrimarySearchAppBar(props) {
         }}
       >
         <Toolbar>
-
-            <Box
-              component="span" sx={{ display: { md: 'block' }, flexGrow: 1, cursor: "pointer" }}
-              onClick={()=>{
-                router.push('/')
-              }}
+          <Box
+            component="span"
+            sx={{ display: { md: "block" }, flexGrow: 1, cursor: "pointer" }}
+            onClick={() => {
+              router.push("/");
+            }}
+          >
+            <Grid
+              container
+              direction="row"
+              // justifyContent="center"
+              alignItems="center"
             >
-
-              <Grid
-                container
-                direction="row"
+              <Box>
+                {" "}
+                <LogoSection />
+              </Box>
+              <Box
+                direction="column"
                 // justifyContent="center"
-                alignItems="center"
-
               >
-                <Box> <LogoSection /></Box>
-                <Box
-                  direction="column"
-                // justifyContent="center"
-                >
-                  <Box>
-                    <Typography variant="body" component="h2" style={{
+                <Box>
+                  <Typography
+                    variant="body"
+                    component="h2"
+                    style={{
                       fontFamily: "Comic Sans MS",
                       // fontSize: "25px",
                       color: "white",
-                      padding: "10px"
-                    }}>
-
-                      Biodiversity of
-                      <span style={{
-                        fontWeight: '600',
+                      padding: "10px",
+                    }}
+                  >
+                    Biodiversity of
+                    <span
+                      style={{
+                        fontWeight: "600",
                         color: "#c44d34",
-
-                      }}> Bangladesh
-                      </span>
-
-                    </Typography>
-                  </Box>
-                  <Box ><span style={{
-                    fontFamily: "Gabriola",
-                    fontSize: "20px",
-                    color: "white",
-                    padding: "10px"
-                  }}>Database and Mapping
-                  </span>
-
-                  </Box>
+                      }}
+                    >
+                      {" "}
+                      Bangladesh
+                    </span>
+                  </Typography>
                 </Box>
-              </Grid>
-
-
-
-            </Box>
-
-
+                <Box>
+                  <span
+                    style={{
+                      fontFamily: "Gabriola",
+                      fontSize: "20px",
+                      color: "white",
+                      padding: "10px",
+                    }}
+                  >
+                    Database and Mapping
+                  </span>
+                </Box>
+              </Box>
+            </Grid>
+          </Box>
 
           <Box sx={{ flexGrow: 1 }} />
           {/* <SearchSection /> */}
 
           <Box
-            // className={classes.flexGrow}
-            sx={{ display: { xs: "none", md: "flex" ,} }}
+            className={classes.flexGrow}
+            sx={{ display: { xs: "none", md: "flex" } }}
           >
             {pages.map((page, index) => (
               <Link key={`pages${index}`} href={page.path}>
                 <MenuItem
                   className={styles.navbar}
                   key={page}
-                 
                   style={{
                     color: page.color,
                     border: page.border,
                     background: page.background,
-                    
-                    
-                  
                   }}
                   // className={page.background}
                   onClick={handleCloseNavMenu}
                 >
                   {/* <Typography style={{ fontSize: 0.1 }}>{page.icon}</Typography> */}
 
-                  <Box textAlign="center" >{page.name}</Box>
+                  <Box textAlign="center">{page.name}</Box>
 
                   {/* <Typography>{page.menu}</Typography> */}
                 </MenuItem>
@@ -485,7 +487,7 @@ export default function PrimarySearchAppBar(props) {
               onClick={handleMobileMenuOpen}
               color="inherit"
             >
-             <MoreIcon /> 
+              <MoreIcon />
             </IconButton>
           </Box>
         </Toolbar>
