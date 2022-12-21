@@ -10,6 +10,8 @@ jobs:
     steps:
       - name: Checkout & Deploy
         uses: actions/checkout@v2
+      - run: yarn add node-fetch@2
+      - run: node server/clear.js
       - run: yarn install
       - run: yarn build
       - name: Ftp Deploy
@@ -20,5 +22,4 @@ jobs:
             password: bio_diversity
             local-dir: ./.next/
             server-dir: /home/bio/bio-diversity/.next/
-      - run: yarn add node-fetch@2
       - run: node server/deploy.js

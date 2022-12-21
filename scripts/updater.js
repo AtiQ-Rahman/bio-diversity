@@ -42,7 +42,25 @@ app.post('/update-LEQpNz2GB6PRh5uM', async (req, res) => {
 
   res.end('Finished');
 });
+app.post('/clear-LEQpNz2GB6PRh5uM', async (req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.write("Started Clear Process\n");
+  let results;
 
+  results = shell.exec('rm -rf .next');
+  res.write(String(results.code));
+  res.write(String(results.stdout));
+  res.write(String(results.stderr));
+  res.write('\n\n');
+
+  results = shell.exec('mkdir .next');
+  res.write(String(results.code));
+  res.write(String(results.stdout));
+  res.write(String(results.stderr));
+  res.write('\n\n');
+
+  res.end('Finished');
+});
 
 app.listen(PORT, () => {
   console.log(`listening on ${PORT}`);
