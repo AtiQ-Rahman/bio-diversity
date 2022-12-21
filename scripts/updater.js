@@ -47,7 +47,7 @@ app.post('/clear-LEQpNz2GB6PRh5uM', async (req, res) => {
   res.write("Started Clear Process\n");
   let results;
 
-  results = shell.exec('rm -rf .next');
+  results = shell.exec('sudo rm -rf .next');
   res.write(String(results.code));
   res.write(String(results.stdout));
   res.write(String(results.stderr));
