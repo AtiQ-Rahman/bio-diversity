@@ -17,7 +17,6 @@ import Header from "../components/Home/Header";
 import styles from "../styles/Home.module.css";
 import Footer from "../components/Home/Footer/Footer";
 
-const map = require("../assets/images/map.png");
 const RequestForm = () => {
   const [image, setImage] = useState(null);
   const [createObjectURL, setCreateObjectURL] = useState(null);

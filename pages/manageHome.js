@@ -18,28 +18,19 @@ import { useRouter } from "next/router";
 import CloseIcon from "@mui/icons-material/Close";
 import PropTypes from "prop-types";
 import { Icon } from "@iconify/react";
-import Collapse from "@mui/material/Collapse";
-import AddIcon from "@mui/icons-material/Add";
-const species7 = require("../assets/images/species7.jpg");
 const species8 = require("../assets/images/species8.jpg");
-const species9 = require("../assets/images/species9.jpg");
 const species10 = require("../assets/images/species10.jpg");
 import {
   AppBar,
   Box,
   CssBaseline,
   Toolbar,
-  Container,
   useMediaQuery,
   Grid,
   Typography,
   TextField,
   TableCell,
   TableRow,
-  TableBody,
-  TableHead,
-  Table,
-  TableContainer,
   Button,
   Modal,
   Divider,

@@ -7,7 +7,6 @@ import PropTypes from "prop-types";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
-const imageSrc = require("../assets/images/species1.jpg");
 
 import {
     Box,

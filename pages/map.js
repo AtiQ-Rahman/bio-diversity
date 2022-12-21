@@ -66,7 +66,7 @@ const Map = () => {
     if (!query?.initial) {
       localStorage.setItem(`allowed${query.category.replaceAll(" ", '')}`, true)
     }
-    delete searchParameters.initial
+    delete searchParameters?.initial
     let response = await callApi("/get-species-by-serial", { searchParameters })
     if (response?.data?.length > 0) {
       setSpeciesData(response.data[0])

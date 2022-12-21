@@ -51,23 +51,9 @@ import {
   ListItem,
 } from "@mui/material";
 import Paper from "@mui/material/Paper";
-import Link from "next/link";
 import { Formik, Form } from "formik";
-import * as Yup from "yup";
 import callApi from "../utils/callApi";
-import Slide from "@mui/material/Slide";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { useSnackbar } from "notistack";
-import { display } from "@mui/system";
-const kingdoms = require("../utils/kingdoms");
-const phylums = require("../utils/kingdoms");
-const classes = require("../utils/kingdoms");
-const orders = require("../utils/kingdoms");
-const families = require("../utils/kingdoms");
-const genuses = require("../utils/kingdoms");
-const species = require("../utils/kingdoms");
-const imageSrc = require("../assets/images/species1.jpg");
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
