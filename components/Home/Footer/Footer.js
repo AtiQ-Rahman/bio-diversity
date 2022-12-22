@@ -77,7 +77,7 @@ const Footer = (props) => {
 
       <div className={styles.footerRight}>
         <p className={styles.footerCompanyAbout}>
-          <span>About the company</span>
+          <span>About the Project</span>
           Under the current project title ‘Mapping and Monitoring of Plant
           Biodiversity Resources of Bangladesh’ recruited team members from the
           Department of Botany, University of Dhaka, Bangladesh
