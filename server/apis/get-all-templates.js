@@ -36,7 +36,7 @@ exports.BIOGetGetSelectedTemplate = async (req, res, next) => {
 
         for (let key of Object.keys(speciesTableTypes)) {
             let table = await getTable(speciesTableTypes[key])
-            let searchQuery = `select * from ${table} where profile_image is not null && profile_image != '' &&  profile_image != 'N/A' order by id desc limit ${recentSighting ?? 3}`
+            let searchQuery = `select * from ${table} where profile_image is not null && profile_image != '' &&  profile_image != 'N/A' &&  profile_image != 'undefined' order by id desc limit ${recentSighting ?? 3}`
             let response2 = await executeQuery(searchQuery)
             if (response2?.length > 0) {
                 modifiedList = modifiedList.concat(response2)
