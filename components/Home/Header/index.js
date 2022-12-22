@@ -150,7 +150,7 @@ export default function PrimarySearchAppBar(props) {
               handleClose(e);
             }}
           >
-            <a>{option.name}</a>
+            {option.name}
           </MenuItem>
         </Link>
       ))}
@@ -253,14 +253,7 @@ export default function PrimarySearchAppBar(props) {
       border: "none",
 
       name: (
-        <Box
-        
-          
-        >
-
-          
-          
-        
+        <Box>
           <Grid
             sx={{ display: { xs: "none", md: "flex" } }}
             aria-label="more"
