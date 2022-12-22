@@ -8,6 +8,7 @@ import {
   tableCellClasses,
   TableContainer,
   TableHead,
+  TablePagination,
   TableRow,
   Typography,
 } from "@mui/material";
@@ -41,6 +42,15 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 const TableData = (props) => {
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
   //  const [speciesList, setSpeciesList] = React.useState([]);
   //  const [searchMessage, setSearchMessage] = React.useState('');
   let imageProps = {
@@ -101,7 +111,10 @@ const TableData = (props) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {props.speciesList?.map((row, index) => (
+                {props.speciesList?.slice(
+                                page * rowsPerPage,
+                                page * rowsPerPage + rowsPerPage
+                              ).map((row, index) => (
                   <StyledTableRow
                     key={`details${index}`}
                     sx={{
@@ -259,6 +272,15 @@ const TableData = (props) => {
               </TableBody>
             </Table>
           </TableContainer>
+          <TablePagination
+                        rowsPerPageOptions={[100, 50]}
+                        component="div"
+                        count={props.speciesList?.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                      />
         </>
         {/* ) : <Typography variant="h1" component="h1" align="center" padding={25}>
                   {searchMessage ?? ''}

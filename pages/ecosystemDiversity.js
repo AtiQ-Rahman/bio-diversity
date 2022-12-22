@@ -65,7 +65,15 @@ const EcosystemDiversity = () => {
    const [subGroups, setSubGroups] = useState([])
    const [subValues, setSubValues] = useState({})
    const [searchValues, setSearchValues] = React.useState(null)
-
+   const [page, setPage] = React.useState(0);
+   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+   const handleChangePage = (event, newPage) => {
+     setPage(newPage);
+   };
+   const handleChangeRowsPerPage = (event) => {
+     setRowsPerPage(+event.target.value);
+     setPage(0);
+   };
    useEffect(() => {
       async function fetchData() {
          let allTypesOfSpecies = await callApi("/get-unique-types-of-species", {category : pageGroups.eco});
@@ -359,7 +367,10 @@ const EcosystemDiversity = () => {
                               </TableRow>
                            </TableHead>
                            <TableBody   >
-                              {speciesList.map((row, index) => (
+                              {speciesList.slice(
+                                page * rowsPerPage,
+                                page * rowsPerPage + rowsPerPage
+                              ).map((row, index) => (
                                  <StyledTableRow
                                     key={`list${row.index}`}
                                     sx={{
@@ -441,7 +452,17 @@ const EcosystemDiversity = () => {
                               ))}
                            </TableBody>
                         </Table>
-                     </TableContainer></>
+                     </TableContainer>
+                     <TablePagination
+                        rowsPerPageOptions={[100, 50]}
+                        component="div"
+                        count={speciesList.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                      />
+                     </>
                ) : <Typography variant="h1" component="h1" align="center" paddingBottom={20} paddingTop={10}>
                   {searchMessage ?? ''}
                </Typography>}

@@ -48,6 +48,7 @@ const dashboard = {
             title: 'Manage Category',
             type: 'collapse',
             url: '/manage-categories',
+            // url: '/subCategories',
             target: true,
             icon: () => <ManageSearchIcon sx={{ fontSize: 15, mr: 1 }} />
 
