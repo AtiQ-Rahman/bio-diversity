@@ -12,15 +12,11 @@ import { motion, AnimatePresence } from "framer-motion"
 import Footer from "../components/Home/Footer/Footer";
 import Router from 'next/router';
 import NProgress from 'nprogress'; //nprogress module
-import 'nprogress/nprogress.css'; //styles of nprogress
-import Head from "next/head";
+// import 'nprogress/nprogress.css'; //styles of nprogress
 //Binding events. 
-Router.onRouteChangeStart = url => {
-  NProgress.start()
-}
-Router.onRouteChangeComplete = () => NProgress.done()
-
-Router.onRouteChangeError = () => NProgress.done()
+Router.events.on('routeChangeStart', () => NProgress.start());
+Router.events.on('routeChangeComplete', () => NProgress.done());
+Router.events.on('routeChangeError', () => NProgress.done());
 function MyApp({ Component, pageProps, router }) {
   // const customization = useSelector((state) => state.customization);
 
@@ -41,12 +37,7 @@ function MyApp({ Component, pageProps, router }) {
                 opacity: 0
               }
             }}> */}
-          <Head>
-            <link
-              rel="stylesheet"
-              href="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css"
-            />
-          </Head>
+
           <Component {...pageProps} />
           {/* </motion.div>
           </AnimatePresence> */}
