@@ -203,7 +203,8 @@
 
   }
 .bg_primary {
-  background: var(--app-primary-color);
+  /* background: var(--app-primary-color); */
+  background-color: #c44d34;
   color: "white" !important;
 }
 .bg_secondary {
