@@ -37,7 +37,7 @@ const Footer = (props) => {
           <a href="#">Contact</a>
         </p>
         
-        <p className={styles.footerCompanyName}> All rights reserved. 2022 © H.Tech Soft</p>
+        <p className={styles.footerCompanyName}> © 2022 All Rights Reserved by University Of Dhaka | Developed By HTechSoft</p>
       </div>
 
       <div className={styles.footerCenter}>

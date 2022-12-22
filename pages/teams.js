@@ -55,7 +55,8 @@ const team = () => {
               <CardActionArea>
                 <CardMedia
                   component="img"
-                  height="250"
+                  height="300"
+                  objectFit="cover"
                   image={member1.default.src}
                   alt="green iguana"
                 />
@@ -87,8 +88,9 @@ const team = () => {
               <CardActionArea>
                 <CardMedia
                   component="img"
-                  height="250"
+                  height="330"
                   image={member3.default.src}
+                  objectFit="cover"
                   alt="green iguana"
                 />
                 <CardContent>
@@ -119,7 +121,8 @@ const team = () => {
               <CardActionArea>
                 <CardMedia
                   component="img"
-                  height="250"
+                  height="320"
+                  objectFit="cover"
                   image={member2.default.src}
                   alt="green iguana"
                 />
