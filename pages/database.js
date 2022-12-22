@@ -182,7 +182,7 @@ export default function Database() {
               <CardMedia
                 component="img"
                 sx={{ height: 200 }}
-                image={species[`species${index + 7}`].default.src}
+                image={species[`species${index + 7}`]?.default?.src || species[`species7`].default.src}
                 alt="Live from space album cover"
               />
               <Box sx={{ display: 'flex', flexDirection: 'column' }}>
