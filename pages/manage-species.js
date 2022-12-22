@@ -359,7 +359,7 @@ export default function ManageSpecies() {
                   <Divider></Divider>
                   <Grid container>
                     <Grid item xs={12} md={5}>
-                      <h1>Total Species (6)</h1>
+                      <h1>Total Components (6)</h1>
                     </Grid>
 
                     <Grid item xs={12} md={7}>

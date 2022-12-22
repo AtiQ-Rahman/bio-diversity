@@ -450,7 +450,7 @@ export default function ManageHome() {
                     sx={{ b: 1, mb: 3 }}
                     style={{ borderRadius: "10px", paddingTop: "30px" }}
                   >
-                    <Typography variant="h3">All Images</Typography>
+                    <Typography variant="h3">All  for Slider</Typography>
                     <Grid container style={{ paddingTop: "30px" }}>
                       {imageList
                         ?.slice(
