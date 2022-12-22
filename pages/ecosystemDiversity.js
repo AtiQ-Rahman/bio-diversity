@@ -19,6 +19,7 @@ import {
    TableBody,
    Autocomplete,
    tableCellClasses,
+   TablePagination,
 } from "@mui/material";
 
 import { useDispatch, useSelector } from "react-redux";
