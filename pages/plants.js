@@ -23,9 +23,11 @@ import TableData from "./TableData";
 import { useRouter } from "next/router";
 import { initialValues, pageGroups } from "../utils/utils";
 import Loader from "../components/loader";
+import Loader2 from "./loader2";
 
 const Plants = () => {
   const router = useRouter();
+  const [loading, setLoading] = React.useState(true);
   const [category, setCatgory] = React.useState();
   const [speciesList, setSpeciesList] = React.useState([]);
   const [searchMessage, setSearchMessage] = React.useState("");
@@ -39,6 +41,7 @@ const Plants = () => {
         let res = await callApi("/search-species-by-field", {
           searchParameters,
         });
+        setLoading(false)
         setSpeciesList(res?.data);
         setSearchValues(searchParameters)
         console.log({ searchParameters })
@@ -86,6 +89,7 @@ const Plants = () => {
               console.log("response", res);
               setSpeciesList(res?.data);
               setSearchMessage(res?.message);
+              setLoading(true)
               // enqueueSnackbar("Report  Uploaded Successfully", {
               //    variant: "success",
               //    // action: <Button>See all</Button>
@@ -97,6 +101,7 @@ const Plants = () => {
               setStatus({ success: false });
               setErrors({ submit: error.message });
               setSubmitting(false);
+              
             }
           }}
         >
@@ -156,7 +161,9 @@ const Plants = () => {
       )
       }
 
-
+{/* {loading ? (
+        <Loader2></Loader2>
+      ) : null} */}
 
       {
         speciesList?.length > 0 ? (
