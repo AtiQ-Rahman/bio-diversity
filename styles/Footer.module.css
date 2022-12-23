@@ -16,10 +16,10 @@
 } */
 
 .footerDistributed{
-	background: rgb(21, 21, 21);
-	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
+	background: rgb(21, 21, 21) !important;
+	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12) !important;
 	box-sizing: border-box;
-	width: 100%;
+	width: 100% !important;
 	text-align: left;
 	font: bold 16px sans-serif;
 	padding: 55px 50px;
@@ -35,7 +35,7 @@
 /* Footer left */
 
 .footerDistributed .footerLeft{
-	width: 40%;
+	width: 40% !important;
 }
 
 /* The company logo */
@@ -76,15 +76,15 @@
 /* Footer Center */
 
 .footerDistributed .footerCenter{
-	width: 35%;
+	width: 35% !important;
 }
 
 .footerDistributed .footerCenter i{
 	/* background-color:  #29292a; */
 	color: white;
 	font-size: 25px;
-	width: 38px;
-	height: 38px;
+	width: 38px !important;
+	height: 38px !important;
 	border-radius: 50%;
 	text-align: center;
 	line-height: 42px;
@@ -99,7 +99,7 @@
 
 .footerDistributed .footerCenter p{
 	display: inline-block;
-	color: #ffffff;
+	color: #ffffff !important;
   font-weight:400;
 	vertical-align: middle;
 	margin:0;
@@ -113,7 +113,7 @@
 }
 
 .footerDistributed .footerCenter p a{
-	color:  var(--app-primary-color);
+	color:  var(--app-primary-color) !important;
 	text-decoration: none;;
 }
 
@@ -122,7 +122,7 @@
   font-weight:300;
   font-size: 20px;
   left: 0;
-  color: #fff;
+  color: #fff !important;
   display: inline-block;
   padding-right: 5px;
   padding-left: 5px;
@@ -140,7 +140,7 @@
 
 .footerDistributed .footerCompanyAbout{
 	line-height: 20px;
-	color:  #92999f;
+	color:  #92999f !important;
 	font-size: 13px;
 	font-weight: normal;
 	margin: 0;
@@ -148,7 +148,7 @@
 
 .footerDistributed .footerCompanyAbout span{
 	display: block;
-	color:  #ffffff;
+	color:  #ffffff !important;
 	font-size: 14px;
 	font-weight: bold;
 	margin-bottom: 20px;
@@ -160,7 +160,7 @@
 
 .footerDistributed .footerIcons a{
 	display: inline-block;
-	width: 35px;
+	width: 35px !important;
 	height: 35px;
 	cursor: pointer;
 	/* background-color:  #33383b; */
@@ -187,7 +187,7 @@
 	.footerDistributed .footerCenter,
 	.footerDistributed .footerRight{
 		display: block;
-		width: 100%;
+		width: 100% !important;
 		margin-bottom: 40px;
 		text-align: center;
 	}
