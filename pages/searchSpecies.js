@@ -126,6 +126,7 @@ const SearchSpecies = () => {
                       minWidth: "40px",
                       minHeight: "40px",
                       color: "white",
+                      // backgroundColor:"#c44d34",
                       boxShadow: "1px 1px 4px grey",
                       marginBottom: "10px",
                     }}
