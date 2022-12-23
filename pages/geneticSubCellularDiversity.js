@@ -34,6 +34,7 @@ import callApi, { imageUrl } from "../utils/callApi";
 import { imageLoader, initialValues, pageGroups, processNames } from "../utils/utils";
 import Image from "next/legacy/image";
 import { useRouter } from "next/router";
+import Loader2 from "../components/loader2";
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
    [`&.${tableCellClasses.head}`]: {
       backgroundColor: "#c44d34",
@@ -58,6 +59,7 @@ let imageProps = {
    width: "200px",
 }
 const GeneticSubCellularDiversity = () => {
+   const [loading, setLoading] = React.useState(false);
    const [category, setCatgory] = React.useState()
    const [searchMessage, setSearchMessage] = React.useState('')
    const theme = useTheme();
@@ -96,6 +98,7 @@ const GeneticSubCellularDiversity = () => {
             let res = await callApi("/search-species-by-field", {
                searchParameters,
             });
+            setLoading(false);
             console.log("response", res);
             setSearchValues(searchParameters)
             setSpeciesList(res?.data);
@@ -162,6 +165,7 @@ const GeneticSubCellularDiversity = () => {
                ) => {
                   try {
                      console.log({ values });
+                     setLoading(true)
                      // console.log(values.reportfile.name);
                      values.category = 'Genetic & Sub-Cellular Diversity'
 
@@ -171,8 +175,9 @@ const GeneticSubCellularDiversity = () => {
                      // data.append("reportfile", values.reportfile);
                      let res = await callApi("/search-species-by-field", { searchParameters })
                      console.log("response", res);
-                     setSpeciesList(res?.data)
-                     setSearchMessage(res?.message)
+                     setSpeciesList(res?.data);
+                     setSearchMessage(res?.message);
+                     setLoading(false);
                      setErrors(false);
 
                   } catch (error) {
@@ -339,6 +344,9 @@ const GeneticSubCellularDiversity = () => {
 
          <Grid container sx={{ borderRadius: "10px", px: 10 }} paddingBottom={7}>
             <Grid item xs={12} >
+            {loading ? (
+        <Loader2 size={50}></Loader2>
+      ) : null}
                {speciesList?.length > 0 ? (
                   <>
                      <Typography variant="h2" component="h2" align="center" gutterBottom>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Footer from "../components/Home/Footer/Footer";
 import Header from "../components/Home/Header";
 import { useRouter } from "next/router";
+import Loader2 from "../components/loader2";
 import {
    Typography,
    Grid,
@@ -28,9 +29,11 @@ import callApi, { imageUrl } from "../utils/callApi";
 import CommonDropDowns from "../components/CommonDropDowns";
 import TableData from "./TableData";
 import { initialValues, pageGroups } from "../utils/utils";
+
 // import { kingdoms } from "../utils/kingdoms";
 const MicroOrgansim = () => {
-   const [category, setCatgory] = React.useState()
+   const [category, setCatgory] = React.useState();
+   const [loading, setLoading] = React.useState(false);
    const theme = useTheme();
    const [searchMessage, setSearchMessage] = React.useState('')
    const [speciesList, setSpeciesList] = React.useState()
@@ -50,6 +53,7 @@ const MicroOrgansim = () => {
             let res = await callApi("/search-species-by-field", {
                searchParameters,
             });
+            setLoading(false)
             console.log("response", res);
             setSearchValues(searchParameters)
             setSpeciesList(res?.data);
@@ -112,6 +116,7 @@ const MicroOrgansim = () => {
                   try {
                      console.log({ values });
                      // console.log(values.reportfile.name);
+                     setLoading(true)
                      values.category = 'Microorganisms'
 
                      let searchParameters = values;
@@ -127,6 +132,7 @@ const MicroOrgansim = () => {
                      //    variant: "success",
                      //    // action: <Button>See all</Button>
                      // });
+                     setLoading(false)
                      setErrors(false);
 
                   } catch (error) {
@@ -183,10 +189,15 @@ const MicroOrgansim = () => {
                   </Form>
                )}
             </Formik>
-         ) : null}
+         ) :  (
+            <Loader2 size={50}></Loader2>
+          )}
 
          <Grid container sx={{ borderRadius: "10px", px: 10 }} paddingBottom={6} >
             <Grid item xs={12}>
+            {loading ? (
+        <Loader2 size={50}></Loader2>
+      ) : null}
                {speciesList?.length > 0 ? (
                   <TableData speciesList={speciesList} category={pageGroups.micro}></TableData>
                ) : <Typography variant="h1" component="h1" align="center" paddingBottom={20} paddingTop={10}>

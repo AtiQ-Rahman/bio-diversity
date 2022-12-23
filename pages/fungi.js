@@ -21,10 +21,12 @@ import { useRouter } from "next/router";
 import CommonDropDowns from "../components/CommonDropDowns";
 import TableData from "./TableData";
 import { initialValues, pageGroups } from "../utils/utils";
+import Loader2 from "../components/loader2";
 
 const Fungi = () => {
   const router = useRouter();
   const [category, setCatgory] = React.useState();
+  const [loading, setLoading] = React.useState(false);
   const [searchMessage, setSearchMessage] = React.useState("");
   const theme = useTheme();
   const [speciesList, setSpeciesList] = React.useState();
@@ -45,6 +47,7 @@ const Fungi = () => {
           searchParameters,
         });
         console.log("response", res);
+        setLoading(false)
         setSearchValues(searchParameters)
         setSpeciesList(res?.data);
         localStorage.removeItem(`allowed${pageGroups.fungi}`);
@@ -72,6 +75,7 @@ const Fungi = () => {
             try {
               console.log({ values });
               // console.log(values.reportfile.name);
+              setLoading(true)
               values.category = "Fungi";
 
               let searchParameters = values;
@@ -85,6 +89,7 @@ const Fungi = () => {
               console.log("response", res);
               setSpeciesList(res?.data);
               setSearchMessage(res?.message);
+              setLoading(false)
               // enqueueSnackbar("Report  Uploaded Successfully", {
               //    variant: "success",
               //    // action: <Button>See all</Button>
@@ -146,10 +151,15 @@ const Fungi = () => {
             </Form>
           )}
         </Formik>
-      ) : null}
+      ) : (
+        <Loader2 size={50}></Loader2>
+      )}
 
       <Grid container sx={{ borderRadius: "10px", px: 10 }} paddingBottom={6}>
         <Grid item xs={12}>
+        {loading ? (
+        <Loader2 size={50}></Loader2>
+      ) : null}
           {speciesList?.length > 0 ? (
             <TableData
               speciesList={speciesList}

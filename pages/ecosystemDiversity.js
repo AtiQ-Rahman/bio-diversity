@@ -32,6 +32,7 @@ import callApi, { imageUrl } from "../utils/callApi";
 import Image from "next/legacy/image";
 import { imageLoader, initialValues, pageGroups, processNames } from "../utils/utils";
 import { useRouter } from "next/router";
+import Loader2 from "../components/loader2";
 let imageProps = {
    height: "100px",
    width: "200px",
@@ -56,7 +57,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
    },
 }));
 const EcosystemDiversity = () => {
-
+   const [loading, setLoading] = React.useState(false);
    const [category, setCatgory] = React.useState()
    const [searchMessage, setSearchMessage] = React.useState('')
    const theme = useTheme();
@@ -98,6 +99,7 @@ const EcosystemDiversity = () => {
             let res = await callApi("/search-species-by-field", {
                searchParameters,
             });
+            setLoading(false)
             console.log("response", res);
             setSearchValues(searchParameters)
             setSpeciesList(res?.data);
@@ -166,6 +168,7 @@ const EcosystemDiversity = () => {
                   try {
                      console.log({ values });
                      // console.log(values.reportfile.name);
+                     setLoading(true)
                      values.category = 'Ecosystem Diversity'
 
                      let searchParameters = values;
@@ -181,6 +184,7 @@ const EcosystemDiversity = () => {
                      //    variant: "success",
                      //    // action: <Button>See all</Button>
                      // });
+                     setLoading(false);
                      setErrors(false);
 
                   } catch (error) {
@@ -351,6 +355,9 @@ const EcosystemDiversity = () => {
 
          <Grid container sx={{ borderRadius: "10px", px: 10 }} >
             <Grid item xs={12} paddingBottom={10}>
+            {loading ? (
+        <Loader2 size={50}></Loader2>
+      ) : null}
                {speciesList?.length > 0 ? (
                   <><Typography variant="h2" component="h2" align="center" gutterBottom>
                      Total Species Found : {speciesList.length}

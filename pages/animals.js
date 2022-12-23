@@ -22,8 +22,10 @@ import { useRouter } from "next/router";
 import { imageLoader, initialValues, pageGroups } from "../utils/utils";
 import CommonDropDowns from "../components/CommonDropDowns";
 import TableData from "./TableData";
+import Loader2 from "../components/loader2";
 const Animals = () => {
    const [category, setCatgory] = React.useState()
+   const [loading, setLoading] = React.useState(false);
    const [searchMessage, setSearchMessage] = React.useState('')
    const [speciesList, setSpeciesList] = React.useState()
    const [searchValues, setSearchValues] = React.useState(null)
@@ -42,6 +44,7 @@ const Animals = () => {
             let res = await callApi("/search-species-by-field", {
                searchParameters,
             });
+            setLoading(false)
             console.log("response", res);
             setSearchValues(searchParameters)
             setSpeciesList(res?.data);
@@ -80,6 +83,7 @@ const Animals = () => {
                ) => {
                   try {
                      console.log({ values });
+                     setLoading(true)
                      values.category = 'Animals'
 
                      let searchParameters = values;
@@ -88,6 +92,7 @@ const Animals = () => {
                      // data.append("reportfile", values.reportfile);
                      let res = await callApi("/search-species-by-field", { searchParameters })
                      console.log("response", res);
+                     setLoading(false)
                      setSpeciesList(res?.data)
                      setSearchMessage(res?.message)
                      // enqueueSnackbar("Report  Uploaded Successfully", {
@@ -151,10 +156,16 @@ const Animals = () => {
                   </Form>
                )}
             </Formik>
-         ) : null}
+         ) : (
+            <Loader2 size={50}></Loader2>
+          )}
 
          <Grid container sx={{ borderRadius: "10px", px: 10 }} paddingBottom={6}>
             <Grid item xs={12}>
+
+            {loading ? (
+        <Loader2 size={50}></Loader2>
+      ) : null}
                {speciesList?.length > 0 ? (
                   <TableData speciesList={speciesList} category={pageGroups.animals}></TableData>
                ) : <Typography variant="h1" component="h1" align="center" paddingBottom={20} paddingTop={10}>

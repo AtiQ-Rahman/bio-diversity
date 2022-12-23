@@ -23,12 +23,12 @@ import TableData from "./TableData";
 import { useRouter } from "next/router";
 import { initialValues, pageGroups } from "../utils/utils";
 import Loader from "../components/loader";
-import Loader2 from "./loader2";
+import Loader2 from "../components/loader2";
+// import Loader2 from "../components/Loader2";
 
 const Plants = () => {
   const router = useRouter();
-  const [loading, setLoading] = React.useState(true);
-  const [category, setCatgory] = React.useState();
+  const [loading, setLoading] = React.useState(false);
   const [speciesList, setSpeciesList] = React.useState([]);
   const [searchMessage, setSearchMessage] = React.useState("");
   const [searchValues, setSearchValues] = React.useState(null)
@@ -41,7 +41,7 @@ const Plants = () => {
         let res = await callApi("/search-species-by-field", {
           searchParameters,
         });
-        setLoading(false)
+        setLoading(false);
         setSpeciesList(res?.data);
         setSearchValues(searchParameters)
         console.log({ searchParameters })
@@ -66,7 +66,6 @@ const Plants = () => {
       {/* drawer */}
 
       {/* breadcrumb */}
-
       {searchValues ? (
         <Formik
           initialValues={searchValues}
@@ -77,6 +76,7 @@ const Plants = () => {
           ) => {
             try {
               console.log({ values });
+              setLoading(true)
               values.category = pageGroups.plants;
 
               let searchParameters = values;
@@ -89,7 +89,8 @@ const Plants = () => {
               console.log("response", res);
               setSpeciesList(res?.data);
               setSearchMessage(res?.message);
-              setLoading(true)
+              setLoading(false);
+
               // enqueueSnackbar("Report  Uploaded Successfully", {
               //    variant: "success",
               //    // action: <Button>See all</Button>
@@ -157,14 +158,12 @@ const Plants = () => {
           )}
         </Formik>
       ) : (
-        null
+        <Loader2 size={50}></Loader2>
       )
       }
-
-{/* {loading ? (
-        <Loader2></Loader2>
-      ) : null} */}
-
+      {loading ? (
+        <Loader2 size={50}></Loader2>
+      ) : null}
       {
         speciesList?.length > 0 ? (
           <TableData speciesList={speciesList} category={pageGroups.plants}></TableData>
