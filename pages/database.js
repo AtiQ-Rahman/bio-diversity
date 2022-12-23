@@ -64,12 +64,12 @@ import { useSnackbar } from "notistack";
 // import Link from "next/link";
 import { pageGroups } from "../utils/utils";
 import Footer from "../components/Home/Footer/Footer";
-const species7 = require("../assets/images/species7.jpg")
-const species8 = require("../assets/images/species8.jpg")
-const species9 = require("../assets/images/species9.jpg")
-const species10 = require("../assets/images/species10.jpg")
-const species11 = require("../assets/images/species11.jpg")
-const species12 = require("../assets/images/species12.jpg")
+const species7 = require("../assets/images/Plants.jpg")
+const species8 = require("../assets/images/micro_orga.jpg")
+const species9 = require("../assets/images/eco_sys.jpg")
+const species10 = require("../assets/images/fungi.jpg")
+const species11 = require("../assets/images/genetic_cellular.png")
+const species12 = require("../assets/images/animals.jpg")
 let species = {
   species7, species8, species9, species10, species11, species12
 }

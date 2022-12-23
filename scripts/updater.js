@@ -28,10 +28,10 @@ app.post('/update-LEQpNz2GB6PRh5uM', async (req, res) => {
   res.write(String(results.stderr));
   res.write('\n\n');
 
-  // results = shell.exec('pm2 restart bio_client');
-  // res.write(String(results.code));
-  // res.write(String(results.stdout));
-  // res.write(String(results.stderr));
+  results = shell.exec('pm2 restart bio_client');
+  res.write(String(results.code));
+  res.write(String(results.stdout));
+  res.write(String(results.stderr));
 
   res.write('\n\n');
   results = shell.exec('pm2 show bio_server');

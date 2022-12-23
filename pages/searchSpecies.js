@@ -24,6 +24,7 @@ import CommonDropDowns from "../components/CommonDropDowns";
 import TableData from "./TableData";
 import { useRouter } from "next/router";
 import { pageGroups } from "../utils/utils";
+import Loader from "../components/loader";
 
 const SearchSpecies = () => {
   const router = useRouter();
@@ -31,7 +32,7 @@ const SearchSpecies = () => {
     searchText: router?.query?.searchText || ""
   }
   const [searchText, setSearchText] = React.useState(router.query.searchText);
-  const [category, setCatgory] = React.useState();
+  const [loading, setLoading] = React.useState(true);
   const query = router.query
   const [speciesList, setSpeciesList] = React.useState([]);
   const [searchMessage, setSearchMessage] = React.useState("");
@@ -41,6 +42,7 @@ const SearchSpecies = () => {
       let response = await callApi('search-species-dynamically', { searchText: query.searchText })
       console.log({ response })
       setSpeciesList(response?.data);
+      setLoading(false)
 
     }
     fetchData(query);
@@ -99,7 +101,7 @@ const SearchSpecies = () => {
           setFieldValue,
         }) => (
           <Form onSubmit={handleSubmit}>
-            <Grid sx={{pt:8 , pl:10 , background: "white" }}>
+            <Grid sx={{ pt: 8, pl: 10, background: "white" }}>
 
               <Grid container spacing={3}>
                 <Grid item xs={12}>
@@ -145,10 +147,10 @@ const SearchSpecies = () => {
           </Form>
         )}
       </Formik>
-
-
-
-
+      
+      {loading ? (
+        <Loader></Loader>
+      ) : null}
       {speciesList?.length > 0 ? (
         <>
           {searchText ? (
