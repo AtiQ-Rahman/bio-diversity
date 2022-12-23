@@ -1,3 +1,4 @@
+import { Box } from "@mui/material";
 import { useCallback } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -118,17 +119,38 @@ const Loader = (props) => {
         styles.width = size + 'px';
         styles.height = size + 'px';
     }
+    styles.margin = '0 auto'
 
     let className = "sw-loader__wrapper"
     if (center) {
         className += " sw-loader__wrapper--center";
     }
     return (
-        <div style={styles} className={className}>
-            <div className="sw-loader__holder">
-                {renderTiles()}
+        <Box style={{
+            height: "100vh",
+            justifyContent: "center",
+            // position: "absolute",
+            width: "100%",
+            position: "fixed",
+            paddingTop: "20%",
+            zIndex: 2001
+
+        }}>
+            <div style={styles} className={className}>
+                <div className="sw-loader__holder">
+                    {renderTiles()}
+                </div>
             </div>
-        </div>
+            <Box style={{
+                position: "absolute",
+                background: "white",
+                height: "100vh",
+                width: "100%",
+                top: 0,
+                opacity: 0.3,
+            }}></Box>
+
+        </Box>
     )
 }
 export default Loader

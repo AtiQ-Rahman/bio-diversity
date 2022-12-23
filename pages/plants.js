@@ -26,7 +26,7 @@ import Loader from "../components/loader";
 
 const Plants = () => {
   const router = useRouter();
-  const [category, setCatgory] = React.useState();
+  const [loading, setLoading] = React.useState(false);
   const [speciesList, setSpeciesList] = React.useState([]);
   const [searchMessage, setSearchMessage] = React.useState("");
   const [searchValues, setSearchValues] = React.useState(null)
@@ -63,7 +63,6 @@ const Plants = () => {
       {/* drawer */}
 
       {/* breadcrumb */}
-
       {searchValues ? (
         <Formik
           initialValues={searchValues}
@@ -74,6 +73,7 @@ const Plants = () => {
           ) => {
             try {
               console.log({ values });
+              setLoading(true)
               values.category = pageGroups.plants;
 
               let searchParameters = values;
@@ -86,6 +86,8 @@ const Plants = () => {
               console.log("response", res);
               setSpeciesList(res?.data);
               setSearchMessage(res?.message);
+              setLoading(false)
+
               // enqueueSnackbar("Report  Uploaded Successfully", {
               //    variant: "success",
               //    // action: <Button>See all</Button>
@@ -152,12 +154,12 @@ const Plants = () => {
           )}
         </Formik>
       ) : (
-        null
+        <Loader size={50}></Loader>
       )
       }
-
-
-
+      {loading ? (
+        <Loader size={50}></Loader>
+      ) : null}
       {
         speciesList?.length > 0 ? (
           <TableData speciesList={speciesList} category={pageGroups.plants}></TableData>
