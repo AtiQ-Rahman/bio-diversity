@@ -23,6 +23,7 @@ import TableData from "./TableData";
 import { useRouter } from "next/router";
 import { initialValues, pageGroups } from "../utils/utils";
 import Loader from "../components/loader";
+import Loader2 from "./loader2";
 
 const Plants = () => {
   const router = useRouter();
@@ -39,6 +40,7 @@ const Plants = () => {
         let res = await callApi("/search-species-by-field", {
           searchParameters,
         });
+        setLoading(false)
         setSpeciesList(res?.data);
         setSearchValues(searchParameters)
         console.log({ searchParameters })
@@ -99,6 +101,7 @@ const Plants = () => {
               setStatus({ success: false });
               setErrors({ submit: error.message });
               setSubmitting(false);
+              
             }
           }}
         >
