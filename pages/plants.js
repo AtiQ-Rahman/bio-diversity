@@ -23,7 +23,7 @@ import TableData from "./TableData";
 import { useRouter } from "next/router";
 import { initialValues, pageGroups } from "../utils/utils";
 import Loader from "../components/loader";
-import Loader2 from "../components/loader2";
+import Loader2 from "../components/Loader2";
 // import Loader2 from "../components/Loader2";
 
 const Plants = () => {

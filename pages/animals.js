@@ -22,7 +22,7 @@ import { useRouter } from "next/router";
 import { imageLoader, initialValues, pageGroups } from "../utils/utils";
 import CommonDropDowns from "../components/CommonDropDowns";
 import TableData from "./TableData";
-import Loader2 from "../components/loader2";
+import Loader2 from "../components/Loader2";
 const Animals = () => {
    const [category, setCatgory] = React.useState()
    const [loading, setLoading] = React.useState(false);

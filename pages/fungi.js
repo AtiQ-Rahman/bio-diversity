@@ -21,7 +21,7 @@ import { useRouter } from "next/router";
 import CommonDropDowns from "../components/CommonDropDowns";
 import TableData from "./TableData";
 import { initialValues, pageGroups } from "../utils/utils";
-import Loader2 from "../components/loader2";
+import Loader2 from "../components/Loader2";
 
 const Fungi = () => {
   const router = useRouter();

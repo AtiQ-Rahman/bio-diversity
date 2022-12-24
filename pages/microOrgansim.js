@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Footer from "../components/Home/Footer/Footer";
 import Header from "../components/Home/Header";
 import { useRouter } from "next/router";
-import Loader2 from "../components/loader2";
+import Loader2 from "../components/Loader2";
 import {
    Typography,
    Grid,

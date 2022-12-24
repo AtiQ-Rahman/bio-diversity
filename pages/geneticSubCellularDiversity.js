@@ -34,7 +34,7 @@ import callApi, { imageUrl } from "../utils/callApi";
 import { imageLoader, initialValues, pageGroups, processNames } from "../utils/utils";
 import Image from "next/legacy/image";
 import { useRouter } from "next/router";
-import Loader2 from "../components/loader2";
+import Loader2 from "../components/Loader2";
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
    [`&.${tableCellClasses.head}`]: {
       backgroundColor: "#c44d34",

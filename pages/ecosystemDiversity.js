@@ -32,7 +32,7 @@ import callApi, { imageUrl } from "../utils/callApi";
 import Image from "next/legacy/image";
 import { imageLoader, initialValues, pageGroups, processNames } from "../utils/utils";
 import { useRouter } from "next/router";
-import Loader2 from "../components/loader2";
+import Loader2 from "../components/Loader2";
 let imageProps = {
    height: "100px",
    width: "200px",

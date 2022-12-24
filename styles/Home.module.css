@@ -419,7 +419,7 @@
 .searchField {
   border: 10px solid rgba(0, 0, 0, 0.4);
   width: 500px !important;
-  height: 70px;
+  height: 70px !important;
   background-color: rgba(0, 0, 0, 0.4);
 }
 .secondContainer {

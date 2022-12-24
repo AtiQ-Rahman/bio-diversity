@@ -11,9 +11,9 @@ jobs:
       - name: Checkout & Deploy
         uses: actions/checkout@v2
       - run: yarn add node-fetch@2
-      - run: node server/clear.js
       - run: yarn install
       - run: yarn build
+      - run: node server/clear.js
       - name: Ftp Deploy
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
