@@ -32,6 +32,7 @@ import AnimateButton from '../Home/ui-component/extended/AnimateButton';
 // assets
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { useRouter } from 'next/router';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
@@ -42,7 +43,7 @@ const AuthLogin = ({ ...others }) => {
     const customization = useSelector((state) => state.customization);
     const [checked, setChecked] = useState(true);
 
-
+    const router = useRouter();
 
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => {
@@ -183,7 +184,7 @@ const AuthLogin = ({ ...others }) => {
                                 }
                                 label="Remember me"
                             />
-                            <Typography variant="subtitle1" color="secondary" sx={{ textDecoration: 'none', cursor: 'pointer' }}>
+                            <Typography variant="subtitle1" color="secondary" sx={{ textDecoration: 'none', cursor: 'pointer',color:"#c44d34" }}>
                                 Forgot Password?
                             </Typography>
                         </Stack>
@@ -202,7 +203,14 @@ const AuthLogin = ({ ...others }) => {
                                     size="large"
                                     type="submit"
                                     variant="contained"
-                                    color="secondary"
+                                    // color="secondary"
+                                    sx={{backgroundColor:"#c44d34"}}
+                                    onClick={() =>
+                                        router.push({
+                                          pathname: "/admin-dashboard",
+                                         
+                                        })
+                                      }
                                 >
                                     Sign in
                                 </Button>
