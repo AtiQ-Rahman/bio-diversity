@@ -401,7 +401,7 @@ export default function PrimarySearchAppBar(props) {
               </Box>
               <Box
                 direction="column"
-                // justifyContent="center"
+              // justifyContent="center"
               >
                 <Box>
                   <Typography
@@ -446,8 +446,8 @@ export default function PrimarySearchAppBar(props) {
           {/* <SearchSection /> */}
 
           <Box
-            className={classes.flexGrow}
-            sx={{ display: { xs: "none", md: "flex" } }}
+            // className={classes.flexGrow}
+            sx={{ display: { xs: "none", md: "flex" }, justifyContent: "end", flexFlow: 'wrap' }}
           >
             {pages.map((page, index) => (
               <Link key={`pages${index}`} href={page.path}>

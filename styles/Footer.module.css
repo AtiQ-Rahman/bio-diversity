@@ -30,6 +30,7 @@
 .footerDistributed .footerRight{
 	display: inline-block;
 	vertical-align: top;
+	padding: 20px;
 }
 
 /* Footer left */
@@ -177,7 +178,7 @@
 
 /* If you don't want the footer to be responsive, remove these media queries */
 
-@media (max-width: 880px) {
+@media (max-width: 912px) {
 
 	.footerDistributed{
 		font: bold 14px sans-serif;

@@ -30,46 +30,48 @@ const Footer = (props) => {
           >
             {" "}
             Form {" "}
-           </a>
+          </a>
 
           <a href="#">About </a>
 
           <a href="#">Contact</a>
         </p>
-        
+
         <p className={styles.footerCompanyName}> © 2022 All Rights Reserved by University Of Dhaka | Developed By HTechSoft</p>
       </div>
 
       <div className={styles.footerCenter}>
         <div>
-          <i>
-            <Icon icon="ep:avatar" />
-          </i>
-          <p>Professor Dr. Mohammad Azmal Hossain Bhuiyan</p>
+          <p>
+            <i>
+              <Icon icon="ep:avatar" />
+            </i> Professor Dr. Mohammad Azmal Hossain Bhuiyan</p>
         </div>
 
         <div>
+
+          <p>
           <i>
             {" "}
             <EmailIcon></EmailIcon>
           </i>
-          <p>
             <a href="mailto:bhuiyan.azmal@du.ac.bd">bhuiyan.azmal@du.ac.bd</a>
           </p>
         </div>
         <div>
+
+          <p>
           <i>
             <Icon icon="ep:avatar" />
-          </i>
-          <p>Dr. MoniruzzamanKhondker, Supernumerary Professor</p>
+          </i>Dr. MoniruzzamanKhondker, Supernumerary Professor</p>
         </div>
 
         <div>
+          <p>
           <i>
             {" "}
             <EmailIcon></EmailIcon>
           </i>
-          <p>
             <a href="mailto:mkhondker@du.ac.bd">mkhondker@du.ac.bd</a>
           </p>
         </div>
