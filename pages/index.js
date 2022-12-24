@@ -18,6 +18,7 @@ import { imageLoader } from "../utils/utils";
 import Link from "next/link";
 
 export default function Home() {
+  
   const [slides, setSlides] = React.useState([]);
   const [ready, setReady] = React.useState(false);
   const [selectedTemplate, setSelectedTemplate] = React.useState({});
@@ -79,9 +80,9 @@ export default function Home() {
                 // style={{ minHeight: "100vh" }}
                 >
                   <Typography
-                    paddingRight={107}
+                    paddingRight={103}
                     paddingBottom={3}
-                    fontSize={30}
+                    fontSize={25}
                     fontWeight={700}
                   >
                     Recent sightings
@@ -89,7 +90,7 @@ export default function Home() {
 
                   <ImageList
                     gap={40}
-                    sx={{ width: 1100 }}
+                    sx={{ width: 1100,paddingLeft:5 }}
                     cols={3}
                     rowHeight={250}
                     className={styles.imageList}
