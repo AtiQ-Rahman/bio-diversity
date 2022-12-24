@@ -25,8 +25,8 @@ import TableData from "./TableData";
 import { useRouter } from "next/router";
 import { pageGroups } from "../utils/utils";
 import Loader from "../components/loader";
-import Loader2 from "./loader2";
-
+// import Loader2 from "./loader2";
+import Loader2 from "../components/loader2";
 const SearchSpecies = () => {
   const router = useRouter();
   const initialValues = {
