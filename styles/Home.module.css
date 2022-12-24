@@ -458,7 +458,7 @@
   transform-origin: bottom left;
 }
 .dashboard{
-  background-color:#3a4d51;
+  background-color:#3a4d51 !important;
 }
 
 @media screen and (max-width: 480px) {
