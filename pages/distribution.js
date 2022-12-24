@@ -49,6 +49,7 @@ import {
   mapBounds,
   twoDecimal,
 } from "../utils/utils";
+import Loader2 from "../components/Loader2";
 const fullscreenControlStyle = {
   position: "relative",
   top: 0,
@@ -71,6 +72,7 @@ const Distribution = () => {
   const map = useRef(null);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [force, setForce] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
   const open = Boolean(anchorEl);
   const handleClick = (event, index) => {
     setAnchorEl(event.currentTarget);
@@ -126,6 +128,7 @@ const Distribution = () => {
     lat: 23.8913,
     zoom: 6.80
   }
+  const [lngLatZoomObject, setLngLatZoomObject] = useState(initialLngLatZoom)
   const [lng, setLng] = useState(initialLngLatZoom.lng);
   const [lat, setLat] = useState(initialLngLatZoom.lat);
   const [zoom, setZoom] = useState(initialLngLatZoom.zoom);
@@ -149,6 +152,7 @@ const Distribution = () => {
     let categoryResponse = await callApi("/get-categories-list", {});
 
     setCatgoryList([...categoryList, ...categoryResponse.data]);
+    setLoading(false)
 
     // let list = [];
     // Promise.all(
@@ -180,7 +184,7 @@ const Distribution = () => {
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: process.env.mapStyle,
-      center: [lng, lat],
+      center: [lngLatZoomObject.lng, lngLatZoomObject.lat],
       // maxBounds: mapBounds,
       zoom: initialLngLatZoom.zoom,
     });
@@ -196,11 +200,15 @@ const Distribution = () => {
     console.log('mapbounds', mapBounds)
     const getBoundsFromViewport = mapBounds;
     map.current.setMaxBounds(getBoundsFromViewport);
-    map.current.on("move", () => {
-      setLng(map.current.getCenter().lng.toFixed(4));
-      setLat(map.current.getCenter().lat.toFixed(4));
-      setZoom(map.current.getZoom().toFixed(2));
-    });
+    // map.current.on("move", () => {
+    //   lngLatZoomObject.lng = map.current.getCenter().lng.toFixed(4)
+    //   lngLatZoomObject.lat = map.current.getCenter().lat.toFixed(4)
+    //   lngLatZoomObject.map = map.current.getZoom().toFixed(2)
+    //   setLngLatZoomObject(lngLatZoomObject);
+    //   // setLng(map.current.getCenter().lng.toFixed(4));
+    //   // setLat(map.current.getCenter().lat.toFixed(4));
+    //   // setZoom(map.current.getZoom().toFixed(2));
+    // });
 
     map.current.addControl(new mapboxgl.NavigationControl(), "top-left");
     modifiedList.map(async (speciesData, index) => {
@@ -260,9 +268,9 @@ const Distribution = () => {
         xl={10}
         xs={10}
       >
-        <div className={styles.sidebar}>
-          Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
-        </div>
+        {/* <div className={styles.sidebar}>
+          Longitude: {lngLatZoomObject.lng} | Latitude: {lngLatZoomObject.lat} | Zoom: {lngLatZoomObject.zoom}
+        </div> */}
 
         <div ref={mapContainer} className={styles.map_container}></div>
       </Grid>
@@ -505,6 +513,25 @@ const Distribution = () => {
 
         </Box>
       </Grid>
+      {loading ? (
+        <div style={{
+          position: "absolute",
+          height: "100vh",
+          width: "50%",
+          display: "flex",
+          justifyContent: "center",
+          top: "50%",
+          left: '20%'
+        }}>
+          <Loader2 style={{
+            backgroundColor: "white",
+            height: "fit-content",
+            padding: "20px",
+            borderRadius: 2
+          }}></Loader2>
+        </div>) :
+        null}
+
       {/******** Dialog component change color ********/}
       <Dialog
         open={dialogopen}

@@ -34,11 +34,17 @@ const SearchSpecies = () => {
   }
   const [searchText, setSearchText] = React.useState(router.query.searchText);
   const [loading, setLoading] = React.useState(true);
+  const [force, setForce] = React.useState(false);
   const query = router.query
   const [speciesList, setSpeciesList] = React.useState([]);
   const [searchMessage, setSearchMessage] = React.useState("");
   const [searchValues, setSearchValues] = React.useState(null)
   React.useEffect(() => {
+    setSearchText(router.query.searchText)
+    initialValues.searchText = router?.query?.searchText || ""
+    setLoading(true)
+    setSpeciesList([])
+    setSearchMessage("")
     async function fetchData(query) {
       let response = await callApi('search-species-dynamically', { searchText: query.searchText })
       console.log({ response })
@@ -46,15 +52,15 @@ const SearchSpecies = () => {
       setLoading(false)
 
     }
-    fetchData(query);
-  }, [query]);
+    fetchData(router.query);
+  }, [router.query]);
   // Handle left drawer
 
   return (
     <Box height={800}>
       {/* header */}
 
-      <Header index={1} relative={true} />
+      <Header index={0} relative={true} />
 
       {/* drawer */}
 
@@ -71,12 +77,22 @@ const SearchSpecies = () => {
           try {
             console.log({ searchText })
             // setSearchText(null)
+            setLoading(true)
+            setForce(!force)
             setSearchText(values.searchText)
             let response = await callApi('search-species-dynamically', { searchText: values.searchText })
             console.log({ response })
             console.log("response", response);
+            router.push({
+              pathname: "/searchSpecies",
+              query: {
+                searchText: values.searchText
+              }
+            })
             setSpeciesList(response?.data);
             setSearchMessage(response?.message);
+            setLoading(false)
+            setForce(!force)
             // enqueueSnackbar("Report  Uploaded Successfully", {
             //    variant: "success",
             //    // action: <Button>See all</Button>
@@ -148,7 +164,7 @@ const SearchSpecies = () => {
           </Form>
         )}
       </Formik>
-      
+
       {loading ? (
         <Loader2></Loader2>
       ) : null}
