@@ -159,7 +159,7 @@ const MicroOrgansim = () => {
                         <Typography
                            gutterBottom
                            variant="h3"
-                           sx={{ pt: 8 }}
+                           sx={{ pt: 12,pb:5 }}
                         >
                            Enter Your Details
                         </Typography>

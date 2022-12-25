@@ -204,7 +204,7 @@ const GeneticSubCellularDiversity = () => {
                         <Typography
                            gutterBottom
                            variant="h3"
-                           sx={{ pt: 8 }}
+                           sx={{ pt: 10 }}
                         >
                            Enter Your Details
                         </Typography>
@@ -214,7 +214,7 @@ const GeneticSubCellularDiversity = () => {
                               category.keyList.map((category, index) => {
                                  return (
                                     <>
-                                       <Grid item xs={2} key={`keyList${index}`}>
+                                       <Grid item  xs={12} md={2} key={`keyList${index}`}>
                                           <Autocomplete
                                              freeSolo
                                              size="small"

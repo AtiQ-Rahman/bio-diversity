@@ -127,7 +127,7 @@ const SearchSpecies = () => {
                     variant="h1"
                   // sx={{ pt: 8 }}
                   >
-                    Search all over databases
+                    Search all over database
                   </Typography>
                 </Grid>
                 <Grid item xs={12}>

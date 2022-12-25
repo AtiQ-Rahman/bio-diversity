@@ -211,7 +211,7 @@ const EcosystemDiversity = () => {
                         <Typography
                            gutterBottom
                            variant="h3"
-                           sx={{ pt: 8 }}
+                           sx={{ pt: 10 }}
                         >
                            Enter Your Details
                         </Typography>
@@ -222,7 +222,7 @@ const EcosystemDiversity = () => {
                                  if (category.name.toLowerCase() !== 'description') {
                                     return (
                                        <>
-                                          <Grid item xs={2} key={`keyList${index}`}>
+                                          <Grid item  xs={12} md={2} key={`keyList${index}`}>
                                              <Autocomplete
                                                 freeSolo
                                                 size="small"
@@ -270,7 +270,7 @@ const EcosystemDiversity = () => {
 
                         </Grid>
                         <Grid container spacing={2}>
-                           <Grid item xs={3}>
+                           <Grid item  xs={12} md={3}>
                               <TextField
 
                                  id="Species"
@@ -284,7 +284,7 @@ const EcosystemDiversity = () => {
                                  variant="outlined"
                               />
                            </Grid>
-                           <Grid item xs={3}>
+                           <Grid item  xs={12} md={3}>
                               <TextField
 
                                  id="banglaName"
@@ -298,7 +298,7 @@ const EcosystemDiversity = () => {
                                  variant="outlined"
                               />
                            </Grid>
-                           <Grid item xs={3}>
+                           <Grid item  xs={12} md={3}>
                               <TextField
 
                                  id="commonName"
@@ -312,7 +312,7 @@ const EcosystemDiversity = () => {
                                  variant="outlined"
                               />
                            </Grid>
-                           <Grid item xs={3}>
+                           <Grid item  xs={12} md={3}>
                               <TextField
 
                                  id="synonym"

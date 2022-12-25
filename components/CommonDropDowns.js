@@ -69,7 +69,7 @@ const CommonDropDowns = ({
     }, []);
     return (
         <>
-            <Grid item xs={2}>
+            <Grid item xs={12} md={2} >
                 <Autocomplete
                     size="small"
                     {...props}
@@ -101,7 +101,7 @@ const CommonDropDowns = ({
                     )}
                 />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={12} md={2}>
 
                 <Autocomplete
                     {...props}
@@ -134,7 +134,7 @@ const CommonDropDowns = ({
                     )}
                 />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={12} md={2}>
                 <Autocomplete
                     {...props}
                     size="small"
@@ -166,7 +166,7 @@ const CommonDropDowns = ({
                     )}
                 />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={12} md={2}>
                 <Autocomplete
                     {...props}
                     
@@ -200,7 +200,7 @@ const CommonDropDowns = ({
                     )}
                 />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={12} md={2}>
                 <Autocomplete
                     {...props}
                     size="small"
@@ -235,7 +235,7 @@ const CommonDropDowns = ({
                     )}
                 />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={12} md={2}>
                 <Autocomplete
                     {...props}
                     size="small"
@@ -270,7 +270,7 @@ const CommonDropDowns = ({
                     )}
                 />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={12} md={2}>
                 <Autocomplete
                     {...props}
                     size="small"
@@ -301,7 +301,7 @@ const CommonDropDowns = ({
                     )}
                 />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={12} md={2}>
                 <Autocomplete
                     {...props}
                     size="small"
@@ -332,7 +332,7 @@ const CommonDropDowns = ({
                     )}
                 />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={12} md={2}>
                 <Autocomplete
                     {...props}
                     size="small"
@@ -363,7 +363,7 @@ const CommonDropDowns = ({
                     )}
                 />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={12} md={2}>
                 <Autocomplete
                     {...props}
                     size="small"
@@ -398,7 +398,7 @@ const CommonDropDowns = ({
                     )}
                 />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={12} md={2}>
                 <Autocomplete
                     {...props}
                     size="small"
@@ -429,7 +429,7 @@ const CommonDropDowns = ({
                     )}
                 />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={12} md={2}>
                 <Autocomplete
                     {...props}
                     size="small"
@@ -464,7 +464,7 @@ const CommonDropDowns = ({
                     )}
                 />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={12} md={2}>
                 <Autocomplete
                     {...props}
                     size="small"
@@ -495,7 +495,7 @@ const CommonDropDowns = ({
                     )}
                 />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={12} md={2}>
                 <Autocomplete
                     {...props}
                     size="small"
@@ -525,10 +525,10 @@ const CommonDropDowns = ({
                 />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid item md={12} xs={12}>
                 <Grid container item xs={12} spacing={2}>
 
-                    <Grid item xs={3}>
+                    <Grid item xs={12} md={3}>
                         <TextField
 
                             id="Species"
@@ -542,7 +542,7 @@ const CommonDropDowns = ({
                             variant="outlined"
                         />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item  xs={12} md={3}>
                         <TextField
 
                             id="banglaName"
@@ -556,7 +556,7 @@ const CommonDropDowns = ({
                             variant="outlined"
                         />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item  xs={12} md={3}>
                         <TextField
 
                             id="commonName"
@@ -570,7 +570,7 @@ const CommonDropDowns = ({
                             variant="outlined"
                         />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item  xs={12} md={3}>
                         <TextField
 
                             id="synonym"
@@ -642,7 +642,7 @@ const CommonDropDowns = ({
                                     </Button>
                                  </Grid> */}
 
-                    <Grid item xs={3}>
+                    <Grid item  xs={12} md={3}>
                         <TextField
                             label="Physical Identification Details"
                             multiline
@@ -659,7 +659,7 @@ const CommonDropDowns = ({
                             }}
                         />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item  xs={12} md={3}>
                         <TextField
                             label="Habitat"
                             multiline
@@ -676,7 +676,7 @@ const CommonDropDowns = ({
                             }}
                         />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item  xs={12} md={3}>
                         <TextField
                             label="Behavior"
                             multiline
@@ -693,7 +693,7 @@ const CommonDropDowns = ({
                             }}
                         />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item  xs={12} md={3}>
                         <TextField
                             label="Migration"
                             multiline
@@ -710,7 +710,7 @@ const CommonDropDowns = ({
                             }}
                         />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item  xs={12} md={3}>
                         <TextField
                             label="Breeding Behavior"
                             multiline
@@ -727,7 +727,7 @@ const CommonDropDowns = ({
                             }}
                         />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item  xs={12} md={3}>
                         <TextField
                             label="Chromosome Number"
                             multiline
@@ -744,7 +744,7 @@ const CommonDropDowns = ({
                             }}
                         />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item  xs={12} md={3}>
                         <TextField
                             label="Molecular Characteristic"
                             multiline
@@ -761,7 +761,7 @@ const CommonDropDowns = ({
                             }}
                         />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item  xs={12} md={3}>
                         <TextField
                             label="Notes"
                             multiline
@@ -778,7 +778,7 @@ const CommonDropDowns = ({
                             }}
                         />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item  xs={12} md={3}>
                         <TextField
                             label="World distribution"
                             multiline
@@ -795,7 +795,7 @@ const CommonDropDowns = ({
                             }}
                         />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item  xs={12} md={3}>
                         <TextField
                             label="IUCN status"
                             multiline
@@ -812,7 +812,7 @@ const CommonDropDowns = ({
                             }}
                         />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item  xs={12} md={3}>
                         <TextField
                             label="Economic Importance"
                             multiline
@@ -829,7 +829,7 @@ const CommonDropDowns = ({
                             }}
                         />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item  xs={12} md={3}>
                         <TextField
                             label="Medicinal use"
                             multiline
@@ -846,7 +846,7 @@ const CommonDropDowns = ({
                             }}
                         />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item  xs={12} md={3}>
                         <TextField
                             label="Uses as Foods and Feeds"
                             multiline
@@ -863,7 +863,7 @@ const CommonDropDowns = ({
                             }}
                         />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item  xs={12} md={3}>
                         <TextField
                             label="As pharmaceuticals"
                             multiline
@@ -880,7 +880,7 @@ const CommonDropDowns = ({
                             }}
                         />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item  xs={12} md={3}>
                         <TextField
                             label="As industrial product"
                             multiline
@@ -897,7 +897,7 @@ const CommonDropDowns = ({
                             }}
                         />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item  xs={12} md={3}>
                         <TextField
                             label="Other information"
                             multiline
@@ -914,7 +914,7 @@ const CommonDropDowns = ({
                             }}
                         />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item  xs={12} md={3}>
                         <TextField
                             label="Other uses"
                             multiline
@@ -931,7 +931,7 @@ const CommonDropDowns = ({
                             }}
                         />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item  xs={12} md={3}>
                         <TextField
                             label="Ecological Indicator"
                             multiline
@@ -948,7 +948,7 @@ const CommonDropDowns = ({
                             }}
                         />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item  xs={12} md={3}>
                         <TextField
                             label="Exotic"
                             multiline
@@ -965,7 +965,7 @@ const CommonDropDowns = ({
                             }}
                         />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item  xs={12} md={3}>
                         <TextField
                             label="Crop / fruit / industrial products/ weed etc"
                             multiline
@@ -982,7 +982,7 @@ const CommonDropDowns = ({
                             }}
                         />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item  xs={12} md={3}>
                         <TextField
                             label="Fruting time"
                             multiline
@@ -999,7 +999,7 @@ const CommonDropDowns = ({
                             }}
                         />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item  xs={12} md={3}>
                         <TextField
                             label="Scientific Research Interest"
                             multiline
@@ -1016,7 +1016,7 @@ const CommonDropDowns = ({
                             }}
                         />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item  xs={12} md={3}>
                         <TextField
                             label="Health Resource"
                             multiline
@@ -1033,7 +1033,7 @@ const CommonDropDowns = ({
                             }}
                         />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item  xs={12} md={3}>
                         <TextField
                             label="Growing season"
                             multiline
@@ -1050,7 +1050,7 @@ const CommonDropDowns = ({
                             }}
                         />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item  xs={12} md={3}>
                         <TextField
                             label="Threats to the Species / Genus"
                             multiline
@@ -1067,7 +1067,7 @@ const CommonDropDowns = ({
                             }}
                         />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item  xs={12} md={3}>
                         <TextField
                             label="Conservation status"
                             multiline
@@ -1084,7 +1084,7 @@ const CommonDropDowns = ({
                             }}
                         />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item  xs={12} md={3}>
                         <TextField
                             label="Measures taken"
                             multiline
@@ -1101,7 +1101,7 @@ const CommonDropDowns = ({
                             }}
                         />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item  xs={12} md={3}>
                         <TextField
                             label="Miscellaneous"
                             multiline

@@ -116,7 +116,7 @@ const Fungi = () => {
           }) => (
             <Form onSubmit={handleSubmit}>
               <Grid sx={{ p: 10, background: "white" }}>
-                <Typography gutterBottom variant="h3" sx={{ pt: 8 }}>
+                <Typography gutterBottom variant="h3" sx={{ pt: 12,pb:5 }}>
                   Enter Your Details
                 </Typography>
                 <Grid container spacing={3}>
