@@ -32,20 +32,22 @@ const team = () => {
 
         <Grid container>
           <Grid item xs={12} md={12} sx={{
-            background: "IndianRed",
-            color: "white",
+            background: "White",
+            // border:"1px solid ",
+            boxShadow:"0 3px 10px rgb(0 0 0 / 0.2)",
+            // color: "white",
             p: 2,
           }}>
             <Typography component="h1" variant="h2" sx={{
               fontFamily: "Airbnb Cereal App,sans-serif !important",
               fontWeight: "600",
               py: 3,
-              color: "white",
+              color: "black",
               textAlign: "justify"
               
             }}>
               Under the current project title
-              <span style={{ color: "black" }}> ‘Mapping and Monitoring of Plant Biodiversity Resources of Bangladesh’ </span>
+              <span style={{ color: "#c44d34", fontFamily: "Airbnb Cereal App,sans-serif !important", }}> ‘Mapping and Monitoring of Plant Biodiversity Resources of Bangladesh’ </span>
               recruited team members from the Department of Botany, University of Dhaka, Bangladesh are as follows
 
             </Typography>
