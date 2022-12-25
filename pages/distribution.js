@@ -20,6 +20,7 @@ import {
   Menu,
   MenuItem,
   Autocomplete,
+  TablePagination,
 } from "@mui/material";
 import React, { useState, useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
@@ -144,9 +145,24 @@ const Distribution = () => {
   const [showUndo, setShowUndo] = useState(null);
   const [updateIndex, setUpdateIndex] = useState(null);
   const [timeOutId, setTimeOutId] = useState(null);
-
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const handleChangePage = (event, newPage) => {
+    console.log({event})
+    console.log({newPage})
+    setPage(newPage);
+  };
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
   async function fetchData(cbfn) {
     let response = await callApi("/get-species-list", {});
+
+    // let response = await callApi("/get-species-by-pagination", {
+    //   limit : rowsPerPage,
+    //   pageFrom : 0
+    // });
     setSpeciesList(response.data);
     setModifiedList(response.data);
     let categoryResponse = await callApi("/get-categories-list", {});
@@ -390,22 +406,26 @@ const Distribution = () => {
 
 
                 {modifiedList.length > 0 ? (
-                  <TableContainer component={Paper} sx={{
-                    height: 700, my: 2, border: "1px solid #dfdfdf",
-                    padding: "10px"
-                  }}>
-                    <Table aria-label="customized table">
-                      <TableBody>
-                        {modifiedList.map((species, index) => (
-                          <>
-                            <TableRow
-                              key={index}
-                              sx={{
-                                "&:last-child td, &:last-child th": { border: 0 },
-                              }}
-                            >
-                              <TableCell component="td" scope="row" width={50}>
-                                {/* {species.marker !== "N/A" && species.marker !== 'null' ? (
+                  <Box>
+                    <TableContainer component={Paper} sx={{
+                      height: 700, my: 2, border: "1px solid #dfdfdf",
+                      padding: "10px"
+                    }}>
+                      <Table aria-label="customized table">
+                        <TableBody>
+                          {modifiedList?.slice(
+                            page * rowsPerPage,
+                            page * rowsPerPage + rowsPerPage
+                          ).map((species, index) => (
+                            <>
+                              <TableRow
+                                key={index}
+                                sx={{
+                                  "&:last-child td, &:last-child th": { border: 0 },
+                                }}
+                              >
+                                <TableCell component="td" scope="row" width={50}>
+                                  {/* {species.marker !== "N/A" && species.marker !== 'null' ? (
                                 <Image
                                   height={50}
                                   alt="Marker Icon"
@@ -413,89 +433,100 @@ const Distribution = () => {
                                   src={species.marker}
                                 ></Image>
                               ) : null} */}
-                                {species.markerColor ? (
-                                  <Box>
-                                    <Box className={styles.marker}
-                                      aria-controls={open ? 'basic-menu' : undefined}
-                                      aria-haspopup="true"
-                                      aria-expanded={open ? 'true' : undefined}
-                                      onClick={(e) => {
-                                        setColor(species.markerColor)
-                                        handleClick(e, index)
-                                      }}
-                                      style={{
-                                        backgroundColor: species.markerColor,
-                                        borderRadius: "100px",
-                                        height: 30,
-                                        width: 30,
-                                        border: "5px solid #e7e7e7"
-                                      }}></Box>
+                                  {species.markerColor ? (
+                                    <Box>
+                                      <Box className={styles.marker}
+                                        aria-controls={open ? 'basic-menu' : undefined}
+                                        aria-haspopup="true"
+                                        aria-expanded={open ? 'true' : undefined}
+                                        onClick={(e) => {
+                                          setColor(species.markerColor)
+                                          handleClick(e, index)
+                                        }}
+                                        style={{
+                                          backgroundColor: species.markerColor,
+                                          borderRadius: "100px",
+                                          height: 30,
+                                          width: 30,
+                                          border: "5px solid #e7e7e7"
+                                        }}></Box>
 
-                                  </Box>
+                                    </Box>
 
-                                ) : null}
-                              </TableCell>
-                              <TableCell align="center">
-                                <Typography variant="body2" color="text.primary">
-                                  <b>{species.english}</b>
-                                </Typography>
-                              </TableCell>
-                              <TableCell align="center">
-                                {showUndo && updateIndex == index ? (
-                                  <Button icon="ic:baseline-remove" width="24" height="24" onClick={async (e) => {
-                                    setShowUndo(false)
-                                    clearTimeout(timeOutId)
-                                  }} >Undo</Button>
-                                ) : (
-                                  <Icon icon="ic:baseline-remove" width="24" height="24" style={{
-                                    cursor: "pointer",
-                                    border: "1px solid grey",
-                                    borderRadius: "30px"
+                                  ) : null}
+                                </TableCell>
+                                <TableCell align="center">
+                                  <Typography variant="body2" color="text.primary">
+                                    <b>{species.english}</b>
+                                  </Typography>
+                                </TableCell>
+                                <TableCell align="center">
+                                  {showUndo && updateIndex == index ? (
+                                    <Button icon="ic:baseline-remove" width="24" height="24" onClick={async (e) => {
+                                      setShowUndo(false)
+                                      clearTimeout(timeOutId)
+                                    }} >Undo</Button>
+                                  ) : (
+                                    <Icon icon="ic:baseline-remove" width="24" height="24" style={{
+                                      cursor: "pointer",
+                                      border: "1px solid grey",
+                                      borderRadius: "30px"
 
-                                  }} onClick={(e) => {
-                                    setUpdateIndex(index)
-                                    setShowUndo(true)
-                                    let timeOutId = setTimeout(() => {
-                                      setShowUndo(null)
-                                      setTimeOutId(null)
-                                      setUpdateIndex(null)
-                                      availableList.push(species)
-                                      modifiedList.splice(index, 1)
-                                      setModifiedAvailableList(availableList)
-                                      setForce(!force)
-                                    }, 3000)
-                                    setTimeOutId(timeOutId)
-                                  }} />
-                                )}
+                                    }} onClick={(e) => {
+                                      setUpdateIndex(index)
+                                      setShowUndo(true)
+                                      let timeOutId = setTimeout(() => {
+                                        setShowUndo(null)
+                                        setTimeOutId(null)
+                                        setUpdateIndex(null)
+                                        availableList.push(species)
+                                        modifiedList.splice(index, 1)
+                                        setModifiedAvailableList(availableList)
+                                        setForce(!force)
+                                      }, 3000)
+                                      setTimeOutId(timeOutId)
+                                    }} />
+                                  )}
 
-                              </TableCell>
-                              {/* <TableCell>
+                                </TableCell>
+                                {/* <TableCell>
                               <Typography variant="caption">
                                 {twoDecimal(species?.districts?.[0]?.center[0])}{" "}
                                 ,
                                 {twoDecimal(species?.districts?.[0]?.center[1])}
                               </Typography>
                             </TableCell> */}
-                            </TableRow>
-                          </>
-                        ))}
-                      </TableBody>
-                      <Menu
-                        id="basic-menu"
-                        anchorEl={anchorEl}
-                        open={open}
-                        onClose={handleClose}
-                        MenuListProps={{
-                          'aria-labelledby': 'basic-button',
-                        }}
-                      >
-                        <MenuItem onClick={(e) => {
-                          handleClickOpenDialog()
-                          handleClose()
-                        }}>Change Color</MenuItem>
-                      </Menu>
-                    </Table>
-                  </TableContainer>
+                              </TableRow>
+                            </>
+                          ))}
+                        </TableBody>
+                        <Menu
+                          id="basic-menu"
+                          anchorEl={anchorEl}
+                          open={open}
+                          onClose={handleClose}
+                          MenuListProps={{
+                            'aria-labelledby': 'basic-button',
+                          }}
+                        >
+                          <MenuItem onClick={(e) => {
+                            handleClickOpenDialog()
+                            handleClose()
+                          }}>Change Color</MenuItem>
+                        </Menu>
+                      </Table>
+                    </TableContainer>
+                    <TablePagination
+                      rowsPerPageOptions={[100, 50]}
+                      component="div"
+                      count={modifiedList?.length}
+                      rowsPerPage={rowsPerPage}
+                      page={page}
+                      onPageChange={handleChangePage}
+                      onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
+                  </Box>
+
                 ) : null}
 
                 <Typography variant="body2" color="text.secondary">

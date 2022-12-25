@@ -2,11 +2,14 @@ const { getTable, executeQuery, uniqueIdGenerator, speciesTableTypes, log, creat
 
 const DB = require("../config/connectToDatabase");
 
-exports.getAllSpecies = async (req, res, next) => {
+exports.getAllSpeciesByPagination = async (req, res, next) => {
     let modifiedList = []
+    let limit = Number(req.body.limit)
+    let pageFrom = Number(req.body.pageFrom)
     for (let key of Object.keys(speciesTableTypes)) {
         let table = await getTable(speciesTableTypes[key])
-        let searchQuery = `select * from ${table} where marker is not null and english != '' && english !='undefined'`
+        let searchQuery = `select * from ${table} where marker is not null and english != '' && english !='undefined' ORDER BY id LIMIT ${limit} OFFSET ${pageFrom};`
+        console,log({searchQuery})
         let response = await executeQuery(searchQuery)
         if (response?.length > 0) {
             let modifiedResponse = []

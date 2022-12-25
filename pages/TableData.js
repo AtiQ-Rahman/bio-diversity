@@ -95,8 +95,8 @@ const TableData = (props) => {
                   </StyledTableCell> */}
                   <StyledTableCell align="center">
                     <b>Family</b>
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
                     <b>Genus</b>
                   </StyledTableCell>
                   <StyledTableCell align="center">
@@ -112,9 +112,9 @@ const TableData = (props) => {
               </TableHead>
               <TableBody>
                 {props.speciesList?.slice(
-                                page * rowsPerPage,
-                                page * rowsPerPage + rowsPerPage
-                              ).map((row, index) => (
+                  page * rowsPerPage,
+                  page * rowsPerPage + rowsPerPage
+                ).map((row, index) => (
                   <StyledTableRow
                     key={`details${index}`}
                     sx={{
@@ -177,7 +177,7 @@ const TableData = (props) => {
                       {row.identificationFeatures.subCategory?.name ||
                         row.identificationFeatures.subCategory}
                     </StyledTableCell> */}
-                   <StyledTableCell align="center">
+                    <StyledTableCell align="center">
                       {row.category}
                     </StyledTableCell>
                     <StyledTableCell align="center">
@@ -201,12 +201,12 @@ const TableData = (props) => {
 
                     <StyledTableCell align="center" >
                       <Grid
-                        // container
-                        // spacing={1}
-                        // sx={{
-                        //   width: "fit-content",
-                        //   margin: "0 auto",
-                        // }}
+                      // container
+                      // spacing={1}
+                      // sx={{
+                      //   width: "fit-content",
+                      //   margin: "0 auto",
+                      // }}
                       >
                         {/* <Grid item xs={12}> */}
                         <Button
@@ -238,7 +238,7 @@ const TableData = (props) => {
                         </Button>
                         {/* </Grid> */}
                         {/* <Grid item xs={12}> */}
-                          
+
                         <Button
                           className={styles.bg_primary}
                           style={{
@@ -260,7 +260,7 @@ const TableData = (props) => {
                             })
                           }
                           // variant="outlined"
-                          sx={{ mt: 0.1,ml:0.1 }}
+                          sx={{ mt: 0.1, ml: 0.1 }}
                         >
                           View map
                         </Button>
@@ -273,14 +273,14 @@ const TableData = (props) => {
             </Table>
           </TableContainer>
           <TablePagination
-                        rowsPerPageOptions={[100, 50]}
-                        component="div"
-                        count={props.speciesList?.length}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        onPageChange={handleChangePage}
-                        onRowsPerPageChange={handleChangeRowsPerPage}
-                      />
+            rowsPerPageOptions={[100, 50]}
+            component="div"
+            count={props.speciesList?.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
         </>
         {/* ) : <Typography variant="h1" component="h1" align="center" padding={25}>
                   {searchMessage ?? ''}

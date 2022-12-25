@@ -29,7 +29,6 @@ const createTypeObject = () => {
 }
 const getDetailsByQuery = async (searchQuery, key, modifiedList, typeObject) => {
     let response = await executeQuery(searchQuery)
-    console.log({ response })
     if (response?.length > 0) {
         for (let item of response) {
 
@@ -112,7 +111,6 @@ exports.getUniqueTypes = async (req, res, next) => {
                 searchQuery = `select ${item.parent} , ${item.child} from ${table} group by ${item.child}`
                 await getDetailsByQuery(searchQuery, item.child, item.list, typeObject)
             }
-            console.log(searchQuery)
         }
         // }
         res.status(200).json({

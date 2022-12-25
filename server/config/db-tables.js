@@ -140,11 +140,37 @@ const deletedSpeciesTable = (table) => {
     )`
     return createQuery
 }
+const adminTable = (table) => {
+    return `CREATE TABLE ${table} (
+        id int NOT NULL AUTO_INCREMENT,
+        serial varchar(10),
+        name varchar(255),
+        email varchar(255),
+        phone varchar(255),
+        password varchar(255),
+        meta longtext,
+        createdDatetimeStamp datetime,
+        lastModified datetime,
+        PRIMARY KEY (id)
+    );`
+}
+const sessionKeysTable = (table) => {
+    return `CREATE TABLE ${table} (
+        id int NOT NULL AUTO_INCREMENT,
+        key varchar(1000),
+        userId varchar(1000),
+        expirationDateTime datetime,
+        createdDatetimeStamp datetime,
+        PRIMARY KEY (id)
+    );`
+}
 module.exports = {
     categoryTable,
     subcategoriesTable,
     requestSpeciesTable,
     homepageTable,
     speciesTable,
-    deletedSpeciesTable
+    deletedSpeciesTable,
+    adminTable,
+    sessionKeysTable
 }

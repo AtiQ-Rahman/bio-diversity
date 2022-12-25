@@ -34,6 +34,10 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage })
+router.use((req, res, next) => {
+    console.log("originalUrl : ",req.originalUrl)
+    next()
+  })
 
 router.post("/create-new-species", upload.array("additionalFiles", 100), createNewSpecies)
 router.post("/upload-species-by-excel", uploadSpeciesByExcel)

@@ -14,9 +14,11 @@ const { BIOGetGetSelectedTemplate } = require("../apis/get-all-templates");
 const { requestNewSpecies } = require("../apis/manage-requested-species");
 const { countAllSpecies } = require("../apis/count-all-species");
 const { searchSpeciesDynamically } = require("../apis/search-species-dynamically");
+const { getAllSpeciesByPagination } = require("../apis/get-species-by-pagination");
 
 // creat a admin
 router.post("/get-species-list", getAllSpecies);
+router.post("/get-species-by-pagination", getAllSpeciesByPagination);
 router.post("/get-categories-by-name", BIOGetCategoriesByName);
 router.post("/search-species-by-field", BIOGSearchParamsByField);
 router.post("/get-species-by-serial", BIOGetSpeciesBySerial);
