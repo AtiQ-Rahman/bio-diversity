@@ -25,7 +25,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 const theme = createTheme();
 
 theme.typography.h1 = {
-    paddingBottom:"50px",
+  paddingBottom: "50px",
   fontSize: "1.5rem",
   "@media (min-width:600px)": {
     fontSize: "1.5rem",
@@ -154,7 +154,7 @@ const ImageSlider = ({ slides }) => {
         alignItems="center"
         justifyContent="center"
 
-        // style={{ minHeight: "50vh" }}
+      // style={{ minHeight: "50vh" }}
       >
         {/* <div>
                     <div onClick={goToPrevious} style={leftArrowStyles}>
@@ -167,13 +167,13 @@ const ImageSlider = ({ slides }) => {
 
         <Grid>
           <ThemeProvider theme={theme}>
-          <Typography variant="h1">
-            Listing The World’s BIO Diversity
-            
-          </Typography>{" "}
+            <Typography variant="h1">
+              Listing The World’s BIO Diversity
+
+            </Typography>{" "}
             {/* <Typography >Responsive h3</Typography> */}
           </ThemeProvider>
-          
+
           <Counters />
         </Grid>
         <Grid
@@ -188,8 +188,16 @@ const ImageSlider = ({ slides }) => {
             // pr: "25px",
           }}
         >
-          <FormControl sx={{ width: "25ch" }} className={styles.search}>
+          <FormControl sx={{
+            width: "25ch",
+          }} className={styles.search}>
             <OutlinedInput
+              sx={{
+                // focused color for input with variant='outlined'
+                "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                  border: "none",
+                }
+              }}
               placeholder="Please enter text"
               onChange={(e, value) => {
                 searchText = e.target.value;

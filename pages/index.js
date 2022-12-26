@@ -116,6 +116,7 @@ export default function Home() {
                           <Image
                             src={imageUrl + '/' + item.profile_image}
                             layout="fill"
+                            objectFit="cover"
 
                             loader={imageLoader}
                             onLoad={handleLoad}
