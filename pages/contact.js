@@ -26,13 +26,13 @@ const contact = () => {
   return (
     <Box>
       <Header index={8} />
-      <Box sx={{ m: 15 }}>
+      <Box xs={10} sx={{p:15}}>
         <Typography sx={{ fontSize: 20 }} color="text.primary" gutterBottom>
           Contact & Help
         </Typography>
         <Grid container spacing={4} sx={{ mb: 5 }}>
 
-          <Grid item xs={12} md={12}>
+          <Grid item xs={10} md={10}>
             <Box sx={{ minWidth: 275 }}>
               <Card variant="outlined">
                 <CardContent>
@@ -52,7 +52,7 @@ const contact = () => {
               </Card>
             </Box>
           </Grid>
-          <Grid item xs={12} md={12}>
+          <Grid item xs={10} md={10}>
             <Box sx={{ minWidth: 275 }}>
               <Card variant="outlined">
                 <CardContent>
@@ -75,6 +75,7 @@ const contact = () => {
             </Box>
           </Grid>
         </Grid>
+        <Grid xs={10} md={5} >
         <Card variant="outlined" sx={{
           background: "#e7e7e7"
         }}>
@@ -90,6 +91,7 @@ const contact = () => {
             </Typography>
           </CardContent>
         </Card>
+        </Grid>
       </Box>
 
       <Footer />

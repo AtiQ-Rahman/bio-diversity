@@ -247,7 +247,7 @@ const Map = () => {
         }}
         md={10}
         xl={10}
-        xs={10}
+        xs={11}
       >
         <div className={styles.sidebar}>
           Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
@@ -255,7 +255,7 @@ const Map = () => {
 
         <div ref={mapContainer} className={styles.map_container}></div>
       </Grid>
-      <Grid item xs={2}>
+      <Grid item xs={12} md={2}>
         <Grid
           container
           style={{
@@ -331,6 +331,7 @@ const Map = () => {
                   <Typography gutterBottom variant="h1" component="div" fontFamily='Times New Roman' fontSize={30}>
                     {speciesData?.name?.commonName}
                   </Typography>
+                  <br></br>
                   <Typography variant="body2" color="text.secondary" fontFamily='Times New Roman' fontSize={30}>
                     {speciesData?.description}
                   </Typography>
@@ -339,76 +340,92 @@ const Map = () => {
                       <b>Kindom</b>:{speciesData.kingdom}
                     </Typography>
                   </Grid>
+                  <br></br>
                   <Grid item xs={12} >
                     <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
                       <b>Phylum</b>:{speciesData.phylum}
                     </Typography>
                   </Grid>
+                  <br></br>
                   <Grid item xs={12}>
                     <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
                       <b>class</b>:{speciesData.class_name}
                     </Typography>
                   </Grid>
+                  <br></br>
                   <Grid item xs={12}>
                     <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
                       <b>order</b>:{speciesData.order_name}
                     </Typography>
                   </Grid>
+                  <br></br>
                   <Grid item xs={12}>
                     <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
                       <b>family</b>:{speciesData.family}
                     </Typography>
                   </Grid>
+                  <br></br>
+                  
                   <Grid item xs={12}>
                     <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
                       <b>Genus</b>:{speciesData.genus}
                     </Typography>
                   </Grid>
+                  <br></br>
                   <Grid item xs={12}>
                     <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
                       <b>Species</b>:{speciesData.species}
                     </Typography>
                   </Grid>
+                  <br></br>
                   <Grid item xs={12}>
                     <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
                       <b>Variety</b>:{speciesData.variety}
                     </Typography>
                   </Grid>
+                  <br></br>
                   <Grid item xs={12}>
                     <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
                       <b>Sub Variety</b>:{speciesData.subVariety}
                     </Typography>
                   </Grid>
+                  <br></br>
                   <Grid item xs={12}>
                     <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
                       <b>clone</b>:{speciesData.clone}
                     </Typography>
                   </Grid>
+                  <br></br>
                   <Grid item xs={12}>
                     <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
                       <b>forma</b>:{speciesData.forma}
                     </Typography>
                   </Grid>
+                  <br></br>
                   <Grid item xs={12}>
                     <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
                       <b>English</b>:{speciesData.english}
                     </Typography>
                   </Grid>
+                  <br></br>
                   <Grid item xs={12}>
                     <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
                       <b>Bangla</b>:{speciesData.bangla}
                     </Typography>
                   </Grid>
+                  <br></br>
                   <Grid item xs={12}>
                     <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
                       <b>Synonym</b>:{speciesData.synonym}
                     </Typography>
                   </Grid>
+                  <br></br>
                   <Grid item xs={12}>
                     <Typography gutterBottom component="description" variant="div" fontFamily='Times New Roman' fontSize={20}>
                       <b>Common</b>:{speciesData.common}
                     </Typography>
                   </Grid>
+                  <br></br>
 
 
                 </CardContent>

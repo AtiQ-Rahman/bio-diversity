@@ -202,7 +202,8 @@ const AllDetailsPage = () => {
   return (
     <Grid container>
       <Grid item xs={2}></Grid>
-      <Grid item xs={8} style={{ background: "white", margin: "0 auto" }}>
+      
+      <Grid item xs={10} md={8} style={{ background: "white", margin: "0 auto",paddingTop:"100px" }}>
         <Item sx={{ pt: 10 }}>
           {speciesDetails.additionalFiles?.length > 0 ? (
             <div>

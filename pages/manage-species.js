@@ -182,7 +182,7 @@ export default function ManageSpecies() {
     return (
       <React.Fragment>
         {categoryList?.map((row, index) => (
-          <Grid item xs={4}
+          <Grid item md={4} sx={12}
             key={`Category${index}`}
           >
             <Card sx={{
@@ -204,7 +204,7 @@ export default function ManageSpecies() {
               <CardMedia
                 component="img"
                 objectFit="cover"
-                sx={{ height: 350 }}
+                sx={{ height: 200 }}
                 image={species[`species${index + 7}`]?.default?.src || species[`species7`].default.src}
                 alt="Live from space album cover"
               />

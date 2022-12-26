@@ -135,7 +135,7 @@ export default function Database() {
     return (
       <Grid container item spacing={3}>
         {categoryList?.map((row, index) => (
-          <Grid item xs={4}
+          <Grid item md={4} xs={12}
             key={`Category${index}`}
             onClick={(e) => {
               let url
