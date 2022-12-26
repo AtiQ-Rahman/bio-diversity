@@ -344,12 +344,12 @@ const AddNewSpecies = () => {
             setFieldValue,
           }) => (
             <Form onSubmit={handleSubmit}>
-              <Grid sx={{ p: 10, mt: 5, background: "white" }}>
+              <Grid sx={{ p: 10, mt: 15,  background: "white" }}>
                 <Typography gutterBottom variant="h3">
                   Request A Species
                 </Typography>
-                <Grid container spacing={3}>
-                  <Grid item xs={2}>
+                <Grid container spacing={3} sx={{pt:5}}>
+                  <Grid item xs={12} md={2}>
                     <Autocomplete
                       size="small"
                       id="species"
@@ -394,7 +394,7 @@ const AddNewSpecies = () => {
                     />
                   </Grid>
                   {values?.category?.type === "Dropdown" ? (
-                    <Grid item xs={2}>
+                    <Grid item  xs={12} md={2}>
                       <Autocomplete
                         size="small"
                         disablePortal
@@ -444,7 +444,7 @@ const AddNewSpecies = () => {
                         <Grid
                           key={`identificationFeaturesCate${index}`}
                           item
-                          xs={2}
+                           xs={12} md={2}
                         >
                           <TextField
                             required
@@ -469,7 +469,7 @@ const AddNewSpecies = () => {
                     })
                   )}
 
-                  <Grid item xs={2}>
+                  <Grid item  xs={12} md={2}>
                     <Autocomplete
                       freeSolo
                       size="small"
@@ -499,7 +499,7 @@ const AddNewSpecies = () => {
                       )}
                     />
                   </Grid>
-                  <Grid item xs={2}>
+                  <Grid item  xs={12} md={2}>
                     <Autocomplete
                       freeSolo
                       size="small"
@@ -531,7 +531,7 @@ const AddNewSpecies = () => {
                       )}
                     />
                   </Grid>
-                  <Grid item xs={2}>
+                  <Grid item  xs={12} md={2}>
                     <Autocomplete
                       freeSolo
                       size="small"
@@ -564,7 +564,7 @@ const AddNewSpecies = () => {
                       )}
                     />
                   </Grid>
-                  <Grid item xs={2}>
+                  <Grid item  xs={12} md={2}>
                     <Autocomplete
                       freeSolo
                       size="small"
@@ -599,7 +599,7 @@ const AddNewSpecies = () => {
                       )}
                     />
                   </Grid>
-                  <Grid item xs={2}>
+                  <Grid item  xs={12} md={2}>
                     <Autocomplete
                       freeSolo
                       size="small"
@@ -634,7 +634,7 @@ const AddNewSpecies = () => {
                       )}
                     />
                   </Grid>
-                  <Grid item xs={2}>
+                  <Grid item  xs={12} md={2}>
                     <Autocomplete
                       freeSolo
                       size="small"
@@ -665,7 +665,7 @@ const AddNewSpecies = () => {
                       )}
                     />
                   </Grid>
-                  <Grid item xs={2}>
+                  <Grid item  xs={12} md={2}>
                     <Autocomplete
                       freeSolo
                       size="small"
@@ -696,7 +696,7 @@ const AddNewSpecies = () => {
                       )}
                     />
                   </Grid>
-                  <Grid item xs={2}>
+                  <Grid item  xs={12} md={2}>
                     <Autocomplete
                       freeSolo
                       size="small"
@@ -727,7 +727,7 @@ const AddNewSpecies = () => {
                       )}
                     />
                   </Grid>
-                  <Grid item xs={2}>
+                  <Grid item  xs={12} md={2}>
                     <Autocomplete
                       freeSolo
                       size="small"
@@ -762,7 +762,7 @@ const AddNewSpecies = () => {
                       )}
                     />
                   </Grid>
-                  <Grid item xs={2}>
+                  <Grid item  xs={12} md={2}>
                     <Autocomplete
                       freeSolo
                       size="small"
@@ -793,7 +793,7 @@ const AddNewSpecies = () => {
                       )}
                     />
                   </Grid>
-                  <Grid item xs={2}>
+                  <Grid item  xs={12} md={2}>
                     <Autocomplete
                       freeSolo
                       size="small"
@@ -828,7 +828,7 @@ const AddNewSpecies = () => {
                       )}
                     />
                   </Grid>
-                  <Grid item xs={2}>
+                  <Grid item  xs={12} md={2}>
                     <Autocomplete
                       freeSolo
                       size="small"
@@ -859,7 +859,7 @@ const AddNewSpecies = () => {
                       )}
                     />
                   </Grid>
-                  <Grid item xs={2}>
+                  <Grid item  xs={12} md={2}>
                     <Autocomplete
                       freeSolo
                       size="small"
@@ -889,10 +889,10 @@ const AddNewSpecies = () => {
                     />
                   </Grid>
 
-                  <Grid item xs={12}>
-                    <Grid container item xs={12} spacing={2}>
+                  <Grid item xs={12} md={13}>
+                    <Grid container item xs={12} md={12} spacing={2}>
 
-                      <Grid item xs={3}>
+                      <Grid item xs={12} md={3}>
                         <TextField
 
                           id="Species"
@@ -906,7 +906,7 @@ const AddNewSpecies = () => {
                           variant="outlined"
                         />
                       </Grid>
-                      <Grid item xs={3}>
+                      <Grid item xs={12} md={3}>
                         <TextField
 
                           id="banglaName"
@@ -920,7 +920,7 @@ const AddNewSpecies = () => {
                           variant="outlined"
                         />
                       </Grid>
-                      <Grid item xs={3}>
+                      <Grid item xs={12} md={3}>
                         <TextField
 
                           id="commonName"
@@ -934,7 +934,7 @@ const AddNewSpecies = () => {
                           variant="outlined"
                         />
                       </Grid>
-                      <Grid item xs={3}>
+                      <Grid item xs={12} md={3}>
                         <TextField
 
                           id="synonym"
@@ -948,7 +948,7 @@ const AddNewSpecies = () => {
                           onChange={handleChange}
                         />
                       </Grid>
-                      <Grid item xs={12} sx={{ p: 2 }}>
+                      <Grid item xs={12} md={12} sx={{ p: 2 }}>
                         <Typography component="h4" variant="div">
                           Thumbnail Image
                         </Typography>
@@ -984,7 +984,7 @@ const AddNewSpecies = () => {
                             values.additionalFiles.push(file);
                           }}
                         />
-                        <Grid item xs={12}>
+                        <Grid item xs={12} md={12} sx={{pt:5}}>
                           <Typography component="h4" variant="div">
                             Additional Image
                           </Typography>
@@ -1145,6 +1145,7 @@ const AddNewSpecies = () => {
                               onChange={getMarkerUrl}
                             />
                             <Box>
+                              <br></br>
                               {/* <Geocoder
                               style={{ background: "white" }}
                               {...mapAccess} onSelected={onSelected} viewport={viewport} hideOnSelect={true}
@@ -1176,6 +1177,7 @@ const AddNewSpecies = () => {
                                 )}
                               />
                             </Box>
+                            <br></br>
                           </Grid>
                           {/* <Grid item md={6}>
                             <div
@@ -1264,7 +1266,7 @@ const AddNewSpecies = () => {
                         </Button>
                       </Grid>
 
-                      <Grid item xs={3}>
+                      <Grid item xs={12} md={3}>
                         <TextField
                           label="Physical Identification Details"
                           multiline
@@ -1281,7 +1283,7 @@ const AddNewSpecies = () => {
                           }}
                         />
                       </Grid>
-                      <Grid item xs={3}>
+                      <Grid item xs={12} md={3}>
                         <TextField
                           label="Habitat"
                           multiline
@@ -1298,7 +1300,7 @@ const AddNewSpecies = () => {
                           }}
                         />
                       </Grid>
-                      <Grid item xs={3}>
+                      <Grid item xs={12} md={3}>
                         <TextField
                           label="Behavior"
                           multiline
@@ -1315,7 +1317,7 @@ const AddNewSpecies = () => {
                           }}
                         />
                       </Grid>
-                      <Grid item xs={3}>
+                      <Grid item xs={12} md={3}>
                         <TextField
                           label="Migration"
                           multiline
@@ -1332,7 +1334,7 @@ const AddNewSpecies = () => {
                           }}
                         />
                       </Grid>
-                      <Grid item xs={3}>
+                      <Grid item xs={12} md={3}>
                         <TextField
                           label="Breeding Behavior"
                           multiline
@@ -1349,7 +1351,7 @@ const AddNewSpecies = () => {
                           }}
                         />
                       </Grid>
-                      <Grid item xs={3}>
+                      <Grid item xs={12} md={3}>
                         <TextField
                           label="Chromosome Number"
                           multiline
@@ -1366,7 +1368,7 @@ const AddNewSpecies = () => {
                           }}
                         />
                       </Grid>
-                      <Grid item xs={3}>
+                      <Grid item xs={12} md={3}>
                         <TextField
                           label="Molecular Characteristic"
                           multiline
@@ -1383,7 +1385,7 @@ const AddNewSpecies = () => {
                           }}
                         />
                       </Grid>
-                      <Grid item xs={3}>
+                      <Grid item xs={12} md={3}>
                         <TextField
                           label="Notes"
                           multiline
@@ -1400,7 +1402,7 @@ const AddNewSpecies = () => {
                           }}
                         />
                       </Grid>
-                      <Grid item xs={3}>
+                      <Grid item xs={12} md={3}>
                         <TextField
                           label="World distribution"
                           multiline
@@ -1417,7 +1419,7 @@ const AddNewSpecies = () => {
                           }}
                         />
                       </Grid>
-                      <Grid item xs={3}>
+                      <Grid item xs={12} md={3}>
                         <TextField
                           label="IUCN status"
                           multiline
@@ -1434,7 +1436,7 @@ const AddNewSpecies = () => {
                           }}
                         />
                       </Grid>
-                      <Grid item xs={3}>
+                      <Grid item xs={12} md={3}>
                         <TextField
                           label="Economic Importance"
                           multiline
@@ -1451,7 +1453,7 @@ const AddNewSpecies = () => {
                           }}
                         />
                       </Grid>
-                      <Grid item xs={3}>
+                      <Grid item xs={12} md={3}>
                         <TextField
                           label="Medicinal use"
                           multiline
@@ -1468,7 +1470,7 @@ const AddNewSpecies = () => {
                           }}
                         />
                       </Grid>
-                      <Grid item xs={3}>
+                      <Grid item xs={12} md={3}>
                         <TextField
                           label="Uses as Foods and Feeds"
                           multiline
@@ -1485,7 +1487,7 @@ const AddNewSpecies = () => {
                           }}
                         />
                       </Grid>
-                      <Grid item xs={3}>
+                      <Grid item xs={12} md={3}>
                         <TextField
                           label="As pharmaceuticals"
                           multiline
@@ -1502,7 +1504,7 @@ const AddNewSpecies = () => {
                           }}
                         />
                       </Grid>
-                      <Grid item xs={3}>
+                      <Grid item xs={12} md={3}>
                         <TextField
                           label="As industrial product"
                           multiline
@@ -1519,7 +1521,7 @@ const AddNewSpecies = () => {
                           }}
                         />
                       </Grid>
-                      <Grid item xs={3}>
+                      <Grid item xs={12} md={3}>
                         <TextField
                           label="Other information"
                           multiline
@@ -1536,7 +1538,7 @@ const AddNewSpecies = () => {
                           }}
                         />
                       </Grid>
-                      <Grid item xs={3}>
+                      <Grid item xs={12} md={3}>
                         <TextField
                           label="Other uses"
                           multiline
@@ -1553,7 +1555,7 @@ const AddNewSpecies = () => {
                           }}
                         />
                       </Grid>
-                      <Grid item xs={3}>
+                      <Grid item xs={12} md={3}>
                         <TextField
                           label="Ecological Indicator"
                           multiline
@@ -1571,7 +1573,7 @@ const AddNewSpecies = () => {
                           }}
                         />
                       </Grid>
-                      <Grid item xs={3}>
+                      <Grid item xs={12} md={3}>
                         <TextField
                           label="Exotic"
                           multiline
@@ -1588,7 +1590,7 @@ const AddNewSpecies = () => {
                           }}
                         />
                       </Grid>
-                      <Grid item xs={3}>
+                      <Grid item xs={12} md={3}>
                         <TextField
                           label="Crop / fruit / industrial products/ weed etc"
                           multiline
@@ -1605,7 +1607,7 @@ const AddNewSpecies = () => {
                           }}
                         />
                       </Grid>
-                      <Grid item xs={3}>
+                      <Grid item xs={12} md={3}>
                         <TextField
                           label="Fruting time"
                           multiline
@@ -1622,7 +1624,7 @@ const AddNewSpecies = () => {
                           }}
                         />
                       </Grid>
-                      <Grid item xs={3}>
+                      <Grid item xs={12} md={3}>
                         <TextField
                           label="Scientific Research Interest"
                           multiline
@@ -1639,7 +1641,7 @@ const AddNewSpecies = () => {
                           }}
                         />
                       </Grid>
-                      <Grid item xs={3}>
+                      <Grid item xs={12} md={3}>
                         <TextField
                           label="Ecological Role"
                           multiline
@@ -1656,7 +1658,7 @@ const AddNewSpecies = () => {
                           }}
                         />
                       </Grid>
-                      <Grid item xs={3}>
+                      <Grid item xs={12} md={3}>
                         <TextField
                           label="Value C-Sequester"
                           multiline
@@ -1673,7 +1675,7 @@ const AddNewSpecies = () => {
                           }}
                         />
                       </Grid>
-                      <Grid item xs={3}>
+                      <Grid item xs={12} md={3}>
                         <TextField
                           label="Health Resource"
                           multiline
@@ -1690,7 +1692,7 @@ const AddNewSpecies = () => {
                           }}
                         />
                       </Grid>
-                      <Grid item xs={3}>
+                      <Grid item xs={12} md={3}>
                         <TextField
                           label="Growing season"
                           multiline
@@ -1707,7 +1709,7 @@ const AddNewSpecies = () => {
                           }}
                         />
                       </Grid>
-                      <Grid item xs={3}>
+                      <Grid item xs={12} md={3}>
                         <TextField
                           label="Threats to the Species / Genus"
                           multiline
@@ -1724,7 +1726,7 @@ const AddNewSpecies = () => {
                           }}
                         />
                       </Grid>
-                      <Grid item xs={3}>
+                      <Grid item xs={12} md={3}>
                         <TextField
                           label="Conservation status"
                           multiline
@@ -1741,7 +1743,7 @@ const AddNewSpecies = () => {
                           }}
                         />
                       </Grid>
-                      <Grid item xs={3}>
+                      <Grid item xs={12} md={3}>
                         <TextField
                           label="Measures taken"
                           multiline
@@ -1758,7 +1760,7 @@ const AddNewSpecies = () => {
                           }}
                         />
                       </Grid>
-                      <Grid item xs={3}>
+                      <Grid item xs={12} md={3}>
                         <TextField
                           label="Miscellaneous"
                           multiline
