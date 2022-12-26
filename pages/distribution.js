@@ -148,8 +148,6 @@ const Distribution = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const handleChangePage = (event, newPage) => {
-    console.log({event})
-    console.log({newPage})
     setPage(newPage);
   };
   const handleChangeRowsPerPage = (event) => {
@@ -353,19 +351,20 @@ const Distribution = () => {
                     name="name"
                     margin="normal"
                     size="small"
-                    label="Search By English Name"
+                    label="Search By Name"
                     fullWidth
                     value={filterName ?? ""}
                     onChange={(e) => {
                       setFilterName(e.target.value.toLocaleLowerCase())
                       let modifiedList = speciesList.filter((species) => {
                         let value = e.target.value.toLocaleLowerCase();
-                        // if(species?.name?.commonName.toLocaleLowerCase().includes(value)
-                        // || species?.name?.bangla.toLocaleLowerCase().includes(value)
-                        // || species?.name?.english.toLocaleLowerCase().includes(value)
-                        // || species?.name?.synonym.toLocaleLowerCase().includes(value)) {
-                        //     return species
-                        // }
+                        if (species?.name?.commonName.toLocaleLowerCase().includes(value)
+                          || species?.name?.bangla.toLocaleLowerCase().includes(value)
+                          || species?.name?.english.toLocaleLowerCase().includes(value)
+                          || species?.name?.synonym.toLocaleLowerCase().includes(value)
+                          || species?.species.toLocaleLowerCase().includes(value)) {
+                          return species
+                        }
                         if (category && category !== 'All') {
                           if (species?.english.toLocaleLowerCase().includes(value) && species.category == category) {
                             return species;
@@ -378,7 +377,6 @@ const Distribution = () => {
                         }
                       });
                       setModifiedList(modifiedList);
-                      console.log({ modifiedList });
                     }}
                     autoComplete="Search By Common Name"
                     variant="outlined"
@@ -407,6 +405,16 @@ const Distribution = () => {
 
                 {modifiedList.length > 0 ? (
                   <Box>
+                    <TablePagination
+                      labelRowsPerPage={false}
+                      rowsPerPageOptions={[100, 50, 10]}
+                      component="div"
+                      count={modifiedList?.length}
+                      rowsPerPage={rowsPerPage}
+                      page={page}
+                      onPageChange={handleChangePage}
+                      onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
                     <TableContainer component={Paper} sx={{
                       height: 700, my: 2, border: "1px solid #dfdfdf",
                       padding: "10px"
@@ -416,7 +424,7 @@ const Distribution = () => {
                           {modifiedList?.slice(
                             page * rowsPerPage,
                             page * rowsPerPage + rowsPerPage
-                          ).map((species, index) => (
+                          ).map((item, index) => (
                             <>
                               <TableRow
                                 key={index}
@@ -425,26 +433,26 @@ const Distribution = () => {
                                 }}
                               >
                                 <TableCell component="td" scope="row" width={50}>
-                                  {/* {species.marker !== "N/A" && species.marker !== 'null' ? (
+                                  {/* {item.marker !== "N/A" && item.marker !== 'null' ? (
                                 <Image
                                   height={50}
                                   alt="Marker Icon"
                                   width={40}
-                                  src={species.marker}
+                                  src={item.marker}
                                 ></Image>
                               ) : null} */}
-                                  {species.markerColor ? (
+                                  {item.markerColor ? (
                                     <Box>
                                       <Box className={styles.marker}
                                         aria-controls={open ? 'basic-menu' : undefined}
                                         aria-haspopup="true"
                                         aria-expanded={open ? 'true' : undefined}
                                         onClick={(e) => {
-                                          setColor(species.markerColor)
+                                          setColor(item.markerColor)
                                           handleClick(e, index)
                                         }}
                                         style={{
-                                          backgroundColor: species.markerColor,
+                                          backgroundColor: item.markerColor,
                                           borderRadius: "100px",
                                           height: 30,
                                           width: 30,
@@ -457,7 +465,7 @@ const Distribution = () => {
                                 </TableCell>
                                 <TableCell align="center">
                                   <Typography variant="body2" color="text.primary">
-                                    <b>{species.english}</b>
+                                    <b>{item.species}</b>
                                   </Typography>
                                 </TableCell>
                                 <TableCell align="center">
@@ -479,7 +487,7 @@ const Distribution = () => {
                                         setShowUndo(null)
                                         setTimeOutId(null)
                                         setUpdateIndex(null)
-                                        availableList.push(species)
+                                        availableList.push(item)
                                         modifiedList.splice(index, 1)
                                         setModifiedAvailableList(availableList)
                                         setForce(!force)
@@ -491,9 +499,9 @@ const Distribution = () => {
                                 </TableCell>
                                 {/* <TableCell>
                               <Typography variant="caption">
-                                {twoDecimal(species?.districts?.[0]?.center[0])}{" "}
+                                {twoDecimal(item?.districts?.[0]?.center[0])}{" "}
                                 ,
-                                {twoDecimal(species?.districts?.[0]?.center[1])}
+                                {twoDecimal(item?.districts?.[0]?.center[1])}
                               </Typography>
                             </TableCell> */}
                               </TableRow>
@@ -516,15 +524,7 @@ const Distribution = () => {
                         </Menu>
                       </Table>
                     </TableContainer>
-                    <TablePagination
-                      rowsPerPageOptions={[100, 50]}
-                      component="div"
-                      count={modifiedList?.length}
-                      rowsPerPage={rowsPerPage}
-                      page={page}
-                      onPageChange={handleChangePage}
-                      onRowsPerPageChange={handleChangeRowsPerPage}
-                    />
+
                   </Box>
 
                 ) : null}

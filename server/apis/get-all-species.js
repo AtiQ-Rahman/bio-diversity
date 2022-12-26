@@ -6,7 +6,7 @@ exports.getAllSpecies = async (req, res, next) => {
     let modifiedList = []
     for (let key of Object.keys(speciesTableTypes)) {
         let table = await getTable(speciesTableTypes[key])
-        let searchQuery = `select * from ${table} where marker is not null and english != '' && english !='undefined'`
+        let searchQuery = `select * from ${table} where marker is not null and species != '' && species !='undefined'`
         let response = await executeQuery(searchQuery)
         if (response?.length > 0) {
             let modifiedResponse = []

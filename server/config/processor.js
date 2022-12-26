@@ -4,7 +4,7 @@ exports.processKeys = async (label) => {
     let list = await this.matchKey()
     for (let item of list) {
         let matchRule = new RegExp(label.trim().toLowerCase());
-        if (item.label.trim().toLowerCase().match(matchRule, 'i')) {
+        if (item.label.trim().toLowerCase() == label.trim().toLowerCase() || item.label.trim().toLowerCase().match(matchRule, 'i')) {
             return item.key
         }
     }
@@ -81,13 +81,14 @@ exports.matchKey = async () => {
             key: 'genus'
         },
         {
-            label: 'Sub Species',
-            key: 'sub_species'
-        },
-        {
             label: 'Species',
             key: 'species'
         },
+        {
+            label: 'Sub Species',
+            key: 'sub_species'
+        },
+
         {
             label: 'Variety',
             key: 'variety'
