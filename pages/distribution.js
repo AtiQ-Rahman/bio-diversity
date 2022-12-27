@@ -276,13 +276,12 @@ const Distribution = () => {
     >
       <Grid
         item
-        style={{
-          width: "100%",
-          height: "100%",
-        }}
+
+        xs={7}
+        sm={8}
+        // xl={8}
         md={10}
-        xl={10}
-        xs={10}
+
       >
         {/* <div className={styles.sidebar}>
           Longitude: {lngLatZoomObject.lng} | Latitude: {lngLatZoomObject.lat} | Zoom: {lngLatZoomObject.zoom}
@@ -290,152 +289,159 @@ const Distribution = () => {
 
         <div ref={mapContainer} className={styles.map_container}></div>
       </Grid>
-      <Grid item xs={2}>
-        <Box className={styles.details_bar}>
-          <Card sx={{ height: "100%", overflowY: "scroll" }}>
-            <CardContent>
-              <Grid container>
-                <Grid item xs={12}>
-                  <Autocomplete
-                    size="small"
-                    id="species"
-                    value={category ?? ''}
-                    options={categoryList}
-                    key="categorySpecies"
-                    getOptionLabel={(option) =>
-                      option.name || option
-                    }
-                    isOptionEqualToValue={(option, value) =>
-                      option.serial === value.serial
-                    }
-                    // sx={{ width: 300 }}
-                    onChange={(e, value) => {
-                      console.log({ value })
-                      setCategory(value?.name || value);
-                      if (!value || value?.name == 'All' || value == 'All') {
-                        setModifiedList(speciesList)
-                        setForce(!force)
+      <Grid item
+        xs={5}
+        sm={4}
+        md={2}>
+        <Box className={styles.details_bar} sx={{ height: "100%", overflow: "scroll" }}>
+
+          <Grid container sx={{
+            p: 2
+          }}>
+            <Grid item xs={12}>
+              <Autocomplete
+                size="small"
+                id="species"
+                value={category ?? ''}
+                options={categoryList}
+                key="categorySpecies"
+                getOptionLabel={(option) =>
+                  option.name || option
+                }
+                isOptionEqualToValue={(option, value) =>
+                  option.serial === value.serial
+                }
+                // sx={{ width: 300 }}
+                onChange={(e, value) => {
+                  console.log({ value })
+                  setCategory(value?.name || value);
+                  if (!value || value?.name == 'All' || value == 'All') {
+                    setModifiedList(speciesList)
+                    setForce(!force)
+                  }
+                  else {
+                    let list = speciesList.filter((item) => {
+                      if (filterName && filterName != "") {
+                        if (item.category == (value?.name || value) && item?.english.toLocaleLowerCase().includes(filterName)) {
+                          return item
+                        }
                       }
                       else {
-                        let list = speciesList.filter((item) => {
-                          if (filterName && filterName != "") {
-                            if (item.category == (value?.name || value) && item?.english.toLocaleLowerCase().includes(filterName)) {
-                              return item
-                            }
-                          }
-                          else {
-                            if (item.category == (value?.name || value)) {
-                              return item
-                            }
-                          }
-
-                        })
-                        setModifiedList(list)
-                        setForce(!force)
+                        if (item.category == (value?.name || value)) {
+                          return item
+                        }
                       }
 
-                    }}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        style={{ padding: "2px" }}
-                        label="Filter By Group"
-                        variant="outlined"
-                        placeholder="Select"
-                        value={category ?? ''}
-                      />
-                    )}
-                  />
-                </Grid>
-                <Grid item xs={12}>
+                    })
+                    setModifiedList(list)
+                    setForce(!force)
+                  }
+
+                }}
+                renderInput={(params) => (
                   <TextField
-                    id="Species"
-                    name="name"
-                    margin="normal"
-                    size="small"
-                    label="Search By Name"
-                    fullWidth
-                    value={filterName ?? ""}
-                    onChange={(e) => {
-                      setFilterName(e.target.value.toLocaleLowerCase())
-                      let modifiedList = speciesList.filter((species) => {
-                        let value = e.target.value.toLocaleLowerCase();
-                        if (species?.name?.commonName.toLocaleLowerCase().includes(value)
-                          || species?.name?.bangla.toLocaleLowerCase().includes(value)
-                          || species?.name?.english.toLocaleLowerCase().includes(value)
-                          || species?.name?.synonym.toLocaleLowerCase().includes(value)
-                          || species?.species.toLocaleLowerCase().includes(value)) {
-                          return species
-                        }
-                        if (category && category !== 'All') {
-                          if (species?.english.toLocaleLowerCase().includes(value) && species.category == category) {
-                            return species;
-                          }
-                        }
-                        else {
-                          if (species?.english.toLocaleLowerCase().includes(value)) {
-                            return species;
-                          }
-                        }
-                      });
-                      setModifiedList(modifiedList);
-                    }}
-                    autoComplete="Search By Common Name"
+                    {...params}
+                    style={{ padding: "2px" }}
+                    label="Filter By Group"
                     variant="outlined"
+                    placeholder="Select"
+                    value={category ?? ''}
                   />
-                </Grid>
-                <Grid item xs={12} md={12}>
-                  <Typography gutterBottom variant="h5" component="div">
-                    Total: {modifiedList.length}
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} md={6}>
-                  <Button variant="outlined" size="small" startIcon={<Icon icon="material-symbols:add-circle-rounded" />}
-                    onClick={handleClickOpenAvailableDialog}
-                  >
-                    Add to list
-                  </Button>
-                </Grid>
-                <Grid item xs={12} md={6}>
-                  <Button variant="outlined" size="small" startIcon={<Icon icon="ic:round-delete" />}
-                    onClick={handleClickOpenRemoveDialog}
-                  >
-                    Remove All
-                  </Button>
-                </Grid>
+                )}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                id="Species"
+                name="name"
+                margin="normal"
+                size="small"
+                label="Search By Name"
+                fullWidth
+                value={filterName ?? ""}
+                onChange={(e) => {
+                  setFilterName(e.target.value.toLocaleLowerCase())
+                  let modifiedList = speciesList.filter((species) => {
+                    let value = e.target.value.toLocaleLowerCase();
+                    if (species?.name?.commonName.toLocaleLowerCase().includes(value)
+                      || species?.name?.bangla.toLocaleLowerCase().includes(value)
+                      || species?.name?.english.toLocaleLowerCase().includes(value)
+                      || species?.name?.synonym.toLocaleLowerCase().includes(value)
+                      || species?.species.toLocaleLowerCase().includes(value)) {
+                      return species
+                    }
+                    if (category && category !== 'All') {
+                      if (species?.english.toLocaleLowerCase().includes(value) && species.category == category) {
+                        return species;
+                      }
+                    }
+                    else {
+                      if (species?.english.toLocaleLowerCase().includes(value)) {
+                        return species;
+                      }
+                    }
+                  });
+                  setModifiedList(modifiedList);
+                }}
+                autoComplete="Search By Common Name"
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={12} sm={12} md={12}>
+              <Typography gutterBottom variant="h5" component="div">
+                Total: {modifiedList.length}
+              </Typography>
+            </Grid>
+            <Grid item xs={12} sm={12} md={12} lg={6}>
+              <Button variant="outlined" size="small" startIcon={<Icon icon="material-symbols:add-circle-rounded" />}
+                onClick={handleClickOpenAvailableDialog}
+              >
+                Add to list
+              </Button>
+            </Grid>
+            <Grid item xs={12} sm={12} md={12} lg={6}>
+              <Button variant="outlined" size="small" startIcon={<Icon icon="ic:round-delete" />}
+                onClick={handleClickOpenRemoveDialog}
+              >
+                Remove All
+              </Button>
+            </Grid>
+          </Grid>
 
-
-                {modifiedList.length > 0 ? (
-                  <Box>
-                    <TablePagination
-                      labelRowsPerPage={false}
-                      rowsPerPageOptions={[100, 50, 10]}
-                      component="div"
-                      count={modifiedList?.length}
-                      rowsPerPage={rowsPerPage}
-                      page={page}
-                      onPageChange={handleChangePage}
-                      onRowsPerPageChange={handleChangeRowsPerPage}
-                    />
-                    <TableContainer component={Paper} sx={{
-                      height: 700, my: 2, border: "1px solid #dfdfdf",
-                      padding: "10px"
-                    }}>
-                      <Table aria-label="customized table">
-                        <TableBody>
-                          {modifiedList?.slice(
-                            page * rowsPerPage,
-                            page * rowsPerPage + rowsPerPage
-                          ).map((item, index) => (
-                            <>
-                              <TableRow
-                                key={index}
-                                sx={{
-                                  "&:last-child td, &:last-child th": { border: 0 },
-                                }}
-                              >
-                                <TableCell component="td" scope="row" width={50}>
-                                  {/* {item.marker !== "N/A" && item.marker !== 'null' ? (
+          {modifiedList.length > 0 ? (
+            <Box>
+              <TablePagination
+                labelRowsPerPage={false}
+                rowsPerPageOptions={[100, 50, 10]}
+                component="div"
+                count={modifiedList?.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+              <TableContainer component={Paper} sx={{
+                height: 700, my: 1, border: "1px solid #dfdfdf",
+                padding: "10px",
+                overflow: "scroll"
+              }}>
+                <Table aria-label="customized table" sx={{
+                  overflow: "scroll"
+                }}>
+                  <TableBody >
+                    {modifiedList?.slice(
+                      page * rowsPerPage,
+                      page * rowsPerPage + rowsPerPage
+                    ).map((item, index) => (
+                      <>
+                        <TableRow
+                          key={index}
+                          sx={{
+                            "&:last-child td, &:last-child th": { border: 0 },
+                          }}
+                        >
+                          <TableCell component="td" scope="row" width={50}>
+                            {/* {item.marker !== "N/A" && item.marker !== 'null' ? (
                                 <Image
                                   height={50}
                                   alt="Marker Icon"
@@ -443,106 +449,108 @@ const Distribution = () => {
                                   src={item.marker}
                                 ></Image>
                               ) : null} */}
-                                  {item.markerColor ? (
-                                    <Box>
-                                      <Box className={styles.marker}
-                                        aria-controls={open ? 'basic-menu' : undefined}
-                                        aria-haspopup="true"
-                                        aria-expanded={open ? 'true' : undefined}
-                                        onClick={(e) => {
-                                          setColor(item.markerColor)
-                                          handleClick(e, index)
-                                        }}
-                                        style={{
-                                          backgroundColor: item.markerColor,
-                                          borderRadius: "100px",
-                                          height: 30,
-                                          width: 30,
-                                          border: "5px solid #e7e7e7"
-                                        }}></Box>
+                            {item.markerColor ? (
+                              <Box>
+                                <Box className={styles.marker}
+                                  aria-controls={open ? 'basic-menu' : undefined}
+                                  aria-haspopup="true"
+                                  aria-expanded={open ? 'true' : undefined}
+                                  onClick={(e) => {
+                                    setColor(item.markerColor)
+                                    handleClick(e, index)
+                                  }}
+                                  style={{
+                                    backgroundColor: item.markerColor,
+                                    borderRadius: "100px",
+                                    height: 30,
+                                    width: 30,
+                                    border: "5px solid #e7e7e7"
+                                  }}></Box>
 
-                                    </Box>
+                              </Box>
 
-                                  ) : null}
-                                </TableCell>
-                                <TableCell align="center">
-                                  <Typography variant="body2" color="text.primary">
-                                    <b>{item.species}</b>
-                                  </Typography>
-                                </TableCell>
-                                <TableCell align="center">
-                                  {showUndo && updateIndex == index ? (
-                                    <Button icon="ic:baseline-remove" width="24" height="24" onClick={async (e) => {
-                                      setShowUndo(false)
-                                      clearTimeout(timeOutId)
-                                    }} >Undo</Button>
-                                  ) : (
-                                    <Icon icon="ic:baseline-remove" width="24" height="24" style={{
-                                      cursor: "pointer",
-                                      border: "1px solid grey",
-                                      borderRadius: "30px"
+                            ) : null}
+                          </TableCell>
+                          <TableCell align="center">
+                            <Typography variant="body2" color="text.primary">
+                              <b>{item.species}</b>
+                            </Typography>
+                          </TableCell>
+                          <TableCell align="center">
+                            {showUndo && updateIndex == index ? (
+                              <Button icon="ic:baseline-remove" width="24" height="24" onClick={async (e) => {
+                                setShowUndo(false)
+                                clearTimeout(timeOutId)
+                              }} >Undo</Button>
+                            ) : (
+                              <Icon icon="ic:baseline-remove" width="24" height="24" style={{
+                                cursor: "pointer",
+                                border: "1px solid grey",
+                                borderRadius: "30px"
 
-                                    }} onClick={(e) => {
-                                      setUpdateIndex(index)
-                                      setShowUndo(true)
-                                      let timeOutId = setTimeout(() => {
-                                        setShowUndo(null)
-                                        setTimeOutId(null)
-                                        setUpdateIndex(null)
-                                        availableList.push(item)
-                                        modifiedList.splice(index, 1)
-                                        setModifiedAvailableList(availableList)
-                                        setForce(!force)
-                                      }, 3000)
-                                      setTimeOutId(timeOutId)
-                                    }} />
-                                  )}
+                              }} onClick={(e) => {
+                                setUpdateIndex(index)
+                                setShowUndo(true)
+                                let timeOutId = setTimeout(() => {
+                                  setShowUndo(null)
+                                  setTimeOutId(null)
+                                  setUpdateIndex(null)
+                                  availableList.push(item)
+                                  modifiedList.splice(index, 1)
+                                  setModifiedAvailableList(availableList)
+                                  setForce(!force)
+                                }, 3000)
+                                setTimeOutId(timeOutId)
+                              }} />
+                            )}
 
-                                </TableCell>
-                                {/* <TableCell>
+                          </TableCell>
+                          {/* <TableCell>
                               <Typography variant="caption">
                                 {twoDecimal(item?.districts?.[0]?.center[0])}{" "}
                                 ,
                                 {twoDecimal(item?.districts?.[0]?.center[1])}
                               </Typography>
                             </TableCell> */}
-                              </TableRow>
-                            </>
-                          ))}
-                        </TableBody>
-                        <Menu
-                          id="basic-menu"
-                          anchorEl={anchorEl}
-                          open={open}
-                          onClose={handleClose}
-                          MenuListProps={{
-                            'aria-labelledby': 'basic-button',
-                          }}
-                        >
-                          <MenuItem onClick={(e) => {
-                            handleClickOpenDialog()
-                            handleClose()
-                          }}>Change Color</MenuItem>
-                        </Menu>
-                      </Table>
-                    </TableContainer>
+                        </TableRow>
+                      </>
+                    ))}
+                  </TableBody>
+                  <Menu
+                    id="basic-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    MenuListProps={{
+                      'aria-labelledby': 'basic-button',
+                    }}
+                  >
+                    <MenuItem onClick={(e) => {
+                      handleClickOpenDialog()
+                      handleClose()
+                    }}>Change Color</MenuItem>
+                  </Menu>
+                </Table>
+              </TableContainer>
 
-                  </Box>
+            </Box>
 
-                ) : null}
+          ) : null}
 
-                <Typography variant="body2" color="text.secondary">
-                  The full name of the genus or species can be inserted, or you
-                  can type the first four letters of the generic name and/or the
-                  first four letters of the species (or other) epithet in upper or
-                  lower case (e.g. Mere micr or mere micr for Meredithia
-                  microphylla). A full list of the species and subspecific
-                  entities in each genus can be obtained in the genus database.
-                </Typography>
-              </Grid>
+          <Typography variant="body2" color="text.secondary" sx={{
+            p: 2
+          }}>
+            The full name of the genus or species can be inserted, or you
+            can type the first four letters of the generic name and/or the
+            first four letters of the species (or other) epithet in upper or
+            lower case (e.g. Mere micr or mere micr for Meredithia
+            microphylla). A full list of the species and subspecific
+            entities in each genus can be obtained in the genus database.
+          </Typography>
 
-            </CardContent>
-          </Card>
+
+
+
 
         </Box>
       </Grid>

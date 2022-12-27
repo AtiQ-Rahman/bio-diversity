@@ -199,7 +199,7 @@ const TableData = (props) => {
                       {row.order_name}
                     </StyledTableCell>
 
-                    <StyledTableCell align="center" >
+                    <StyledTableCell align="start" >
                       <Grid
                       // container
                       // spacing={1}
@@ -239,31 +239,34 @@ const TableData = (props) => {
                         {/* </Grid> */}
                         {/* <Grid item xs={12}> */}
 
-                        <Button
-                          className={styles.bg_primary}
-                          style={{
-                            width: "90px",
-                            maxHeight: "80px",
-                            minWidth: "40px",
-                            minHeight: "40px",
-                            color: "white",
-                          }}
-                          type="button"
-                          onClick={() =>
-                            router.push({
-                              pathname: "/map",
-                              query: {
-                                serial: row.serial,
-                                category: props.category,
-                                initial: false,
-                              },
-                            })
-                          }
-                          // variant="outlined"
-                          sx={{ mt: 0.1, ml: 0.1 }}
-                        >
-                          View map
-                        </Button>
+                        {row.district && row.district != '[]' && row.district != '[[]]' && row.district != 'undefined' && row.district != '' ? (
+                          <Button
+                            className={styles.bg_primary}
+                            style={{
+                              width: "90px",
+                              maxHeight: "80px",
+                              minWidth: "40px",
+                              minHeight: "40px",
+                              color: "white",
+                            }}
+                            type="button"
+                            onClick={() =>
+                              router.push({
+                                pathname: "/map",
+                                query: {
+                                  serial: row.serial,
+                                  category: props.category,
+                                  initial: false,
+                                },
+                              })
+                            }
+                            // variant="outlined"
+                            sx={{ mt: 0.1, ml: 0.1 }}
+                          >
+                            View map
+                          </Button>
+                        ) : null}
+
                         {/* </Grid> */}
                       </Grid>
                     </StyledTableCell>
