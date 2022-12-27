@@ -5,11 +5,11 @@ import { useTheme } from '@mui/material/styles';
 import { Divider, Grid, Stack, Typography, useMediaQuery } from '@mui/material';
 
 // project imports
-import AuthWrapper from '../components/Auth/AuthWrapper';
-import AuthCardWrapper from '../components/Auth/AuthCardWrapper';
-import AuthLogin from '../components/Auth/AuthLogin';
-import Logo from '../components/Home/ui-component/Logo';
-import AuthFooter from '../components/Home/ui-component/cards/AuthFooter';
+import AuthWrapper from '../../components/Auth/AuthWrapper';
+import AuthCardWrapper from '../../components/Auth/AuthCardWrapper';
+import AuthLogin from '../../components/Auth/AuthLogin';
+import Logo from '../../components/Home/ui-component/Logo';
+import AuthFooter from '../../components/Home/ui-component/cards/AuthFooter';
 
 // assets
 

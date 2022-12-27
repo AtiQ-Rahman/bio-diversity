@@ -49,6 +49,7 @@ const SearchSpecies = () => {
       let response = await callApi('search-species-dynamically', { searchText: query.searchText })
       console.log({ response })
       setSpeciesList(response?.data);
+      setSearchMessage(response?.message);
       setLoading(false)
 
     }

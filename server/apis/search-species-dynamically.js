@@ -25,7 +25,6 @@ exports.searchSpeciesDynamically = async (req, res, next) => {
             // console.log(uploadedSpecies[item])
             let splittedKey = item.key.split('.')
             if (splittedKey.length > 1) {
-                console.log(splittedKey)
                 searchQuery += ` or UPPER(JSON_EXTRACT(${splittedKey[0]}, "$.${splittedKey[1]}")) like JSON_QUOTE(UPPER("%${searchText}%"))`
 
             }
@@ -43,10 +42,12 @@ exports.searchSpeciesDynamically = async (req, res, next) => {
         if (a.createdDatetimeStamp > b.createdDatetimeStamp) return -1;
         if (a.createdDatetimeStamp < b.createdDatetimeStamp) return 1;
         return 0;
-      });
+    });
+    console.log(searchResult)
     res.status(200).json({
         success: true,
         data: searchResult,
+        message: searchResult.length == 0 ? 'No Species Found' : null
     })
 
 }

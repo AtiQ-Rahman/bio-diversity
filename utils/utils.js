@@ -15,6 +15,9 @@ export const isValidImage = (marker) => {
     }
 }
 export const isValidValueOrKey = (value) => {
+    if( typeof value == 'object'){
+        return false
+    }
     if (!value || value == '' || value?.toLowerCase() == 'n/a' || value?.toLowerCase() == 'undefined') {
         return false
     }
@@ -184,7 +187,7 @@ export const processSpeciesObject = async (speciesDetails) => {
     priorityKeys.map((key) => {
         mainObject[key] = speciesDetails[key]
     })
-    let skippedKeys = ['id', 'additional_files', 'additionaL_files', 'marker', 'serial', 'idenitificationFeatures', 'profile_image', 'createdDatetimeStamp', 'lng', 'lat']
+    let skippedKeys = ['id', 'additional_files', 'additionaL_files', 'marker', 'serial', 'idenitificationFeatures', 'profile_image', 'createdDatetimeStamp', 'lng', 'lat' , 'markerColor' ,'lastModified']
     skippedKeys = skippedKeys.concat(priorityKeys)
     skippedKeys.map((key) => {
         delete skippedObject[key]
@@ -236,6 +239,14 @@ function matchKey() {
             key: 'family'
         },
         {
+            label: 'Sub Group',
+            key: 'subGroup'
+        },
+        {
+            label: 'Species',
+            key: 'species'
+        },
+        {
             label: 'Genus',
             key: 'genus'
         },
@@ -243,10 +254,7 @@ function matchKey() {
             label: 'Sub Species',
             key: 'sub_species'
         },
-        {
-            label: 'Species',
-            key: 'species'
-        },
+
         {
             label: 'Variety',
             key: 'variety'

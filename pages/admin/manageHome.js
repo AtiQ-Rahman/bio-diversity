@@ -1,41 +1,36 @@
 import Head from "next/head";
 import Image from "next/legacy/image";
-
+import LibraryAddCheckIcon from '@mui/icons-material/LibraryAddCheck';
 import { styled, useTheme } from "@mui/material/styles";
 import { useEffect, useState } from "react";
-import styles from "../styles/Home.module.css";
-import Header from "../components/Admin/Header";
-import Sidebar from "../components/Admin/Sidebar";
-import Breadcrumbs from "../components/Home/ui-component/extended/Breadcrumbs";
+import styles from "../../styles/Home.module.css";
+import Header from "../../components/Admin/Header";
+import Sidebar from "../../components/Admin/Sidebar";
+import Breadcrumbs from "../../components/Home/ui-component/extended/Breadcrumbs";
 import { useDispatch, useSelector } from "react-redux";
 import { IconChevronRight } from "@tabler/icons";
-import navigation from "../components/Admin/menu-items";
-import { drawerWidth } from "../store/constant";
+import navigation from "../../components/Admin/menu-items";
+import { drawerWidth } from "../../store/constant";
 import { useSnackbar } from "notistack";
-import { SET_MENU } from "../store/actions";
+import { SET_MENU } from "../../store/actions";
 import React from "react";
 import { useRouter } from "next/router";
 import CloseIcon from "@mui/icons-material/Close";
 import PropTypes from "prop-types";
 import { Icon } from "@iconify/react";
-const species8 = require("../assets/images/species8.jpg");
-const species10 = require("../assets/images/species10.jpg");
+const species8 = require("../../assets/images/species8.jpg");
+const species10 = require("../../assets/images/species10.jpg");
 import {
   AppBar,
   Box,
   CssBaseline,
   Toolbar,
-  Container,
   useMediaQuery,
   Grid,
   Typography,
   TextField,
   TableCell,
   TableRow,
-  TableBody,
-  TableHead,
-  Table,
-  TableContainer,
   Button,
   Modal,
   Divider,
@@ -51,14 +46,21 @@ import {
   Dialog,
   Autocomplete,
   CardActionArea,
-  CardMedia, MenuItem, FormControl, Select, InputLabel
+  CardMedia,
+  MenuItem,
+  FormControl,
+  Select,
+  InputLabel,
+  ImageListItem,
+  ImageList,
+  ImageListItemBar,
 } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Link from "next/link";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import callApi, { imageUrl } from "../utils/callApi";
-import { imageLoader } from "../utils/utils";
+import callApi, { imageUrl } from "../../utils/callApi";
+import { imageLoader } from "../../utils/utils";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -218,59 +220,34 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
 export default function ManageHome() {
   const theme = useTheme();
   const matchDownMd = useMediaQuery(theme.breakpoints.down("lg"));
-  // const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-  const [openUpload, setOpenUpload] = React.useState(false);
-  // const handleOpen = () => setOpen(true);
-  // const handleClose = () => setOpen(false);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [force, setForce] = React.useState(false);
-  const [categoryList, setCatgoryList] = React.useState();
-  const { enqueueSnackbar } = useSnackbar();
 
-  const [templateList, setTemplateList] = React.useState([]);
-  const [selectedTemplate, setSelectedTemplate] = React.useState({});
+  const [openUpload, setOpenUpload] = React.useState(false);
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(20);
+  const { enqueueSnackbar } = useSnackbar();
   const [selectedRecentSightings, setSelectedRecentSightings] = React.useState([]);
+  const [ready, setReady] = React.useState(false);
+
+  const [imageList, setImageList] = React.useState([]);
+  const [selectedTemplate, setSelectedTemplate] = React.useState({});
   const initialValues = {
     name: "",
     serial: null,
     sliderImages: [],
-    recentSighting: '',
+    recentSighting: "",
   };
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
-
+  const handleLoad = (event) => {
+    event.persist();
+    if (event.target.srcset) {
+      setReady(true);
+    }
+  };
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
-  };
-  const uploadToClient = (event) => {
-    if (event.target.files && event.target.files[0]) {
-      const i = event.target.files[0];
-
-      setImage(i);
-      setCreateObjectURL(URL.createObjectURL(i));
-    }
-  };
-  const uploadCSV = (event) => {
-    if (event.target.files && event.target.files[0]) {
-      const i = event.target.files[0];
-
-      setImage(i);
-      setCreateObjectURL(URL.createObjectURL(i));
-    }
-  };
-  const router = useRouter();
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
-  const handleClickUpload = () => {
-    setOpenUpload(true);
   };
   const handleCloseUpload = () => {
     setOpenUpload(false);
@@ -281,34 +258,16 @@ export default function ManageHome() {
   const handleLeftDrawerToggle = () => {
     dispatch({ type: SET_MENU, opened: !leftDrawerOpened });
   };
-  const changeCategory = (e) => { };
-
   async function fetchData() {
-    let response = await callApi("/get-template-list", {});
-    setTemplateList(response.data);
-    let list = response.data
-    let modifiedList = list.filter((item) => item.selected)
-    console.log(modifiedList)
-    setSelectedTemplate(modifiedList?.[0] || [])
-    if (modifiedList[0]) {
-      let allSpecies = await callApi("/get-species-list", {});
-      if (allSpecies.data.length > 0) {
-        console.log(allSpecies.data)
-        let speciesList = allSpecies.data
-        speciesList = speciesList.sort((a, b) => {
-          if (a.createdDatetimeStamp > b.createdDatetimeStamp) return -1;
-          if (a.createdDatetimeStamp < b.createdDatetimeStamp) return 1;
-          return 0;
-        });
-        console.log(speciesList.slice(0, parseInt(modifiedList[0]?.recentSighting)))
-        if (speciesList.length < parseInt(modifiedList[0]?.recentSighting)) {
-          setSelectedRecentSightings(speciesList)
-        }
-        else {
-          setSelectedRecentSightings(speciesList.slice(0, parseInt(modifiedList[0]?.recentSighting)))
-        }
-      }
-    }
+    let response = await callApi("/get-all-images", {});
+    setImageList(response.data);
+    let templateResponse = await callApi("/get-selected-template", {});
+    let result = templateResponse?.data[0];
+    setSelectedRecentSightings(templateResponse.data[0].recentSightings)
+
+    let sliderImages = result?.sliderImages?.split(",").filter((item) => item);
+    result.sliderImages = sliderImages;
+    setSelectedTemplate(result);
 
   }
   useEffect(() => {
@@ -349,7 +308,7 @@ export default function ManageHome() {
         />
 
         {/* main content */}
-        <Main theme={theme} open={leftDrawerOpened} sx={{ mt: 5 }}>
+        <Main theme={theme} open={leftDrawerOpened} sx={{ mt: 8 }}>
           <Breadcrumbs
             separator={IconChevronRight}
             navigation={navigation}
@@ -367,264 +326,251 @@ export default function ManageHome() {
                       Manage Home Page
                     </Typography>
                   </Card>
-
-                  <Grid container md={12}>
-                    <Grid
-                      item
-                      xs={12}
-                      style={{
-                        display: "flex",
-                        justifyContent: "end",
-                      }}
-                    >
-                      <Button
-                        className={styles.bg_primary}
-                        style={{
-                          width: "150px",
-                          maxHeight: "80px",
-                          minWidth: "40px",
-                          minHeight: "40px",
-                          color: "white",
-                          boxShadow: "1px 1px 4px grey",
-                          margin: "10px",
-                        }}
-                        onClick={handleClickUpload}
-                      >
-                        Add New Template
-                      </Button>
+                  <Grid container>
+                    <Grid item xs={12} md={5}>
+                      <h1>Recent Sightings</h1>
                     </Grid>
                   </Grid>
-
-
+                  <br />
                   <Grid
                     item
                     xs={12}
                     sx={{ b: 1, mb: 3 }}
                     style={{ borderRadius: "10px" }}
                   >
-                    <TableContainer component={Paper}>
-                      <Table
-                        sx={{ minWidth: 650 }}
-                        aria-label="customized table"
+                    <Box sx={{ flexGrow: 1 }}>
+                      <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+                        <InputLabel id="demo-select-small">
+                          Select Sights
+                        </InputLabel>
+                        <Select
+                          labelId="demo-select-small"
+                          id="demo-select-small"
+                          value={selectedTemplate?.recentSighting || "None"}
+                          label="Select Sights"
+                          name="recentSighting"
+                          onChange={async (e) => {
+                            console.log(e.target.value);
+                            let updateSliderImages = await callApi(
+                              "/update-slider-image",
+                              { recentSightings: e.target.value }
+                            );
+                            if (updateSliderImages.success) {
+                              await fetchData();
+                            } else {
+                              console.log("error");
+                            }
+                          }}
+                        >
+                          <MenuItem value="">
+                            <em>None</em>
+                          </MenuItem>
+                          <MenuItem value={3}>last 3 sights</MenuItem>
+                          <MenuItem value={4}>last 4 sights</MenuItem>
+                          <MenuItem value={5}>last 5 sights</MenuItem>
+                          <MenuItem value={6}>last 6 sights</MenuItem>
+                          <MenuItem value={7}>last 7 sights</MenuItem>
+                          <MenuItem value={8}>last 8 sights</MenuItem>
+                          <MenuItem value={9}>last 9 sights</MenuItem>
+                          <MenuItem value={10}>last 10 sights</MenuItem>
+                        </Select>
+                      </FormControl>
+                      <ImageList
+                        gap={40}
+                        sx={{ width: 1100 }}
+                        cols={3}
+                        rowHeight={250}
+                        className={styles.imageList}
                       >
-                        <TableHead>
-                          <TableRow>
-                            <TableCell>SI</TableCell>
-                            <TableCell align="center">Template Name</TableCell>
-                            <TableCell align="center">Selected</TableCell>
-                            <TableCell align="center">Images</TableCell>
-                            <TableCell align="center">Recent Sightings</TableCell>
-                            <TableCell align="center">Action</TableCell>
-                          </TableRow>
-                        </TableHead>
-
-                        <TableBody>
-                          {templateList?.map((row, index) => (
-                            <StyledTableRow
-                              key={`species${index}`}
+                        {selectedRecentSightings.map((item) => (
+                          <ImageListItem
+                            className={styles.overlay}
+                            key={item.img}
+                            style={{
+                              opacity: ready ? 1 : 0,
+                              transition: "all .3s ease-in",
+                            }}
+                          >
+                            <Image
+                              src={imageUrl + '/' + item.profile_image}
+                              layout="fill"
+                              objectFit="cover"
+                              loader={imageLoader}
+                              onLoad={handleLoad}
+                              // srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                              alt={item.common}
+                            // loading="lazy"
+                            />
+                            <ImageListItemBar
+                              title={item.english}
+                              subtitle={item.category}
+                              position="bottom"
                               sx={{
-                                "&:last-child td, &:last-child th": {
-                                  border: 0,
-                                },
+                                background:
+                                  "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, " +
+                                  "rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)",
+                              }}
+                            />
+                          </ImageListItem>
+                        ))}
+                      </ImageList>
+                    </Box>
+                  </Grid>
+                  {/* <Grid container md={12}>
+                                        <Grid
+                                            item
+                                            xs={12}
+                                            style={{
+                                                display: "flex",
+                                                justifyContent: "end",
+                                            }}
+                                        >
+                                            <Button
+                                                className={styles.bg_primary}
+                                                style={{
+                                                    width: "150px",
+                                                    maxHeight: "80px",
+                                                    minWidth: "40px",
+                                                    minHeight: "40px",
+                                                    color: "white",
+                                                    boxShadow: "1px 1px 4px grey",
+                                                    margin: "10px",
+                                                }}
+                                                onClick={handleClickUpload}
+                                            >
+                                                Add New Template
+                                            </Button>
+                                        </Grid>
+                                    </Grid> */}
+                  <Divider></Divider>
+
+                  <Grid
+                    item
+                    xs={12}
+                    sx={{ b: 1, mb: 3 }}
+                    style={{ borderRadius: "10px", paddingTop: "30px" }}
+                  >
+                    <Typography variant="h3">All  for Slider</Typography>
+                    <Grid container style={{ paddingTop: "30px" }}>
+                      {imageList
+                        ?.slice(
+                          page * rowsPerPage,
+                          page * rowsPerPage + rowsPerPage
+                        )
+                        .map((item, index) => (
+                          <Grid item xs={2} sm={2} md={2} key={index}>
+                            <Item
+                              onClick={async (e) => {
+                                console.log({ item });
+                                let updateSliderImages = await callApi(
+                                  "/update-slider-image",
+                                  { requestedImage: item }
+                                );
+                                if (updateSliderImages.success) {
+                                  await fetchData();
+                                } else {
+                                  console.log("error");
+                                }
                               }}
                             >
-                              <StyledTableCell component="th" scope="row">
-                                {index +  1}
-                              </StyledTableCell>
-                              <StyledTableCell component="th" scope="row">
-                                {row.name}
-                              </StyledTableCell>
-                              <StyledTableCell align="center">
-                                {row.selected == 1 ?
-                                  (<Typography component="div" variant="div" style={{ background: "green", color: "white", padding: "5px", borderRadius: "8px" }}>
-                                    Yes
-                                  </Typography>)
-                                  :
-                                  (
-                                    <Typography component="div" variant="div">
-                                      No
-                                    </Typography>)
-                                }
+                              <Card sx={{ maxWidth: 345 }}>
+                                <CardActionArea>
+                                  <Image
+                                    height={200}
+                                    width={345}
+                                    objectFit="cover"
+                                    loader={imageLoader}
+                                    alt="NO IMAGE"
+                                    src={imageUrl + "/" + item}
+                                  />
+                                  {selectedTemplate?.sliderImages?.includes(
+                                    item
+                                  ) ? (
 
+                                    <CardContent
+                                      style={{
+                                        position: "absolute",
+                                        padding: "5px",
+                                        top: 0,
+                                        right: 0,
+                                        color: "white",
+                                        background: "#2b9742b3",
+                                        borderRadius: "5px 0px 0px 5px",
+                                      }}
+                                    >
 
-                              </StyledTableCell>
-                              <StyledTableCell align="center">
-                                {row.sliderImages}
-                              </StyledTableCell>
-                              <StyledTableCell align="center">
-                                last {row.recentSighting} sights
-                              </StyledTableCell>
+                                      <LibraryAddCheckIcon></LibraryAddCheckIcon>
 
-                              <StyledTableCell align="center">
-                                <Box sx={{ flexGrow: 1, flexDirection: "row" }}>
-                                  <Button
-                                    className={styles.bg_primary}
-                                    style={{
-                                      width: "120px",
-                                      maxHeight: "80px",
-                                      minWidth: "40px",
-                                      minHeight: "40px",
-                                      color: "white",
-                                      boxShadow: "1px 1px 4px grey",
-                                    }}
-                                    onClick={async (e) => {
-                                      let serial = row.serial
-
-                                      let res = await callApi("/update-selected-template", { serial })
-                                      window.location.reload()
-                                      console.log(res)
-                                    }}
-                                    sx={{ mb: 1, mr: 0.5 }}
-                                  // variant="outlined"
-                                  >
-                                    {/* <DetailsIcon></DetailsIcon> */}
-                                    &nbsp; Select
-                                  </Button>
-
-                                  {/* =======MODAL===== */}
-
-                                  {/* <br />
-                                  <Button
-                                    style={{
-                                      boxShadow: "1px 1px 4px grey",
-                                      maxHeight: "80px",
-                                      width: "80px",
-                                      background: "white",
-                                      minHeight: "40px",
-                                      color: "#0f4c39",
-                                    }}
-                                    type="button"
-                                  // onClick={() => router.push("/map")}
-                                  >
-                                    <Icon icon="fluent:delete-16-filled" />
-                                    &nbsp; Delete
-                                  </Button> */}
-                                </Box>
-                              </StyledTableCell>
-                            </StyledTableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                    {/* <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      /> */}
-                  </Grid>
-                  <Divider></Divider>
-                  <Grid container>
-                    <Grid item xs={12} md={5}>
-                      <h1>Selected Slider Images</h1>
-                    </Grid>
-
-                  </Grid>
-                  <br />
-                  <Grid
-                    item
-                    xs={12}
-                    sx={{ b: 1, mb: 3 }}
-                    style={{ borderRadius: "10px" }}
-                  >
-                    <Box sx={{ flexGrow: 1 }}>
-                      <Box sx={{ flexGrow: 1 }}>
-                        <Grid
-                          container
-                          spacing={{ xs: 2, md: 3 }}
-                          columns={{ xs: 4, sm: 8, md: 12 }}
-                        >
-                          {selectedTemplate?.sliderImages?.split(',')?.map((item, index) => (
-                            <Grid item xs={2} sm={4} md={4} key={index}>
-                              <Item>
-                                <Card sx={{ maxWidth: 345 }}>
-
-                                  <CardActionArea>
-                                    <CardMedia
-                                      component="img"
-                                      height="140"
-                                      alt=""
-                                    />
-                                    <Image
-                                      src={imageUrl + "/" + item}
-                                      layout="fill"
-                                      loader={imageLoader}
-
-                                      // srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                                      alt={item.title}
-                                    // loading="lazy"
-                                    />
-                                  </CardActionArea>
-
-                                </Card>
-                              </Item>
-                            </Grid>
-                          ))}
-                        </Grid>
-                      </Box>
-                    </Box>
-                  </Grid>
-                  <Divider></Divider>
-                  <Grid container>
-                    <Grid item xs={12} md={5}>
-                      <h1>Total Slider (3)</h1>
-                    </Grid>
-                  </Grid>
-                  <br />
-                  <Grid
-                    item
-                    xs={12}
-                    sx={{ b: 1, mb: 3 }}
-                    style={{ borderRadius: "10px" }}
-                  >
-                    <Box sx={{ flexGrow: 1 }}>
-                      <Box sx={{ flexGrow: 1 }}>
-                        <Grid
-                          container
-                          spacing={{ xs: 2, md: 3 }}
-                          columns={{ xs: 4, sm: 8, md: 12 }}
-                        >
-
-                          <Grid item xs={2} sm={4} md={4}>
-                            <Item>
-                              {selectedRecentSightings.map((item, index) => (
-                                <Card sx={{ border: "1px solid gray" }} key={index}>
-                                  <CardActionArea>
-                                    <CardMedia
-                                      component="img"
-                                      height="140"
-                                      image={imageUrl + '/' + item.profile_image}
-                                      alt="green iguana"
-                                    />
-
-                                    <CardContent>
-                                      <Typography
-                                        gutterBottom
-                                        variant="h5"
-                                        component="div"
-                                      >
-                                        {item.english}
-                                      </Typography>
-                                      <Typography
-                                        variant="body2"
-                                        color="text.secondary"
-                                      >
-                                        {item.kingdom}
-                                      </Typography>
                                     </CardContent>
-                                  </CardActionArea>
-                                </Card>
-                              ))}
+                                  ) : null}
+                                </CardActionArea>
+                              </Card>
                             </Item>
                           </Grid>
-
-                        </Grid>
-                      </Box>
-                    </Box>
+                        ))}
+                    </Grid>
+                    <TablePagination
+                      rowsPerPageOptions={[100, 50]}
+                      component="div"
+                      count={imageList?.length}
+                      rowsPerPage={rowsPerPage}
+                      page={page}
+                      onPageChange={handleChangePage}
+                      onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
                   </Grid>
+
+                  {/* <Grid container>
+                                        <Grid item xs={12} md={5}>
+                                            <h1>Selected Slider Images</h1>
+                                        </Grid>
+
+                                    </Grid> */}
+                  {/* <br /> */}
+                  {/* <Grid
+                                        item
+                                        xs={12}
+                                        sx={{ b: 1, mb: 3 }}
+                                        style={{ borderRadius: "10px" }}
+                                    >
+                                        <Box sx={{ flexGrow: 1 }}>
+                                            <Box sx={{ flexGrow: 1 }}>
+                                                <Grid
+                                                    container
+                                                    spacing={{ xs: 2, md: 3 }}
+                                                    columns={{ xs: 4, sm: 8, md: 12 }}
+                                                >
+                                                    {selectedTemplate?.sliderImages?.map((item, index) => (
+                                                        <Grid item xs={2} sm={4} md={4} key={index}>
+                                                            <Item>
+                                                                <Card sx={{ maxWidth: 345 }}>
+
+                                                                    <CardActionArea>
+                                                                        <CardMedia
+                                                                            component="img"
+                                                                            height="140"
+                                                                            alt=""
+                                                                        />
+                                                                        <Image
+                                                                            src={imageUrl + "/" + item}
+                                                                            layout="fill"
+                                                                            loader={imageLoader}
+                                                                            objectFit="cover"
+                                                                            // srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                                                                            alt={item.title}
+                                                                        // loading="lazy"
+                                                                        />
+                                                                    </CardActionArea>
+
+                                                                </Card>
+                                                            </Item>
+                                                        </Grid>
+                                                    ))}
+                                                </Grid>
+                                            </Box>
+                                        </Box>
+                                    </Grid> */}
+                  <Divider></Divider>
                 </Grid>
               </Grid>
             </Box>
@@ -662,7 +608,7 @@ export default function ManageHome() {
                 ) => {
                   try {
                     console.log(values);
-                    let homePageData = values
+                    let homePageData = values;
                     const data = new FormData();
                     data.append("data", JSON.stringify(homePageData));
                     let files = homePageData.sliderImages;
@@ -685,7 +631,7 @@ export default function ManageHome() {
                     });
                     setErrors(false);
                     resetForm();
-                    handleCloseUpload()
+                    handleCloseUpload();
                   } catch (error) {
                     console.log({ error });
 
@@ -717,8 +663,13 @@ export default function ManageHome() {
                             sx={{ mr: 5 }}
                             onChange={handleChange}
                           />
-                          <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-                            <InputLabel id="demo-select-small">Select Sights</InputLabel>
+                          <FormControl
+                            sx={{ m: 1, minWidth: 120 }}
+                            size="small"
+                          >
+                            <InputLabel id="demo-select-small">
+                              Select Sights
+                            </InputLabel>
                             <Select
                               labelId="demo-select-small"
                               id="demo-select-small"
@@ -745,7 +696,6 @@ export default function ManageHome() {
                             style={{
                               flexGrow: 1,
                               mt: 2,
-
                             }}
                             type="file"
                             multiple
@@ -764,8 +714,8 @@ export default function ManageHome() {
                           />
                         </Grid>
                         <Grid item xs={12}>
-                          {values?.sliderImages?.length > 0 ? (
-                            Array.from(values.sliderImages)
+                          {values?.sliderImages?.length > 0
+                            ? Array.from(values.sliderImages)
                               .slice(0, 5)
                               .map((file, index) => {
                                 return (
@@ -779,10 +729,7 @@ export default function ManageHome() {
                                       marginRight: "5px",
                                     }}
                                   >
-                                    <Grid
-                                      container
-                                      style={{ padding: 10 }}
-                                    >
+                                    <Grid container style={{ padding: 10 }}>
                                       <Grid
                                         item
                                         xs={1}
@@ -827,13 +774,10 @@ export default function ManageHome() {
                                   </Grid>
                                 );
                               })
-                          ) : (
-                            null
-                          )}
+                            : null}
                         </Grid>
                       </Grid>
                       <Divider />
-
                     </Box>
                     <DialogActions>
                       <Button

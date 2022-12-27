@@ -19,31 +19,31 @@ import {
   Divider,
 } from "@mui/material";
 // import ImageUpload from "./ImageUpload";
-import Header from "../components/Admin/Header";
-import Sidebar from "../components/Admin/Sidebar";
-import Breadcrumbs from "../components/Home/ui-component/extended/Breadcrumbs";
+import Header from "../../components/Admin/Header";
+import Sidebar from "../../components/Admin/Sidebar";
+import Breadcrumbs from "../../components/Home/ui-component/extended/Breadcrumbs";
 import { useDispatch, useSelector } from "react-redux";
 import { IconCashBanknoteOff, IconChevronRight } from "@tabler/icons";
 import { Icon } from "@iconify/react";
-import navigation from "../components/Admin/menu-items";
+import navigation from "../../components/Admin/menu-items";
 import { useSnackbar } from "notistack";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 
-import { drawerWidth } from "../store/constant";
-import { SET_MENU } from "../store/actions";
-import styles from "../styles/Home.module.css";
-import dropStyles from "../styles/DropFile.module.css";
+import { drawerWidth } from "../../store/constant";
+import { SET_MENU } from "../../store/actions";
+import styles from "../../styles/Home.module.css";
+import dropStyles from "../../styles/DropFile.module.css";
 import { styled, useTheme } from "@mui/material/styles";
-import callApi, { imageUrl } from "../utils/callApi";
+import callApi, { imageUrl } from "../../utils/callApi";
 import { SketchPicker } from 'react-color';
 import Image from "next/legacy/image";
 import { teal } from "@mui/material/colors";
 import { useRouter } from "next/router";
 import Geocoder from "react-mapbox-gl-geocoder";
 import Geocode from "react-geocode";
-import { isValidImage, imageLoader, processNames } from "../utils/utils";
-import DropFileInput from "../components/DragFileandInput";
+import { isValidImage, imageLoader, processNames } from "../../utils/utils";
+import DropFileInput from "../../components/DragFileandInput";
 // import { kingdoms } from "../utils/kingdoms";
 // const kingdoms = require("../utils/kingdoms");
 // const phylums = require("../utils/kingdoms");
@@ -331,21 +331,21 @@ const AddNewSpecies = () => {
           <Formik
             initialValues={speciesData}
             validationSchema={Yup.object().shape({
-              nameOfSpecies: Yup.object().shape({
-                english: Yup.string().required(
-                  "Patient english name is required"
-                ),
-                bangla: Yup.string().required("patient bangla is required"),
-                commonName: Yup.string().required(
-                  "patient commonName is required"
-                ),
-                synonym: Yup.string().required(
-                  "patient commonName is required"
-                ),
+              // nameOfSpecies: Yup.object().shape({
+              //   english: Yup.string().required(
+              //     "Patient english name is required"
+              //   ),
+              //   bangla: Yup.string().required("patient bangla is required"),
+              //   commonName: Yup.string().required(
+              //     "patient commonName is required"
+              //   ),
+              //   synonym: Yup.string().required(
+              //     "patient commonName is required"
+              //   ),
 
-                // gender: Yup.string().required("patient gender is required"),
-                // address: Yup.string().required("patient adressis required"),
-              }),
+              //   // gender: Yup.string().required("patient gender is required"),
+              //   // address: Yup.string().required("patient adressis required"),
+              // }),
               category: Yup.object().shape({
                 serial: Yup.string().required("category serial is required"),
                 name: Yup.string().required("name is required"),

@@ -2,7 +2,18 @@ const { getTable, executeQuery, uniqueIdGenerator, log, callGeocoderApi, tableTy
 const DB = require("../config/connectToDatabase");
 const moment = require("moment/moment");
 const { processKeys } = require('../config/processor');
-
+async function getDistrict(splittedValue, districts) {
+    for (let district of splittedValue) {
+        let response = await callGeocoderApi(district)
+        if (response) {
+            let modifiedResponse = {
+                place_name: response.place_name.replaceAll(`'`, ``),
+                center: response.center
+            }
+            districts.push(modifiedResponse)
+        }
+    }
+}
 
 exports.createNewSpecies = async (req, res, next) => {
     try {
@@ -120,7 +131,7 @@ exports.uploadSpeciesByExcel = async (req, res, next) => {
                     if (!(object[splittedKey[0]])) {
                         object[splittedKey[0]] = {}
                     }
-                    object[splittedKey[0]][splittedKey[1]] = uploadedSpecies[item][idx]
+                    object[splittedKey[0]][splittedKey[1]] = uploadedSpecies[item][idx].replaceAll("'", "")
                 }
                 else {
                     if (splittedKey[0] == 'gis') {
@@ -133,8 +144,12 @@ exports.uploadSpeciesByExcel = async (req, res, next) => {
                     else { object[splittedKey[0]] = uploadedSpecies[item][idx].replaceAll("'", "") }
                 }
             }
-            if (!object.category) {
+            if (object.types) {
                 object.category = pageGroups.eco
+                object.subGroup = object.types
+            }
+            if (!object.category) {
+                continue
             }
             let table
             if (object.category.match(/plant/i)) {
@@ -164,7 +179,6 @@ exports.uploadSpeciesByExcel = async (req, res, next) => {
             else {
                 table = await getTable(object.category)
             }
-            console.log({ object })
             let { serial,
                 kingdom, phylum, class_name, order_name, family, genus, english, bangla, common, synonym, sub_species, variety, sub_variety, clone, forma, species,
                 identificationFeatures, profile_image, additional_files, lng, lat, marker, category, subCategory, addtionalCategories, district, subGroup } = object
@@ -177,17 +191,16 @@ exports.uploadSpeciesByExcel = async (req, res, next) => {
             let districts = []
             if (district?.includes('+')) {
                 // district = district.replaceAll(`"` , ``)
-                let splittedValue = item.district.split('+')
-                for (let district of splittedValue) {
-                    let response = await callGeocoderApi(district)
-                    if (response) {
-                        let modifiedResponse = {
-                            place_name: response.place_name.replaceAll(`'`, ``),
-                            center: response.center
-                        }
-                        districts.push(modifiedResponse)
-                    }
-                }
+                let splittedValue = district.split('+')
+                await getDistrict(splittedValue, districts)
+                console.log("+", districts)
+
+
+            }
+            else if (district?.includes(',')) {
+                let splittedValue = district.split(',')
+                await getDistrict(splittedValue, districts)
+                console.log(",", districts)
             }
             else if (district) {
                 // district = district.replaceAll(`"` , ``)
@@ -222,7 +235,6 @@ exports.uploadSpeciesByExcel = async (req, res, next) => {
                     '${markerColor}','${createdDatetimeStamp}','${JSON.stringify(addtionalCategories)}')`
             // console.log(insertQuery)
             let response = await executeQuery(insertQuery)
-            console.log(response)
         }
         res.status(200).json({
             success: true,

@@ -53,8 +53,12 @@ exports.matchKey = async () => {
             key: 'subCategory'
         },
         {
-            label: 'SubGroup / types',
+            label: 'SubGroup',
             key: 'subGroup'
+        },
+        {
+            label: 'types / Types',
+            key: 'types'
         },
         {
             label: 'Kingdom',
@@ -121,10 +125,10 @@ exports.matchKey = async () => {
             label: 'Common Name',
             key: 'common'
         },
-        {
-            label: 'Thumbnail(Image)',
-            key: 'profile_image'
-        },
+        // {
+        //     label: 'Thumbnail(Image)',
+        //     key: 'profile_image'
+        // },
         {
             label: 'Feature Image',
             key: 'additional_files'

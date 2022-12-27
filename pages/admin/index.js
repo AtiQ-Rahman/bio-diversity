@@ -11,23 +11,23 @@ import {
 
 import { styled, useTheme } from "@mui/material/styles";
 import { useEffect, useState } from "react";
-import styles from "../styles/Home.module.css";
-import Header from "../components/Admin/Header";
-import Sidebar from "../components/Admin/Sidebar";
-import Breadcrumbs from "../components/Home/ui-component/extended/Breadcrumbs";
+import styles from "../../styles/Home.module.css";
+import Header from "../../components/Admin/Header";
+import Sidebar from "../../components/Admin/Sidebar";
+import Breadcrumbs from "../../components/Home/ui-component/extended/Breadcrumbs";
 import { useDispatch, useSelector } from "react-redux";
 import { IconChevronRight } from "@tabler/icons";
-import navigation from "../components/Admin/menu-items";
-import { drawerWidth } from "../store/constant";
-import { SET_MENU } from "../store/actions";
+import navigation from "../../components/Admin/menu-items";
+import { drawerWidth } from "../../store/constant";
+import { SET_MENU } from "../../store/actions";
 import { Container } from "@mui/system";
-import { Sales } from "../components/Sales";
+import { Sales } from "../../components/Sales";
 
-import Counters from "../components/Home/counters";
-import { SpecicesCounter } from "../components/SpeciesCounter";
-import { ImagesCounter } from "../components/ImagesCounter";
-import { RequestCounter } from "../components/RequestCounter";
-import callApi from "../utils/callApi";
+import Counters from "../../components/Home/counters";
+import { SpecicesCounter } from "../../components/SpeciesCounter";
+import { ImagesCounter } from "../../components/ImagesCounter";
+import { RequestCounter } from "../../components/RequestCounter";
+import callApi from "../../utils/callApi";
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
   ({ theme, open }) => ({

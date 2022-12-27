@@ -1,15 +1,15 @@
 
 import { styled, useTheme } from "@mui/material/styles";
 import { useEffect, useState } from "react";
-import styles from "../styles/Home.module.css";
-import Header from "../components/Admin/Header";
-import Sidebar from "../components/Admin/Sidebar";
-import Breadcrumbs from "../components/Home/ui-component/extended/Breadcrumbs";
+import styles from "../../styles/Home.module.css";
+import Header from "../../components/Admin/Header";
+import Sidebar from "../../components/Admin/Sidebar";
+import Breadcrumbs from "../../components/Home/ui-component/extended/Breadcrumbs";
 import { useDispatch, useSelector } from "react-redux";
 import { IconChevronRight } from "@tabler/icons";
-import navigation from "../components/Admin/menu-items";
-import { drawerWidth } from "../store/constant";
-import { SET_MENU } from "../store/actions";
+import navigation from "../../components/Admin/menu-items";
+import { drawerWidth } from "../../store/constant";
+import { SET_MENU } from "../../store/actions";
 import React from "react";
 import { useRouter } from "next/router";
 import CloseIcon from "@mui/icons-material/Close";
@@ -40,8 +40,8 @@ import {
 
 import { Formik, Form } from "formik";
 
-import callApi from "../utils/callApi";
-import AllDetailsPage from "./allDetailsPage";
+import callApi from "../../utils/callApi";
+import AllDetailsPage from "../allDetailsPage";
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
     padding: theme.spacing(2),

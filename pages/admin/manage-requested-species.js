@@ -3,15 +3,15 @@ import Image from "next/legacy/image";
 
 import { styled, useTheme } from "@mui/material/styles";
 import { useEffect, useState } from "react";
-import styles from "../styles/Home.module.css";
-import Header from "../components/Admin/Header";
-import Sidebar from "../components/Admin/Sidebar";
-import Breadcrumbs from "../components/Home/ui-component/extended/Breadcrumbs";
+import styles from "../../styles/Home.module.css";
+import Header from "../../components/Admin/Header";
+import Sidebar from "../../components/Admin/Sidebar";
+import Breadcrumbs from "../../components/Home/ui-component/extended/Breadcrumbs";
 import { useDispatch, useSelector } from "react-redux";
 import { IconChevronRight } from "@tabler/icons";
-import navigation from "../components/Admin/menu-items";
-import { drawerWidth } from "../store/constant";
-import { SET_MENU } from "../store/actions";
+import navigation from "../../components/Admin/menu-items";
+import { drawerWidth } from "../../store/constant";
+import { SET_MENU } from "../../store/actions";
 import React from "react";
 import { useRouter } from "next/router";
 import CloseIcon from "@mui/icons-material/Close";
@@ -48,8 +48,8 @@ import {
   Dialog,
 } from "@mui/material";
 import Paper from "@mui/material/Paper";
-import callApi from "../utils/callApi";
-const imageSrc = require("../assets/images/species1.jpg");
+import callApi from "../../utils/callApi";
+const imageSrc = require("../../assets/images/species1.jpg");
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {

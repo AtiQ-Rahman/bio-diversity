@@ -20,7 +20,7 @@ const dashboard = {
             id: 'default',
             title: 'Dashboard',
             type: 'collapse',
-            url: '/admin-dashboard',
+            url: '/admin',
             // icon: icons.IconDashboard,
             icon: () => <DashboardIcon sx={{ fontSize: 15, mr: 1 }} />,
             breadcrumbs: false
@@ -29,16 +29,16 @@ const dashboard = {
             id: 'species',
             title: 'Major Biodiversity',
             type: 'collapse',
-            url: '/manage-species',
+            url: '/admin/manage-species',
             target: true,
             icon: () => <ManageSearchIcon sx={{ fontSize: 15, mr: 1 }} />
 
         },
         {
-            id: 'categories',
+            id: 'manageHomepage',
             title: 'Manage Home Page',
             type: 'collapse',
-            url: '/manageHome',
+            url: '/admin/manageHome',
             target: true,
             icon: () => <ManageSearchIcon sx={{ fontSize: 15, mr: 1 }} />
 
@@ -47,7 +47,7 @@ const dashboard = {
             id: 'categories',
             title: 'Manage Category',
             type: 'collapse',
-            url: '/manage-categories',
+            url: '/admin/manage-categories',
             // url: '/subCategories',
             target: true,
             icon: () => <ManageSearchIcon sx={{ fontSize: 15, mr: 1 }} />
@@ -57,7 +57,7 @@ const dashboard = {
             id: 'register3',
             title: 'Requested Species',
             type: 'collapse',
-            url: '/manage-requested-species',
+            url: '/admin/manage-requested-species',
             icon: () => <ListAltIcon sx={{ fontSize: 15, mr: 1 }} />,
             target: true
         },
@@ -65,7 +65,7 @@ const dashboard = {
             id: 'zoning',
             title: 'Zoning',
             type: 'collapse',
-            url: '/admin-zoning',
+            url: '/admin/admin-zoning',
             target: true,
             icon: () => <CenterFocusWeakIcon sx={{ fontSize: 15, mr: 1 }} />
         },

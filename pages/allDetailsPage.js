@@ -202,8 +202,8 @@ const AllDetailsPage = () => {
   return (
     <Grid container>
       <Grid item xs={2}></Grid>
-      
-      <Grid item xs={10} md={8} style={{ background: "white", margin: "0 auto",paddingTop:"100px" }}>
+
+      <Grid item xs={10} md={8} style={{ background: "white", margin: "0 auto", paddingTop: "100px" }}>
         <Item sx={{ pt: 10 }}>
           {speciesDetails.additionalFiles?.length > 0 ? (
             <div>
@@ -211,7 +211,7 @@ const AllDetailsPage = () => {
                 {speciesDetails.additionalFiles.map((speciesImage, index) => {
                   return (
                     <Image
-                     
+
                       key={`speciesAdditional${index}`}
                       {...imageProps}
                       loader={imageLoader}
@@ -277,38 +277,42 @@ const AllDetailsPage = () => {
               {Object.keys(modifiedSpeciesDetails).map((row) => {
                 if (
                   typeof modifiedSpeciesDetails[row] === "object" &&
-                  modifiedSpeciesDetails[row]
+                  modifiedSpeciesDetails[row] && row == 'identificationFeatures'
                 ) {
-                  Object?.keys(modifiedSpeciesDetails[row])?.map((objKey) => {
+
+                  let renderObject = Object?.keys(modifiedSpeciesDetails[row])?.map((objKey) => {
                     let title = processKeys(
-                      `${modifiedSpeciesDetails[row]}.${objKey}`
+                      `${row}.${objKey}`
                     );
-                    return (
-                      <StyledTableRow key={row}>
-                        <StyledTableCell component="th" scope="row" sx={{
-                          textAlign: "end",
-                          width: 100
-                        }}>
-                          <b> {title}</b>
-                        </StyledTableCell>
-                        <StyledTableCell align="left">
-                          {modifiedSpeciesDetails[row][objKey]?.name ||
-                            modifiedSpeciesDetails[row][objKey]}
-                        </StyledTableCell>
-                      </StyledTableRow>
-                    );
+                    console.log(modifiedSpeciesDetails[row][objKey])
+                    if (isValidValueOrKey(modifiedSpeciesDetails[row][objKey])) {
+                      return (
+                        <StyledTableRow key={row} className={styles.table}>
+                          <StyledTableCell component="th" scope="row" sx={{
+                            textAlign: "end",
+                            width: 250
+                          }}>
+                            <b> {title} :</b>
+                          </StyledTableCell>
+                          <StyledTableCell align="left">
+                            {modifiedSpeciesDetails[row][objKey]?.name ||
+                              modifiedSpeciesDetails[row][objKey]}
+                          </StyledTableCell>
+                        </StyledTableRow>
+                      );
+                    }
                   });
-                } else if(isValidValueOrKey(modifiedSpeciesDetails[row])){
+                  return renderObject
+                } else if (isValidValueOrKey(modifiedSpeciesDetails[row])) {
                   let title = processKeys(row);
                   let value = modifiedSpeciesDetails[row]
                   let parsedDistrict
                   if (title == 'District') {
                     parsedDistrict = JSON.parse(modifiedSpeciesDetails[row])
-                    console.log({ parsedDistrict })
                     value = ""
                     for (let index = 0; index < parsedDistrict.length; index++) {
                       let district = parsedDistrict[index]
-                        value += index + 1 + '. ' + district.place_name + '. '
+                      value += index + 1 + '. ' + district.place_name + '. '
                     }
                   }
 
@@ -319,7 +323,7 @@ const AllDetailsPage = () => {
                         scope="row"
                         sx={{
                           textAlign: "end",
-                          width: 100
+                          width: 250
                         }}
                       >
                         <b> {title} :</b>

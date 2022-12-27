@@ -3,15 +3,15 @@ import Image from "next/legacy/image";
 
 import { styled, useTheme } from "@mui/material/styles";
 import { useEffect, useState } from "react";
-import styles from "../styles/Home.module.css";
-import Header from "../components/Admin/Header";
-import Sidebar from "../components/Admin/Sidebar";
-import Breadcrumbs from "../components/Home/ui-component/extended/Breadcrumbs";
+import styles from "../../styles/Home.module.css";
+import Header from "../../components/Admin/Header";
+import Sidebar from "../../components/Admin/Sidebar";
+import Breadcrumbs from "../../components/Home/ui-component/extended/Breadcrumbs";
 import { useDispatch, useSelector } from "react-redux";
 import { IconChevronRight } from "@tabler/icons";
-import navigation from "../components/Admin/menu-items";
-import { drawerWidth } from "../store/constant";
-import { SET_MENU } from "../store/actions";
+import navigation from "../../components/Admin/menu-items";
+import { drawerWidth } from "../../store/constant";
+import { SET_MENU } from "../../store/actions";
 import React from "react";
 import { useRouter } from "next/router";
 import CloseIcon from "@mui/icons-material/Close";
@@ -56,17 +56,17 @@ import {
 import Paper from "@mui/material/Paper";
 // import { useRouter } from "next/router";
 
-import callApi from "../utils/callApi";
+import callApi from "../../utils/callApi";
 import { useSnackbar } from "notistack";
 
 import * as XLSX from 'xlsx';
 import { LoadingButton } from "@mui/lab";
-const species7 = require("../assets/images/Plants.jpg")
-const species8 = require("../assets/images/micro_orga.jpg")
-const species9 = require("../assets/images/eco_sys.jpg")
-const species10 = require("../assets/images/fungi.jpg")
-const species11 = require("../assets/images/genetic_cellular.png")
-const species12 = require("../assets/images/animals.jpg")
+const species7 = require("../../assets/images/Plants.jpg")
+const species8 = require("../../assets/images/micro_orga.jpg")
+const species9 = require("../../assets/images/eco_sys.jpg")
+const species10 = require("../../assets/images/fungi.jpg")
+const species11 = require("../../assets/images/genetic_cellular.png")
+const species12 = require("../../assets/images/animals.jpg")
 let species = {
   species7, species8, species9, species10, species11, species12
 }

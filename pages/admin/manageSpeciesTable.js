@@ -3,15 +3,15 @@ import Image from "next/legacy/image";
 
 import { styled, useTheme } from "@mui/material/styles";
 import { useEffect, useState } from "react";
-import styles from "../styles/Home.module.css";
-import Header from "../components/Admin/Header";
-import Sidebar from "../components/Admin/Sidebar";
-import Breadcrumbs from "../components/Home/ui-component/extended/Breadcrumbs";
+import styles from "../../styles/Home.module.css";
+import Header from "../../components/Admin/Header";
+import Sidebar from "../../components/Admin/Sidebar";
+import Breadcrumbs from "../../components/Home/ui-component/extended/Breadcrumbs";
 import { useDispatch, useSelector } from "react-redux";
 import { IconChevronRight } from "@tabler/icons";
-import navigation from "../components/Admin/menu-items";
-import { drawerWidth } from "../store/constant";
-import { SET_MENU } from "../store/actions";
+import navigation from "../../components/Admin/menu-items";
+import { drawerWidth } from "../../store/constant";
+import { SET_MENU } from "../../store/actions";
 import React from "react";
 import { useRouter } from "next/router";
 import CloseIcon from "@mui/icons-material/Close";
@@ -53,9 +53,9 @@ import Link from "next/link";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { useSnackbar } from "notistack";
-import callApi from "../utils/callApi";
+import callApi from "../../utils/callApi";
 import DetailsIcon from "@mui/icons-material/Details";
-import { initialValues } from "../utils/utils";
+import { initialValues } from "../../utils/utils";
 
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({

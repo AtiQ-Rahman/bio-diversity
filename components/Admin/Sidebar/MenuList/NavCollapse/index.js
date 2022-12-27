@@ -35,6 +35,7 @@ const NavCollapse = ({ menu, level }) => {
   const handleClick = () => {
     setOpen(!open);
     setSelected(!selected ? menu.id : null);
+    localStorage.setItem('menuId' , menu.id)
     router.push(menu.url);
   };
 
@@ -79,8 +80,8 @@ const NavCollapse = ({ menu, level }) => {
           mb: 0.5,
           alignItems: "flex-start",
           // backgroundColor: level > 1 ? "transparent !important" : "inherit",
-          backgroundColor: router.pathname === menu.url ? "#c44d34" : "inherit",
-          color: router.pathname === menu.url ? "white" : "inherit",
+          backgroundColor: localStorage.getItem('menuId') === menu.id ? "#c44d34" : "inherit",
+          color: localStorage.getItem('menuId') === menu.id ? "white" : "inherit",
 
           py: level > 1 ? 1 : 1.25,
           pl: `${level * 24}px`,
