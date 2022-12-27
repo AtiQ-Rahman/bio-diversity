@@ -23,26 +23,30 @@ import styles from "../../../styles/Home.module.css";
 // Material Kit 2 React components
 import { Card, CardContent, CardActions, Typography, Grid } from "@mui/material";
 
-function DefaultCounterCard({ color, count,backgroundColor, title, description,actionIcon, ...rest }) {
+function DefaultCounterCard({ color, count, backgroundColor, title, description, actionIcon, ...rest }) {
   return (
-    <Grid  >
-      
-      <CardContent   sx={{ display: { xs: "none", lg: "flex" } }}  >
+    <Grid >
+
+      <Grid item xs={12} sx={{
+        mb: 2,
+        display: "flex"
+
+      }}>
         <Grid > {actionIcon}</Grid>
-       {/* <Grid><Typography></Typography></Grid> */}
+        {/* <Grid><Typography></Typography></Grid> */}
         <Grid><Typography variant="h1" component="div" color="white">
-        <CountUp  end={count} duration={1} {...rest} />
+          <CountUp end={count} duration={1} {...rest} />
         </Typography>
-        <Typography variant="h3" component="div" color="white">
-       {title}
-        </Typography>
-       
-        <Typography variant="body2" color="white" fontWeight={600}>
-          {description}
-          <br />
-          {/* {'"a benevolent smile"'} */}
-        </Typography></Grid>
-      </CardContent>
+          <Typography variant="h3" component="div" color="white">
+            {title}
+          </Typography>
+
+          <Typography variant="body2" color="white" fontWeight={600}>
+            {description}
+            <br />
+            {/* {'"a benevolent smile"'} */}
+          </Typography></Grid>
+      </Grid>
     </Grid>
   );
 }

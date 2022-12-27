@@ -370,7 +370,7 @@ const EcosystemDiversity = () => {
                                  <StyledTableCell><b>Images</b></StyledTableCell>
                                  <StyledTableCell align="center">Species Name</StyledTableCell>
                                  <StyledTableCell align="center">Descripton</StyledTableCell>
-                                 <StyledTableCell align="center">Family</StyledTableCell>
+                                 <StyledTableCell align="center">Types</StyledTableCell>
                                  <StyledTableCell align="center">Action</StyledTableCell>
                               </TableRow>
                            </TableHead>
@@ -395,11 +395,11 @@ const EcosystemDiversity = () => {
                                           loader={imageLoader} src={imageUrl + '/' + row.profile_image}></Image>
                                     </StyledTableCell>
                                     <StyledTableCell align="center">
-                                       {row.bangla}
+                                       {row.english}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">{row.identificationFeatures.description}</StyledTableCell>
 
-                                    <StyledTableCell align="center">{row.family}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.subGroup}</StyledTableCell>
                                     <StyledTableCell align="center" sx={{ alignItems: "center" }} >
                                        <Grid container spacing={1} sx={{
                                           width: "fit-content",

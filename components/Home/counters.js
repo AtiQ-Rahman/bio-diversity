@@ -56,7 +56,7 @@ function Counters() {
   return (
 
 
-    <Grid container item xs={12} lg={12} md={12} >
+    <Grid container xs={12} lg={12} md={12} >
       <Grid item xs={12} md={4} >
         {/* <Icon icon="material-symbols:biotech-outline" /> */}
         <DefaultCounterCard
