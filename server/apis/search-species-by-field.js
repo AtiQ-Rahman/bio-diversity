@@ -1,4 +1,4 @@
-const { getTable, executeQuery, uniqueIdGenerator, tableTypes, log, createQueryForSpecies } = require('../config/common');
+const { getTable, executeQuery, uniqueIdGenerator, tableTypes, log, createQueryForSpecies, returnValidJson } = require('../config/common');
 
 const DB = require("../config/connectToDatabase");
 const { matchKey } = require('../config/processor');
@@ -96,16 +96,16 @@ exports.BIOGSearchParamsByField = async (req, res, next) => {
     }
     let response = await executeQuery(searchQuery)
     if (response?.length > 0) {
-        let modifiedResponse = []
-        for (let item of response) {
-            modifiedResponse.push({
-                ...item,
-                identificationFeatures: item?.identificationFeatures ? JSON.parse(item.identificationFeatures) : {},
-                additionalFiles: item?.additional_files?.split(',') || '',
-                name: item?.name ? JSON.parse(item.name) : {},
-            })
-        }
-        modifiedResponse = modifiedResponse.sort((a, b) => {
+        // let modifiedResponse = []
+        // for (let item of response) {
+        //     let identificationFeatures = await returnValidJson(item.identificationFeatures)
+        //     modifiedResponse.push({
+        //         ...item,
+        //         identificationFeatures: identificationFeatures,
+        //         additionalFiles: item?.additional_files?.split(',') || [],
+        //     })
+        // }
+        response = response.sort((a, b) => {
             if (a.createdDatetimeStamp > b.createdDatetimeStamp) return -1;
             if (a.createdDatetimeStamp < b.createdDatetimeStamp) return 1;
             return 0;
@@ -113,7 +113,7 @@ exports.BIOGSearchParamsByField = async (req, res, next) => {
         res.status(200).json({
             message: "Found",
             success: true,
-            data: modifiedResponse,
+            data: response,
         })
     }
     else {

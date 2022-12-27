@@ -30,9 +30,10 @@ import styles from "../styles/Home.module.css";
 import { styled, useTheme } from "@mui/material/styles";
 import callApi, { imageUrl } from "../utils/callApi";
 import Image from "next/legacy/image";
-import { imageLoader, initialValues, pageGroups, processNames } from "../utils/utils";
+import { imageLoader, initialValues, isValidImage, pageGroups, processNames } from "../utils/utils";
 import { useRouter } from "next/router";
 import Loader2 from "../components/Loader2";
+const member1 = require('../assets/images/no-image.png')
 let imageProps = {
    height: "100px",
    width: "200px",
@@ -70,15 +71,15 @@ const EcosystemDiversity = () => {
    const [page, setPage] = React.useState(0);
    const [rowsPerPage, setRowsPerPage] = React.useState(10);
    const handleChangePage = (event, newPage) => {
-     setPage(newPage);
+      setPage(newPage);
    };
    const handleChangeRowsPerPage = (event) => {
-     setRowsPerPage(+event.target.value);
-     setPage(0);
+      setRowsPerPage(+event.target.value);
+      setPage(0);
    };
    useEffect(() => {
       async function fetchData() {
-         let allTypesOfSpecies = await callApi("/get-unique-types-of-species", {category : pageGroups.eco});
+         let allTypesOfSpecies = await callApi("/get-unique-types-of-species", { category: pageGroups.eco });
          console.log({ allTypesOfSpecies })
          setAllTypesOfSpecies(allTypesOfSpecies.data)
 
@@ -94,21 +95,16 @@ const EcosystemDiversity = () => {
          // if (router?.query?.initial) {
          //   localStorage.removeItem(category)
          // }
-         if (localData && isAllowed) {
-            let searchParameters = JSON.parse(localData)
-            let res = await callApi("/search-species-by-field", {
-               searchParameters,
-            });
-            setLoading(false)
-            console.log("response", res);
-            setSearchValues(searchParameters)
-            setSpeciesList(res?.data);
-            localStorage.removeItem(`allowed${pageGroups.eco.replaceAll(" ", "")}`)
-         }
-         else {
-            setSearchValues(initialValues)
-            localStorage.removeItem(pageGroups.eco.replaceAll(" ", ""))
-         }
+         let searchParameters = localData && isAllowed ? JSON.parse(localData) : { ...initialValues, category: pageGroups.eco }
+         setSearchValues(searchParameters)
+         let res = await callApi("/search-species-by-field", {
+            searchParameters,
+         });
+         setLoading(false)
+         setSpeciesList(res?.data);
+         localStorage.removeItem(`allowed${pageGroups.eco.replaceAll(" ", "")}`)
+         localStorage.removeItem(pageGroups.eco.replaceAll(" ", ""))
+
          if (response.data.length > 0) {
             console.log(response.data)
             setCatgory(response.data[0])
@@ -222,7 +218,7 @@ const EcosystemDiversity = () => {
                                  if (category.name.toLowerCase() !== 'description') {
                                     return (
                                        <>
-                                          <Grid item  xs={12} md={2} key={`keyList${index}`}>
+                                          <Grid item xs={12} md={2} key={`keyList${index}`}>
                                              <Autocomplete
                                                 freeSolo
                                                 size="small"
@@ -270,7 +266,7 @@ const EcosystemDiversity = () => {
 
                         </Grid>
                         <Grid container spacing={2}>
-                           <Grid item  xs={12} md={3}>
+                           <Grid item xs={12} md={3}>
                               <TextField
 
                                  id="Species"
@@ -284,7 +280,7 @@ const EcosystemDiversity = () => {
                                  variant="outlined"
                               />
                            </Grid>
-                           <Grid item  xs={12} md={3}>
+                           <Grid item xs={12} md={3}>
                               <TextField
 
                                  id="banglaName"
@@ -298,7 +294,7 @@ const EcosystemDiversity = () => {
                                  variant="outlined"
                               />
                            </Grid>
-                           <Grid item  xs={12} md={3}>
+                           <Grid item xs={12} md={3}>
                               <TextField
 
                                  id="commonName"
@@ -312,7 +308,7 @@ const EcosystemDiversity = () => {
                                  variant="outlined"
                               />
                            </Grid>
-                           <Grid item  xs={12} md={3}>
+                           <Grid item xs={12} md={3}>
                               <TextField
 
                                  id="synonym"
@@ -355,9 +351,9 @@ const EcosystemDiversity = () => {
 
          <Grid container sx={{ borderRadius: "10px", px: 10 }} >
             <Grid item xs={12} paddingBottom={10}>
-            {loading ? (
-        <Loader2 size={50}></Loader2>
-      ) : null}
+               {loading ? (
+                  <Loader2 size={50}></Loader2>
+               ) : null}
                {speciesList?.length > 0 ? (
                   <><Typography variant="h2" component="h2" align="center" gutterBottom>
                      Total Species Found : {speciesList.length}
@@ -376,8 +372,8 @@ const EcosystemDiversity = () => {
                            </TableHead>
                            <TableBody   >
                               {speciesList.slice(
-                                page * rowsPerPage,
-                                page * rowsPerPage + rowsPerPage
+                                 page * rowsPerPage,
+                                 page * rowsPerPage + rowsPerPage
                               ).map((row, index) => (
                                  <StyledTableRow
                                     key={`list${row.index}`}
@@ -390,9 +386,24 @@ const EcosystemDiversity = () => {
                                        {index + 1}
                                     </StyledTableCell>
                                     <StyledTableCell component="td" scope="row" width={200}>
-                                       <Image {...imageProps} objectFit="cover"
-                                          alt="Profile Image"
-                                          loader={imageLoader} src={imageUrl + '/' + row.profile_image}></Image>
+                                       {isValidImage(row?.profile_image) ? (
+                                          <Image
+                                             {...imageProps}
+                                             height="50px"
+                                             width="100px"
+                                             objectFit="cover"
+                                             loader={imageLoader}
+                                             src={imageUrl + "/" + row.profile_image}
+                                             alt="No_image"
+                                          ></Image>
+                                       ) : (<Image
+                                          height="30px"
+                                          width="50px"
+                                          // objectFit="cover"
+                                          loader={imageLoader}
+                                          src={member1}
+                                          alt="No_image"
+                                       ></Image>)}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">
                                        {row.english}
@@ -469,8 +480,8 @@ const EcosystemDiversity = () => {
                         page={page}
                         onPageChange={handleChangePage}
                         onRowsPerPageChange={handleChangeRowsPerPage}
-                      />
-                     </>
+                     />
+                  </>
                ) : <Typography variant="h1" component="h1" align="center" paddingBottom={20} paddingTop={10}>
                   {searchMessage ?? ''}
                </Typography>}

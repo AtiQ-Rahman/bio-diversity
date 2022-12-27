@@ -167,12 +167,28 @@ const ImageSlider = ({ slides }) => {
 
         <Grid>
           <ThemeProvider theme={theme}>
-            <Typography variant="h1" sx={{
-              m: 2
-            }}>
-              BIO Diversity of Bangladesh
-
-            </Typography>{" "}
+                <Box>
+                  <Typography
+                    variant="h1"
+                    style={{
+                      fontFamily: "Comic Sans MS",
+                      // fontSize: "25px",
+                      color: "white",
+                      // padding: "10px",
+                    }}
+                  >
+                    Biodiversity of
+                    <span
+                      style={{
+                        fontWeight: "600",
+                        color: "#c44d34",
+                      }}
+                    >
+                      {" "}
+                      Bangladesh
+                    </span>
+                  </Typography>
+                </Box>
             {/* <Typography >Responsive h3</Typography> */}
           </ThemeProvider>
 
