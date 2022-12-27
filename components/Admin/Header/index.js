@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import { Avatar, Box, ButtonBase, Typography } from '@mui/material';
-
+import { useRouter } from "next/router";
 // project imports
 import LogoSection from '../../Home/LogoSection';
 
@@ -14,7 +14,7 @@ import { IconMenu2 } from '@tabler/icons';
 
 const Header = ({ handleLeftDrawerToggle }) => {
     const theme = useTheme();
-
+    const router = useRouter();
     return (
         <>
             {/* logo & toggler button */}
@@ -26,6 +26,9 @@ const Header = ({ handleLeftDrawerToggle }) => {
                         width: 'auto'
                     }
                 }}
+                onClick={() => {
+                    router.push("/");
+                  }}
             >
                 <Box component="span" sx={{ display: { xs: 'none', md: 'block' }, flexGrow: 1 }}>
                     <LogoSection />

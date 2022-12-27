@@ -376,7 +376,7 @@ const ManageSpeciesTable = () => {
                       }) => (
                         <Form onSubmit={handleSubmit}>
                           <Grid container spacing={3}>
-                            <Grid item xs={2}>
+                            <Grid item xs={12} md={2}>
                               <TextField
                                 size="small"
                                 error={Boolean(
@@ -393,7 +393,7 @@ const ManageSpeciesTable = () => {
                                 onChange={handleChange}
                               />
                             </Grid>
-                            <Grid item xs={2}>
+                            <Grid item xs={12} md={2}>
                               <Autocomplete
                                 size="small"
                                 disablePortal
@@ -422,7 +422,7 @@ const ManageSpeciesTable = () => {
                                 )}
                               />
                             </Grid>
-                            <Grid item xs={2}>
+                            <Grid item xs={12} md={2}>
                               <Autocomplete
                                 size="small"
                                 disablePortal
@@ -453,7 +453,7 @@ const ManageSpeciesTable = () => {
                                 )}
                               />
                             </Grid>
-                            <Grid item xs={2}>
+                            <Grid item xs={12} md={2}>
                               <Autocomplete
                                 size="small"
                                 disablePortal
@@ -485,7 +485,7 @@ const ManageSpeciesTable = () => {
                               />
                             </Grid>
 
-                            <Grid item xs={2}>
+                            <Grid item xs={12} md={2}>
                               <Autocomplete
                                 size="small"
                                 disablePortal
@@ -516,7 +516,7 @@ const ManageSpeciesTable = () => {
                                 )}
                               />
                             </Grid>
-                            <Grid item xs={2}>
+                            <Grid item xs={12} md={2}>
                               <Autocomplete
                                 size="small"
                                 disablePortal
@@ -549,7 +549,7 @@ const ManageSpeciesTable = () => {
                             </Grid>
 
 
-                            <Grid item xs={2}>
+                            <Grid item xs={12} md={2}>
                               <Button
                                 className={styles.bg_primary}
                                 type="submit"
