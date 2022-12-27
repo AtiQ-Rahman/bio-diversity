@@ -168,7 +168,7 @@ const ImageSlider = ({ slides }) => {
         <Grid>
           <ThemeProvider theme={theme}>
             <Typography variant="h1" sx={{
-              m: 2
+            m:4
             }}>
               BIO Diversity of Bangladesh
 
@@ -176,7 +176,7 @@ const ImageSlider = ({ slides }) => {
             {/* <Typography >Responsive h3</Typography> */}
           </ThemeProvider>
 
-          <Counters />
+         <Grid sx={{ml:8}}> <Counters /></Grid>
         </Grid>
         <Grid
           className={styles.searchField}
