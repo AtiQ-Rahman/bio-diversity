@@ -356,7 +356,7 @@ const EcosystemDiversity = () => {
                ) : null}
                {speciesList?.length > 0 ? (
                   <><Typography variant="h2" component="h2" align="center" gutterBottom>
-                     Total Species Found : {speciesList.length}
+                     Total  : {speciesList.length}
                   </Typography>
                      <TableContainer component={Paper}    >
                         <Table sx={{ minWidth: 700, pl: 7 }} aria-label="customized table" >
