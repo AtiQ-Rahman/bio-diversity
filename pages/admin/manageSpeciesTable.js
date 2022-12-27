@@ -56,6 +56,7 @@ import { useSnackbar } from "notistack";
 import callApi from "../../utils/callApi";
 import DetailsIcon from "@mui/icons-material/Details";
 import { initialValues } from "../../utils/utils";
+import Loader2 from "../../components/Loader2";
 
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -195,6 +196,8 @@ const ManageSpeciesTable = () => {
   const [subCategories, setSubcategories] = useState([])
   const [subGroups, setSubGroups] = useState([])
   const [kingdoms, setKingdoms] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [varieties, setVarieties] = useState([])
   const [families, setFamilies] = useState([])
   const [speciesListFromServer, setSpeciesListFromServer] = useState([])
   const [genuses, setGenuses] = useState([])
@@ -245,24 +248,26 @@ const ManageSpeciesTable = () => {
     let response = await callApi("/get-species-by-category", {
       searchParameters,
     });
-
     if (response.data.length > 0) {
       console.log(response.data);
       setSpeciesList(response.data);
       let speciesList = response.data;
       console.log({ speciesList });
-      if(speciesList.length > 0){
+      if (speciesList.length > 0) {
         let allTypesOfSpecies = await callApi("/get-unique-types-of-species", { category: searchParameters.category });
         setAllTypesOfSpecies(allTypesOfSpecies?.data)
         setSubcategories(allTypesOfSpecies?.data.categories)
         setSubGroups(allTypesOfSpecies.data.subGroups)
         setKingdoms(allTypesOfSpecies.data.kingdoms)
+        setVarieties(allTypesOfSpecies.data.varieties)
         setFamilies(allTypesOfSpecies.data.families)
         setSpeciesListFromServer(allTypesOfSpecies.data.speciesListFromServer)
         setGenuses(allTypesOfSpecies.data.genuses)
+        setLoading(false)
         cbfn(speciesList)
       }
       else {
+        setLoading(false)
         cbfn([])
       }
     }
@@ -421,29 +426,29 @@ const ManageSpeciesTable = () => {
                               <Autocomplete
                                 size="small"
                                 disablePortal
-                                id="kingdoms"
-                                name={values?.kingdom}
-                                options={kingdoms}
-                                key="kingdoms"
-                                getOptionLabel={(option) => option.kingdom || option}
+                                id="varieties"
+                                name={values?.variety}
+                                options={varieties}
+                                key="varieties"
+                                getOptionLabel={(option) => option.variety || option}
                                 // sx={{ width: 300 }}
                                 onChange={(e, value) => {
-                                  setFieldValue("kingdom", value?.kingdom || value);
+                                  setFieldValue("variety", value?.variety || value);
                                 }}
                                 renderInput={(params) => (
                                   <TextField
                                     {...params}
                                     error={Boolean(
-                                      touched?.kingdom && errors?.kingdom
+                                      touched?.variety && errors?.variety
                                     )}
                                     helperText={
-                                      touched?.kingdom && errors?.kingdom
+                                      touched?.variety && errors?.variety
                                     }
                                     style={{ padding: "2px" }}
-                                    label="Kingdoms"
+                                    label="Varieties"
                                     variant="outlined"
                                     placeholder="Select"
-                                    value={values?.kingdom || ""}
+                                    value={values?.variety || ""}
                                   />
                                 )}
                               />
@@ -452,10 +457,10 @@ const ManageSpeciesTable = () => {
                               <Autocomplete
                                 size="small"
                                 disablePortal
-                                id="kingdoms"
+                                id="families"
                                 name={values?.family}
                                 options={families}
-                                key="kingdoms"
+                                key="families"
                                 getOptionLabel={(option) => option.family || option}
                                 // sx={{ width: 300 }}
                                 onChange={(e, value) => {
@@ -515,10 +520,10 @@ const ManageSpeciesTable = () => {
                               <Autocomplete
                                 size="small"
                                 disablePortal
-                                id="kingdoms"
+                                id="species"
                                 name={values?.species}
                                 options={speciesListFromServer}
-                                key="kingdoms"
+                                key="species"
                                 getOptionLabel={(option) => option.species || option}
                                 // sx={{ width: 300 }}
                                 onChange={(e, value) => {
@@ -643,13 +648,14 @@ const ManageSpeciesTable = () => {
                               Genus
                             </StyledTableCell>
                             <StyledTableCell align="center">
-                              kingdom
+                              Variety
                             </StyledTableCell>
                             <StyledTableCell align="center">
                               Action
                             </StyledTableCell>
                           </TableRow>
                         </TableHead>
+
                         <TableBody>
                           {speciesList?.slice(
                             page * rowsPerPage,
@@ -681,7 +687,7 @@ const ManageSpeciesTable = () => {
                                 {row.genus}
                               </StyledTableCell>
                               <StyledTableCell align="center">
-                                {row.kingdom}
+                                {row.variety}
                               </StyledTableCell>
 
                               <StyledTableCell align="center">
@@ -754,6 +760,9 @@ const ManageSpeciesTable = () => {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       /> */}
+                    {loading ? (
+                      <Loader2 size={50}></Loader2>
+                    ) : null}
                   </Grid>
                 </Grid>
               </Grid>
