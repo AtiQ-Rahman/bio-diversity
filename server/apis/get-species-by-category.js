@@ -18,25 +18,25 @@ exports.BIOGetSpeciesByCategory = async (req, res, next) => {
 
         let response = await executeQuery(searchQuery)
         if (response?.length > 0) {
-            let modifiedResponse = []
-            for (let item of response) {
-                let addtionalCategories = returnValidJson(item.addtionalCategories)
-                let identificationFeatures = returnValidJson(item.identificationFeatures)
-                modifiedResponse.push({
-                    ...item,
-                    identificationFeatures: identificationFeatures,
-                    addtionalCategories: [addtionalCategories],
-                    additionalFiles: item?.additional_files?.split(',') || '',
-                })
-            }
-            modifiedResponse = modifiedResponse.sort((a, b) => {
+            // let modifiedResponse = []
+            // for (let item of response) {
+            //     let addtionalCategories = returnValidJson(item.addtionalCategories)
+            //     let identificationFeatures = returnValidJson(item.identificationFeatures)
+            //     modifiedResponse.push({
+            //         ...item,
+            //         identificationFeatures: identificationFeatures,
+            //         addtionalCategories: [addtionalCategories],
+            //         additionalFiles: item?.additional_files?.split(',') || '',
+            //     })
+            // }
+            response = response.sort((a, b) => {
                 if (a.createdDatetimeStamp > b.createdDatetimeStamp) return -1;
                 if (a.createdDatetimeStamp < b.createdDatetimeStamp) return 1;
                 return 0;
               });
             res.status(200).json({
                 success: true,
-                data: modifiedResponse,
+                data: response,
             })
         }
         else {

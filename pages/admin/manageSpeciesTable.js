@@ -55,7 +55,7 @@ import * as Yup from "yup";
 import { useSnackbar } from "notistack";
 import callApi from "../../utils/callApi";
 import DetailsIcon from "@mui/icons-material/Details";
-import { initialValues } from "../../utils/utils";
+import { initialValues, isValidValueOrKey } from "../../utils/utils";
 import Loader2 from "../../components/Loader2";
 
 
@@ -670,24 +670,24 @@ const ManageSpeciesTable = () => {
                               }}
                             >
                               <StyledTableCell component="th" scope="row">
-                                {row.english}
+                                {isValidValueOrKey(row.english) ? row.english : ''}
                               </StyledTableCell>
                               <StyledTableCell align="center">
                                 <Typography component="div" variant="div">
-                                  {row.subGroup}
+                                  {isValidValueOrKey(row.subGroup) ? row.subGroup : ''}
                                 </Typography>
                               </StyledTableCell>
                               <StyledTableCell align="center">
-                                {row.family}
+                                {isValidValueOrKey(row.family) ? row.family : ''}
                               </StyledTableCell>
                               <StyledTableCell align="center">
-                                {row.species}
+                                {isValidValueOrKey(row.species) ? row.species : ''}
                               </StyledTableCell>
                               <StyledTableCell align="center">
-                                {row.genus}
+                                {isValidValueOrKey(row.genus) ? row.genus : ''}
                               </StyledTableCell>
                               <StyledTableCell align="center">
-                                {row.variety}
+                                {isValidValueOrKey(row.variety ? row.variety : '')}
                               </StyledTableCell>
 
                               <StyledTableCell align="center">

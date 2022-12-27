@@ -168,7 +168,7 @@ const ImageSlider = ({ slides }) => {
         <Grid>
           <ThemeProvider theme={theme}>
             <Typography variant="h1" sx={{
-            m:4
+              m: 2
             }}>
               BIO Diversity of Bangladesh
 

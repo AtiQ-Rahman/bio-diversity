@@ -61,6 +61,7 @@ import { useSnackbar } from "notistack";
 
 import * as XLSX from 'xlsx';
 import { LoadingButton } from "@mui/lab";
+import { pageGroups } from "../../utils/utils";
 const species7 = require("../../assets/images/Plants.jpg")
 const species8 = require("../../assets/images/micro_orga.jpg")
 const species9 = require("../../assets/images/eco_sys.jpg")
@@ -193,13 +194,24 @@ export default function ManageSpecies() {
                 cursor: "pointer",
                 transform: "scale(1.1)"
               }
-            }} onClick={() =>
-              router.push({
-                pathname: "/admin/manageSpeciesTable",
-                query: {
-                  category: row.name
-                }
-              })
+            }} onClick={() => {
+              if (row.name == pageGroups.genetic) {
+                router.push({
+                  pathname: "/geneticSubCellularDiversity",
+                  query: {
+                    category: row.name
+                  }
+                })
+              }
+              else {
+                router.push({
+                  pathname: "/admin/manageSpeciesTable",
+                  query: {
+                    category: row.name
+                  }
+                })
+              }
+            }
             }>
               <CardMedia
                 component="img"
