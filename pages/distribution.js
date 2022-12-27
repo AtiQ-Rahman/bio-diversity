@@ -155,7 +155,9 @@ const Distribution = () => {
     setPage(0);
   };
   async function fetchData(cbfn) {
-    let response = await callApi("/get-species-list", {});
+    let response = await callApi("/get-species-list", {
+      filterDistrict: true
+    });
 
     // let response = await callApi("/get-species-by-pagination", {
     //   limit : rowsPerPage,
