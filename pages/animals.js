@@ -25,7 +25,7 @@ import TableData from "./TableData";
 import Loader2 from "../components/Loader2";
 const Animals = () => {
    const [category, setCatgory] = React.useState()
-   const [loading, setLoading] = React.useState(false);
+   const [loading, setLoading] = React.useState(true);
    const [searchMessage, setSearchMessage] = React.useState('')
    const [speciesList, setSpeciesList] = React.useState()
    const [searchValues, setSearchValues] = React.useState(null)
@@ -39,21 +39,20 @@ const Animals = () => {
          // if (router?.query?.initial) {
          //   localStorage.removeItem(category)
          // }
-         if (localData && isAllowed) {
-            let searchParameters = JSON.parse(localData)
-            let res = await callApi("/search-species-by-field", {
-               searchParameters,
-            });
-            setLoading(false)
-            console.log("response", res);
-            setSearchValues(searchParameters)
-            setSpeciesList(res?.data);
-            localStorage.removeItem(`allowed${pageGroups.animals}`)
-         }
-         else {
-            setSearchValues(initialValues)
-            localStorage.removeItem(pageGroups.animals)
-         }
+
+         let searchParameters = localData && isAllowed ? JSON.parse(localData) : { ...initialValues, category: pageGroups.animals }
+         setSearchValues(searchParameters)
+         let res = await callApi("/search-species-by-field", {
+            searchParameters,
+         });
+         setLoading(false)
+         console.log("response", res);
+         setSpeciesList(res?.data);
+         localStorage.removeItem(`allowed${pageGroups.animals}`)
+
+
+         localStorage.removeItem(pageGroups.animals)
+
       }
       fetchData()
 
@@ -125,7 +124,7 @@ const Animals = () => {
                         <Typography
                            gutterBottom
                            variant="h3"
-                           sx={{ pt: 12,pb:5 }}
+                           sx={{ pt: 12, pb: 5 }}
                         >
                            Enter Your Details
                         </Typography>
@@ -158,14 +157,14 @@ const Animals = () => {
             </Formik>
          ) : (
             <Loader2 size={50}></Loader2>
-          )}
+         )}
 
          <Grid container sx={{ borderRadius: "10px", px: 10 }} paddingBottom={6}>
             <Grid item xs={12}>
 
-            {loading ? (
-        <Loader2 size={50}></Loader2>
-      ) : null}
+               {loading ? (
+                  <Loader2 size={50}></Loader2>
+               ) : null}
                {speciesList?.length > 0 ? (
                   <TableData speciesList={speciesList} category={pageGroups.animals}></TableData>
                ) : <Typography variant="h1" component="h1" align="center" paddingBottom={20} paddingTop={10}>

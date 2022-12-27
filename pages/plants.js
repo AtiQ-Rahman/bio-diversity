@@ -28,7 +28,7 @@ import Loader2 from "../components/Loader2";
 
 const Plants = () => {
   const router = useRouter();
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
   const [speciesList, setSpeciesList] = React.useState([]);
   const [searchMessage, setSearchMessage] = React.useState("");
   const [searchValues, setSearchValues] = React.useState(null)
@@ -36,22 +36,16 @@ const Plants = () => {
     async function fetchData() {
       let localData = localStorage.getItem(pageGroups.plants)
       let isAllowed = localStorage.getItem(`allowed${pageGroups.plants}`)
-      if (localData && isAllowed) {
-        let searchParameters = JSON.parse(localData)
-        let res = await callApi("/search-species-by-field", {
-          searchParameters,
-        });
-        setLoading(false);
-        setSpeciesList(res?.data);
-        setSearchValues(searchParameters)
-        console.log({ searchParameters })
-        localStorage.removeItem(`allowed${pageGroups.plants}`)
-      }
-      else {
-        setSearchValues(initialValues)
-        localStorage.removeItem(pageGroups.plants)
-      }
-
+      let searchParameters = localData && isAllowed ? JSON.parse(localData) : { ...initialValues, category: pageGroups.plants }
+      setSearchValues(searchParameters)
+      let res = await callApi("/search-species-by-field", {
+        searchParameters,
+      });
+      setLoading(false);
+      setSpeciesList(res?.data);
+      console.log({ searchParameters })
+      localStorage.removeItem(`allowed${pageGroups.plants}`)
+      localStorage.removeItem(pageGroups.plants)
     }
     fetchData();
   }, []);
@@ -102,7 +96,7 @@ const Plants = () => {
               setStatus({ success: false });
               setErrors({ submit: error.message });
               setSubmitting(false);
-              
+
             }
           }}
         >
@@ -121,10 +115,10 @@ const Plants = () => {
                 <Typography
                   gutterBottom
                   variant="h3"
-                  sx={{ pt: 12,pb:5 }}
+                  sx={{ pt: 12, pb: 5 }}
                 >
                   Enter Your Details
-                
+
                 </Typography>
                 <Grid container spacing={3}>
                   <CommonDropDowns

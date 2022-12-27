@@ -94,7 +94,6 @@ exports.BIOGSearchParamsByField = async (req, res, next) => {
     if (!searchQuery.includes('where')) {
         searchQuery = searchQuery.replace('and', 'where')
     }
-    console.log(searchQuery)
     let response = await executeQuery(searchQuery)
     if (response?.length > 0) {
         let modifiedResponse = []

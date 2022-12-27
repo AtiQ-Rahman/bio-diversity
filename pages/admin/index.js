@@ -89,6 +89,7 @@ export default function Home() {
 
   useEffect(() => {
     dispatch({ type: SET_MENU, opened: !matchDownMd });
+    localStorage.setItem('menuId', 'default')
     async function fetchData() {
       let response = await callApi("/count-all-species", {});
       if (response.data) {

@@ -132,6 +132,12 @@ const GeneticSubCellularDiversity = () => {
          <Box sx={{ p: 10, background: "white" }}>
             <Typography
                gutterBottom
+               variant="h2"
+            >
+               Name : <span style={{ color: "#20acb3" }}>Algae</span>
+            </Typography>
+            <Typography
+               gutterBottom
                variant="h3"
             >
                <span style={{ color: "#20acb3" }}>{genetiticData.length}</span> Genetic Data

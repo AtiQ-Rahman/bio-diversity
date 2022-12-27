@@ -33,7 +33,7 @@ import { initialValues, pageGroups } from "../utils/utils";
 // import { kingdoms } from "../utils/kingdoms";
 const MicroOrgansim = () => {
    const [category, setCatgory] = React.useState();
-   const [loading, setLoading] = React.useState(false);
+   const [loading, setLoading] = React.useState(true);
    const theme = useTheme();
    const [searchMessage, setSearchMessage] = React.useState('')
    const [speciesList, setSpeciesList] = React.useState()
@@ -48,21 +48,19 @@ const MicroOrgansim = () => {
          // if (router?.query?.initial) {
          //   localStorage.removeItem(category)
          // }
-         if (localData && isAllowed) {
-            let searchParameters = JSON.parse(localData)
-            let res = await callApi("/search-species-by-field", {
-               searchParameters,
-            });
-            setLoading(false)
-            console.log("response", res);
-            setSearchValues(searchParameters)
-            setSpeciesList(res?.data);
-            localStorage.removeItem(`allowed${pageGroups.micro}`)
-         }
-         else {
-            setSearchValues(initialValues)
-            localStorage.removeItem(pageGroups.micro)
-         }
+
+         let searchParameters = localData && isAllowed ? JSON.parse(localData) : { ...initialValues, category: pageGroups.micro }
+         setSearchValues(searchParameters)
+         let res = await callApi("/search-species-by-field", {
+            searchParameters,
+         });
+         setLoading(false)
+         console.log("response", res);
+         setSearchValues(searchParameters)
+         setSpeciesList(res?.data);
+         localStorage.removeItem(`allowed${pageGroups.micro}`)
+         localStorage.removeItem(pageGroups.micro)
+
       }
       fetchData()
    }, [router.pathname, router.query])
@@ -159,7 +157,7 @@ const MicroOrgansim = () => {
                         <Typography
                            gutterBottom
                            variant="h3"
-                           sx={{ pt: 12,pb:5 }}
+                           sx={{ pt: 12, pb: 5 }}
                         >
                            Enter Your Details
                         </Typography>
@@ -189,15 +187,15 @@ const MicroOrgansim = () => {
                   </Form>
                )}
             </Formik>
-         ) :  (
+         ) : (
             <Loader2 size={50}></Loader2>
-          )}
+         )}
 
          <Grid container sx={{ borderRadius: "10px", px: 10 }} paddingBottom={6} >
             <Grid item xs={12}>
-            {loading ? (
-        <Loader2 size={50}></Loader2>
-      ) : null}
+               {loading ? (
+                  <Loader2 size={50}></Loader2>
+               ) : null}
                {speciesList?.length > 0 ? (
                   <TableData speciesList={speciesList} category={pageGroups.micro}></TableData>
                ) : <Typography variant="h1" component="h1" align="center" paddingBottom={20} paddingTop={10}>

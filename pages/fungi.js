@@ -26,7 +26,7 @@ import Loader2 from "../components/Loader2";
 const Fungi = () => {
   const router = useRouter();
   const [category, setCatgory] = React.useState();
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
   const [searchMessage, setSearchMessage] = React.useState("");
   const theme = useTheme();
   const [speciesList, setSpeciesList] = React.useState();
@@ -37,25 +37,20 @@ const Fungi = () => {
 
       let localData = localStorage.getItem(pageGroups.fungi);
       let isAllowed = localStorage.getItem(`allowed${pageGroups.fungi}`);
-      console.log(router.query, localData);
       // if (router?.query?.initial) {
       //   localStorage.removeItem(category)
       // }
-      if (localData && isAllowed) {
-        let searchParameters = JSON.parse(localData);
-        let res = await callApi("/search-species-by-field", {
-          searchParameters,
-        });
-        console.log("response", res);
-        setLoading(false)
-        setSearchValues(searchParameters)
-        setSpeciesList(res?.data);
-        localStorage.removeItem(`allowed${pageGroups.fungi}`);
-      } else {
-        setSearchValues(initialValues)
+      let searchParameters = localData && isAllowed ? JSON.parse(localData) : { ...initialValues, category: pageGroups.fungi };
+      setSearchValues(searchParameters)
+      let res = await callApi("/search-species-by-field", {
+        searchParameters,
+      });
+      setLoading(false)
+      setSpeciesList(res?.data);
+      localStorage.removeItem(`allowed${pageGroups.fungi}`);
 
-        localStorage.removeItem(pageGroups.fungi);
-      }
+      localStorage.removeItem(pageGroups.fungi);
+
     }
     fetchData();
   }, [router.pathname, router.query]);
@@ -116,7 +111,7 @@ const Fungi = () => {
           }) => (
             <Form onSubmit={handleSubmit}>
               <Grid sx={{ p: 10, background: "white" }}>
-                <Typography gutterBottom variant="h3" sx={{ pt: 12,pb:5 }}>
+                <Typography gutterBottom variant="h3" sx={{ pt: 12, pb: 5 }}>
                   Enter Your Details
                 </Typography>
                 <Grid container spacing={3}>
@@ -157,9 +152,9 @@ const Fungi = () => {
 
       <Grid container sx={{ borderRadius: "10px", px: 10 }} paddingBottom={6}>
         <Grid item xs={12}>
-        {loading ? (
-        <Loader2 size={50}></Loader2>
-      ) : null}
+          {loading ? (
+            <Loader2 size={50}></Loader2>
+          ) : null}
           {speciesList?.length > 0 ? (
             <TableData
               speciesList={speciesList}

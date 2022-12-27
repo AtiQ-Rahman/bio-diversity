@@ -380,7 +380,10 @@ const AddNewSpecies = () => {
                     center: district.center,
                   });
                 });
-                speciesData.district = districts;
+                speciesData.district = districts.map((district) => {
+                  district.place_name = district.place_name.replaceAll("'", "")
+                  return district
+                })
                 speciesData.createdBy = {
                   name: "test admin",
                   userId: "blabla",

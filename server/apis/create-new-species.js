@@ -7,7 +7,7 @@ async function getDistrict(splittedValue, districts) {
         let response = await callGeocoderApi(district)
         if (response) {
             let modifiedResponse = {
-                place_name: response.place_name.replaceAll(`'`, ``),
+                place_name: response.place_name.replaceAll("'", ""),
                 center: response.center
             }
             districts.push(modifiedResponse)
@@ -144,7 +144,8 @@ exports.uploadSpeciesByExcel = async (req, res, next) => {
                     else { object[splittedKey[0]] = uploadedSpecies[item][idx].replaceAll("'", "") }
                 }
             }
-            if (object.types) {
+            console.log({ object })
+            if (!object.species && object.english) {
                 object.category = pageGroups.eco
                 object.subGroup = object.types
             }
@@ -187,6 +188,9 @@ exports.uploadSpeciesByExcel = async (req, res, next) => {
 
 
             let duplicateQuery = `select * from ${table} where species = '${object.species}' and variety = '${object.variety}'`
+            if (object.category == pageGroups.eco) {
+                duplicateQuery = `select * from ${table} where english = '${object.english}'`
+            }
             let duplicateResponse = await executeQuery(duplicateQuery)
             if (duplicateResponse.length > 0) {
                 continue
