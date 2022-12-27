@@ -19,7 +19,7 @@ exports.requestNewSpecies = async (req, res, next) => {
 
             let { serial,
                 kingdom, phylum, class_name, order_name, family, genus, nameOfSpecies, sub_species, variety, sub_variety, clone, forma, species,
-                identificationFeatures, lng, lat, marker, category, subCategory, profileIndex, addtionalCategories, district, requestedBy, subGroup, markerColor } = speciesData
+                identificationFeatures, lng, lat, marker, category, subCategory, profileIndex, addtionalCategories, district, requestBy, subGroup, markerColor } = speciesData
             if (!serial) {
                 serial = await uniqueIdGenerator(table, 5)
             }
@@ -29,7 +29,7 @@ exports.requestNewSpecies = async (req, res, next) => {
             let createdDatetimeStamp = moment().format("YYYY-MM-DD HH:mm:ss");
             let insertQuery = `insert into ${table} 
                 (serial, status, kingdom, phylum, class_name, category, subCategory, order_name, family, genus, english, bangla, common, synonym, sub_species, variety, sub_variety, clone, forma, species, district, subGroup, identificationFeatures, additional_files, profile_image, marker,markerColor, createdDatetimeStamp,addtionalCategories, requested_by)
-                VALUES('${serial}','pending','${kingdom}','${phylum}','${class_name}','${category.name}','${subCategory}','${order_name}','${family}','${genus}','${english}','${bangla}','${commonName}','${synonym}','${sub_species}','${variety}','${sub_variety}','${clone}','${forma}','${species}','${JSON.stringify(district)}','${subGroup}','${JSON.stringify(identificationFeatures)}','${fileNameOnServer}','${fileNameOnServer[profileIndex]}','${marker}','${markerColor}','${createdDatetimeStamp}','${JSON.stringify(addtionalCategories)}','${JSON.stringify(requestedBy)}')`
+                VALUES('${serial}','pending','${kingdom}','${phylum}','${class_name}','${category.name}','${subCategory}','${order_name}','${family}','${genus}','${english}','${bangla}','${commonName}','${synonym}','${sub_species}','${variety}','${sub_variety}','${clone}','${forma}','${species}','${JSON.stringify(district)}','${subGroup}','${JSON.stringify(identificationFeatures)}','${fileNameOnServer}','${fileNameOnServer[profileIndex]}','${marker}','${markerColor}','${createdDatetimeStamp}','${JSON.stringify(addtionalCategories)}','${JSON.stringify(requestBy)}')`
             // console.log(insertQuery)
             let response = await executeQuery(insertQuery)
 

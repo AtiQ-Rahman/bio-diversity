@@ -364,7 +364,7 @@ const EcosystemDiversity = () => {
                               <TableRow>
                                  <StyledTableCell><b>SI</b></StyledTableCell>
                                  <StyledTableCell><b>Images</b></StyledTableCell>
-                                 <StyledTableCell align="center">Species Name</StyledTableCell>
+                                 <StyledTableCell align="center">Ecosystem Name</StyledTableCell>
                                  <StyledTableCell align="center">Descripton</StyledTableCell>
                                  <StyledTableCell align="center">Types</StyledTableCell>
                                  <StyledTableCell align="center">Action</StyledTableCell>
@@ -439,29 +439,32 @@ const EcosystemDiversity = () => {
                                           </Button>
                                           {/* </Grid> */}
                                           {/* <Grid item xs={12}> */}
-                                          <Button
-                                             className={styles.bg_primary}
-                                             style={{
-                                                width: "130px",
-                                                maxHeight: "80px",
-                                                minWidth: "40px",
-                                                minHeight: "40px",
-                                                color: "white"
-                                             }}
-                                             type="button"
-                                             onClick={() => router.push({
-                                                pathname: "/map",
-                                                query: {
-                                                   serial: row.serial,
-                                                   category: pageGroups.eco,
-                                                   initial: false
-                                                }
-                                             })}
-                                             sx={{ ml: 1 }}
-                                          // variant="outlined"
-                                          >
-                                             View  map
-                                          </Button>
+                                          {row.district && row.district != '[]' && row.district != '[[]]' && row.district != 'undefined' && row.district != '' ? (
+                                             <Button
+                                                className={styles.bg_primary}
+                                                style={{
+                                                   width: "130px",
+                                                   maxHeight: "80px",
+                                                   minWidth: "40px",
+                                                   minHeight: "40px",
+                                                   color: "white"
+                                                }}
+                                                type="button"
+                                                onClick={() => router.push({
+                                                   pathname: "/map",
+                                                   query: {
+                                                      serial: row.serial,
+                                                      category: pageGroups.eco,
+                                                      initial: false
+                                                   }
+                                                })}
+                                                sx={{ ml: 1 }}
+                                             // variant="outlined"
+                                             >
+                                                View  map
+                                             </Button>
+                                          ) : null}
+
                                           {/* </Grid> */}
 
                                        </Grid>

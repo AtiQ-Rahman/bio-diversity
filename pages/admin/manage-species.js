@@ -223,7 +223,7 @@ export default function ManageSpecies() {
               <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                 <CardContent >
                   <Typography component="div" variant="h3" textAlign="center">
-                    {row.name} ({row.totalItem})
+                    {row.name} ({row.name == pageGroups.genetic ? 52 : row.totalItem})
 
                   </Typography>
 

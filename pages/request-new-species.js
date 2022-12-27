@@ -240,28 +240,28 @@ const AddNewSpecies = () => {
         <Formik
           initialValues={speciesData}
           validationSchema={Yup.object().shape({
-            nameOfSpecies: Yup.object().shape({
-              english: Yup.string().required(
-                "Patient english name is required"
-              ),
-              bangla: Yup.string().required("patient bangla is required"),
-              commonName: Yup.string().required(
-                "patient commonName is required"
-              ),
-              synonym: Yup.string().required(
-                "patient commonName is required"
-              ),
+            // nameOfSpecies: Yup.object().shape({
+            //   english: Yup.string().required(
+            //     "Patient english name is required"
+            //   ),
+            //   bangla: Yup.string().required("patient bangla is required"),
+            //   commonName: Yup.string().required(
+            //     "patient commonName is required"
+            //   ),
+            //   synonym: Yup.string().required(
+            //     "patient commonName is required"
+            //   ),
 
-              // gender: Yup.string().required("patient gender is required"),
-              // address: Yup.string().required("patient adressis required"),
-            }),
-            category: Yup.object().shape({
-              serial: Yup.string().required("category serial is required"),
-              name: Yup.string().required("name is required"),
-              type: Yup.string().required("type is required"),
-              // gender: Yup.string().required("patient gender is required"),
-              // address: Yup.string().required("patient adressis required"),
-            }),
+            //   // gender: Yup.string().required("patient gender is required"),
+            //   // address: Yup.string().required("patient adressis required"),
+            // }),
+            // category: Yup.object().shape({
+            //   serial: Yup.string().required("category serial is required"),
+            //   name: Yup.string().required("name is required"),
+            //   type: Yup.string().required("type is required"),
+            //   // gender: Yup.string().required("patient gender is required"),
+            //   // address: Yup.string().required("patient adressis required"),
+            // }),
             // kingdom: Yup.string("Add kingdom").required("Add kingdom"),
             // phylum: Yup.string("Add phylum").required("Add phylum"),
             // class: Yup.string("Add class").required("Add class"),
@@ -318,10 +318,13 @@ const AddNewSpecies = () => {
                 },
               });
               console.log("response", res);
-              enqueueSnackbar("Species Uploaded Successfully", {
+              enqueueSnackbar("Species Requested Successfully", {
                 variant: "success",
                 // action: <Button>See all</Button>
               });
+              router.push({
+                pathname:"/"
+              })
               setErrors(false);
               resetForm();
             } catch (error) {
@@ -348,6 +351,48 @@ const AddNewSpecies = () => {
                 <Typography gutterBottom variant="h3">
                   Request A Species
                 </Typography>
+                <Grid item xs={12} md={3}>
+                        <TextField
+
+                          id="Name"
+                          name="requestBy.name"
+                          margin="normal"
+                          size="Name"
+                          label="Contributor"
+                          fullWidth
+                          onChange={handleChange}
+                          autoComplete="Contributor"
+                          variant="outlined"
+                        />
+                      </Grid>
+                      <Grid item xs={12} md={3}>
+                        <TextField
+
+                          id="Email"
+                          name="requestBy.email"
+                          margin="normal"
+                          size="small"
+                          label="Email"
+                          fullWidth
+                          onChange={handleChange}
+                          autoComplete="Email"
+                          variant="outlined"
+                        />
+                      </Grid>
+                      <Grid item xs={12} md={3}>
+                        <TextField
+
+                          id="phone"
+                          name="requestBy.phone"
+                          margin="normal"
+                          size="small"
+                          label="Phone"
+                          fullWidth
+                          autoComplete="phone"
+                          onChange={handleChange}
+                          variant="outlined"
+                        />
+                      </Grid>
                 <Grid container spacing={3} sx={{pt:5}}>
                   <Grid item xs={12} md={2}>
                     <Autocomplete

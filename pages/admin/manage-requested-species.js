@@ -46,6 +46,7 @@ import {
   DialogTitle,
   IconButton,
   Dialog,
+  Slide,
 } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import callApi from "../../utils/callApi";
@@ -59,7 +60,9 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     padding: theme.spacing(1),
   },
 }));
-
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 const BootstrapDialogTitle = (props) => {
   const { children, onClose, ...other } = props;
   return (
@@ -179,6 +182,7 @@ export default function ManageRequestedSpecies() {
   const matchDownMd = useMediaQuery(theme.breakpoints.down("lg"));
   // const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [message, setMessage] = React.useState();
   // const handleOpen = () => setOpen(true);
   // const handleClose = () => setOpen(false);
   const router = useRouter();
@@ -408,7 +412,10 @@ export default function ManageRequestedSpecies() {
                                       color: "white",
                                       boxShadow: "1px 1px 4px grey",
                                     }}
-                                    onClick={handleClickOpen}
+                                    onClick={(e)=>{
+                                      setMessage('accept')
+                                      handleClickOpen()
+                                    }}
                                     sx={{ mb: 1, mr: 0.5 }}
                                     // variant="outlined"
                                   >
@@ -429,7 +436,10 @@ export default function ManageRequestedSpecies() {
                                       color: "white",
                                     }}
                                     type="button"
-                                    // onClick={() => router.push("/map")}
+                                    onClick={(e)=>{
+                                      setMessage('decline')
+                                      handleClickOpen()
+                                    }}
                                   >
                                     <Icon icon="ic:twotone-leave-bags-at-home" />
                                     &nbsp;Decline
@@ -455,73 +465,19 @@ export default function ManageRequestedSpecies() {
               </Grid>
             </Box>
           </div>
-          <BootstrapDialog
-            onClose={handleClose}
-            aria-labelledby="customized-dialog-title"
+          <Dialog
             open={open}
+            TransitionComponent={Transition}
+            keepMounted
+            onClose={handleClose}
+            aria-describedby="alert-dialog-slide-description"
           >
-            <BootstrapDialogTitle
-              id="customized-dialog-title"
-              onClose={handleClose}
-              style={{
-                fontWeight: 600,
-                fontSize: 20,
-                fontFamily: "Raleway",
-                color: "#0f4c39",
-              }}
-            >
-              Details
-            </BootstrapDialogTitle>
-            <DialogContent dividers>
-              <Image
-                src={imageSrc}
-                // width={500}
-                height={500}
-                alt="species-details"
-              ></Image>
-              <Typography
-                gutterBottom
-                style={{
-                  fontWeight: 600,
-                  fontSize: 30,
-                  fontFamily: "Raleway",
-                  paddingBottom: 20,
-                  paddingTop: 20,
-                  color: "#0f4c39",
-                }}
-              >
-                Praesent commodo cursus magna
-              </Typography>
-              <Typography
-                gutterBottom
-                style={{ fontWeight: 600, fontFamily: "Roboto" }}
-              >
-                Praesent commodo cursus magna, vel scelerisque nisl consectetur
-                et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus
-                dolor auctor.
-              </Typography>
-              <Typography
-                gutterBottom
-                style={{ fontWeight: 300, fontFamily: "Roboto" }}
-              >
-                Aenean lacinia bibendum nulla sed consectetur. Praesent commodo
-                cursus magna, vel scelerisque nisl consectetur et. Donec sed
-                odio dui. Donec ullamcorper nulla non metus auctor fringilla.
-                Praesent commodo cursus magna, vel scelerisque nisl consectetur
-                et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus
-                dolor auctor. Aenean lacinia bibendum nulla sed consectetur.
-                Praesent commodo cursus magna, vel scelerisque nisl consectetur
-                et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor
-                fringilla. Praesent commodo cursus magna, vel scelerisque nisl
-                consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum
-                faucibus dolor auctor.
-              </Typography>
-            </DialogContent>
+            <DialogTitle>{`Are you want to ${message} ?`}</DialogTitle>
             <DialogActions>
-              <Button size="small">Share</Button>
-              <Button size="small">Learn More</Button>
+              <Button onClick={(e)=>{handleClose()}}>No</Button>
+              <Button onClick={(e)=>{handleClose()}}>Yes</Button>
             </DialogActions>
-          </BootstrapDialog>
+          </Dialog>
         </Main>
       </Box>
     </div>
