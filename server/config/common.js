@@ -34,6 +34,9 @@ const createQueryForSpecies = async (table) => {
     return res
 }
 exports.isValidImageOrMarker = (fileName) => {
+    if (!fileName) {
+        return false
+    }
     if (fileName == '' || fileName.toLowerCase() == 'n/a') {
         return false
     }
@@ -41,7 +44,7 @@ exports.isValidImageOrMarker = (fileName) => {
         return true
     }
 }
-exports.isValidValueOrKey= (value) => {
+exports.isValidValueOrKey = (value) => {
     if (!value || value == '' || value?.toLowerCase() == 'n/a') {
         return false
     }
@@ -131,6 +134,9 @@ const processTableName = async (name) => {
     return table
 }
 exports.returnValidJson = async (data) => {
+    if (!data) {
+        return {}
+    }
     if (typeof data == 'string') {
         if (data == 'undefined' || data == "" || data.toLowerCase() == "n/a") {
             return {}
