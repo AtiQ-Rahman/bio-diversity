@@ -226,12 +226,12 @@ exports.uploadSpeciesByExcel = async (req, res, next) => {
             let insertQuery = `insert into ${table} 
                     (serial, kingdom, phylum, class_name, category,subCategory, order_name, family, genus,
                      english, bangla, common, synonym, sub_species, variety, sub_variety, clone, forma, species,
-                      district ,subGroup, identificationFeatures, additional_files, profile_image, lng, lat,marker,
+                      district ,subGroup, identificationFeatures, lng, lat,marker,
                       markerColor, createdDatetimeStamp, addtionalCategories)
                     VALUES('${serial}','${kingdom}','${phylum}','${class_name}','${category}','${subCategory}','${order_name}',
                     '${family}','${genus}','${english}','${bangla}','${common}','${synonym}','${sub_species}','${variety}',
                     '${sub_variety}','${clone}','${forma}','${species}','${JSON.stringify(districts)}','${subGroup}',
-                    '${modifiedIdentifications}','${additional_files}','${profile_image}','${lng}','${lat}','${marker}',
+                    '${modifiedIdentifications}','${lng}','${lat}','${marker}',
                     '${markerColor}','${createdDatetimeStamp}','${JSON.stringify(addtionalCategories)}')`
             // console.log(insertQuery)
             let response = await executeQuery(insertQuery)

@@ -129,10 +129,10 @@ exports.matchKey = async () => {
         //     label: 'Thumbnail(Image)',
         //     key: 'profile_image'
         // },
-        {
-            label: 'Feature Image',
-            key: 'additional_files'
-        },
+        // {
+        //     label: 'Feature Image',
+        //     key: 'additional_files'
+        // },
         {
             label: 'Marker (wxh) image',
             key: 'marker'
