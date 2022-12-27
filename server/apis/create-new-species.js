@@ -193,14 +193,10 @@ exports.uploadSpeciesByExcel = async (req, res, next) => {
                 // district = district.replaceAll(`"` , ``)
                 let splittedValue = district.split('+')
                 await getDistrict(splittedValue, districts)
-                console.log("+", districts)
-
-
             }
             else if (district?.includes(',')) {
                 let splittedValue = district.split(',')
                 await getDistrict(splittedValue, districts)
-                console.log(",", districts)
             }
             else if (district) {
                 // district = district.replaceAll(`"` , ``)
