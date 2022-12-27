@@ -187,7 +187,7 @@ export const processSpeciesObject = async (speciesDetails) => {
     priorityKeys.map((key) => {
         mainObject[key] = speciesDetails[key]
     })
-    let skippedKeys = ['id', 'additional_files', 'additionaL_files', 'marker', 'serial', 'idenitificationFeatures', 'profile_image', 'createdDatetimeStamp', 'lng', 'lat' , 'markerColor' ,'lastModified']
+    let skippedKeys = ['id', 'additional_files', 'additionaL_files', 'marker', 'serial', 'idenitificationFeatures', 'profile_image', 'createdDatetimeStamp', 'lng', 'lat' , 'markerColor' ,'lastModified','districts']
     skippedKeys = skippedKeys.concat(priorityKeys)
     skippedKeys.map((key) => {
         delete skippedObject[key]

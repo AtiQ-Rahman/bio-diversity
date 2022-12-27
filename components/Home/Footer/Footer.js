@@ -13,7 +13,9 @@ import EmailIcon from "@mui/icons-material/Email";
 const Footer = (props) => {
   const router = useRouter();
   return (
-    <footer {...props} className={styles.footerDistributed}>
+    <footer {...props} className={styles.footerDistributed} style={{
+      ...props?.style
+    }}>
       <div className={styles.footerLeft}>
         <h3>
           Biodiversity of <span>Bangladesh</span>

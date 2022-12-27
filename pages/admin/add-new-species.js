@@ -219,11 +219,11 @@ const AddNewSpecies = () => {
             let url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${data.districts}.json?access_token=${process.env.mapbox_key}&bbox=88.007207%2C20.4817039%2C92.679485%2C26.638142`
             let response = await fetch(url)           //api for the get request
             let value = await response.json()
-            console.log(value)
             let district = value.features[0]
-            setSelectedDistricts([district])
-            setForce(!force)
-
+            if (district) {
+              setSelectedDistricts([district])
+              setForce(!force)
+            }
           }
           else {
             setSelectedDistricts(data.districts)
@@ -420,6 +420,12 @@ const AddNewSpecies = () => {
                 });
                 setErrors(false);
                 resetForm();
+                router.push({
+                  pathname: '/admin/manageSpeciesTable',
+                  query: {
+                    category: query.category
+                  }
+                })
               } catch (error) {
                 console.log({ error });
 
@@ -1200,7 +1206,7 @@ const AddNewSpecies = () => {
                             onChange={(e, value) => {
                               setSelectedDistricts(value);
                             }}
-                            value={selectedDistricts ?? []}
+                            value={selectedDistricts ?? null}
                             renderInput={(params) => (
                               <TextField
                                 {...params}

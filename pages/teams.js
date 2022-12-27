@@ -35,7 +35,7 @@ const team = () => {
   return (
     <Box>
       <Header index={7} />
-      <Grid sx={{ m: "auto", pt: 20, width: "90%", height: "800px" }}>
+      <Grid sx={{ m: "auto", pt: 20, width: "90%"}}>
         <Grid container>
           <Grid
             item

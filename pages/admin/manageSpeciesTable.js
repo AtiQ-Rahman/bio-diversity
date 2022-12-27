@@ -197,6 +197,7 @@ const ManageSpeciesTable = () => {
   const [kingdoms, setKingdoms] = useState([])
   const [families, setFamilies] = useState([])
   const [speciesListFromServer, setSpeciesListFromServer] = useState([])
+  const [genuses, setGenuses] = useState([])
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(20);
@@ -258,6 +259,7 @@ const ManageSpeciesTable = () => {
         setKingdoms(allTypesOfSpecies.data.kingdoms)
         setFamilies(allTypesOfSpecies.data.families)
         setSpeciesListFromServer(allTypesOfSpecies.data.speciesListFromServer)
+        setGenuses(allTypesOfSpecies.data.genuses)
         cbfn(speciesList)
       }
       else {
@@ -482,6 +484,37 @@ const ManageSpeciesTable = () => {
                               <Autocomplete
                                 size="small"
                                 disablePortal
+                                id="genuses"
+                                name={values?.genus}
+                                options={genuses}
+                                key="genuses"
+                                getOptionLabel={(option) => option.genus || option}
+                                // sx={{ width: 300 }}
+                                onChange={(e, value) => {
+                                  setFieldValue("genus", value?.genus || value);
+                                }}
+                                renderInput={(params) => (
+                                  <TextField
+                                    {...params}
+                                    error={Boolean(
+                                      touched?.genus && errors?.genus
+                                    )}
+                                    helperText={
+                                      touched?.genus && errors?.genus
+                                    }
+                                    style={{ padding: "2px" }}
+                                    label="Genus"
+                                    variant="outlined"
+                                    placeholder="Select"
+                                    value={values?.genus || ""}
+                                  />
+                                )}
+                              />
+                            </Grid>
+                            <Grid item xs={2}>
+                              <Autocomplete
+                                size="small"
+                                disablePortal
                                 id="kingdoms"
                                 name={values?.species}
                                 options={speciesListFromServer}
@@ -601,7 +634,16 @@ const ManageSpeciesTable = () => {
                               Sub Group
                             </StyledTableCell>
                             <StyledTableCell align="center">
-                              Discriptions
+                              Family
+                            </StyledTableCell>
+                            <StyledTableCell align="center">
+                              Species
+                            </StyledTableCell>
+                            <StyledTableCell align="center">
+                              Genus
+                            </StyledTableCell>
+                            <StyledTableCell align="center">
+                              kingdom
                             </StyledTableCell>
                             <StyledTableCell align="center">
                               Action
@@ -630,8 +672,18 @@ const ManageSpeciesTable = () => {
                                 </Typography>
                               </StyledTableCell>
                               <StyledTableCell align="center">
-                                {row?.identificationFeatures?.description}
+                                {row.family}
                               </StyledTableCell>
+                              <StyledTableCell align="center">
+                                {row.species}
+                              </StyledTableCell>
+                              <StyledTableCell align="center">
+                                {row.genus}
+                              </StyledTableCell>
+                              <StyledTableCell align="center">
+                                {row.kingdom}
+                              </StyledTableCell>
+
                               <StyledTableCell align="center">
                                 <Box sx={{ flexGrow: 1, flexDirection: "row" }}>
                                   <Button
