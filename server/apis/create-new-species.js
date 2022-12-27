@@ -213,6 +213,7 @@ exports.uploadSpeciesByExcel = async (req, res, next) => {
                     districts.push([])
                 }
             }
+            await Promise.all(districts)
             let markerColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
             object = {
                 ...object, serial,
