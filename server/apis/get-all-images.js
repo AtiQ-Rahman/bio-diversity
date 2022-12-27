@@ -1,13 +1,23 @@
-const { getTable, executeQuery, speciesTableTypes, isValidImageOrMarker } = require('../config/common');
+const { getTable, executeQuery, speciesTableTypes, isValidImageOrMarker, tableTypes } = require('../config/common');
 
 const DB = require("../config/connectToDatabase");
 const path = require("path")
 const fs = require('fs')
-let dir = path.join(__dirname, "uploads").replace(`apis`,"").replace(`server\\`,"public")
+let dir = path.join(__dirname, "uploads").replace(`apis`, "").replace(`server\\`, "public")
 console.log(dir)
 
 exports.getAllImages = async (req, res, next) => {
     let modifiedList = []
+    let table = await getTable(tableTypes.uploadImage)
+    let searchQuery = `select * from ${table}`
+    let response = await executeQuery(searchQuery)
+    if (response?.length > 0) {
+        for (let item of response) {
+            if (isValidImageOrMarker(item.name)) {
+                modifiedList.push(item.name)
+            }
+        }
+    }
     for (let key of Object.keys(speciesTableTypes)) {
         let table = await getTable(speciesTableTypes[key])
         let searchQuery = `select * from ${table} where marker is not null`

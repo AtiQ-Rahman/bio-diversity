@@ -567,7 +567,7 @@ const ManageSpeciesTable = () => {
                             }}
                             onClick={(e) => {
                               router.push({
-                                pathname: "/add-new-species",
+                                pathname: "/admin/add-new-species",
                                 query: {
                                   category: router.query.category
                                 }
@@ -659,7 +659,7 @@ const ManageSpeciesTable = () => {
                                     }}
                                     onClick={(e) => {
                                       router.push({
-                                        pathname: "/manageSpeciesDetails",
+                                        pathname: "/admin/manageSpeciesDetails",
                                         query: {
                                           serial: row.serial,
                                           category: row.category,

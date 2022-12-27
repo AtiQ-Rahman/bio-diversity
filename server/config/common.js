@@ -1,6 +1,6 @@
 const db = require("./connectToDatabase");
 const fetch = require("node-fetch");
-const { categoryTable, homepageTable, subcategoriesTable, speciesTable, requestSpeciesTable, deletedSpeciesTable, adminTable, sessionKeysTable } = require("./db-tables");
+const { categoryTable, homepageTable, subcategoriesTable, speciesTable, requestSpeciesTable, deletedSpeciesTable, adminTable, sessionKeysTable, uploadedImageTable } = require("./db-tables");
 const dbName = process.env.DB_DATABASE
 
 const createQueryForSpecies = async (table) => {
@@ -26,6 +26,9 @@ const createQueryForSpecies = async (table) => {
     }
     else if (table == await processTableName(this.tableTypes.session)) {
         query = sessionKeysTable(table)
+    }
+    else if (table == await processTableName(this.tableTypes.uploadImage)) {
+        query = uploadedImageTable(table)
     }
     else {
         query = speciesTable(table)
@@ -80,6 +83,7 @@ exports.tableTypes = {
     deletedSpecies: 'deletedspecies',
     admin: 'admin',
     session: 'sessionKeys',
+    uploadImage: 'uploadImage',
 }
 
 exports.getTableNameFromSql = async (sql) => {

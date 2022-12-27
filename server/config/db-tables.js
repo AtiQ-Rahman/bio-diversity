@@ -164,6 +164,14 @@ const sessionKeysTable = (table) => {
         PRIMARY KEY (id)
     );`
 }
+const uploadedImageTable = (table) => {
+    return `CREATE TABLE ${table} (
+        id int NOT NULL AUTO_INCREMENT,
+        name varchar(255),
+        createdDatetimeStamp datetime,
+        PRIMARY KEY (id)
+    );`
+}
 module.exports = {
     categoryTable,
     subcategoriesTable,
@@ -172,5 +180,6 @@ module.exports = {
     speciesTable,
     deletedSpeciesTable,
     adminTable,
-    sessionKeysTable
+    sessionKeysTable,
+    uploadedImageTable
 }

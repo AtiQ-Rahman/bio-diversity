@@ -148,7 +148,7 @@ exports.uploadSpeciesByExcel = async (req, res, next) => {
                 object.category = pageGroups.eco
                 object.subGroup = object.types
             }
-            if (!object.category) {
+            if (!object.category || object?.category == '') {
                 continue
             }
             let table
@@ -176,8 +176,20 @@ exports.uploadSpeciesByExcel = async (req, res, next) => {
                 table = await getTable(speciesTableTypes.genetic)
                 object.category = pageGroups.genetic
             }
+            else if (object.category.match(/heterotrophs/i)) {
+                table = await getTable(speciesTableTypes.fungi)
+                object.category = pageGroups.fungi
+            }
             else {
                 table = await getTable(object.category)
+            }
+
+
+
+            let duplicateQuery = `select * from ${table} where species = '${object.species}' and variety = '${object.variety}'`
+            let duplicateResponse = await executeQuery(duplicateQuery)
+            if (duplicateResponse.length > 0) {
+                continue
             }
             let { serial,
                 kingdom, phylum, class_name, order_name, family, genus, english, bangla, common, synonym, sub_species, variety, sub_variety, clone, forma, species,

@@ -168,7 +168,7 @@ const ImageSlider = ({ slides }) => {
         <Grid>
           <ThemeProvider theme={theme}>
             <Typography variant="h1">
-              Listing The World’s BIO Diversity
+              BIO Diversity of Bangladesh
 
             </Typography>{" "}
             {/* <Typography >Responsive h3</Typography> */}
@@ -199,6 +199,19 @@ const ImageSlider = ({ slides }) => {
                 }
               }}
               placeholder="Please enter text"
+              onKeyPress={(e, value) => {
+                // searchText = e.target.value;
+                if (e.key === 'Enter' && searchText && searchText !== '') {
+                  e.preventDefault()
+                  router.push({
+                    pathname: "/searchSpecies",
+                    query: {
+                      searchText,
+                    },
+                  });
+                }
+
+              }}
               onChange={(e, value) => {
                 searchText = e.target.value;
               }}

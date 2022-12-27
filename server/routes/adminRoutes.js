@@ -13,6 +13,7 @@ const { createNewTemplate, updateSelectedTemplate } = require("../apis/create-ne
 const { getAllImages, getBLOBFromFileName } = require("../apis/get-all-images");
 const { requestNewSpecies, getAllRequestedSpecies } = require("../apis/manage-requested-species");
 const { deleteItemFromTable } = require("../apis/delete-item-from-table");
+const { uploadAdditionalFiles } = require("../apis/upload-addtitional-files");
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -40,6 +41,7 @@ router.use((req, res, next) => {
   })
 
 router.post("/create-new-species", upload.array("additionalFiles", 100), createNewSpecies)
+router.post("/upload-additional-files", upload.array("additionalFiles", 100), uploadAdditionalFiles)
 router.post("/upload-species-by-excel", uploadSpeciesByExcel)
 router.post("/get-blob-from-filename", getBLOBFromFileName)
 router.post("/delete-item", deleteItemFromTable)

@@ -23,11 +23,17 @@ var dir = '../public/uploads';
 const start = async () => {
 
   if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir , { recursive: true });
-    for (let item of Object.keys(speciesTableTypes)) {
-      let newDir = dir + `/${speciesTableTypes[item]}`
+    fs.mkdirSync(dir, { recursive: true });
+  }
+  for (let item of Object.keys(speciesTableTypes)) {
+    let newDir = dir + `/${speciesTableTypes[item]}`
+    if (!fs.existsSync(dir)) {
       fs.mkdirSync(newDir, { recursive: true });
     }
+  }
+  let newDir = dir + `/additional`
+  if (!fs.existsSync(newDir)) {
+    fs.mkdirSync(newDir, { recursive: true });
   }
 
   //   server.prepare().then(() => {

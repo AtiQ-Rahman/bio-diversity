@@ -54,6 +54,7 @@ import {
   ImageListItem,
   ImageList,
   ImageListItemBar,
+  Input,
 } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Link from "next/link";
@@ -61,6 +62,7 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import callApi, { imageUrl } from "../../utils/callApi";
 import { imageLoader } from "../../utils/utils";
+import { LoadingButton } from "@mui/lab";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -227,6 +229,8 @@ export default function ManageHome() {
   const { enqueueSnackbar } = useSnackbar();
   const [selectedRecentSightings, setSelectedRecentSightings] = React.useState([]);
   const [ready, setReady] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
+  const [additionalFiles, setAdditionalFiles] = React.useState([]);
 
   const [imageList, setImageList] = React.useState([]);
   const [selectedTemplate, setSelectedTemplate] = React.useState({});
@@ -245,13 +249,54 @@ export default function ManageHome() {
       setReady(true);
     }
   };
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
+  const handleClickUpload = () => {
+    setOpenUpload(true);
   };
   const handleCloseUpload = () => {
     setOpenUpload(false);
   };
+
+  async function uploadSpeciesTapped() {
+    setLoading(true)
+    const data = new FormData();
+    data.append("data", JSON.stringify({
+      category: 'additional'
+    }));
+
+    if (additionalFiles.length != 0) {
+      for (const single_file of additionalFiles) {
+        data.append("additionalFiles", single_file);
+      }
+      let res = await callApi("/upload-additional-files", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log("response", res);
+      enqueueSnackbar("Images Uploaded Successfully", {
+        variant: "success",
+        // action: <Button>See all</Button>
+      });
+      setLoading(false)
+
+    }
+
+  }
+  const uploadPhoto = (evt) => {
+    if (evt.target.files && evt.target.files[0]) {
+      let files = evt.target.files;
+      if (files.length != 0) {
+        for (const single_file of files) {
+          additionalFiles.push(single_file)
+        }
+      }
+    }
+  };
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+
   // Handle left drawer
   const leftDrawerOpened = useSelector((state) => state.customization.opened);
   const dispatch = useDispatch();
@@ -451,6 +496,34 @@ export default function ManageHome() {
                     style={{ borderRadius: "10px", paddingTop: "30px" }}
                   >
                     <Typography variant="h3">All  for Slider</Typography>
+                    <Grid item xs={12} md={12}>
+                      <Grid container>
+                        <Grid
+                          item
+                          xs={12}
+                          style={{
+                            display: "flex",
+                            justifyContent: "end",
+                          }}
+                        >
+                          <Button
+                            className={styles.bg_primary}
+                            style={{
+                              width: "150px",
+                              maxHeight: "80px",
+                              minWidth: "40px",
+                              minHeight: "40px",
+                              color: "white",
+                              boxShadow: "1px 1px 4px grey",
+                              margin: "10px",
+                            }}
+                            onClick={handleClickUpload}
+                          >
+                            Upload Photo
+                          </Button>
+                        </Grid>
+                      </Grid>
+                    </Grid>
                     <Grid container style={{ paddingTop: "30px" }}>
                       {imageList
                         ?.slice(
@@ -575,8 +648,70 @@ export default function ManageHome() {
               </Grid>
             </Box>
           </div>
-
           <BootstrapDialog
+            onClose={handleCloseUpload}
+            aria-labelledby="customized-dialog-title"
+            open={openUpload}
+          >
+            <BootstrapDialogTitle
+              id="customized-dialog-title"
+              onClose={handleCloseUpload}
+              style={{
+                fontWeight: 600,
+                fontSize: 20,
+                fontFamily: "Raleway",
+                color: "#0f4c39",
+              }}
+            >
+              Upload Photo
+            </BootstrapDialogTitle>
+            <DialogContent dividers>
+              <Grid container >
+                <Grid>
+                  <input
+                    style={{
+                      flexGrow: 1,
+
+                      mt: 2,
+                      ml: 3,
+                    }}
+                    type="file"
+                    multiple
+                    name="myImage"
+                    onChange={uploadPhoto}
+                  />
+                </Grid>
+              </Grid>
+              <br />
+
+            </DialogContent>
+            <DialogActions>
+              <LoadingButton loading={loading} loadingIndicator="Uploading…" variant="outlined" onClick={uploadSpeciesTapped}>
+                Upload
+              </LoadingButton>
+              {/* <Button
+                className={styles.bg_primary}
+                size="small"
+                style={{
+
+                  color: "white",
+
+                }}
+                onClick={uploadSpeciesTapped}
+              >
+                Upload
+              </Button> */}
+              <Button
+                size="small"
+                className={styles.bg_primary}
+                sx={{ color: "white" }}
+                onClick={handleCloseUpload}
+              >
+                Cancel
+              </Button>
+            </DialogActions>
+          </BootstrapDialog>
+          {/* <BootstrapDialog
             onClose={handleCloseUpload}
             aria-labelledby="customized-dialog-title"
             open={openUpload}
@@ -801,7 +936,7 @@ export default function ManageHome() {
                 )}
               </Formik>
             </DialogContent>
-          </BootstrapDialog>
+          </BootstrapDialog> */}
         </Main>
       </Box>
     </div>

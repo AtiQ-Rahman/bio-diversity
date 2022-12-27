@@ -243,7 +243,7 @@ const ManageSpeciesDetails = () => {
                         }}
                         onClick={(e) => {
                           router.push({
-                            pathname: '/add-new-species',
+                            pathname: '/admin/add-new-species',
                             query: {
                               serial: router.query.serial,
                               category: router.query.category

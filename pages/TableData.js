@@ -100,7 +100,7 @@ const TableData = (props) => {
                     <b>Genus</b>
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    <b>Species</b>
+                    <b>Variety</b>
                   </StyledTableCell>
                   <StyledTableCell align="center">
                     <b>Order name</b>
@@ -144,17 +144,17 @@ const TableData = (props) => {
                       {isValidImage(row?.profile_image) ? (
                         <Image
                           {...imageProps}
-                          height="80px"
-                          width="190px"
+                          height="50px"
+                          width="100px"
                           objectFit="cover"
                           loader={imageLoader}
                           src={imageUrl + "/" + row.profile_image}
                           alt="No_image"
                         ></Image>
                       ) : (<Image
-                        height="80px"
-                        width="190px"
-                        objectFit="cover"
+                        height="30px"
+                        width="50px"
+                        // objectFit="cover"
                         loader={imageLoader}
                         src={member1}
                         alt="No_image"
@@ -168,7 +168,7 @@ const TableData = (props) => {
                       ></Image> */}
                     </StyledTableCell>
                     <StyledTableCell align="center">
-                      {row.bangla}
+                      {row.species}
                     </StyledTableCell>
                     {/* <StyledTableCell align="center">
                       {row.subGroup}
@@ -193,7 +193,7 @@ const TableData = (props) => {
                       {row.genus}
                     </StyledTableCell>
                     <StyledTableCell align="center">
-                      {row.species}
+                      {row.variety}
                     </StyledTableCell>
                     <StyledTableCell align="center">
                       {row.order_name}

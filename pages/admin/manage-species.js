@@ -195,7 +195,7 @@ export default function ManageSpecies() {
               }
             }} onClick={() =>
               router.push({
-                pathname: "/manageSpeciesTable",
+                pathname: "/admin/manageSpeciesTable",
                 query: {
                   category: row.name
                 }
