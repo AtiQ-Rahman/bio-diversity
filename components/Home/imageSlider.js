@@ -26,7 +26,8 @@ const theme = createTheme();
 
 theme.typography.h1 = {
   paddingBottom: "50px",
-  fontSize: "1.5rem",
+  fontSize: "1.8rem",
+  paddingLeft:"10px",
   "@media (min-width:600px)": {
     fontSize: "1.5rem",
   },

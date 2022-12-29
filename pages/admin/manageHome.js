@@ -524,7 +524,7 @@ export default function ManageHome() {
                         </Grid>
                       </Grid>
                     </Grid>
-                    <Grid container style={{ paddingTop: "30px" }}>
+                    <Grid  container style={{ paddingTop: "30px" }}>
                       {imageList
                         ?.slice(
                           page * rowsPerPage,

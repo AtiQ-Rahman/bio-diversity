@@ -68,7 +68,7 @@ export default function Home() {
                 ) : null}
 
               </Grid>
-              <Grid className={styles.secondContainer}>
+              <Grid className={styles.secondContainer} >
                 <Grid
                   className={styles.feature}
                   container
@@ -76,6 +76,7 @@ export default function Home() {
                   direction="column"
                   alignItems="center"
                   justifyContent="center"
+                 
 
                 // style={{ minHeight: "100vh" }}
                 >
