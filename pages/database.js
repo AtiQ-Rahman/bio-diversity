@@ -59,11 +59,13 @@ import Paper from "@mui/material/Paper";
 import callApi from "../utils/callApi";
 import { useSnackbar } from "notistack";
 
-// import * as XLSX from 'xlsx';
+import * as XLSX from 'xlsx';
+import * as FileSaver from "file-saver";
 // import Footer from "../components/Home/Footer/Footer";
 // import Link from "next/link";
-import { pageGroups } from "../utils/utils";
+import { initialValues, isValidValueOrKey, pageGroups } from "../utils/utils";
 import Footer from "../components/Home/Footer/Footer";
+import Loader2 from "../components/Loader2";
 const species7 = require("../assets/images/Plants.jpg")
 const species8 = require("../assets/images/micro_orga.jpg")
 const species9 = require("../assets/images/eco_sys.jpg")
@@ -82,7 +84,23 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     padding: theme.spacing(1),
   },
 }));
-
+export const exportToSpreadsheet = (data, fileName) => {
+  const fileType =
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+  // Desired file extesion
+  const fileExtension = ".xlsx";
+  //Create a new Work Sheet using the data stored in an Array of Arrays.
+  const workSheet = XLSX.utils.aoa_to_sheet(data);
+  // Generate a Work Book containing the above sheet.
+  const workBook = {
+    Sheets: { data: workSheet, cols: [] },
+    SheetNames: ["data"],
+  };
+  // Exporting the file with the desired name and extension.
+  const excelBuffer = XLSX.write(workBook, { bookType: "xlsx", type: "array" });
+  const fileData = new Blob([excelBuffer], { type: fileType });
+  FileSaver.saveAs(fileData, fileName + fileExtension);
+};
 const BootstrapDialogTitle = (props) => {
   const { children, onClose, ...other } = props;
 
@@ -130,6 +148,7 @@ export default function Database() {
   // const [openUpload, setOpenUpload] = React.useState(false);
   // const [uploadedSpecies, setUploadedSpecies] = React.useState([]);
   // const { enqueueSnackbar } = useSnackbar();
+  const [loading, setLoading] = React.useState(false);
   const [categoryList, setCatgoryList] = React.useState([]);
   function FormRow() {
     return (
@@ -137,7 +156,7 @@ export default function Database() {
         {categoryList?.map((row, index) => (
           <Grid item md={4} xs={12}
             key={`Category${index}`}
-            onClick={(e) => {
+            onClick={async (e) => {
               let url
               if (row.name == pageGroups.plants) {
                 url = '/plants'
@@ -157,7 +176,56 @@ export default function Database() {
               else if (row.name == pageGroups.genetic) {
                 url = '/geneticSubCellularDiversity'
               }
-              router.push(url)
+              let searchParameters = { ...initialValues, category: row.name }
+              setLoading(true)
+              let res = await callApi("/search-species-by-field", {
+                searchParameters,
+              });
+              let data = res.data
+              let headersArray = data[0]
+              let headers = []
+              let modifiedData = []
+              Object.keys(headersArray).forEach((item) => {
+                if (item != 'id' && item != 'serial') {
+                  // if (item == 'identificationFeatures') {
+                  //   let parsedItem = JSON.parse(headersArray[item])
+                  //   Object.keys(parsedItem).forEach((idITem) => {
+                  //     headers.push(idITem)
+                  //   })
+                  // }
+                  // else {
+                  headers.push(item)
+                  // }
+                }
+              })
+              modifiedData.push(headers)
+              for (let item of data) {
+                let values = []
+                for (let idx = 0; idx < Object.values(item).length; idx++) {
+                  let value = Object.values(item)[idx]
+                  if (Object.keys(item)[idx] != 'id' && Object.keys(item)[idx] != 'serial') {
+                    // if (Object.keys(item)[idx] == 'identificationFeatures') {
+
+                    //   let parsedItem = JSON.parse(item[Object.keys(item)[idx]])
+                    //   Object.keys(parsedItem).forEach((idITem ,index) => {
+                    //     let headersIndex = modifiedData[0].findIndex((fKey)=> fKey == idITem)
+                    //     if(headersIndex > -1){
+
+                    //     }
+                    //     headers.push(idITem)
+                    //   })
+                    // }
+                    // else{
+                    values.push(isValidValueOrKey(value) ? value : "")
+                    // }
+                  }
+                }
+                modifiedData.push(values)
+              }
+              setLoading(false)
+              exportToSpreadsheet(modifiedData, `${row.name + new Date().getTime()}`)
+              console.log(modifiedData)
+              // router.push(url)
             }}
           >
             <Card sx={{
@@ -197,24 +265,24 @@ export default function Database() {
                           fontSize: '2rem',
                           color: "green"
                         }}>{row.totalItem} </span>
-                        
+
                       </Typography>
                     </Grid>
                     <Grid item xs={9}>
                       <Typography component="div" variant="h4"
                         sx={{
                           pl: 2,
-                        }} 
+                        }}
 
-                        >
+                      >
                         {row.name}
                       </Typography>
                       <Typography component="a" variant="link"
                         sx={{
                           pl: 2,
                           color: 'blue',
-                          '&:hover':{
-                            textDecoration: "underline" 
+                          '&:hover': {
+                            textDecoration: "underline"
                           }
                         }} >
                         Download Datasets
@@ -312,6 +380,28 @@ export default function Database() {
                     </Grid>
                   </Box>
                 </Grid>
+                {loading ? (
+                  <div style={{
+                    position: "absolute",
+                    height: "100vh",
+                    width: "50%",
+                    display: "flex",
+                    justifyContent: "center",
+                    top: "50%",
+                    left: '20%',
+                  }}>
+                    <Loader2 style={{
+                      backgroundColor: "white",
+                      height: "fit-content",
+                      padding: "20px",
+                      boxShadow: "1px 2px 10px grey",
+                      display: "flex",
+                      borderRadius: 2
+                    }}
+                      text="Downloading..."
+                    ></Loader2>
+                  </div>) :
+                  null}
                 {/* <Divider></Divider> */}
 
                 <br />

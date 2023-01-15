@@ -33,6 +33,7 @@
     "crypto-js": "^4.1.1",
     "dotenv": "^16.0.2",
     "express": "^4.18.1",
+    "file-saver": "^2.0.5",
     "formik": "^2.2.9",
     "framer-motion": "^7.6.3",
     "lodash": "^4.17.21",
